@@ -1,5 +1,5 @@
 {
-  "name": "@levis-ui/docs",
+  "name": "@leve-ui/docs",
   "private": true,
   "type": "module",
   "scripts": {
@@ -15,10 +15,10 @@
   "devDependencies": {
     "@builder.io/qwik": "1.20.4",
     "@builder.io/qwik-city": "1.20.4",
-    "@levis-ui/tsconfig": "workspace:*",
-    "@levis-ui/vite-config": "workspace:*",
+    "@leve-ui/tsconfig": "workspace:*",
+    "@leve-ui/vite-config": "workspace:*",
     "@types/node": "^24.19.2",
-    "levis-ui": "workspace:*",
+    "leve-ui": "workspace:*",
     "typescript": "~5.9.3",
     "undici": "*",
     "vite": "^7.3.8",

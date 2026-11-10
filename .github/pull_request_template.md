@@ -16,5 +16,5 @@ Use English Conventional Commits, e.g. "feat(avatar): add delayMs to Fallback".
 
 - [ ] Follows the WAI-ARIA APG pattern: <!-- link, e.g. https://www.w3.org/WAI/ARIA/apg/patterns/dialog/ -->
 - [ ] Keyboard interaction and focus management are implemented
-- [ ] Each DOM element is a separate part with `data-levis-*` attributes, and no styles are output
+- [ ] Each DOM element is a separate part with `data-leve-*` attributes, and no styles are output
 - [ ] Unit tests, stories, and E2E tests are added or updated

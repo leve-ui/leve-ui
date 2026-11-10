@@ -35,7 +35,7 @@ export function defineLibraryConfig(pkg, overrides = {}) {
   );
 }
 
-export const SOURCE_CONDITION = '@levis-ui/source';
+export const SOURCE_CONDITION = '@leve-ui/source';
 
 /** @type {import('./index').sourceResolveConfig} */
 export function sourceResolveConfig() {

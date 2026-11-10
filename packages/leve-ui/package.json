@@ -1,5 +1,5 @@
 {
-  "name": "levis-ui",
+  "name": "leve-ui",
   "version": "0.0.0",
   "description": "Headless, WAI-ARIA compliant UI components for Qwik. Bring your own styles.",
   "keywords": [
@@ -12,14 +12,14 @@
     "component-library",
     "typescript"
   ],
-  "homepage": "https://github.com/levis-ui/levis-ui#readme",
+  "homepage": "https://github.com/leve-ui/leve-ui#readme",
   "bugs": {
-    "url": "https://github.com/levis-ui/levis-ui/issues"
+    "url": "https://github.com/leve-ui/leve-ui/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/levis-ui/levis-ui.git",
-    "directory": "packages/levis-ui"
+    "url": "git+https://github.com/leve-ui/leve-ui.git",
+    "directory": "packages/leve-ui"
   },
   "license": "MIT",
   "type": "module",
@@ -30,7 +30,7 @@
   "types": "./lib-types/index.d.ts",
   "exports": {
     ".": {
-      "@levis-ui/source": "./src/index.ts",
+      "@leve-ui/source": "./src/index.ts",
       "types": "./lib-types/index.d.ts",
       "import": "./lib/index.qwik.mjs",
       "require": "./lib/index.qwik.cjs"
@@ -47,15 +47,15 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@levis-ui/avatar": "workspace:*"
+    "@leve-ui/avatar": "workspace:*"
   },
   "peerDependencies": {
     "@builder.io/qwik": "^1.20.4"
   },
   "devDependencies": {
     "@builder.io/qwik": "1.20.4",
-    "@levis-ui/tsconfig": "workspace:*",
-    "@levis-ui/vite-config": "workspace:*",
+    "@leve-ui/tsconfig": "workspace:*",
+    "@leve-ui/vite-config": "workspace:*",
     "typescript": "~5.9.3",
     "vite": "^7.3.8"
   }

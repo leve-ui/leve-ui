@@ -20,7 +20,7 @@ export default defineConfig({
   },
   projects: [{ name: 'chromium', use: { ...devices['Desktop Chrome'] } }],
   webServer: {
-    command: `pnpm --filter @levis-ui/storybook exec storybook dev -p ${PORT} --ci --no-open`,
+    command: `pnpm --filter @leve-ui/storybook exec storybook dev -p ${PORT} --ci --no-open`,
     url: `http://localhost:${PORT}`,
     reuseExistingServer: !isCI,
     timeout: 120_000,

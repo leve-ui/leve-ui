@@ -1,11 +1,11 @@
 import { component$ } from '@builder.io/qwik';
 import type { DocumentHead } from '@builder.io/qwik-city';
-import { Avatar } from 'levis-ui';
+import { Avatar } from 'leve-ui';
 
 export default component$(() => {
   return (
     <main>
-      <h1>levis-ui</h1>
+      <h1>leve-ui</h1>
       <p>Headless UI components for Qwik.</p>
 
       <h2>Avatar</h2>
@@ -23,6 +23,6 @@ export default component$(() => {
 });
 
 export const head: DocumentHead = {
-  title: 'levis-ui',
+  title: 'leve-ui',
   meta: [{ name: 'description', content: 'Headless UI components for Qwik' }],
 };

@@ -4,7 +4,7 @@
   "compilerOptions": {
     "noEmit": true,
     "allowJs": true,
-    "customConditions": ["@levis-ui/source"],
+    "customConditions": ["@leve-ui/source"],
     "types": ["vite/client", "node"]
   }
 }

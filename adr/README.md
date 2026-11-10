@@ -1,6 +1,6 @@
 # Architecture Decision Records
 
-This directory records design decisions that affect levis-ui as a whole.
+This directory records design decisions that affect leve-ui as a whole.
 
 **ADRs must be written in English.**
 
@@ -34,7 +34,7 @@ Component-specific specs (which APG pattern a component follows, its parts, and 
 | [0002](0002-monorepo-structure.md)                      | Use a pnpm workspace + Turborepo monorepo                                      | Accepted |
 | [0003](0003-all-in-one-and-individual-packages.md)      | Ship an all-in-one package and individual packages                             | Accepted |
 | [0004](0004-qwik-v1-and-toolchain-versions.md)          | Adopt Qwik 1.x and pin Vite 7 / TypeScript 5.9                                 | Accepted |
-| [0005](0005-source-condition-for-development.md)        | Resolve `src` directly via the `@levis-ui/source` condition during development | Accepted |
+| [0005](0005-source-condition-for-development.md)        | Resolve `src` directly via the `@leve-ui/source` condition during development | Accepted |
 | [0006](0006-biome-for-lint-and-format.md)               | Use Biome for linting and formatting                                           | Accepted |
 | [0007](0007-storybook-csr-mode.md)                      | Run the Qwik optimizer in CSR mode for Storybook                               | Accepted |
 | [0008](0008-e2e-against-storybook.md)                   | Run E2E tests against Storybook                                                | Accepted |

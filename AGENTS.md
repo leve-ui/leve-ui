@@ -1,4 +1,4 @@
-# levis-ui
+# leve-ui
 
 Qwik 向けの Headless UI ライブラリ。pnpm workspace + Turborepo のモノレポ。
 
@@ -20,7 +20,7 @@ pnpm docs         # ドキュメントサイト
 pnpm changeset    # 変更記録
 ```
 
-特定パッケージだけ実行する場合は `pnpm --filter @levis-ui/avatar test` のように指定する。
+特定パッケージだけ実行する場合は `pnpm --filter @leve-ui/avatar test` のように指定する。
 
 ## ルール
 
@@ -38,10 +38,10 @@ pnpm changeset    # 変更記録
 ### 要点
 
 1. **WAI-ARIA**: 実装前に [APG](https://www.w3.org/WAI/ARIA/apg/patterns/) の該当パターンを確認する。ネイティブ要素を優先し、必須の `role` / `aria-*` はライブラリ側で `{...props}` の後に出力する。ID の関連付けは `useId()`。キーボード操作とフォーカス管理をすべて実装する。
-2. **パーツ分割**: DOM 要素 1 つ = パーツ 1 つ = 1 ファイル（`<name>-<part>.tsx`）。`export * as Avatar from './avatar'` の namespace 形式で公開する。`class` / `style` は出力せず、全パーツに `data-levis-<name>-<part>` と `data-state` を付ける。props はすべて要素に渡し、イベントは配列で合成する。
+2. **パーツ分割**: DOM 要素 1 つ = パーツ 1 つ = 1 ファイル（`<name>-<part>.tsx`）。`export * as Avatar from './avatar'` の namespace 形式で公開する。`class` / `style` は出力せず、全パーツに `data-leve-<name>-<part>` と `data-state` を付ける。props はすべて要素に渡し、イベントは配列で合成する。
 3. **コミット**: **英語で** `<type>(<scope>): <subject>`（subject は命令形・小文字始まり）。scope は `commitlint.config.ts` がディレクトリ名から生成する。コミット時に lefthook が commitlint と Biome を自動実行する。`--no-verify` で回避しない。`main` は保護されているため、ブランチを切って PR を作り、CI を通して squash merge する（PR タイトルも英語の commitlint 形式）。公開パッケージを変えたら英語の changeset を含める（**1.0 までは `major` を使わない**。破壊的変更は `minor`）。リリース PR のマージ（＝リリースのタイミング）はユーザーが決める。npm への公開は Release ワークフローが行い、手元から publish しない。新しいパッケージの初回公開（`pnpm package:bootstrap`）はユーザーに依頼する。コミットはユーザーに頼まれたときだけ行う。
 4. **テスト**: ユニットテスト（`src/<name>.test.tsx`）・ストーリー（`apps/storybook/stories/`）・E2E（`apps/e2e/tests/`）の 3 つを必ず揃える。テストを消したり弱めたりして通さない。
-5. **構成**: 実装は `packages/components/<name>/` にだけ置き、`packages/levis-ui` は再エクスポートのみ。共通ロジックは `packages/utils`。新しいトップレベルのディレクトリは作る前にユーザーに確認する。
+5. **構成**: 実装は `packages/components/<name>/` にだけ置き、`packages/leve-ui` は再エクスポートのみ。共通ロジックは `packages/utils`。新しいトップレベルのディレクトリは作る前にユーザーに確認する。
 6. **Issue**: タイトルと本文は英語。`type:` ラベルを必ず 1 つ付け、`scope:` / `status:` / `size:` と Milestone（M0〜M5）を付ける。
 
 ## 人間向けの文書

@@ -5,7 +5,7 @@
 
 ## Context
 
-levis-ui will be published to npm, which requires a license. As a UI library, it is embedded in consumers' applications, including commercial ones, so the license should not create friction for adoption.
+leve-ui will be published to npm, which requires a license. As a UI library, it is embedded in consumers' applications, including commercial ones, so the license should not create friction for adoption.
 
 ## Considered Options
 
@@ -15,7 +15,7 @@ levis-ui will be published to npm, which requires a license. As a UI library, it
 
 ## Decision
 
-We will license all published packages under the MIT License, with the copyright holder "levis-ui contributors".
+We will license all published packages under the MIT License, with the copyright holder "leve-ui contributors".
 
 - The root `LICENSE` is the source of truth.
 - Every published package sets `"license": "MIT"` in `package.json` and contains a copy of `LICENSE` in its own directory.

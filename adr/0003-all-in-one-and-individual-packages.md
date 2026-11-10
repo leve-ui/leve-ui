@@ -16,9 +16,9 @@ Some consumers want to install everything at once; others want only the componen
 
 ## Decision
 
-- Implementations live only in `@levis-ui/<name>` (`packages/components/<name>`).
-- `levis-ui` (`packages/levis-ui`) only re-exports them via `export * from '@levis-ui/<name>'`.
-- Logic shared between components lives in `@levis-ui/utils`. Component packages must not depend on each other directly.
+- Implementations live only in `@leve-ui/<name>` (`packages/components/<name>`).
+- `leve-ui` (`packages/leve-ui`) only re-exports them via `export * from '@leve-ui/<name>'`.
+- Logic shared between components lives in `@leve-ui/utils`. Component packages must not depend on each other directly.
 
 ## Rationale
 
@@ -27,5 +27,5 @@ Some consumers want to install everything at once; others want only the componen
 
 ## Consequences
 
-- Every new component requires updating `levis-ui`'s `dependencies` and `src/index.ts`.
-- Versions of `levis-ui` and each `@levis-ui/*` package are managed with Changesets.
+- Every new component requires updating `leve-ui`'s `dependencies` and `src/index.ts`.
+- Versions of `leve-ui` and each `@leve-ui/*` package are managed with Changesets.

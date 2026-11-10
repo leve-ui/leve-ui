@@ -1,6 +1,6 @@
 ---
 name: write-adr
-description: levis-ui の設計判断を ADR（Architecture Decision Record）として adr/ に記録する手順。パッケージ構成・ビルド・ツール選定・公開 API の方針・複数コンポーネントに関わる設計原則・回避策など、ライブラリ全体に関わる判断をしたとき、または既存の ADR を覆す・廃止するときに使う。
+description: leve-ui の設計判断を ADR（Architecture Decision Record）として adr/ に記録する手順。パッケージ構成・ビルド・ツール選定・公開 API の方針・複数コンポーネントに関わる設計原則・回避策など、ライブラリ全体に関わる判断をしたとき、または既存の ADR を覆す・廃止するときに使う。
 ---
 
 # ADR を書く

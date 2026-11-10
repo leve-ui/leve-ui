@@ -14,5 +14,5 @@ export function defineLibraryConfig(pkg: LibraryPackageJson, overrides?: UserCon
 /**
  * アプリ（docs / storybook）で workspace パッケージを src から直接解決するための設定。
  */
-export const SOURCE_CONDITION: '@levis-ui/source';
+export const SOURCE_CONDITION: '@leve-ui/source';
 export function sourceResolveConfig(): Pick<UserConfig, 'resolve' | 'ssr'>;

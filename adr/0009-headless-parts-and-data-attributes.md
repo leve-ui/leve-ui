@@ -17,7 +17,7 @@ As a headless UI library, we provide only behavior and accessibility, and let co
 - One part component per DOM element, exported as a namespace via `export * as Avatar from './avatar'` (`Avatar.Root`, `Avatar.Image`, ...).
 - Parts share state through Context.
 - The library does not output `class` or `style`.
-- As styling hooks, every part outputs `data-levis-<name>-<part>` (the Root uses `data-levis-<name>`), plus `data-state` / `data-disabled` etc. where applicable.
+- As styling hooks, every part outputs `data-leve-<name>-<part>` (the Root uses `data-leve-<name>`), plus `data-state` / `data-disabled` etc. where applicable.
 - All received props are passed to the element, and attributes the library requires are written after `{...props}`.
 
 ## Rationale

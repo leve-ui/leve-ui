@@ -1,5 +1,5 @@
 {
-  "extends": "@levis-ui/tsconfig/library.json",
+  "extends": "@leve-ui/tsconfig/library.json",
   "compilerOptions": {
     "noEmit": true,
     "emitDeclarationOnly": false

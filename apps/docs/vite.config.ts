@@ -1,6 +1,6 @@
 import { qwikVite } from '@builder.io/qwik/optimizer';
 import { qwikCity } from '@builder.io/qwik-city/vite';
-import { sourceResolveConfig } from '@levis-ui/vite-config';
+import { sourceResolveConfig } from '@leve-ui/vite-config';
 import { defineConfig, mergeConfig } from 'vite';
 import tsconfigPaths from 'vite-tsconfig-paths';
 

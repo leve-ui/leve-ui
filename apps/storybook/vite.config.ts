@@ -1,5 +1,5 @@
 import { qwikVite } from '@builder.io/qwik/optimizer';
-import { sourceResolveConfig } from '@levis-ui/vite-config';
+import { sourceResolveConfig } from '@leve-ui/vite-config';
 import { defineConfig, mergeConfig } from 'vite';
 
 // Storybook (builder-vite) はこの設定を読み込みます。

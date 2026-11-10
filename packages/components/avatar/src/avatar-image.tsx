@@ -44,7 +44,7 @@ export const AvatarImage = component$<AvatarImageProps>(({ onLoad$, onError$, ..
     <img
       {...props}
       ref={imageRef}
-      data-levis-avatar-image=""
+      data-leve-avatar-image=""
       data-state={context.status.value}
       hidden={context.status.value !== 'loaded'}
       onLoad$={[handleLoad$, onLoad$]}

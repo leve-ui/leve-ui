@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * 新しいコンポーネントパッケージの雛形を生成し、levis-ui / storybook に登録します。
+ * 新しいコンポーネントパッケージの雛形を生成し、leve-ui / storybook に登録します。
  *
  * 使い方:
  *   node .agents/skills/create-component/scripts/scaffold.mjs <name> [part,part,...]
@@ -40,14 +40,14 @@ if (existsSync(pkgDir)) fail(`既に存在します: ${relative(ROOT, pkgDir)}`)
 
 const pascal = (s) => s.replace(/(^|-)([a-z0-9])/g, (_, __, c) => c.toUpperCase());
 const Name = pascal(name);
-const pkgName = `@levis-ui/${name}`;
+const pkgName = `@leve-ui/${name}`;
 
 const readJson = (path) => JSON.parse(readFileSync(path, 'utf8'));
 const writeJson = (path, data) => writeFileSync(path, `${JSON.stringify(data, null, 2)}\n`);
 const sortObject = (obj) =>
   Object.fromEntries(Object.entries(obj).sort(([a], [b]) => a.localeCompare(b)));
 
-// バージョンは @levis-ui/utils に揃える
+// バージョンは @leve-ui/utils に揃える
 const utilsPkg = readJson(join(ROOT, 'packages/utils/package.json'));
 const versions = utilsPkg.devDependencies;
 
@@ -64,11 +64,11 @@ writeJson(join(pkgDir, 'package.json'), {
   name: pkgName,
   version: '0.0.0',
   description: `Headless, WAI-ARIA compliant ${Name} component for Qwik. Bring your own styles.`,
-  homepage: 'https://github.com/levis-ui/levis-ui#readme',
-  bugs: { url: 'https://github.com/levis-ui/levis-ui/issues' },
+  homepage: 'https://github.com/leve-ui/leve-ui#readme',
+  bugs: { url: 'https://github.com/leve-ui/leve-ui/issues' },
   repository: {
     type: 'git',
-    url: 'git+https://github.com/levis-ui/levis-ui.git',
+    url: 'git+https://github.com/leve-ui/leve-ui.git',
     directory: `packages/components/${name}`,
   },
   license: 'MIT',
@@ -80,7 +80,7 @@ writeJson(join(pkgDir, 'package.json'), {
   types: './lib-types/index.d.ts',
   exports: {
     '.': {
-      '@levis-ui/source': './src/index.ts',
+      '@leve-ui/source': './src/index.ts',
       types: './lib-types/index.d.ts',
       import: './lib/index.qwik.mjs',
       require: './lib/index.qwik.cjs',
@@ -96,15 +96,15 @@ writeJson(join(pkgDir, 'package.json'), {
     test: 'vitest run',
   },
   dependencies: {
-    '@levis-ui/utils': 'workspace:*',
+    '@leve-ui/utils': 'workspace:*',
   },
   peerDependencies: {
     '@builder.io/qwik': utilsPkg.peerDependencies['@builder.io/qwik'],
   },
   devDependencies: {
     '@builder.io/qwik': versions['@builder.io/qwik'],
-    '@levis-ui/tsconfig': 'workspace:*',
-    '@levis-ui/vite-config': 'workspace:*',
+    '@leve-ui/tsconfig': 'workspace:*',
+    '@leve-ui/vite-config': 'workspace:*',
     typescript: versions.typescript,
     vite: versions.vite,
     vitest: versions.vitest,
@@ -120,7 +120,7 @@ write(
   join(pkgDir, 'tsconfig.json'),
   `${JSON.stringify(
     {
-      extends: '@levis-ui/tsconfig/library.json',
+      extends: '@leve-ui/tsconfig/library.json',
       compilerOptions: { noEmit: true, emitDeclarationOnly: false },
       include: ['src', '*.config.ts'],
     },
@@ -132,7 +132,7 @@ write(
   join(pkgDir, 'tsconfig.build.json'),
   `${JSON.stringify(
     {
-      extends: '@levis-ui/tsconfig/library.json',
+      extends: '@leve-ui/tsconfig/library.json',
       compilerOptions: { rootDir: 'src', declarationDir: 'lib-types' },
       include: ['src'],
       exclude: ['src/**/*.test.ts', 'src/**/*.test.tsx'],
@@ -143,7 +143,7 @@ write(
 );
 write(
   join(pkgDir, 'vite.config.ts'),
-  `import { defineLibraryConfig } from '@levis-ui/vite-config';
+  `import { defineLibraryConfig } from '@leve-ui/vite-config';
 import { defineConfig } from 'vite';
 import pkg from './package.json' with { type: 'json' };
 
@@ -175,7 +175,7 @@ write(
 // TODO: パーツ間で共有する状態（Signal など）を定義する
 export type ${Name}Context = Record<string, never>;
 
-export const ${name.replace(/-([a-z0-9])/g, (_, c) => c.toUpperCase())}ContextId = createContextId<${Name}Context>('levis-ui.${name}');
+export const ${name.replace(/-([a-z0-9])/g, (_, c) => c.toUpperCase())}ContextId = createContextId<${Name}Context>('leve-ui.${name}');
 `,
 );
 
@@ -196,7 +196,7 @@ export const ${Name}Root = component$<${Name}RootProps>((props) => {
   useContextProvider(${contextVar}, {});
 
   return (
-    <div {...props} data-levis-${name}="">
+    <div {...props} data-leve-${name}="">
       <Slot />
     </div>
   );
@@ -218,7 +218,7 @@ export const ${Name}${Part} = component$<${Name}${Part}Props>((props) => {
   useContext(${contextVar});
 
   return (
-    <div {...props} data-levis-${name}-${part}="">
+    <div {...props} data-leve-${name}-${part}="">
       <Slot />
     </div>
   );
@@ -259,8 +259,8 @@ describe('${Name}', () => {
 ${jsxTree('      ')},
     );
 
-    expect(screen.querySelector('[data-levis-${name}]')).not.toBeNull();
-${parts.map((p) => `    expect(screen.querySelector('[data-levis-${name}-${p}]')).not.toBeNull();`).join('\n')}
+    expect(screen.querySelector('[data-leve-${name}]')).not.toBeNull();
+${parts.map((p) => `    expect(screen.querySelector('[data-leve-${name}-${p}]')).not.toBeNull();`).join('\n')}
   });
 
   // TODO: role / aria-* / data-state / props の受け渡しのテストを追加する（write-tests スキル参照）
@@ -300,7 +300,7 @@ import { gotoStory } from './story';
 test.describe('${Name}', () => {
   test('描画される', async ({ page }) => {
     await gotoStory(page, '${storyId}');
-    await expect(page.locator('[data-levis-${name}]')).toBeVisible();
+    await expect(page.locator('[data-leve-${name}]')).toBeVisible();
   });
 
   // TODO: APG のキーボード操作・フォーカス移動のテストを追加する（write-tests スキル参照）
@@ -309,19 +309,19 @@ test.describe('${Name}', () => {
 );
 
 // ---------- 登録 ----------
-const levisPkgPath = join(ROOT, 'packages/levis-ui/package.json');
-const levisPkg = readJson(levisPkgPath);
-levisPkg.dependencies = sortObject({ ...levisPkg.dependencies, [pkgName]: 'workspace:*' });
-writeJson(levisPkgPath, levisPkg);
+const levePkgPath = join(ROOT, 'packages/leve-ui/package.json');
+const levePkg = readJson(levePkgPath);
+levePkg.dependencies = sortObject({ ...levePkg.dependencies, [pkgName]: 'workspace:*' });
+writeJson(levePkgPath, levePkg);
 
-const levisIndexPath = join(ROOT, 'packages/levis-ui/src/index.ts');
-const levisIndex = readFileSync(levisIndexPath, 'utf8');
+const leveIndexPath = join(ROOT, 'packages/leve-ui/src/index.ts');
+const leveIndex = readFileSync(leveIndexPath, 'utf8');
 const exportLine = `export * from '${pkgName}';`;
-if (!levisIndex.includes(exportLine)) {
-  const lines = levisIndex.trimEnd().split('\n');
+if (!leveIndex.includes(exportLine)) {
+  const lines = leveIndex.trimEnd().split('\n');
   const exports = lines.filter((l) => l.startsWith('export * from'));
   const others = lines.filter((l) => !l.startsWith('export * from'));
-  writeFileSync(levisIndexPath, `${[...others, ...[...exports, exportLine].sort()].join('\n')}\n`);
+  writeFileSync(leveIndexPath, `${[...others, ...[...exports, exportLine].sort()].join('\n')}\n`);
 }
 
 const sbPkgPath = join(ROOT, 'apps/storybook/package.json');
@@ -351,8 +351,8 @@ console.log(`✔ ${pkgName} を生成しました\n`);
 console.log('作成したファイル:');
 for (const f of created) console.log(`  + ${f}`);
 console.log('\n更新したファイル:');
-console.log('  ~ packages/levis-ui/package.json');
-console.log('  ~ packages/levis-ui/src/index.ts');
+console.log('  ~ packages/leve-ui/package.json');
+console.log('  ~ packages/leve-ui/src/index.ts');
 console.log('  ~ apps/storybook/package.json');
 console.log('  ~ README.md（Packages 表。説明文の TODO を書き換えること）');
 console.log('\n次に実行してください: pnpm install && pnpm check:fix');

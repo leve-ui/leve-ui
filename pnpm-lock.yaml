@@ -47,18 +47,18 @@ importers:
       '@builder.io/qwik-city':
         specifier: 1.20.4
         version: 1.20.4(@types/node@24.19.2)(jiti@2.7.0)(rollup@4.68.2)(typescript@5.9.3)
-      '@levis-ui/tsconfig':
+      '@leve-ui/tsconfig':
         specifier: workspace:*
         version: link:../../tooling/tsconfig
-      '@levis-ui/vite-config':
+      '@leve-ui/vite-config':
         specifier: workspace:*
         version: link:../../tooling/vite-config
       '@types/node':
         specifier: ^24.19.2
         version: 24.19.2
-      levis-ui:
+      leve-ui:
         specifier: workspace:*
-        version: link:../../packages/levis-ui
+        version: link:../../packages/leve-ui
       typescript:
         specifier: ~5.9.3
         version: 5.9.3
@@ -74,10 +74,10 @@ importers:
 
   apps/e2e:
     devDependencies:
-      '@levis-ui/storybook':
+      '@leve-ui/storybook':
         specifier: workspace:*
         version: link:../storybook
-      '@levis-ui/tsconfig':
+      '@leve-ui/tsconfig':
         specifier: workspace:*
         version: link:../../tooling/tsconfig
       '@playwright/test':
@@ -95,13 +95,13 @@ importers:
       '@builder.io/qwik':
         specifier: 1.20.4
         version: 1.20.4(vite@7.3.8(@types/node@24.19.2)(jiti@2.7.0)(yaml@2.9.1))
-      '@levis-ui/avatar':
+      '@leve-ui/avatar':
         specifier: workspace:*
         version: link:../../packages/components/avatar
-      '@levis-ui/tsconfig':
+      '@leve-ui/tsconfig':
         specifier: workspace:*
         version: link:../../tooling/tsconfig
-      '@levis-ui/vite-config':
+      '@leve-ui/vite-config':
         specifier: workspace:*
         version: link:../../tooling/vite-config
       '@storybook/addon-docs':
@@ -125,17 +125,17 @@ importers:
 
   packages/components/avatar:
     dependencies:
-      '@levis-ui/utils':
+      '@leve-ui/utils':
         specifier: workspace:*
         version: link:../../utils
     devDependencies:
       '@builder.io/qwik':
         specifier: 1.20.4
         version: 1.20.4(vite@7.3.8(@types/node@24.19.2)(jiti@2.7.0)(yaml@2.9.1))
-      '@levis-ui/tsconfig':
+      '@leve-ui/tsconfig':
         specifier: workspace:*
         version: link:../../../tooling/tsconfig
-      '@levis-ui/vite-config':
+      '@leve-ui/vite-config':
         specifier: workspace:*
         version: link:../../../tooling/vite-config
       typescript:
@@ -148,19 +148,19 @@ importers:
         specifier: ^5.1.0
         version: 5.1.0(@types/node@24.19.2)(vite@7.3.8(@types/node@24.19.2)(jiti@2.7.0)(yaml@2.9.1))
 
-  packages/levis-ui:
+  packages/leve-ui:
     dependencies:
-      '@levis-ui/avatar':
+      '@leve-ui/avatar':
         specifier: workspace:*
         version: link:../components/avatar
     devDependencies:
       '@builder.io/qwik':
         specifier: 1.20.4
         version: 1.20.4(vite@7.3.8(@types/node@24.19.2)(jiti@2.7.0)(yaml@2.9.1))
-      '@levis-ui/tsconfig':
+      '@leve-ui/tsconfig':
         specifier: workspace:*
         version: link:../../tooling/tsconfig
-      '@levis-ui/vite-config':
+      '@leve-ui/vite-config':
         specifier: workspace:*
         version: link:../../tooling/vite-config
       typescript:
@@ -175,10 +175,10 @@ importers:
       '@builder.io/qwik':
         specifier: 1.20.4
         version: 1.20.4(vite@7.3.8(@types/node@24.19.2)(jiti@2.7.0)(yaml@2.9.1))
-      '@levis-ui/tsconfig':
+      '@leve-ui/tsconfig':
         specifier: workspace:*
         version: link:../../tooling/tsconfig
-      '@levis-ui/vite-config':
+      '@leve-ui/vite-config':
         specifier: workspace:*
         version: link:../../tooling/vite-config
       typescript:

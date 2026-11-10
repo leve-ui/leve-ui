@@ -12,7 +12,7 @@ const listDirs = (path: string) =>
  */
 const scopes = [
   ...listDirs('./packages/components'), // avatar, ...
-  'levis-ui',
+  'leve-ui',
   'utils',
   ...listDirs('./apps'), // docs, storybook, e2e
   ...listDirs('./tooling'), // tsconfig, vite-config

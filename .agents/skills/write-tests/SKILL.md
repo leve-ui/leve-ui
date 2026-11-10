@@ -1,6 +1,6 @@
 ---
 name: write-tests
-description: levis-ui のコンポーネントのテスト（Vitest + createDOM のユニットテスト、Storybook のストーリー、Playwright の E2E）の書き方。テストの追加・修正、キーボード操作やフォーカスの E2E、ARIA 属性の検証を書くときに使う。
+description: leve-ui のコンポーネントのテスト（Vitest + createDOM のユニットテスト、Storybook のストーリー、Playwright の E2E）の書き方。テストの追加・修正、キーボード操作やフォーカスの E2E、ARIA 属性の検証を書くときに使う。
 ---
 
 # テストを書く
@@ -26,10 +26,10 @@ describe('Dialog', () => {
       </Dialog.Root>,
     );
 
-    const trigger = screen.querySelector('[data-levis-dialog-trigger]');
+    const trigger = screen.querySelector('[data-leve-dialog-trigger]');
     expect(trigger?.getAttribute('aria-expanded')).toBe('false');
 
-    await userEvent('[data-levis-dialog-trigger]', 'click');
+    await userEvent('[data-leve-dialog-trigger]', 'click');
     expect(trigger?.getAttribute('aria-expanded')).toBe('true');
   });
 });
@@ -37,9 +37,9 @@ describe('Dialog', () => {
 
 - `createDOM()` は疑似 DOM 上でクライアント描画する。`useVisibleTask$` も実行される。SSR → resume の流れは再現されないため、SSR に関わる振る舞いは docs サイトで確認する。
 - `userEvent(selector, eventName)` でクリックなどのイベントを発火でき、`await` すると再描画まで完了する。
-- 要素は `[data-levis-<name>-<part>]` で取得すると、実装の要素変更（`div` → `button` など）に強い。
+- 要素は `[data-leve-<name>-<part>]` で取得すると、実装の要素変更（`div` → `button` など）に強い。
 - 実際のフォーカス移動やキーボード操作は jsdom 相当の環境では正しく再現できないため、E2E で確認する。
-- 実行: `pnpm --filter @levis-ui/<name> test`
+- 実行: `pnpm --filter @leve-ui/<name> test`
 
 ## ストーリー（Storybook）
 

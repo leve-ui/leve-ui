@@ -27,7 +27,7 @@ export const AvatarRoot = component$<AvatarRootProps>(({ onStatusChange$, ...pro
   });
 
   return (
-    <span {...props} data-levis-avatar="">
+    <span {...props} data-leve-avatar="">
       <Slot />
     </span>
   );
