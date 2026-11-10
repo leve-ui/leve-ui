@@ -113,6 +113,7 @@ New components are grouped into milestones in dependency order, from **M0: Found
 - Never output styles or class names. Every part renders `data-leve-<name>-<part>` (the root renders `data-leve-<name>`) and state attributes such as `data-state`.
 - Pass all received props through to the element, and merge event handlers instead of overriding them: `onClick$={[internal$, props.onClick$]}`.
 - Stateful components support both controlled (`bind:open`) and uncontrolled (`defaultOpen`) usage, plus `onOpenChange$` ([ADR 0011](./adr/0011-controlled-uncontrolled-props-naming.md)). Implement this with `useControllableState` from `@leve-ui/utils`.
+- Form controls read the field context with `useFieldControl(props)` from `@leve-ui/utils` and must also work outside a Field. Field ids are overridden only through the Root's `ids` prop, and the Root's `hasDescription` decides whether the description is referenced ([ADR 0024](./adr/0024-wire-field-ids-and-descriptions-from-the-field-root.md)).
 - See [ADR 0009](./adr/0009-headless-parts-and-data-attributes.md) and [ADR 0010](./adr/0010-no-child-state-on-parent-attributes.md).
 
 ### Tests

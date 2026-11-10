@@ -67,6 +67,7 @@ const [open, setOpen$] = useControllableState({
 });
 // 読む: open.value / 変える: setOpen$(!open.value)（onOpenChange$ はこの setter で変わったときだけ呼ばれる）
 ```
+- フォームコントロールは `@leve-ui/utils` の `useFieldControl(props)` で Field の context を読み、返った `id` / `describedBy` / `invalid` / `disabled` / `required` を要素に出す。Field の外でも動くようにする。Field の id の上書きは Root の `ids` だけで受け付け、Description の有無は Root の `hasDescription` で決める（`adr/0024`）。
 - 子要素は `<Slot />` で受け取る。
 
 ## Qwik 固有の注意
