@@ -1,5 +1,5 @@
 {
-  "extends": "@levis-ui/tsconfig/base.json",
+  "extends": "@leve-ui/tsconfig/base.json",
   "compilerOptions": {
     "noEmit": true,
     "types": ["node"]

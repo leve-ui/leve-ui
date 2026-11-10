@@ -10,7 +10,7 @@ export const AvatarFallback = component$<AvatarFallbackProps>((props) => {
   if (context.status.value === 'loaded') return null;
 
   return (
-    <span {...props} data-levis-avatar-fallback="" data-state={context.status.value}>
+    <span {...props} data-leve-avatar-fallback="" data-state={context.status.value}>
       <Slot />
     </span>
   );

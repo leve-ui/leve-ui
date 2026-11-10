@@ -11,7 +11,7 @@
  *
  * Usage:
  *   pnpm package:bootstrap                    # all public packages missing on npm
- *   pnpm package:bootstrap @levis-ui/dialog   # specific packages
+ *   pnpm package:bootstrap @leve-ui/dialog   # specific packages
  *   pnpm package:bootstrap --dry-run          # print what would run
  */
 import { execFileSync, spawnSync } from 'node:child_process';

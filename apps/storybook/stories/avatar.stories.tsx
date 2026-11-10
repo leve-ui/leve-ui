@@ -1,4 +1,4 @@
-import { Avatar } from '@levis-ui/avatar';
+import { Avatar } from '@leve-ui/avatar';
 import type { Meta, StoryObj } from 'storybook-framework-qwik';
 
 const avatarStyle = {

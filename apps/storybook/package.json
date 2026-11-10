@@ -1,5 +1,5 @@
 {
-  "name": "@levis-ui/storybook",
+  "name": "@leve-ui/storybook",
   "private": true,
   "type": "module",
   "scripts": {
@@ -9,9 +9,9 @@
   },
   "devDependencies": {
     "@builder.io/qwik": "1.20.4",
-    "@levis-ui/avatar": "workspace:*",
-    "@levis-ui/tsconfig": "workspace:*",
-    "@levis-ui/vite-config": "workspace:*",
+    "@leve-ui/avatar": "workspace:*",
+    "@leve-ui/tsconfig": "workspace:*",
+    "@leve-ui/vite-config": "workspace:*",
     "@storybook/addon-docs": "^10.6.6",
     "@types/node": "^24.19.2",
     "storybook": "^10.6.6",

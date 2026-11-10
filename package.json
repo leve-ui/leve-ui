@@ -1,13 +1,13 @@
 {
-  "name": "levis-ui-monorepo",
+  "name": "leve-ui-monorepo",
   "description": "Headless, WAI-ARIA compliant UI components for Qwik. Bring your own styles.",
-  "homepage": "https://github.com/levis-ui/levis-ui#readme",
+  "homepage": "https://github.com/leve-ui/leve-ui#readme",
   "bugs": {
-    "url": "https://github.com/levis-ui/levis-ui/issues"
+    "url": "https://github.com/leve-ui/leve-ui/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/levis-ui/levis-ui.git"
+    "url": "git+https://github.com/leve-ui/leve-ui.git"
   },
   "license": "MIT",
   "private": true,
@@ -23,8 +23,8 @@
     "test": "turbo run test",
     "typecheck": "turbo run typecheck",
     "e2e": "turbo run e2e",
-    "storybook": "pnpm --filter @levis-ui/storybook dev",
-    "docs": "pnpm --filter @levis-ui/docs dev",
+    "storybook": "pnpm --filter @leve-ui/storybook dev",
+    "docs": "pnpm --filter @leve-ui/docs dev",
     "lint": "biome lint .",
     "format": "biome format --write .",
     "check": "biome check .",

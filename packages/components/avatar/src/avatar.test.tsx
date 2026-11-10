@@ -12,7 +12,7 @@ describe('Avatar', () => {
       </Avatar.Root>,
     );
 
-    const fallback = screen.querySelector('[data-levis-avatar-fallback]');
+    const fallback = screen.querySelector('[data-leve-avatar-fallback]');
     expect(fallback?.getAttribute('data-state')).toBe('error');
     expect(fallback?.textContent).toBe('LU');
     expect(screen.querySelector('img')?.hasAttribute('hidden')).toBe(true);
@@ -27,9 +27,9 @@ describe('Avatar', () => {
       </Avatar.Root>,
     );
 
-    const image = screen.querySelector('[data-levis-avatar-image]');
+    const image = screen.querySelector('[data-leve-avatar-image]');
     expect(image?.getAttribute('data-state')).toBe('loading');
     expect(image?.hasAttribute('hidden')).toBe(true);
-    expect(screen.querySelector('[data-levis-avatar-fallback]')).not.toBeNull();
+    expect(screen.querySelector('[data-leve-avatar-fallback]')).not.toBeNull();
   });
 });

@@ -1,4 +1,4 @@
-# 0005. Resolve `src` directly via the `@levis-ui/source` condition during development
+# 0005. Resolve `src` directly via the `@leve-ui/source` condition during development
 
 - Status: Accepted
 - Date: 2026-11-10
@@ -16,9 +16,9 @@ When the docs site or Storybook imports a workspace library, the `lib/` build ou
 
 ## Decision
 
-- Each library puts `"@levis-ui/source": "./src/index.ts"` first in its `exports`.
-- The docs and Storybook Vite configs enable this condition via `sourceResolveConfig()` from `@levis-ui/vite-config`.
-- The app tsconfig (`@levis-ui/tsconfig/app.json`) includes this condition in `customConditions`.
+- Each library puts `"@leve-ui/source": "./src/index.ts"` first in its `exports`.
+- The docs and Storybook Vite configs enable this condition via `sourceResolveConfig()` from `@leve-ui/vite-config`.
+- The app tsconfig (`@leve-ui/tsconfig/app.json`) includes this condition in `customConditions`.
 - Library builds (`tsc -p tsconfig.build.json`, `vite build`) do not use this condition.
 
 ## Rationale

@@ -1,5 +1,5 @@
 {
-  "name": "@levis-ui/e2e",
+  "name": "@leve-ui/e2e",
   "private": true,
   "type": "module",
   "scripts": {
@@ -8,8 +8,8 @@
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
-    "@levis-ui/storybook": "workspace:*",
-    "@levis-ui/tsconfig": "workspace:*",
+    "@leve-ui/storybook": "workspace:*",
+    "@leve-ui/tsconfig": "workspace:*",
     "@playwright/test": "^1.65.0",
     "@types/node": "^24.19.2",
     "typescript": "~5.9.3"

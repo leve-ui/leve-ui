@@ -1,4 +1,4 @@
-# Contributing to levis-ui
+# Contributing to leve-ui
 
 Thank you for your interest in contributing! This guide explains how to set up the project and get your changes merged.
 
@@ -10,25 +10,25 @@ Thank you for your interest in contributing! This guide explains how to set up t
 ## Setup
 
 ```sh
-git clone https://github.com/<your-username>/levis-ui.git
-cd levis-ui
+git clone https://github.com/<your-username>/leve-ui.git
+cd leve-ui
 pnpm install                                          # also installs git hooks (lefthook)
-pnpm --filter @levis-ui/e2e exec playwright install chromium   # for E2E tests
+pnpm --filter @leve-ui/e2e exec playwright install chromium   # for E2E tests
 ```
 
 ## Project Structure
 
 | Path | Package | Published | Description |
 | --- | --- | --- | --- |
-| `packages/levis-ui` | `levis-ui` | Yes | All-in-one package; only re-exports `@levis-ui/*` |
-| `packages/components/*` | `@levis-ui/<name>` | Yes | One package per component |
-| `packages/utils` | `@levis-ui/utils` | Yes | Internal utilities shared by components |
-| `apps/docs` | `@levis-ui/docs` | No | Documentation site (Qwik City) |
-| `apps/storybook` | `@levis-ui/storybook` | No | Storybook |
-| `apps/e2e` | `@levis-ui/e2e` | No | Playwright tests, run against Storybook |
-| `tooling/*` | `@levis-ui/tsconfig`, `@levis-ui/vite-config` | No | Shared configuration |
+| `packages/leve-ui` | `leve-ui` | Yes | All-in-one package; only re-exports `@leve-ui/*` |
+| `packages/components/*` | `@leve-ui/<name>` | Yes | One package per component |
+| `packages/utils` | `@leve-ui/utils` | Yes | Internal utilities shared by components |
+| `apps/docs` | `@leve-ui/docs` | No | Documentation site (Qwik City) |
+| `apps/storybook` | `@leve-ui/storybook` | No | Storybook |
+| `apps/e2e` | `@leve-ui/e2e` | No | Playwright tests, run against Storybook |
+| `tooling/*` | `@leve-ui/tsconfig`, `@leve-ui/vite-config` | No | Shared configuration |
 
-During development, the docs site and Storybook import library source files directly through the `@levis-ui/source` export condition, so you don't need to rebuild packages to see changes ([ADR 0005](./adr/0005-source-condition-for-development.md)).
+During development, the docs site and Storybook import library source files directly through the `@leve-ui/source` export condition, so you don't need to rebuild packages to see changes ([ADR 0005](./adr/0005-source-condition-for-development.md)).
 
 ## Commands
 
@@ -74,7 +74,7 @@ Commit messages and pull request titles must be in English and follow Convention
 ```
 
 - **type**: `feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `build`, `ci`, `chore`, `revert`
-- **scope** (optional): a directory name such as `avatar`, `utils`, `levis-ui`, `docs`, `storybook`, `e2e`, or `repo` (see [`commitlint.config.ts`](./commitlint.config.ts))
+- **scope** (optional): a directory name such as `avatar`, `utils`, `leve-ui`, `docs`, `storybook`, `e2e`, or `repo` (see [`commitlint.config.ts`](./commitlint.config.ts))
 - **subject**: imperative mood, starts with a lowercase letter, no trailing period
 
 ```
@@ -95,7 +95,7 @@ Please write issues in English. Maintainers triage them with prefixed labels:
 - **`status:`**: `needs triage`, `needs design`, `needs adr`, `blocked`, `ready`
 - **`size:`**: `S`, `M`, `L`
 
-New components are grouped into milestones in dependency order, from **M0: Foundation** (shared logic in `@levis-ui/utils` and library-wide ADRs) to **M5: Advanced**. Issues labeled `status: ready` are good places to start.
+New components are grouped into milestones in dependency order, from **M0: Foundation** (shared logic in `@leve-ui/utils` and library-wide ADRs) to **M5: Advanced**. Issues labeled `status: ready` are good places to start.
 
 ## Component Guidelines
 
@@ -109,7 +109,7 @@ New components are grouped into milestones in dependency order, from **M0: Found
 ### Headless Parts
 
 - One part component per DOM element, exported as a namespace: `Avatar.Root`, `Avatar.Image`, ...
-- Never output styles or class names. Every part renders `data-levis-<name>-<part>` (the root renders `data-levis-<name>`) and state attributes such as `data-state`.
+- Never output styles or class names. Every part renders `data-leve-<name>-<part>` (the root renders `data-leve-<name>`) and state attributes such as `data-state`.
 - Pass all received props through to the element, and merge event handlers instead of overriding them: `onClick$={[internal$, props.onClick$]}`.
 - See [ADR 0009](./adr/0009-headless-parts-and-data-attributes.md) and [ADR 0010](./adr/0010-no-child-state-on-parent-attributes.md).
 
@@ -130,7 +130,7 @@ pnpm component:new dialog trigger,overlay,content,title,description,close
 pnpm install
 ```
 
-The scaffold creates the package, a story, an E2E test, and registers the package in `levis-ui` and Storybook. Then implement it following the guidelines above and fill in its row in the README's package table.
+The scaffold creates the package, a story, an E2E test, and registers the package in `leve-ui` and Storybook. Then implement it following the guidelines above and fill in its row in the README's package table.
 
 You don't need to publish anything. After your pull request is merged, a maintainer publishes the new package to npm (see [For Maintainers](#for-maintainers)).
 
@@ -160,7 +160,7 @@ npm trusted publishing can only be configured for packages that already exist on
 ```sh
 git switch main && git pull
 npm login
-pnpm package:bootstrap @levis-ui/<name>    # add --dry-run to preview
+pnpm package:bootstrap @leve-ui/<name>    # add --dry-run to preview
 ```
 
 This publishes `0.0.0` as a placeholder, registers `release.yml` as the package's trusted publisher, and requires 2FA for publishing. The "Publish readiness" check on the release pull request fails until every public package exists on npm. Until then, the Release workflow skips publishing and shows a warning instead of failing ([ADR 0023](./adr/0023-skip-publishing-until-all-packages-are-bootstrapped.md)). See [ADR 0020](./adr/0020-bootstrap-new-packages-and-keep-individual-packages.md).

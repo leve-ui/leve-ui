@@ -1,5 +1,5 @@
 {
-  "extends": "@levis-ui/tsconfig/app.json",
+  "extends": "@leve-ui/tsconfig/app.json",
   "compilerOptions": {
     "lib": ["ES2022", "DOM", "DOM.Iterable", "WebWorker"],
     "paths": {

@@ -8,7 +8,7 @@
 
 With npm trusted publishing ([0019](0019-release-with-changesets-and-npm-trusted-publishing.md)), a trusted publisher can only be configured for a package that already exists on npm (`npm trust` documents this explicitly), and configuring it requires the maintainer's 2FA. Because every component is its own package ([0003](0003-all-in-one-and-individual-packages.md)), every new component needs a manual bootstrap. The first merge of the Release workflow failed for exactly this reason (`ENEEDAUTH`, nothing was published).
 
-This raised the question of whether to merge everything into a single `levis-ui` package with subpath exports (`levis-ui/avatar`), which would need only one bootstrap.
+This raised the question of whether to merge everything into a single `leve-ui` package with subpath exports (`leve-ui/avatar`), which would need only one bootstrap.
 
 ## Considered Options
 
@@ -19,7 +19,7 @@ This raised the question of whether to merge everything into a single `levis-ui`
 
 ## Decision
 
-- We keep one package per component. Consumers must be able to install only the components they use, so that a project combining levis-ui with another library (e.g. `@qwik-ui/headless`) does not get duplicate components such as two `Checkbox` implementations available for import.
+- We keep one package per component. Consumers must be able to install only the components they use, so that a project combining leve-ui with another library (e.g. `@qwik-ui/headless`) does not get duplicate components such as two `Checkbox` implementations available for import.
 - `pnpm package:bootstrap [names...]` (`.github/scripts/bootstrap-package.mjs`) bootstraps packages that are missing on npm, in dependency order: build, publish the `0.0.0` placeholder, run `npm trust github ... --file release.yml --allow-publish`, and set `npm access set mfa=publish`. It supports `--dry-run`. Only maintainers run it; AI agents must not.
 - A "Publish readiness" CI job runs on the release PR (`changeset-release/main`) and fails if any public package does not exist on npm (`pnpm package:check-npm`). It is a required status check, so the release PR cannot be merged before bootstrapping.
 

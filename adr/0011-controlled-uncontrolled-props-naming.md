@@ -25,5 +25,5 @@ It uses the `bind:` syntax that feels natural to Qwik users, while still support
 
 ## Consequences
 
-- The controlled/uncontrolled state logic is shared in `@levis-ui/utils`.
+- The controlled/uncontrolled state logic is shared in `@leve-ui/utils`.
 - When the first stateful component is implemented, confirm that it can be built with this convention, then mark this ADR as Accepted.

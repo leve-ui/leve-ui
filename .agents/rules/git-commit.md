@@ -44,7 +44,7 @@ description: 英語・Conventional Commits のコミットメッセージ、ブ�
 scope は必須ではないが、付ける場合は以下のいずれかにする（`commitlint.config.ts` がディレクトリから自動生成する）。
 
 - コンポーネント: `packages/components/` 配下のディレクトリ名（例: `avatar`）
-- パッケージ: `levis-ui`、`utils`
+- パッケージ: `leve-ui`、`utils`
 - アプリ: `docs`、`storybook`、`e2e`
 - tooling: `tsconfig`、`vite-config`
 - その他: `repo`（ルート設定）、`deps`（依存関係）、`release`（リリース）、`ai`（AGENTS.md・`.agents/`・`.claude/`）、`adr`（`adr/`）
@@ -94,7 +94,7 @@ npm への公開は GitHub Actions が行う（`.github/workflows/release.yml`�
 
 ### 新しいパッケージの初回公開
 
-npm の Trusted Publishing は、npm 上に存在するパッケージにしか設定できない（`adr/0020`）。新しいパッケージは、`main` にマージした後、**リリース PR をマージする前に**、**ユーザーが** `pnpm package:bootstrap @levis-ui/<name>` を実行する。AI エージェントはこのコマンドや公開を代行せず、ユーザーに依頼する。
+npm の Trusted Publishing は、npm 上に存在するパッケージにしか設定できない（`adr/0020`）。新しいパッケージは、`main` にマージした後、**リリース PR をマージする前に**、**ユーザーが** `pnpm package:bootstrap @leve-ui/<name>` を実行する。AI エージェントはこのコマンドや公開を代行せず、ユーザーに依頼する。
 
 リリース PR では「Publish readiness」チェックが、npm に存在しない公開パッケージがないかを確認する。失敗している場合はユーザーに bootstrap を依頼する。
 

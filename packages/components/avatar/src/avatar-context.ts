@@ -6,4 +6,4 @@ export interface AvatarContext {
   status: Signal<ImageLoadingStatus>;
 }
 
-export const avatarContextId = createContextId<AvatarContext>('levis-ui.avatar');
+export const avatarContextId = createContextId<AvatarContext>('leve-ui.avatar');

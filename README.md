@@ -2,14 +2,14 @@
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="./.github/assets/logo-light.svg">
     <source media="(prefers-color-scheme: light)" srcset="./.github/assets/logo-dark.svg">
-    <img src="./.github/assets/logo-dark.svg" alt="levis-ui" width="320">
+    <img src="./.github/assets/logo-dark.svg" alt="leve-ui" width="320">
   </picture>
 </h1>
 
 <p align="center">Headless, WAI-ARIA compliant UI components for Qwik. Bring your own styles.</p>
 
 <p align="center">
-  <a href="https://github.com/levis-ui/levis-ui/actions/workflows/ci.yml"><img src="https://github.com/levis-ui/levis-ui/actions/workflows/ci.yml/badge.svg" alt="CI status"></a>
+  <a href="https://github.com/leve-ui/leve-ui/actions/workflows/ci.yml"><img src="https://github.com/leve-ui/leve-ui/actions/workflows/ci.yml/badge.svg" alt="CI status"></a>
   <a href="./LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="MIT License"></a>
 </p>
 
@@ -25,22 +25,22 @@
 Install individual components:
 
 ```sh
-pnpm add @levis-ui/avatar
+pnpm add @leve-ui/avatar
 ```
 
 Or install everything at once:
 
 ```sh
-pnpm add levis-ui
+pnpm add leve-ui
 ```
 
-Both expose the same API. Individual packages keep components you don't use out of your dependencies entirely — handy when you combine levis-ui with another component library.
+Both expose the same API. Individual packages keep components you don't use out of your dependencies entirely — handy when you combine leve-ui with another component library.
 
 ## Usage
 
 ```tsx
 import { component$ } from '@builder.io/qwik';
-import { Avatar } from '@levis-ui/avatar';
+import { Avatar } from '@leve-ui/avatar';
 
 export default component$(() => (
   <Avatar.Root class="avatar">
@@ -53,16 +53,16 @@ export default component$(() => (
 Style each part however you like, for example with data attributes:
 
 ```css
-.avatar [data-levis-avatar-fallback] { /* ... */ }
-.avatar [data-levis-avatar-image][data-state='loaded'] { /* ... */ }
+.avatar [data-leve-avatar-fallback] { /* ... */ }
+.avatar [data-leve-avatar-image][data-state='loaded'] { /* ... */ }
 ```
 
 ## Packages
 
 | Package | Description |
 | --- | --- |
-| [`levis-ui`](./packages/levis-ui) | All components in one package |
-| [`@levis-ui/avatar`](./packages/components/avatar) | An image element with a fallback for representing the user |
+| [`leve-ui`](./packages/leve-ui) | All components in one package |
+| [`@leve-ui/avatar`](./packages/components/avatar) | An image element with a fallback for representing the user |
 
 ## Contributing
 

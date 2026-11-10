@@ -26,7 +26,7 @@ export type { AvatarRootProps, AvatarImageProps } from './...';
 
 利用側は `<Avatar.Root><Avatar.Image /></Avatar.Root>` と書く。
 
-- パーツ間の状態共有は `createContextId<XxxContext>('levis-ui.<name>')` で作る Context を使う。Root が `useContextProvider`、子パーツが `useContext` する。props のバケツリレーはしない。
+- パーツ間の状態共有は `createContextId<XxxContext>('leve-ui.<name>')` で作る Context を使う。Root が `useContextProvider`、子パーツが `useContext` する。props のバケツリレーはしない。
 
 ## スタイルを持たない
 
@@ -40,18 +40,18 @@ export type { AvatarRootProps, AvatarImageProps } from './...';
 
 | 属性                       | 用途                                        | 例                                                                         |
 | -------------------------- | ------------------------------------------- | -------------------------------------------------------------------------- |
-| `data-levis-<name>-<part>` | パーツの識別（Root は `data-levis-<name>`） | `data-levis-avatar-image=""`                                               |
+| `data-leve-<name>-<part>` | パーツの識別（Root は `data-leve-<name>`） | `data-leve-avatar-image=""`                                               |
 | `data-state`               | 状態                                        | `open` / `closed`、`checked` / `unchecked`、`loading` / `loaded` / `error` |
-| `data-disabled`            | 無効状態                                    | `dataAttr(disabled)`（`@levis-ui/utils`）                                  |
+| `data-disabled`            | 無効状態                                    | `dataAttr(disabled)`（`@leve-ui/utils`）                                  |
 | `data-orientation` など    | 必要に応じて                                | `horizontal` / `vertical`                                                  |
 
-真偽値の data 属性は `@levis-ui/utils` の `dataAttr()` を使い、`false` のときは属性自体を出さない。
+真偽値の data 属性は `@leve-ui/utils` の `dataAttr()` を使い、`false` のときは属性自体を出さない。
 
 ## Props
 
 - 各パーツの props 型は `PropsOf<'要素名'> & { 独自 props }` とし、`<Name><Part>Props` として export する。
 - 受け取った props は描画する要素にすべて渡す（`{...props}`）。こうすることで `class`、`style`、`aria-*`、`data-*`、イベントを利用者が自由に指定できる。
-- ライブラリが必ず出す属性（`role`、必須の `aria-*`、`data-levis-*`、`data-state`）は `{...props}` の後に書く。
+- ライブラリが必ず出す属性（`role`、必須の `aria-*`、`data-leve-*`、`data-state`）は `{...props}` の後に書く。
 - イベントハンドラは上書きせず、配列で合成する: `onClick$={[internalHandler$, props.onClick$]}`。
 - 状態を持つコンポーネントは、制御と非制御の両方に対応する。
   - 非制御: `default<State>`（例: `defaultOpen`）

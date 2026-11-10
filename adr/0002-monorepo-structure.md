@@ -5,7 +5,7 @@
 
 ## Context
 
-We want to develop the components (multiple npm packages) together with the docs site, Storybook, and E2E tests in a single repository. The packages have a build order (utils → components → levis-ui).
+We want to develop the components (multiple npm packages) together with the docs site, Storybook, and E2E tests in a single repository. The packages have a build order (utils → components → leve-ui).
 
 ## Considered Options
 
@@ -17,7 +17,7 @@ We want to develop the components (multiple npm packages) together with the docs
 
 We will build the monorepo on a pnpm workspace and use Turborepo for running tasks. Directories are split as follows:
 
-- `packages/` — Packages published to npm (`levis-ui`, `components/*`, `utils`)
+- `packages/` — Packages published to npm (`leve-ui`, `components/*`, `utils`)
 - `apps/` — Unpublished apps (`docs`, `storybook`, `e2e`), all `"private": true`
 - `tooling/` — Shared configuration (`tsconfig`, `vite-config`)
 

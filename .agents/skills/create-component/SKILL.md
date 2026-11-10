@@ -1,6 +1,6 @@
 ---
 name: create-component
-description: levis-ui に新しい headless UI コンポーネント（@levis-ui/<name> パッケージ）を追加する手順。Dialog・Tabs・Accordion などの新規コンポーネントを作るとき、またはパッケージの雛形を作るときに使う。雛形生成スクリプト・levis-ui への登録・APG に沿った実装・テスト 3 点の作成までを扱う。
+description: leve-ui に新しい headless UI コンポーネント（@leve-ui/<name> パッケージ）を追加する手順。Dialog・Tabs・Accordion などの新規コンポーネントを作るとき、またはパッケージの雛形を作るときに使う。雛形生成スクリプト・leve-ui への登録・APG に沿った実装・テスト 3 点の作成までを扱う。
 ---
 
 # 新しいコンポーネントを作成する
@@ -27,7 +27,7 @@ pnpm install
   - `packages/components/<name>/` にパッケージ一式を生成する（設定ファイル、Context、パーツ、`index.ts`、ユニットテスト）
   - `package.json` に `license: "MIT"`・`repository`・`homepage`・`bugs` を設定し、ルートの `LICENSE` をコピーする
   - `apps/storybook/stories/<name>.stories.tsx` と `apps/e2e/tests/<name>.spec.ts` を生成する
-  - `packages/levis-ui` の `dependencies` と `src/index.ts`、`apps/storybook` の `devDependencies` に登録する
+  - `packages/leve-ui` の `dependencies` と `src/index.ts`、`apps/storybook` の `devDependencies` に登録する
   - `README.md` の Packages 表に行を追加する（説明文は `TODO` になっているので、英語の 1 行説明に書き換える）
 
 ## 3. 実装する
@@ -54,7 +54,7 @@ pnpm check:fix
 pnpm typecheck
 pnpm test
 pnpm e2e
-pnpm changeset   # minor で @levis-ui/<name> と levis-ui を選び、要約は英語で書く（1.0 までは major を使わない）
+pnpm changeset   # minor で @leve-ui/<name> と leve-ui を選び、要約は英語で書く（1.0 までは major を使わない）
 ```
 
 ライブラリ全体に関わる判断をした場合（新しい共通ユーティリティの方針など）は、`write-adr` スキルで ADR を書く。
@@ -66,7 +66,7 @@ npm の Trusted Publishing は npm 上に存在するパッケージにしか設
 ```sh
 git switch main && git pull
 npm login
-pnpm package:bootstrap @levis-ui/<name>   # --dry-run で実行内容を確認できる
+pnpm package:bootstrap @leve-ui/<name>   # --dry-run で実行内容を確認できる
 ```
 
 - ビルド → `0.0.0` の公開 → Trusted Publisher（`release.yml`）の登録 → 2FA 必須化、までをまとめて行う。

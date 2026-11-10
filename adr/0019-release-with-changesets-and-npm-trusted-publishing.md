@@ -32,7 +32,7 @@ For CI on the release PR:
   - If there are pending changesets, it opens or updates a "chore(release): version packages" PR, then dispatches `ci.yml` on the `changeset-release/main` branch so the required checks run on the PR head.
   - Otherwise (the release PR was just merged), it runs `pnpm release` (build + `changeset publish`), pushes git tags, and creates GitHub releases.
 - Packages are published with npm trusted publishing. `pnpm publish` delegates to the npm CLI bundled with Node.js 26 (npm 11.20), which performs the OIDC exchange. Provenance is generated automatically for this public repository.
-- Each new package is bootstrapped once by a maintainer: publish a `0.0.0` placeholder from a local machine, then register `levis-ui/levis-ui` + `release.yml` as its trusted publisher on npm and disallow token-based publishing. AI agents must not perform this step.
+- Each new package is bootstrapped once by a maintainer: publish a `0.0.0` placeholder from a local machine, then register `leve-ui/leve-ui` + `release.yml` as its trusted publisher on npm and disallow token-based publishing. AI agents must not perform this step.
 - Changelogs use `@changesets/changelog-github`. Private packages (`apps/*`, `tooling/*`) are not versioned. Changeset summaries are written in English.
 
 ## Rationale

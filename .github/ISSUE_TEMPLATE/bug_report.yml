@@ -6,7 +6,7 @@ body:
     id: package
     attributes:
       label: Package and version
-      placeholder: "@levis-ui/avatar@0.1.0"
+      placeholder: "@leve-ui/avatar@0.1.0"
     validations:
       required: true
   - type: textarea

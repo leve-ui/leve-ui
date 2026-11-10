@@ -5,10 +5,10 @@ test.describe('Avatar', () => {
   test('画像の読み込みに失敗するとフォールバックを表示する', async ({ page }) => {
     await gotoStory(page, 'components-avatar--fallback');
 
-    const fallback = page.locator('[data-levis-avatar-fallback]');
+    const fallback = page.locator('[data-leve-avatar-fallback]');
     await expect(fallback).toHaveAttribute('data-state', 'error');
     await expect(fallback).toHaveText('LU');
-    await expect(page.locator('[data-levis-avatar-image]')).toBeHidden();
+    await expect(page.locator('[data-leve-avatar-image]')).toBeHidden();
   });
 
   test('src の画像を表示すると、フォールバックは消える', async ({ page }) => {
@@ -20,9 +20,9 @@ test.describe('Avatar', () => {
     );
     await gotoStory(page, 'components-avatar--default');
 
-    const image = page.locator('[data-levis-avatar-image]');
+    const image = page.locator('[data-leve-avatar-image]');
     await expect(image).toHaveAttribute('data-state', 'loaded');
     await expect(image).toBeVisible();
-    await expect(page.locator('[data-levis-avatar-fallback]')).toHaveCount(0);
+    await expect(page.locator('[data-leve-avatar-fallback]')).toHaveCount(0);
   });
 });
