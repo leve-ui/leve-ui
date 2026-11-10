@@ -35,7 +35,7 @@ levis-ui/
 ├── .github/
 │   ├── assets/                    # README 用の画像（logo-dark.svg: 明るい背景用 / logo-light.svg: 暗い背景用）
 │   ├── actions/setup/             # CI 共通のセットアップ（pnpm / Node / install）
-│   ├── scripts/                   # リリース用スクリプト（package:bootstrap / package:check-npm）
+│   ├── scripts/                   # リリース用スクリプト（package:bootstrap / package:check-npm / release.mjs）
 │   ├── ISSUE_TEMPLATE/            # Issue テンプレート（英語）
 │   ├── pull_request_template.md   # PR テンプレート（英語）
 │   ├── CODEOWNERS

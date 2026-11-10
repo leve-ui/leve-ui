@@ -37,7 +37,8 @@ jobs:
         uses: changesets/action@v2
         with:
           version-script: pnpm exec changeset version
-          publish-script: pnpm release
+          # Skips publishing until every public package exists on npm (adr/0023)
+          publish-script: node .github/scripts/release.mjs
           commit-message: "chore(release): version packages"
           pr-title: "chore(release): version packages"
           create-github-releases: true

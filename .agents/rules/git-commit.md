@@ -84,6 +84,8 @@ npm の Trusted Publishing は、npm 上に存在するパッケージにしか�
 
 リリース PR では「Publish readiness」チェックが、npm に存在しない公開パッケージがないかを確認する。失敗している場合はユーザーに bootstrap を依頼する。
 
+npm に存在しない公開パッケージがある間は、Release ワークフローは公開をスキップして成功扱いで終わり、警告を表示する（`adr/0023`）。これは異常ではない。
+
 ## コミット時に自動で行われること（lefthook）
 
 `pnpm install` 時に git フックが設置され、コミットのたびに以下が実行される（設定は `lefthook.yml`、`adr/0015`）。

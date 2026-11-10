@@ -140,7 +140,7 @@ npm login
 pnpm package:bootstrap @levis-ui/<name>    # add --dry-run to preview
 ```
 
-This publishes `0.0.0` as a placeholder, registers `release.yml` as the package's trusted publisher, and requires 2FA for publishing. The "Publish readiness" check on the release pull request fails until every public package exists on npm. See [ADR 0020](./adr/0020-bootstrap-new-packages-and-keep-individual-packages.md).
+This publishes `0.0.0` as a placeholder, registers `release.yml` as the package's trusted publisher, and requires 2FA for publishing. The "Publish readiness" check on the release pull request fails until every public package exists on npm. Until then, the Release workflow skips publishing and shows a warning instead of failing ([ADR 0023](./adr/0023-skip-publishing-until-all-packages-are-bootstrapped.md)). See [ADR 0020](./adr/0020-bootstrap-new-packages-and-keep-individual-packages.md).
 
 ## License
 
