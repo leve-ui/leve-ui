@@ -2,4 +2,4 @@
 "@leve-ui/utils": minor
 ---
 
-Add `clamp` and `valueToPercent` helpers.
+Add `clamp`, `valueToPercent` and `withCssVars` helpers.

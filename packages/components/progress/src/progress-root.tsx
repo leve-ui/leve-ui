@@ -42,16 +42,20 @@ export const ProgressRoot = component$<ProgressRootProps>(
       if (clampedValue.value === null) return 'indeterminate';
       return clampedValue.value >= max ? 'complete' : 'loading';
     });
+    const percent = useComputed$(() =>
+      clampedValue.value === null ? null : valueToPercent(clampedValue.value, min, max),
+    );
     const text = useComputed$(() => {
       if (valueText !== undefined) return valueText;
-      if (clampedValue.value === null) return '';
-      return `${Math.round(valueToPercent(clampedValue.value, min, max))}%`;
+      if (percent.value === null) return '';
+      return `${Math.round(percent.value)}%`;
     });
 
     useContextProvider(progressContextId, {
       value: clampedValue,
       min: minSignal,
       max: maxSignal,
+      percent,
       state,
       valueText: text,
       labelId,

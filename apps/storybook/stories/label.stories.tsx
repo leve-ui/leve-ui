@@ -1,6 +1,10 @@
-import { Label } from '@leve-ui/label';
 import type { Meta, StoryObj } from 'storybook-framework-qwik';
+import DefaultDemo from './demos/label/default';
+import defaultSource from './demos/label/default?raw';
+import WrappingDemo from './demos/label/wrapping';
+import wrappingSource from './demos/label/wrapping?raw';
 
+// 各ストーリーは demos/label/ の component$ を描画し、そのソースを Docs の「Show code」に表示する
 const meta: Meta = {
   title: 'Components/Label',
 };
@@ -10,19 +14,11 @@ export default meta;
 type Story = StoryObj;
 
 export const Default: Story = {
-  render: () => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', width: '240px' }}>
-      <Label.Root for="email">Email</Label.Root>
-      <input id="email" type="email" />
-    </div>
-  ),
+  render: () => <DefaultDemo />,
+  parameters: { docs: { source: { code: defaultSource } } },
 };
 
 export const Wrapping: Story = {
-  render: () => (
-    <Label.Root style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-      <input type="checkbox" />
-      Accept terms
-    </Label.Root>
-  ),
+  render: () => <WrappingDemo />,
+  parameters: { docs: { source: { code: wrappingSource } } },
 };

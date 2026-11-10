@@ -38,14 +38,14 @@ export const MeterRoot = component$<MeterRootProps>(
     const clampedValue = useComputed$(() => clamp(value, min, max));
     const minSignal = useComputed$(() => min);
     const maxSignal = useComputed$(() => max);
-    const text = useComputed$(
-      () => valueText ?? `${Math.round(valueToPercent(clampedValue.value, min, max))}%`,
-    );
+    const percent = useComputed$(() => valueToPercent(clampedValue.value, min, max));
+    const text = useComputed$(() => valueText ?? `${Math.round(percent.value)}%`);
 
     useContextProvider(meterContextId, {
       value: clampedValue,
       min: minSignal,
       max: maxSignal,
+      percent,
       valueText: text,
       labelId,
     });

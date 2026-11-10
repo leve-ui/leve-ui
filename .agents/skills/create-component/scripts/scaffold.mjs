@@ -269,11 +269,34 @@ ${parts.map((p) => `    expect(screen.querySelector('[data-leve-${name}-${p}]'))
 );
 
 // ---------- story / e2e ----------
+// ストーリーごとに demo ファイルを作り、そのソースを Docs の「Show code」に表示する（.agents/rules/testing.md）
+write(
+  join(ROOT, 'apps/storybook/stories/demos', name, 'default.tsx'),
+  `import { component$, useStyles$ } from '@builder.io/qwik';
+import { ${Name} } from '${pkgName}';
+
+// TODO: Add the styles for this example (prefix class names with "${name}")
+const styles = \`
+  .${name} {
+  }
+\`;
+
+export default component$(() => {
+  useStyles$(styles);
+
+  return (
+${jsxTree('    ')}
+  );
+});
+`,
+);
 write(
   join(ROOT, 'apps/storybook/stories', `${name}.stories.tsx`),
-  `import { ${Name} } from '${pkgName}';
-import type { Meta, StoryObj } from 'storybook-framework-qwik';
+  `import type { Meta, StoryObj } from 'storybook-framework-qwik';
+import DefaultDemo from './demos/${name}/default';
+import defaultSource from './demos/${name}/default?raw';
 
+// 各ストーリーは demos/${name}/ の component$ を描画し、そのソースを Docs の「Show code」に表示する
 const meta: Meta = {
   title: 'Components/${Name}',
 };
@@ -283,9 +306,8 @@ export default meta;
 type Story = StoryObj;
 
 export const Default: Story = {
-  render: () => (
-${jsxTree('    ')}
-  ),
+  render: () => <DefaultDemo />,
+  parameters: { docs: { source: { code: defaultSource } } },
 };
 `,
 );

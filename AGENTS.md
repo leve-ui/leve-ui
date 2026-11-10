@@ -34,6 +34,7 @@ pnpm changeset    # 変更記録
 | 4   | コンポーネントには必ずテストを書く                                 | [`.agents/rules/testing.md`](.agents/rules/testing.md)                               |
 | 5   | プロジェクトのディレクトリ構成に従う                               | [`.agents/rules/project-structure.md`](.agents/rules/project-structure.md)           |
 | 6   | issue にはラベルと Milestone を付ける                              | [`.agents/rules/issues.md`](.agents/rules/issues.md)                                 |
+| 7   | Storybook は Docs の「Show code」がそのまま使える形で書く          | [`.agents/rules/storybook.md`](.agents/rules/storybook.md)                           |
 
 ### 要点
 
@@ -43,6 +44,7 @@ pnpm changeset    # 変更記録
 4. **テスト**: ユニットテスト（`src/<name>.test.tsx`）・ストーリー（`apps/storybook/stories/`）・E2E（`apps/e2e/tests/`）の 3 つを必ず揃える。テストを消したり弱めたりして通さない。
 5. **構成**: 実装は `packages/components/<name>/` にだけ置き、`packages/leve-ui` は再エクスポートのみ。共通ロジックは `packages/utils`。新しいトップレベルのディレクトリは作る前にユーザーに確認する。
 6. **Issue**: タイトルと本文は英語。`type:` ラベルを必ず 1 つ付け、`scope:` / `status:` / `size:` と Milestone（M0〜M5）を付ける。
+7. **Storybook**: ストーリー 1 つにつき demo ファイル（`stories/demos/<name>/<story>.tsx`、`export default component$`）を作り、スタイルは demo の中の `useStyles$` で当てる。ストーリーは demo を描画し、同じファイルを `?raw` で `parameters.docs.source.code` に渡す。`render` に JSX を直接書かない。demo のコメントは英語。
 
 ## 人間向けの文書
 

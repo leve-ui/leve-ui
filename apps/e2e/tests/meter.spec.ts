@@ -29,4 +29,19 @@ test.describe('Meter', () => {
     await expect(meter).toHaveAttribute('aria-valuenow', '40');
     await expect(page.locator('[data-leve-meter-value-text]')).toHaveText('40%');
   });
+
+  test('Indicator の幅が Root の value の割合に追従する', async ({ page }) => {
+    await gotoStory(page, 'components-meter--controlled');
+
+    const track = page.locator('[data-leve-meter-track]');
+    const indicator = page.locator('[data-leve-meter-indicator]');
+    const ratio = async () => {
+      const [t, i] = await Promise.all([track.boundingBox(), indicator.boundingBox()]);
+      return Math.round(((i?.width ?? 0) / (t?.width ?? 1)) * 100);
+    };
+
+    await expect.poll(ratio).toBe(50);
+    await page.getByRole('button', { name: 'Increase' }).click();
+    await expect.poll(ratio).toBe(60);
+  });
 });

@@ -111,6 +111,22 @@ describe('Meter', () => {
       '80',
     );
     expect(screen.querySelector('[data-leve-meter-value-text]')?.textContent).toBe('80%');
+    expect(screen.querySelector('[data-leve-meter-indicator]')?.getAttribute('style')).toMatch(
+      /--leve-meter-percent:\s*80%/,
+    );
+  });
+
+  it('Indicator に値の割合を CSS 変数 --leve-meter-percent で出力し、渡した style と合成する', async () => {
+    const { screen, render } = await createDOM();
+    await render(
+      <Meter.Root value={50} max={200}>
+        <Meter.Indicator style={{ backgroundColor: 'green' }} />
+      </Meter.Root>,
+    );
+
+    const style = screen.querySelector('[data-leve-meter-indicator]')?.getAttribute('style');
+    expect(style).toMatch(/--leve-meter-percent:\s*25%/);
+    expect(style).toMatch(/background-color:\s*green/);
   });
 
   it('任意の props を要素に渡し、role は上書きさせない', async () => {

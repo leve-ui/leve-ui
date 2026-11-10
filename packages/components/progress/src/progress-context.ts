@@ -8,6 +8,8 @@ export interface ProgressContext {
   value: Signal<number | null>;
   min: Signal<number>;
   max: Signal<number>;
+  /** 値の割合（0〜100）。不確定のときは `null` */
+  percent: Signal<number | null>;
   state: Signal<ProgressState>;
   /** ValueText に表示し、`aria-valuetext` にも使う文字列 */
   valueText: Signal<string>;

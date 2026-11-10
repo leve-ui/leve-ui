@@ -1,6 +1,10 @@
-import { Fieldset } from '@leve-ui/fieldset';
 import type { Meta, StoryObj } from 'storybook-framework-qwik';
+import DefaultDemo from './demos/fieldset/default';
+import defaultSource from './demos/fieldset/default?raw';
+import DisabledDemo from './demos/fieldset/disabled';
+import disabledSource from './demos/fieldset/disabled?raw';
 
+// 各ストーリーは demos/fieldset/ の component$ を描画し、そのソースを Docs の「Show code」に表示する
 const meta: Meta = {
   title: 'Components/Fieldset',
 };
@@ -9,35 +13,12 @@ export default meta;
 
 type Story = StoryObj;
 
-const fields = (
-  <>
-    <label style={{ display: 'block' }}>
-      <input type="radio" name="shipping" value="standard" /> Standard
-    </label>
-    <label style={{ display: 'block' }}>
-      <input type="radio" name="shipping" value="express" /> Express
-    </label>
-  </>
-);
-
 export const Default: Story = {
-  render: () => (
-    <Fieldset.Root>
-      <Fieldset.Legend>Shipping method</Fieldset.Legend>
-      {fields}
-    </Fieldset.Root>
-  ),
+  render: () => <DefaultDemo />,
+  parameters: { docs: { source: { code: defaultSource } } },
 };
 
 export const Disabled: Story = {
-  render: () => (
-    <>
-      <button type="button">Before</button>
-      <Fieldset.Root disabled>
-        <Fieldset.Legend>Shipping method</Fieldset.Legend>
-        {fields}
-      </Fieldset.Root>
-      <button type="button">After</button>
-    </>
-  ),
+  render: () => <DisabledDemo />,
+  parameters: { docs: { source: { code: disabledSource } } },
 };

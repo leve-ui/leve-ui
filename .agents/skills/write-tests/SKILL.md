@@ -43,11 +43,71 @@ describe('Dialog', () => {
 
 ## ストーリー（Storybook）
 
-場所: `apps/storybook/stories/<name>.stories.tsx`
+場所: `apps/storybook/stories/<name>.stories.tsx` と `apps/storybook/stories/demos/<name>/<story>.tsx`
 
 - `title` は `Components/<Name>`。
 - テストしたい状態ごとにストーリーを用意する（E2E はストーリー単位でしか開けないため）。
-- スタイルは見やすさのための最小限のインラインスタイルにとどめる。
+- autodocs が有効なので、Docs の「Show code」に表示するコードを、**スタイルを含めて利用者がそのままコピーして使える形にする**（`.agents/rules/storybook.md`）。
+
+demo ファイル（ストーリー 1 つにつき 1 つ。コメントは英語）:
+
+```tsx
+// stories/demos/progress/default.tsx
+import { component$, useStyles$ } from '@builder.io/qwik';
+import { Progress } from '@leve-ui/progress';
+
+const styles = `
+  .progress-track {
+    height: 0.5rem;
+    background: #e5e7eb;
+  }
+
+  .progress-indicator {
+    height: 100%;
+    width: var(--leve-progress-percent);
+    background: #2563eb;
+  }
+`;
+
+export default component$(() => {
+  useStyles$(styles);
+
+  return (
+    <Progress.Root value={40} class="progress">
+      <Progress.Label>Uploading</Progress.Label>
+      <Progress.Track class="progress-track">
+        <Progress.Indicator class="progress-indicator" />
+      </Progress.Track>
+    </Progress.Root>
+  );
+});
+```
+
+ストーリーファイル:
+
+```tsx
+// stories/progress.stories.tsx
+import type { Meta, StoryObj } from 'storybook-framework-qwik';
+import DefaultDemo from './demos/progress/default';
+import defaultSource from './demos/progress/default?raw';
+
+const meta: Meta = {
+  title: 'Components/Progress',
+};
+
+export default meta;
+
+type Story = StoryObj;
+
+export const Default: Story = {
+  render: () => <DefaultDemo />,
+  parameters: { docs: { source: { code: defaultSource } } },
+};
+```
+
+- 状態を持つ例（`useSignal` など）も同じ形で書ける。`render` はコンポーネントとして実行されないので、フックは demo の中で使う。
+- クラス名はコンポーネント名で始める（`useStyles$` の CSS はページ全体に効き、Docs では複数の demo が同じページに並ぶため）。
+- `@keyframes` や `[data-state="..."]` のような属性セレクタも CSS に書く。ライブラリが出す data 属性・CSS 変数の使い方の例にもなる。
 
 ## E2E（Playwright）
 

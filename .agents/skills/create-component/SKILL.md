@@ -26,7 +26,7 @@ pnpm install
 - スクリプトは次のことを行う。
   - `packages/components/<name>/` にパッケージ一式を生成する（設定ファイル、Context、パーツ、`index.ts`、ユニットテスト）
   - `package.json` に `license: "MIT"`・`repository`・`homepage`・`bugs` を設定し、ルートの `LICENSE` をコピーする
-  - `apps/storybook/stories/<name>.stories.tsx` と `apps/e2e/tests/<name>.spec.ts` を生成する
+  - `apps/storybook/stories/<name>.stories.tsx` と demo（`apps/storybook/stories/demos/<name>/default.tsx`）、`apps/e2e/tests/<name>.spec.ts` を生成する
   - `packages/leve-ui` の `dependencies` と `src/index.ts`、`apps/storybook` の `devDependencies` に登録する
   - `README.md` の Packages 表に行を追加する（説明文は `TODO` になっているので、英語の 1 行説明に書き換える）
 
@@ -34,7 +34,7 @@ pnpm install
 
 `.agents/rules/accessibility.md` と `.agents/rules/component-architecture.md` に従う。見本は `packages/components/avatar`。
 
-- 雛形の `TODO`（README の Packages 表を含む）をすべて解消する。要素は仮で `div` になっているので、APG に合わせて変える（`button`、`h2` など）。
+- 雛形の `TODO`（README の Packages 表、demo のスタイルを含む）をすべて解消する。要素は仮で `div` になっているので、APG に合わせて変える（`button`、`h2` など）。
 - `<name>-context.ts` に共有する状態を定義し、Root で `useContextProvider` する。
 - 必須の `role` / `aria-*` / `data-state` は `{...props}` の後に書く。イベントは `[internal$, props.onXxx$]` で合成する。
 - パーツ間の ID 関連付けは `useId()`。2 つ以上のコンポーネントで使うロジックは `packages/utils` に置く。

@@ -143,6 +143,47 @@ describe('Progress', () => {
     expect(root?.getAttribute('aria-valuenow')).toBe('100');
     expect(root?.getAttribute('data-state')).toBe('complete');
     expect(screen.querySelector('[data-leve-progress-value-text]')?.textContent).toBe('100%');
+    expect(screen.querySelector('[data-leve-progress-indicator]')?.getAttribute('style')).toMatch(
+      /--leve-progress-percent:\s*100%/,
+    );
+  });
+
+  it('Indicator に値の割合を CSS 変数 --leve-progress-percent で出力する', async () => {
+    const { screen, render } = await createDOM();
+    await render(<Example value={30} min={20} max={60} />);
+
+    const style = screen.querySelector('[data-leve-progress-indicator]')?.getAttribute('style');
+    expect(style).toMatch(/--leve-progress-percent:\s*25%/);
+  });
+
+  it('不確定のときは CSS 変数を出力しない', async () => {
+    const { screen, render } = await createDOM();
+    await render(<Example value={null} />);
+
+    const style = screen.querySelector('[data-leve-progress-indicator]')?.getAttribute('style');
+    expect(style ?? '').not.toContain('--leve-progress-percent');
+  });
+
+  it('Indicator に渡した style と CSS 変数を合成する', async () => {
+    const { screen, render } = await createDOM();
+    await render(
+      <>
+        <Progress.Root value={50}>
+          <Progress.Indicator style={{ backgroundColor: 'red' }} />
+        </Progress.Root>
+        <Progress.Root value={50}>
+          <Progress.Indicator style="color: blue" />
+        </Progress.Root>
+      </>,
+    );
+
+    const [objectStyle, stringStyle] = Array.from(
+      screen.querySelectorAll('[data-leve-progress-indicator]'),
+    ).map((el) => el.getAttribute('style'));
+    expect(objectStyle).toMatch(/background-color:\s*red/);
+    expect(objectStyle).toMatch(/--leve-progress-percent:\s*50%/);
+    expect(stringStyle).toMatch(/color:\s*blue/);
+    expect(stringStyle).toMatch(/--leve-progress-percent:\s*50%/);
   });
 
   it('任意の props を要素に渡し、role は上書きさせない', async () => {

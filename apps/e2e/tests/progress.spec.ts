@@ -38,4 +38,24 @@ test.describe('Progress', () => {
     await expect(progress).toHaveAttribute('aria-valuenow', '100');
     await expect(progress).toHaveAttribute('data-state', 'complete');
   });
+
+  test('Indicator の幅が Root の value の割合に追従する', async ({ page }) => {
+    await gotoStory(page, 'components-progress--controlled');
+
+    const track = page.locator('[data-leve-progress-track]');
+    const indicator = page.locator('[data-leve-progress-indicator]');
+    const ratio = async () => {
+      const [t, i] = await Promise.all([track.boundingBox(), indicator.boundingBox()]);
+      return Math.round(((i?.width ?? 0) / (t?.width ?? 1)) * 100);
+    };
+
+    await page.getByRole('button', { name: 'Advance' }).click();
+    await page.getByRole('button', { name: 'Advance' }).click();
+    await expect(indicator).toHaveAttribute('style', /--leve-progress-percent:\s*50%/);
+    // transition の完了を待つ
+    await expect.poll(ratio).toBe(50);
+
+    await page.getByRole('button', { name: 'Reset' }).click();
+    await expect.poll(ratio).toBe(0);
+  });
 });

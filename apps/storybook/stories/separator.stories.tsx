@@ -1,6 +1,12 @@
-import { Separator } from '@leve-ui/separator';
 import type { Meta, StoryObj } from 'storybook-framework-qwik';
+import DecorativeDemo from './demos/separator/decorative';
+import decorativeSource from './demos/separator/decorative?raw';
+import DefaultDemo from './demos/separator/default';
+import defaultSource from './demos/separator/default?raw';
+import VerticalDemo from './demos/separator/vertical';
+import verticalSource from './demos/separator/vertical?raw';
 
+// 各ストーリーは demos/separator/ の component$ を描画し、そのソースを Docs の「Show code」に表示する
 const meta: Meta = {
   title: 'Components/Separator',
 };
@@ -10,37 +16,16 @@ export default meta;
 type Story = StoryObj;
 
 export const Default: Story = {
-  render: () => (
-    <div>
-      <p>Above</p>
-      <Separator.Root style={{ height: '1px', background: '#d1d5db', margin: '8px 0' }} />
-      <p>Below</p>
-    </div>
-  ),
+  render: () => <DefaultDemo />,
+  parameters: { docs: { source: { code: defaultSource } } },
 };
 
 export const Vertical: Story = {
-  render: () => (
-    <div style={{ display: 'flex', alignItems: 'center', gap: '8px', height: '24px' }}>
-      <span>Left</span>
-      <Separator.Root
-        orientation="vertical"
-        style={{ width: '1px', alignSelf: 'stretch', background: '#d1d5db' }}
-      />
-      <span>Right</span>
-    </div>
-  ),
+  render: () => <VerticalDemo />,
+  parameters: { docs: { source: { code: verticalSource } } },
 };
 
 export const Decorative: Story = {
-  render: () => (
-    <div>
-      <p>Above</p>
-      <Separator.Root
-        decorative
-        style={{ height: '1px', background: '#d1d5db', margin: '8px 0' }}
-      />
-      <p>Below</p>
-    </div>
-  ),
+  render: () => <DecorativeDemo />,
+  parameters: { docs: { source: { code: decorativeSource } } },
 };
