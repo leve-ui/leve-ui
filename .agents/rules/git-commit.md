@@ -74,9 +74,23 @@ docs(adr): add 0018 and accept 0011
 npm への公開は GitHub Actions が行う（`.github/workflows/release.yml`、`adr/0019`）。**手元から `npm publish` / `pnpm publish` / `changeset publish` を実行してはならない**（新しいパッケージの初回公開を除く。下記参照）。
 
 1. 公開パッケージ（`packages/**`）を変更する PR には、`pnpm changeset` で作った changeset を含める。changeset の要約は **英語** で書く（CHANGELOG にそのまま載るため）。
-2. PR が `main` にマージされると、Release ワークフローが `chore(release): version packages` という PR（リリース PR）を作成・更新する。
-3. リリース PR をマージすると、Release ワークフローが npm に公開し、git タグと GitHub Release を作る。
+2. PR が `main` にマージされると、Release ワークフローが `chore(release): version packages` という PR（リリース PR）を作成・更新する。リリース PR には、未リリースの changeset がすべて溜まっていく。
+3. リリース PR をマージすると、Release ワークフローが npm に公開し、git タグと GitHub Release を作る。**リリース PR をマージするかどうか（＝いつリリースするか）はユーザーが決める。** AI エージェントはリリース PR をマージしない。
 4. `changeset version` の結果（バージョン番号や CHANGELOG）を手で書き換えない。
+5. 開発は `main` だけで行い、リリース用のブランチ（`beta`・`v1` など）は作らない（`adr/0022`）。
+
+### changeset のバージョンの上げ方（1.0 まで）
+
+**1.0 までは `major` を使ってはならない。** Changesets では、0.x のパッケージに `major` を付けると `1.0.0` に上がってしまう（`adr/0022`）。
+
+| 変更の種類 | 1.0 まで（0.x） | 1.0 以降 |
+|---|---|---|
+| 破壊的変更 | `minor` | `major` |
+| 機能追加 | `minor` または `patch` | `minor` |
+| バグ修正 | `patch` | `patch` |
+
+- 1.0 のリリースはユーザーが決める。その前に Changesets のプレリリースモード（`changeset pre enter beta`）で `1.0.0-beta.x` を出す。
+- `.changeset/` に `major` の changeset を見つけた場合（Contributor の PR のレビュー時など）は、`minor` に直すよう指摘する。
 
 ### 新しいパッケージの初回公開
 

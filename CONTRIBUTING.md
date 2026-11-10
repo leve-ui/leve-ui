@@ -49,11 +49,21 @@ pnpm component:new <name> <part,...>   # scaffold a new component package
 1. **Open an issue first** for new components or larger changes, so we can agree on the design before you start.
 2. **Fork** the repository and create a branch named `<type>/<short-description>` (e.g. `feat/dialog`, `fix/avatar-ssr-state`).
 3. **Make your change** following the guidelines below.
-4. **Add a changeset** if you changed a published package (`packages/**`): run `pnpm changeset`, choose the packages and bump types, and write the summary in English. It goes into the changelog.
+4. **Add a changeset** if you changed a published package (`packages/**`): run `pnpm changeset`, choose the packages and bump types, and write the summary in English. It goes into the changelog. **Until 1.0, never choose `major`** — see [Choosing a Bump Type](#choosing-a-bump-type).
 5. **Commit** with an English [Conventional Commits](https://www.conventionalcommits.org/) message (see below).
 6. **Open a pull request** against `main`. Fill in the template.
 
 CI runs on every pull request: commit messages and PR title, lint, type checks, unit tests, build, and E2E. For first-time contributors, a maintainer has to approve the workflow run first. Pull requests are merged with **squash merge** once CI passes and a maintainer has reviewed them.
+
+### Choosing a Bump Type
+
+The packages are below 1.0. In Changesets, a `major` bump on a `0.x` package jumps straight to `1.0.0`, so until a maintainer decides to release 1.0:
+
+| Change | Until 1.0 (`0.x`) | After 1.0 |
+| --- | --- | --- |
+| Breaking change | `minor` | `major` |
+| New feature | `minor` or `patch` | `minor` |
+| Bug fix | `patch` | `patch` |
 
 ### Commit Messages
 
@@ -136,8 +146,10 @@ Instructions for AI coding agents live in [`AGENTS.md`](./AGENTS.md), with detai
 
 ### Releasing
 
-1. Merging a pull request with changesets into `main` makes the Release workflow open or update the "chore(release): version packages" pull request.
-2. Merging that pull request publishes the packages to npm with trusted publishing (with provenance) and creates GitHub releases.
+1. Merging a pull request with changesets into `main` makes the Release workflow open or update the "chore(release): version packages" pull request. It collects every pending changeset.
+2. Merging that pull request publishes the packages to npm with trusted publishing (with provenance) and creates GitHub releases. **Merging it is the decision to release**, so merge it when a batch of changes is ready.
+
+All development happens on `main`; there are no release branches. Before 1.0, `major` changesets are not used. 1.0 is preceded by `1.0.0-beta.x` prereleases with Changesets prerelease mode, and a maintenance branch such as `v1` is created only when 2.0 development starts ([ADR 0022](./adr/0022-release-strategy-before-and-after-1-0.md)).
 
 Never publish from a local machine, except for bootstrapping a new package.
 
