@@ -1,6 +1,12 @@
-# levis-ui
+<h1 align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="./.github/assets/logo-light.svg">
+    <source media="(prefers-color-scheme: light)" srcset="./.github/assets/logo-dark.svg">
+    <img src="./.github/assets/logo-dark.svg" alt="levis-ui" width="320">
+  </picture>
+</h1>
 
-Headless, WAI-ARIA compliant UI components for Qwik. Bring your own styles.
+<p align="center">Headless, WAI-ARIA compliant UI components for Qwik. Bring your own styles.</p>
 
 Qwik 向けの Headless UI ライブラリ（pnpm workspace + Turborepo のモノレポ）。
 
@@ -42,6 +48,14 @@ pnpm adr:new "<English title>"        # ADR の雛形を生成
 - PR と `main` への push で GitHub Actions の CI が実行されます（コミットメッセージ・PR タイトル・Lint・型チェック・ユニットテスト・ビルド・E2E）。
 - `main` はブランチ保護されています。ブランチを切って PR を作り、CI が通ったら squash merge してください。
 - コミットメッセージと PR タイトルは英語で、Conventional Commits の形式で書きます。
+
+## リリース
+
+1. 公開パッケージを変更したら `pnpm changeset` で changeset（英語）を追加し、PR に含めます。
+2. PR が `main` にマージされると、Release ワークフローが `chore(release): version packages` PR を作成します。
+3. その PR をマージすると、npm への公開（Trusted Publishing / provenance 付き）と GitHub Release の作成が行われます。
+
+新しいパッケージは、初回だけ手元から公開して npm の Trusted Publisher を設定する必要があります（`.agents/skills/create-component/SKILL.md` の「6. 初回公開」）。
 
 ## 開発時のソース解決
 

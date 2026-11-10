@@ -1,0 +1,52 @@
+name: Release
+
+on:
+  push:
+    branches: [main]
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions: {}
+
+env:
+  LEFTHOOK: 0
+  TURBO_TELEMETRY_DISABLED: 1
+
+jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # push the release branch, tags, and GitHub releases
+      pull-requests: write # open the release PR
+      id-token: write # npm trusted publishing (OIDC)
+      actions: write # dispatch CI on the release PR
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - uses: ./.github/actions/setup
+
+      # If there are changesets: open or update the release PR.
+      # Otherwise (the release PR was merged): build and publish to npm.
+      - name: Create release PR or publish to npm
+        id: changesets
+        uses: changesets/action@v2
+        with:
+          version-script: pnpm exec changeset version
+          publish-script: pnpm release
+          commit-message: "chore(release): version packages"
+          pr-title: "chore(release): version packages"
+          create-github-releases: true
+        env:
+          # Used by @changesets/changelog-github to link PRs and authors
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Run CI on the release PR
+        if: steps.changesets.outputs.has-changesets == 'true' && steps.changesets.outputs.pr-number != ''
+        run: gh workflow run ci.yml --repo "$GITHUB_REPOSITORY" --ref changeset-release/main
+        env:
+          GH_TOKEN: ${{ github.token }}

@@ -1,9 +1,9 @@
 ---
 trigger: always_on
-description: 英語・Conventional Commits のコミットメッセージ、ブランチと PR の運用ルール
+description: 英語・Conventional Commits のコミットメッセージ、ブランチ・PR・リリースの運用ルール
 ---
 
-# Git コミット・ブランチ・PR
+# Git コミット・ブランチ・PR・リリース
 
 コミットメッセージは **英語** で書き、commitlint（`@commitlint/config-conventional` ベース、設定は `commitlint.config.ts`）に従う（`adr/0017`）。コミットはユーザーに頼まれたときだけ行う。
 
@@ -68,6 +68,19 @@ docs(adr): add 0018 and accept 0011
 - PR を作り、CI（Commit messages / Lint / Typecheck / Unit test / Build / E2E）がすべて通ってからマージする。
 - マージは squash merge のみ。**PR のタイトルがそのまま `main` のコミットメッセージになる**ため、PR タイトルも commitlint の形式（英語）で書く。CI で検証される。
 - PR の説明文は日本語でもよい。
+
+## リリース（Changesets）
+
+npm への公開は GitHub Actions が行う（`.github/workflows/release.yml`、`adr/0019`）。**手元から `npm publish` / `pnpm publish` / `changeset publish` を実行してはならない**（新しいパッケージの初回公開を除く。下記参照）。
+
+1. 公開パッケージ（`packages/**`）を変更する PR には、`pnpm changeset` で作った changeset を含める。changeset の要約は **英語** で書く（CHANGELOG にそのまま載るため）。
+2. PR が `main` にマージされると、Release ワークフローが `chore(release): version packages` という PR（リリース PR）を作成・更新する。
+3. リリース PR をマージすると、Release ワークフローが npm に公開し、git タグと GitHub Release を作る。
+4. `changeset version` の結果（バージョン番号や CHANGELOG）を手で書き換えない。
+
+### 新しいパッケージの初回公開
+
+npm の Trusted Publishing は、npm 上に存在するパッケージにしか設定できない。新しいパッケージ（`create-component` で作ったものなど）は、`main` にマージした後、**ユーザーが** 手元から 1 回だけ公開し、npm で Trusted Publisher を設定する。手順は `create-component` スキルの「6. 初回公開」を参照。AI エージェントはこの公開を代行せず、ユーザーに依頼する。
 
 ## コミット時に自動で行われること（lefthook）
 

@@ -33,8 +33,11 @@ levis-ui/
 │   └── NNNN-<title>.md
 ├── .changeset/
 ├── .github/
+│   ├── assets/                    # README 用の画像（logo-dark.svg: 明るい背景用 / logo-light.svg: 暗い背景用）
 │   ├── actions/setup/             # CI 共通のセットアップ（pnpm / Node / install）
-│   └── workflows/ci.yml           # PR と main への push で実行する CI
+│   └── workflows/
+│       ├── ci.yml                 # PR と main への push で実行する CI
+│       └── release.yml            # リリース PR の作成と npm への公開（Changesets）
 ├── .agents/
 │   ├── rules/                     # AI 向けの制約（常に読み込まれる）
 │   └── skills/<name>/SKILL.md     # AI 向けの作業手順（必要なときに読み込まれる）

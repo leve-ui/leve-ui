@@ -53,7 +53,30 @@ pnpm check:fix
 pnpm typecheck
 pnpm test
 pnpm e2e
-pnpm changeset   # minor で @levis-ui/<name> と levis-ui を選ぶ
+pnpm changeset   # minor で @levis-ui/<name> と levis-ui を選び、要約は英語で書く
 ```
 
 ライブラリ全体に関わる判断をした場合（新しい共通ユーティリティの方針など）は、`write-adr` スキルで ADR を書く。
+
+## 6. 初回公開（ユーザーが行う）
+
+npm の Trusted Publishing は npm 上に存在するパッケージにしか設定できないため、新しいパッケージは最初の 1 回だけ手元から公開する（`adr/0019`）。**AI エージェントは実行せず、PR のマージ後にユーザーへ以下の手順を伝える。**
+
+1. PR を `main` にマージし、`main` を手元に取り込む。
+2. npm にログインする: `npm login`
+3. プレースホルダーとして `0.0.0` を公開する。
+
+   ```sh
+   pnpm --filter @levis-ui/<name> build
+   pnpm --filter @levis-ui/<name> publish --access public --no-git-checks
+   ```
+
+4. npmjs.com で `@levis-ui/<name>` の Settings → Trusted Publisher に以下を登録する。
+   - Publisher: GitHub Actions
+   - Organization or user: `levis-ui` / Repository: `levis-ui`
+   - Workflow filename: `release.yml`（パスではなくファイル名のみ）
+   - Environment: なし
+   - 直接公開（`npm publish`）を許可する
+5. 同じ Settings の Publishing access で「Require two-factor authentication and disallow tokens」を選ぶ。
+
+以降のバージョンは、リリース PR のマージで自動的に公開される。
