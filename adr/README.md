@@ -52,3 +52,4 @@ Component-specific specs (which APG pattern a component follows, its parts, and 
 | [0020](0020-bootstrap-new-packages-and-keep-individual-packages.md) | Bootstrap new packages and keep individual packages | Accepted |
 | [0021](0021-write-contributor-facing-documents-in-english.md) | Write contributor-facing documents in English | Accepted |
 | [0022](0022-release-strategy-before-and-after-1-0.md) | Release strategy before and after 1.0 | Accepted |
+| [0023](0023-skip-publishing-until-all-packages-are-bootstrapped.md) | Skip publishing until all packages are bootstrapped | Accepted |
