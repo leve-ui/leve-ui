@@ -54,7 +54,7 @@ pnpm check:fix
 pnpm typecheck
 pnpm test
 pnpm e2e
-pnpm changeset   # minor で @levis-ui/<name> と levis-ui を選び、要約は英語で書く
+pnpm changeset   # minor で @levis-ui/<name> と levis-ui を選び、要約は英語で書く（1.0 までは major を使わない）
 ```
 
 ライブラリ全体に関わる判断をした場合（新しい共通ユーティリティの方針など）は、`write-adr` スキルで ADR を書く。
