@@ -10,7 +10,9 @@ leve-ui/
 ├── apps/                          # 公開しないアプリ（すべて "private": true）
 │   ├── docs/                      # @leve-ui/docs       ドキュメントサイト（Qwik City）
 │   ├── storybook/                 # @leve-ui/storybook  Storybook
-│   │   └── stories/<name>.stories.tsx
+│   │   └── stories/
+│   │       ├── <name>.stories.tsx
+│   │       └── demos/<name>/<story>.tsx   # ストーリーごとの例（Docs にソースを表示する）
 │   └── e2e/                       # @leve-ui/e2e        Playwright
 │       └── tests/<name>.spec.ts
 ├── packages/                      # npm に公開するパッケージ

@@ -63,6 +63,13 @@ Style each part however you like, for example with data attributes:
 | --- | --- |
 | [`leve-ui`](./packages/leve-ui) | All components in one package |
 | [`@leve-ui/avatar`](./packages/components/avatar) | An image element with a fallback for representing the user |
+| [`@leve-ui/separator`](./packages/components/separator) | Visually or semantically separates content |
+| [`@leve-ui/label`](./packages/components/label) | Accessible label for a custom control |
+| [`@leve-ui/fieldset`](./packages/components/fieldset) | Groups related form controls under a single legend |
+| [`@leve-ui/progress`](./packages/components/progress) | Shows how far a task has progressed, including an indeterminate state |
+| [`@leve-ui/meter`](./packages/components/meter) | Shows a scalar value within a known range, such as storage usage |
+| [`@leve-ui/alert`](./packages/components/alert) | Displays an important inline message without moving focus |
+| [`@leve-ui/breadcrumb`](./packages/components/breadcrumb) | Shows the current page's location within a hierarchy |
 
 ## Contributing
 

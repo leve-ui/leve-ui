@@ -95,9 +95,30 @@ importers:
       '@builder.io/qwik':
         specifier: 1.20.4
         version: 1.20.4(vite@7.3.8(@types/node@24.19.2)(jiti@2.7.0)(yaml@2.9.1))
+      '@leve-ui/alert':
+        specifier: workspace:*
+        version: link:../../packages/components/alert
       '@leve-ui/avatar':
         specifier: workspace:*
         version: link:../../packages/components/avatar
+      '@leve-ui/breadcrumb':
+        specifier: workspace:*
+        version: link:../../packages/components/breadcrumb
+      '@leve-ui/fieldset':
+        specifier: workspace:*
+        version: link:../../packages/components/fieldset
+      '@leve-ui/label':
+        specifier: workspace:*
+        version: link:../../packages/components/label
+      '@leve-ui/meter':
+        specifier: workspace:*
+        version: link:../../packages/components/meter
+      '@leve-ui/progress':
+        specifier: workspace:*
+        version: link:../../packages/components/progress
+      '@leve-ui/separator':
+        specifier: workspace:*
+        version: link:../../packages/components/separator
       '@leve-ui/tsconfig':
         specifier: workspace:*
         version: link:../../tooling/tsconfig
@@ -122,6 +143,31 @@ importers:
       vite:
         specifier: ^7.3.8
         version: 7.3.8(@types/node@24.19.2)(jiti@2.7.0)(yaml@2.9.1)
+
+  packages/components/alert:
+    dependencies:
+      '@leve-ui/utils':
+        specifier: workspace:*
+        version: link:../../utils
+    devDependencies:
+      '@builder.io/qwik':
+        specifier: 1.20.4
+        version: 1.20.4(vite@7.3.8(@types/node@24.19.2)(jiti@2.7.0)(yaml@2.9.1))
+      '@leve-ui/tsconfig':
+        specifier: workspace:*
+        version: link:../../../tooling/tsconfig
+      '@leve-ui/vite-config':
+        specifier: workspace:*
+        version: link:../../../tooling/vite-config
+      typescript:
+        specifier: ~5.9.3
+        version: 5.9.3
+      vite:
+        specifier: ^7.3.8
+        version: 7.3.8(@types/node@24.19.2)(jiti@2.7.0)(yaml@2.9.1)
+      vitest:
+        specifier: ^5.1.0
+        version: 5.1.0(@types/node@24.19.2)(vite@7.3.8(@types/node@24.19.2)(jiti@2.7.0)(yaml@2.9.1))
 
   packages/components/avatar:
     dependencies:
@@ -148,11 +194,182 @@ importers:
         specifier: ^5.1.0
         version: 5.1.0(@types/node@24.19.2)(vite@7.3.8(@types/node@24.19.2)(jiti@2.7.0)(yaml@2.9.1))
 
+  packages/components/breadcrumb:
+    dependencies:
+      '@leve-ui/utils':
+        specifier: workspace:*
+        version: link:../../utils
+    devDependencies:
+      '@builder.io/qwik':
+        specifier: 1.20.4
+        version: 1.20.4(vite@7.3.8(@types/node@24.19.2)(jiti@2.7.0)(yaml@2.9.1))
+      '@leve-ui/tsconfig':
+        specifier: workspace:*
+        version: link:../../../tooling/tsconfig
+      '@leve-ui/vite-config':
+        specifier: workspace:*
+        version: link:../../../tooling/vite-config
+      typescript:
+        specifier: ~5.9.3
+        version: 5.9.3
+      vite:
+        specifier: ^7.3.8
+        version: 7.3.8(@types/node@24.19.2)(jiti@2.7.0)(yaml@2.9.1)
+      vitest:
+        specifier: ^5.1.0
+        version: 5.1.0(@types/node@24.19.2)(vite@7.3.8(@types/node@24.19.2)(jiti@2.7.0)(yaml@2.9.1))
+
+  packages/components/fieldset:
+    dependencies:
+      '@leve-ui/utils':
+        specifier: workspace:*
+        version: link:../../utils
+    devDependencies:
+      '@builder.io/qwik':
+        specifier: 1.20.4
+        version: 1.20.4(vite@7.3.8(@types/node@24.19.2)(jiti@2.7.0)(yaml@2.9.1))
+      '@leve-ui/tsconfig':
+        specifier: workspace:*
+        version: link:../../../tooling/tsconfig
+      '@leve-ui/vite-config':
+        specifier: workspace:*
+        version: link:../../../tooling/vite-config
+      typescript:
+        specifier: ~5.9.3
+        version: 5.9.3
+      vite:
+        specifier: ^7.3.8
+        version: 7.3.8(@types/node@24.19.2)(jiti@2.7.0)(yaml@2.9.1)
+      vitest:
+        specifier: ^5.1.0
+        version: 5.1.0(@types/node@24.19.2)(vite@7.3.8(@types/node@24.19.2)(jiti@2.7.0)(yaml@2.9.1))
+
+  packages/components/label:
+    dependencies:
+      '@leve-ui/utils':
+        specifier: workspace:*
+        version: link:../../utils
+    devDependencies:
+      '@builder.io/qwik':
+        specifier: 1.20.4
+        version: 1.20.4(vite@7.3.8(@types/node@24.19.2)(jiti@2.7.0)(yaml@2.9.1))
+      '@leve-ui/tsconfig':
+        specifier: workspace:*
+        version: link:../../../tooling/tsconfig
+      '@leve-ui/vite-config':
+        specifier: workspace:*
+        version: link:../../../tooling/vite-config
+      typescript:
+        specifier: ~5.9.3
+        version: 5.9.3
+      vite:
+        specifier: ^7.3.8
+        version: 7.3.8(@types/node@24.19.2)(jiti@2.7.0)(yaml@2.9.1)
+      vitest:
+        specifier: ^5.1.0
+        version: 5.1.0(@types/node@24.19.2)(vite@7.3.8(@types/node@24.19.2)(jiti@2.7.0)(yaml@2.9.1))
+
+  packages/components/meter:
+    dependencies:
+      '@leve-ui/utils':
+        specifier: workspace:*
+        version: link:../../utils
+    devDependencies:
+      '@builder.io/qwik':
+        specifier: 1.20.4
+        version: 1.20.4(vite@7.3.8(@types/node@24.19.2)(jiti@2.7.0)(yaml@2.9.1))
+      '@leve-ui/tsconfig':
+        specifier: workspace:*
+        version: link:../../../tooling/tsconfig
+      '@leve-ui/vite-config':
+        specifier: workspace:*
+        version: link:../../../tooling/vite-config
+      typescript:
+        specifier: ~5.9.3
+        version: 5.9.3
+      vite:
+        specifier: ^7.3.8
+        version: 7.3.8(@types/node@24.19.2)(jiti@2.7.0)(yaml@2.9.1)
+      vitest:
+        specifier: ^5.1.0
+        version: 5.1.0(@types/node@24.19.2)(vite@7.3.8(@types/node@24.19.2)(jiti@2.7.0)(yaml@2.9.1))
+
+  packages/components/progress:
+    dependencies:
+      '@leve-ui/utils':
+        specifier: workspace:*
+        version: link:../../utils
+    devDependencies:
+      '@builder.io/qwik':
+        specifier: 1.20.4
+        version: 1.20.4(vite@7.3.8(@types/node@24.19.2)(jiti@2.7.0)(yaml@2.9.1))
+      '@leve-ui/tsconfig':
+        specifier: workspace:*
+        version: link:../../../tooling/tsconfig
+      '@leve-ui/vite-config':
+        specifier: workspace:*
+        version: link:../../../tooling/vite-config
+      typescript:
+        specifier: ~5.9.3
+        version: 5.9.3
+      vite:
+        specifier: ^7.3.8
+        version: 7.3.8(@types/node@24.19.2)(jiti@2.7.0)(yaml@2.9.1)
+      vitest:
+        specifier: ^5.1.0
+        version: 5.1.0(@types/node@24.19.2)(vite@7.3.8(@types/node@24.19.2)(jiti@2.7.0)(yaml@2.9.1))
+
+  packages/components/separator:
+    dependencies:
+      '@leve-ui/utils':
+        specifier: workspace:*
+        version: link:../../utils
+    devDependencies:
+      '@builder.io/qwik':
+        specifier: 1.20.4
+        version: 1.20.4(vite@7.3.8(@types/node@24.19.2)(jiti@2.7.0)(yaml@2.9.1))
+      '@leve-ui/tsconfig':
+        specifier: workspace:*
+        version: link:../../../tooling/tsconfig
+      '@leve-ui/vite-config':
+        specifier: workspace:*
+        version: link:../../../tooling/vite-config
+      typescript:
+        specifier: ~5.9.3
+        version: 5.9.3
+      vite:
+        specifier: ^7.3.8
+        version: 7.3.8(@types/node@24.19.2)(jiti@2.7.0)(yaml@2.9.1)
+      vitest:
+        specifier: ^5.1.0
+        version: 5.1.0(@types/node@24.19.2)(vite@7.3.8(@types/node@24.19.2)(jiti@2.7.0)(yaml@2.9.1))
+
   packages/leve-ui:
     dependencies:
+      '@leve-ui/alert':
+        specifier: workspace:*
+        version: link:../components/alert
       '@leve-ui/avatar':
         specifier: workspace:*
         version: link:../components/avatar
+      '@leve-ui/breadcrumb':
+        specifier: workspace:*
+        version: link:../components/breadcrumb
+      '@leve-ui/fieldset':
+        specifier: workspace:*
+        version: link:../components/fieldset
+      '@leve-ui/label':
+        specifier: workspace:*
+        version: link:../components/label
+      '@leve-ui/meter':
+        specifier: workspace:*
+        version: link:../components/meter
+      '@leve-ui/progress':
+        specifier: workspace:*
+        version: link:../components/progress
+      '@leve-ui/separator':
+        specifier: workspace:*
+        version: link:../components/separator
     devDependencies:
       '@builder.io/qwik':
         specifier: 1.20.4
