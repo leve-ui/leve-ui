@@ -38,7 +38,7 @@ pnpm changeset    # 変更記録
 
 1. **WAI-ARIA**: 実装前に [APG](https://www.w3.org/WAI/ARIA/apg/patterns/) の該当パターンを確認する。ネイティブ要素を優先し、必須の `role` / `aria-*` はライブラリ側で `{...props}` の後に出力する。ID の関連付けは `useId()`。キーボード操作とフォーカス管理をすべて実装する。
 2. **パーツ分割**: DOM 要素 1 つ = パーツ 1 つ = 1 ファイル（`<name>-<part>.tsx`）。`export * as Avatar from './avatar'` の namespace 形式で公開する。`class` / `style` は出力せず、全パーツに `data-levis-<name>-<part>` と `data-state` を付ける。props はすべて要素に渡し、イベントは配列で合成する。
-3. **コミット**: `<type>(<scope>): <subject>`。scope は `commitlint.config.ts` がディレクトリ名から生成する。コミット時に lefthook が commitlint と Biome を自動実行する。`--no-verify` で回避しない。コミットはユーザーに頼まれたときだけ行う。
+3. **コミット**: **英語で** `<type>(<scope>): <subject>`（subject は命令形・小文字始まり）。scope は `commitlint.config.ts` がディレクトリ名から生成する。コミット時に lefthook が commitlint と Biome を自動実行する。`--no-verify` で回避しない。`main` は保護されているため、ブランチを切って PR を作り、CI を通して squash merge する（PR タイトルも英語の commitlint 形式）。コミットはユーザーに頼まれたときだけ行う。
 4. **テスト**: ユニットテスト（`src/<name>.test.tsx`）・ストーリー（`apps/storybook/stories/`）・E2E（`apps/e2e/tests/`）の 3 つを必ず揃える。テストを消したり弱めたりして通さない。
 5. **構成**: 実装は `packages/components/<name>/` にだけ置き、`packages/levis-ui` は再エクスポートのみ。共通ロジックは `packages/utils`。新しいトップレベルのディレクトリは作る前にユーザーに確認する。
 

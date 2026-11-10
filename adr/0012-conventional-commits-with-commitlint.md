@@ -1,6 +1,6 @@
 # 0012. Enforce Conventional Commits with commitlint
 
-- Status: Accepted
+- Status: Superseded by [0017](0017-write-commit-messages-in-english.md)
 - Date: 2026-11-10
 
 ## Context

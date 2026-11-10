@@ -1,11 +1,11 @@
 ---
 trigger: always_on
-description: commitlint（Conventional Commits）に従ったコミットメッセージのルール
+description: 英語・Conventional Commits のコミットメッセージ、ブランチと PR の運用ルール
 ---
 
-# Git コミット
+# Git コミット・ブランチ・PR
 
-コミットメッセージは commitlint（`@commitlint/config-conventional` ベース、設定は `commitlint.config.ts`）に従う。コミットはユーザーに頼まれたときだけ行う。
+コミットメッセージは **英語** で書き、commitlint（`@commitlint/config-conventional` ベース、設定は `commitlint.config.ts`）に従う（`adr/0017`）。コミットはユーザーに頼まれたときだけ行う。
 
 ## 形式
 
@@ -17,7 +17,9 @@ description: commitlint（Conventional Commits）に従ったコミットメッ�
 <footer（任意）>
 ```
 
-- subject は日本語でよい。末尾に句点を付けない。header 全体で 100 文字以内。
+- **header・body ともに英語で書く。** 日本語などの非 ASCII 文字を含むと commitlint で拒否される。
+- subject は命令形で、小文字で始める（`add ...`、`fix ...`。`Added` や `Add` は不可）。末尾にピリオドを付けない。header 全体で 100 文字以内。
+- body には「何を」より「なぜ」を書く。
 - 1 コミット 1 目的。複数のパッケージにまたがる無関係な変更は分ける。
 - 破壊的変更は type の後に `!` を付け（例: `feat(avatar)!:`）、footer に `BREAKING CHANGE: <内容>` を書く。
 
@@ -50,13 +52,22 @@ scope は必須ではないが、付ける場合は以下のいずれかにす�
 ## 例
 
 ```
-feat(avatar): Fallback に delayMs を追加
-fix(utils): dataAttr が 0 を true と判定する問題を修正
-test(avatar): 画像読み込み失敗時の E2E を追加
-build(deps): vite を 7.3.8 に更新
-docs(ai): コンポーネント設計ルールを追加
-docs(adr): 0014 を追加し 0011 を Accepted に変更
+feat(avatar): add delayMs to Fallback
+fix(utils): treat 0 as falsy in dataAttr
+test(avatar): add E2E for image load failure
+build(deps): bump vite to 7.3.8
+docs(ai): add component architecture rules
+docs(adr): add 0018 and accept 0011
 ```
+
+## ブランチと PR
+
+`main` はブランチ保護されており、直接 push できない（`adr/0018`）。
+
+- 作業は `main` から切ったブランチで行う。ブランチ名は `<type>/<short-description>`（例: `feat/dialog`、`fix/avatar-ssr-state`）。
+- PR を作り、CI（Commit messages / Lint / Typecheck / Unit test / Build / E2E）がすべて通ってからマージする。
+- マージは squash merge のみ。**PR のタイトルがそのまま `main` のコミットメッセージになる**ため、PR タイトルも commitlint の形式（英語）で書く。CI で検証される。
+- PR の説明文は日本語でもよい。
 
 ## コミット時に自動で行われること（lefthook）
 

@@ -32,6 +32,9 @@ levis-ui/
 │   ├── template.md
 │   └── NNNN-<title>.md
 ├── .changeset/
+├── .github/
+│   ├── actions/setup/             # CI 共通のセットアップ（pnpm / Node / install）
+│   └── workflows/ci.yml           # PR と main への push で実行する CI
 ├── .agents/
 │   ├── rules/                     # AI 向けの制約（常に読み込まれる）
 │   └── skills/<name>/SKILL.md     # AI 向けの作業手順（必要なときに読み込まれる）
@@ -40,6 +43,7 @@ levis-ui/
 ├── AGENTS.md                      # AI エージェント向けの入口（正本）
 ├── CLAUDE.md -> AGENTS.md
 ├── biome.json
+├── .node-version                  # Node.js のバージョン（CI もこれを使う）
 ├── LICENSE                        # MIT（各公開パッケージにもコピーを置く）
 ├── commitlint.config.ts
 ├── lefthook.yml                   # git フック（commitlint / Biome）

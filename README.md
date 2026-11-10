@@ -37,6 +37,12 @@ pnpm adr:new "<English title>"        # ADR の雛形を生成
 
 `pnpm install` 時に [lefthook](https://lefthook.dev) が git フックを設置します。コミット時に、ステージしたファイルへの Biome（自動修正）と、commitlint によるメッセージ検証が実行されます。
 
+## CI とブランチ運用
+
+- PR と `main` への push で GitHub Actions の CI が実行されます（コミットメッセージ・PR タイトル・Lint・型チェック・ユニットテスト・ビルド・E2E）。
+- `main` はブランチ保護されています。ブランチを切って PR を作り、CI が通ったら squash merge してください。
+- コミットメッセージと PR タイトルは英語で、Conventional Commits の形式で書きます。
+
 ## 開発時のソース解決
 
 各ライブラリの `exports` には `@levis-ui/source` 条件で `src/index.ts` を指定しています。

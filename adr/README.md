@@ -41,8 +41,10 @@ Component-specific specs (which APG pattern a component follows, its parts, and 
 | [0009](0009-headless-parts-and-data-attributes.md)      | Enable styling through part components and data attributes                     | Accepted |
 | [0010](0010-no-child-state-on-parent-attributes.md)     | Do not expose child-determined state on parent attributes                      | Accepted |
 | [0011](0011-controlled-uncontrolled-props-naming.md)    | Naming convention for controlled/uncontrolled props                            | Proposed |
-| [0012](0012-conventional-commits-with-commitlint.md)    | Enforce Conventional Commits with commitlint                                   | Accepted |
+| [0012](0012-conventional-commits-with-commitlint.md)    | Enforce Conventional Commits with commitlint                                   | Superseded by [0017](0017-write-commit-messages-in-english.md) |
 | [0013](0013-agents-md-as-source-of-ai-rules.md)         | Use AGENTS.md and `.agents/rules/` as the source of truth for AI rules         | Accepted |
 | [0014](0014-split-ai-guidance-into-rules-and-skills.md) | Split AI guidance into rules and skills                                        | Accepted |
 | [0015](0015-run-commitlint-and-biome-in-git-hooks-with-lefthook.md) | Run commitlint and Biome in git hooks with lefthook | Accepted |
 | [0016](0016-license-under-mit.md) | License under MIT | Accepted |
+| [0017](0017-write-commit-messages-in-english.md) | Write commit messages in English | Accepted |
+| [0018](0018-run-ci-on-pull-requests-and-protect-main-with-rulesets.md) | Run CI on pull requests and protect main with rulesets | Accepted |

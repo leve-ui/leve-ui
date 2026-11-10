@@ -1,5 +1,5 @@
 import { readdirSync } from 'node:fs';
-import type { UserConfig } from '@commitlint/types';
+import type { Plugin, UserConfig } from '@commitlint/types';
 
 const listDirs = (path: string) =>
   readdirSync(new URL(path, import.meta.url), { withFileTypes: true })
@@ -23,13 +23,29 @@ const scopes = [
   'adr', // adr 配下
 ];
 
+// コミットメッセージは英語で書く（adr/0017）。印字可能な ASCII 文字とタブのみ許可する。
+const ASCII_LINE = /^[\t\x20-\x7E]*$/;
+const english: Plugin = {
+  rules: {
+    'header-english': ({ header }) => [
+      ASCII_LINE.test(header ?? ''),
+      'header must be written in English (ASCII characters only)',
+    ],
+    'body-english': ({ body }) => [
+      (body ?? '').split('\n').every((line) => ASCII_LINE.test(line)),
+      'body must be written in English (ASCII characters only)',
+    ],
+  },
+};
+
 const config: UserConfig = {
   extends: ['@commitlint/config-conventional'],
+  plugins: [english],
   rules: {
     'scope-enum': [2, 'always', scopes],
     'header-max-length': [2, 'always', 100],
-    // 日本語の subject を許可するため大文字小文字のルールは無効化
-    'subject-case': [0],
+    'header-english': [2, 'always'],
+    'body-english': [2, 'always'],
   },
 };
 
