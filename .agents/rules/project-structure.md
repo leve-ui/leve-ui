@@ -70,7 +70,7 @@ levis-ui/
 
 ## 文書の言語
 
-- 英語で書く: `README.md`、`CONTRIBUTING.md`、`.github/` のテンプレート、ADR、コミットメッセージ、PR タイトル、changeset（`adr/0021`）。
+- 英語で書く: `README.md`、`CONTRIBUTING.md`、`.github/` のテンプレート、issue のタイトルと本文、ADR、コミットメッセージ、PR タイトル、changeset（`adr/0021`）。
 - 日本語でよい: `AGENTS.md`、`.agents/rules/`、`.agents/skills/`、PR の本文、レビューコメント。
 - 規約を変えたときは、`.agents/rules/` と `CONTRIBUTING.md` の両方を更新する。
 

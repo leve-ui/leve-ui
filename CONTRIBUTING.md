@@ -76,6 +76,17 @@ Because pull requests are squash-merged, **the PR title becomes the commit messa
 
 Please don't bypass the git hooks with `--no-verify`.
 
+### Issues and Labels
+
+Please write issues in English. Maintainers triage them with prefixed labels:
+
+- **`type:`** (exactly one): `component`, `feature`, `bug`, `a11y`, `foundation`, `adr`, `docs`, `tooling`
+- **`scope:`**: the affected package or app, matching the commit scope (e.g. `scope: dialog`, `scope: utils`)
+- **`status:`**: `needs triage`, `needs design`, `needs adr`, `blocked`, `ready`
+- **`size:`**: `S`, `M`, `L`
+
+New components are grouped into milestones in dependency order, from **M0: Foundation** (shared logic in `@levis-ui/utils` and library-wide ADRs) to **M5: Advanced**. Issues labeled `status: ready` are good places to start.
+
 ## Component Guidelines
 
 ### Accessibility

@@ -33,6 +33,7 @@ pnpm changeset    # 変更記録
 | 3   | Git コミットは commitlint（Conventional Commits）に従う            | [`.agents/rules/git-commit.md`](.agents/rules/git-commit.md)                         |
 | 4   | コンポーネントには必ずテストを書く                                 | [`.agents/rules/testing.md`](.agents/rules/testing.md)                               |
 | 5   | プロジェクトのディレクトリ構成に従う                               | [`.agents/rules/project-structure.md`](.agents/rules/project-structure.md)           |
+| 6   | issue にはラベルと Milestone を付ける                              | [`.agents/rules/issues.md`](.agents/rules/issues.md)                                 |
 
 ### 要点
 
@@ -41,6 +42,7 @@ pnpm changeset    # 変更記録
 3. **コミット**: **英語で** `<type>(<scope>): <subject>`（subject は命令形・小文字始まり）。scope は `commitlint.config.ts` がディレクトリ名から生成する。コミット時に lefthook が commitlint と Biome を自動実行する。`--no-verify` で回避しない。`main` は保護されているため、ブランチを切って PR を作り、CI を通して squash merge する（PR タイトルも英語の commitlint 形式）。公開パッケージを変えたら英語の changeset を含める。npm への公開は Release ワークフローが行い、手元から publish しない。新しいパッケージの初回公開（`pnpm package:bootstrap`）はユーザーに依頼する。コミットはユーザーに頼まれたときだけ行う。
 4. **テスト**: ユニットテスト（`src/<name>.test.tsx`）・ストーリー（`apps/storybook/stories/`）・E2E（`apps/e2e/tests/`）の 3 つを必ず揃える。テストを消したり弱めたりして通さない。
 5. **構成**: 実装は `packages/components/<name>/` にだけ置き、`packages/levis-ui` は再エクスポートのみ。共通ロジックは `packages/utils`。新しいトップレベルのディレクトリは作る前にユーザーに確認する。
+6. **Issue**: タイトルと本文は英語。`type:` ラベルを必ず 1 つ付け、`scope:` / `status:` / `size:` と Milestone（M0〜M5）を付ける。
 
 ## 人間向けの文書
 
