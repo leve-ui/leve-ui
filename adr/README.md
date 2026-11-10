@@ -51,3 +51,4 @@ Component-specific specs (which APG pattern a component follows, its parts, and 
 | [0019](0019-release-with-changesets-and-npm-trusted-publishing.md) | Release with Changesets and npm trusted publishing | Accepted |
 | [0020](0020-bootstrap-new-packages-and-keep-individual-packages.md) | Bootstrap new packages and keep individual packages | Accepted |
 | [0021](0021-write-contributor-facing-documents-in-english.md) | Write contributor-facing documents in English | Accepted |
+| [0022](0022-release-strategy-before-and-after-1-0.md) | Release strategy before and after 1.0 | Accepted |
