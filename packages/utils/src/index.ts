@@ -1,6 +1,17 @@
 export { type UseControllableStateOptions, useControllableState } from './controllable-state';
 export { dataAttr } from './data-attr';
 export { isBrowser } from './env';
+export {
+  type FieldContext,
+  type FieldControlState,
+  type FieldIds,
+  fieldContextId,
+  type UseFieldControlOptions,
+  type UseFieldProviderOptions,
+  useFieldContext,
+  useFieldControl,
+  useFieldProvider,
+} from './field';
 export { clamp, valueToPercent } from './range';
 export {
   getRovingIndex,
