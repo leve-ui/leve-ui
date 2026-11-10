@@ -54,7 +54,8 @@
     "@leve-ui/label": "workspace:*",
     "@leve-ui/meter": "workspace:*",
     "@leve-ui/progress": "workspace:*",
-    "@leve-ui/separator": "workspace:*"
+    "@leve-ui/separator": "workspace:*",
+    "@leve-ui/toggle": "workspace:*"
   },
   "peerDependencies": {
     "@builder.io/qwik": "^1.20.4"

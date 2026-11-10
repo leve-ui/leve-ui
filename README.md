@@ -70,6 +70,7 @@ Style each part however you like, for example with data attributes:
 | [`@leve-ui/meter`](./packages/components/meter) | Shows a scalar value within a known range, such as storage usage |
 | [`@leve-ui/alert`](./packages/components/alert) | Displays an important inline message without moving focus |
 | [`@leve-ui/breadcrumb`](./packages/components/breadcrumb) | Shows the current page's location within a hierarchy |
+| [`@leve-ui/toggle`](./packages/components/toggle) | A two-state button that can be toggled on or off |
 
 ## Contributing
 
