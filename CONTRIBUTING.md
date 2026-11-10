@@ -111,6 +111,7 @@ New components are grouped into milestones in dependency order, from **M0: Found
 - One part component per DOM element, exported as a namespace: `Avatar.Root`, `Avatar.Image`, ...
 - Never output styles or class names. Every part renders `data-leve-<name>-<part>` (the root renders `data-leve-<name>`) and state attributes such as `data-state`.
 - Pass all received props through to the element, and merge event handlers instead of overriding them: `onClick$={[internal$, props.onClick$]}`.
+- Stateful components support both controlled (`bind:open`) and uncontrolled (`defaultOpen`) usage, plus `onOpenChange$` ([ADR 0011](./adr/0011-controlled-uncontrolled-props-naming.md)). Implement this with `useControllableState` from `@leve-ui/utils`.
 - See [ADR 0009](./adr/0009-headless-parts-and-data-attributes.md) and [ADR 0010](./adr/0010-no-child-state-on-parent-attributes.md).
 
 ### Tests

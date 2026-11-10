@@ -57,6 +57,16 @@ export type { AvatarRootProps, AvatarImageProps } from './...';
   - 非制御: `default<State>`（例: `defaultOpen`）
   - 制御: `bind:<state>`（例: `bind:open`、`Signal<boolean>`）
   - 変更通知: `on<State>Change$`（例: `onOpenChange$`）
+  - 実装には `@leve-ui/utils` の `useControllableState` を使い、自前で同期処理を書かない。props の型は `'bind:open'?: Signal<boolean>` のように書く（`bind:` の値は `props['bind:open']` で受け取る）。
+
+```tsx
+const [open, setOpen$] = useControllableState({
+  value: props['bind:open'],
+  defaultValue: props.defaultOpen ?? false,
+  onChange$: props.onOpenChange$,
+});
+// 読む: open.value / 変える: setOpen$(!open.value)（onOpenChange$ はこの setter で変わったときだけ呼ばれる）
+```
 - 子要素は `<Slot />` で受け取る。
 
 ## Qwik 固有の注意
