@@ -8,65 +8,68 @@
 
 <p align="center">Headless, WAI-ARIA compliant UI components for Qwik. Bring your own styles.</p>
 
-Qwik 向けの Headless UI ライブラリ（pnpm workspace + Turborepo のモノレポ）。
+<p align="center">
+  <a href="https://github.com/levis-ui/levis-ui/actions/workflows/ci.yml"><img src="https://github.com/levis-ui/levis-ui/actions/workflows/ci.yml/badge.svg" alt="CI status"></a>
+  <a href="./LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="MIT License"></a>
+</p>
 
-## 構成
+## Features
 
-| パス                    | パッケージ名            | 公開 | 内容                                             |
-| ----------------------- | ----------------------- | ---- | ------------------------------------------------ |
-| `packages/levis-ui`     | `levis-ui`              | ✅   | 全部入り。`@levis-ui/*` を再エクスポートするだけ |
-| `packages/components/*` | `@levis-ui/<name>`      | ✅   | 個別コンポーネント（例: `@levis-ui/avatar`）     |
-| `packages/utils`        | `@levis-ui/utils`       | ✅   | コンポーネント間で共有する内部ユーティリティ     |
-| `apps/docs`             | `@levis-ui/docs`        | -    | ドキュメントサイト（Qwik City）                  |
-| `apps/storybook`        | `@levis-ui/storybook`   | -    | Storybook                                        |
-| `apps/e2e`              | `@levis-ui/e2e`         | -    | Playwright（Storybook に対して実行）             |
-| `tooling/tsconfig`      | `@levis-ui/tsconfig`    | -    | 共通 tsconfig                                    |
-| `tooling/vite-config`   | `@levis-ui/vite-config` | -    | ライブラリ用 Vite 設定・ソース解決設定           |
+- **Accessible** — Every component follows the [WAI-ARIA Authoring Practices Guide](https://www.w3.org/WAI/ARIA/apg/patterns/), including keyboard interaction and focus management.
+- **Unstyled** — Components ship no CSS. Each DOM element is a separate part you can style with classes or `data-*` attributes.
+- **Install only what you use** — Every component is its own package, so your project only gets the components you install.
+- **Built for Qwik** — Resumable, SSR-friendly, and written with `component$`.
 
-## コマンド
+## Installation
+
+Install individual components:
 
 ```sh
-pnpm install
-pnpm build        # 全パッケージをビルド（turbo）
-pnpm test         # ユニットテスト（vitest）
-pnpm typecheck    # 型チェック
-pnpm e2e          # E2E（初回は pnpm --filter @levis-ui/e2e exec playwright install chromium）
-pnpm storybook    # Storybook (http://localhost:6006)
-pnpm docs         # ドキュメントサイト
-pnpm check:fix    # Biome（lint + format + import 整理）
-pnpm changeset    # リリース用の変更記録
-pnpm component:new <name> <part,...>  # コンポーネントの雛形を生成
-pnpm adr:new "<English title>"        # ADR の雛形を生成
+pnpm add @levis-ui/avatar
 ```
 
-## Git フック
+Or install everything at once:
 
-`pnpm install` 時に [lefthook](https://lefthook.dev) が git フックを設置します。コミット時に、ステージしたファイルへの Biome（自動修正）と、commitlint によるメッセージ検証が実行されます。
+```sh
+pnpm add levis-ui
+```
 
-## CI とブランチ運用
+Both expose the same API. Individual packages keep components you don't use out of your dependencies entirely — handy when you combine levis-ui with another component library.
 
-- PR と `main` への push で GitHub Actions の CI が実行されます（コミットメッセージ・PR タイトル・Lint・型チェック・ユニットテスト・ビルド・E2E）。
-- `main` はブランチ保護されています。ブランチを切って PR を作り、CI が通ったら squash merge してください。
-- コミットメッセージと PR タイトルは英語で、Conventional Commits の形式で書きます。
+## Usage
 
-## リリース
+```tsx
+import { component$ } from '@builder.io/qwik';
+import { Avatar } from '@levis-ui/avatar';
 
-1. 公開パッケージを変更したら `pnpm changeset` で changeset（英語）を追加し、PR に含めます。
-2. PR が `main` にマージされると、Release ワークフローが `chore(release): version packages` PR を作成します。
-3. その PR をマージすると、npm への公開（Trusted Publishing / provenance 付き）と GitHub Release の作成が行われます。
+export default component$(() => (
+  <Avatar.Root class="avatar">
+    <Avatar.Image src="/me.png" alt="Jane Doe" />
+    <Avatar.Fallback>JD</Avatar.Fallback>
+  </Avatar.Root>
+));
+```
 
-新しいパッケージは、初回だけ手元から公開して npm の Trusted Publisher を設定する必要があります（`.agents/skills/create-component/SKILL.md` の「6. 初回公開」）。
+Style each part however you like, for example with data attributes:
 
-## 開発時のソース解決
+```css
+.avatar [data-levis-avatar-fallback] { /* ... */ }
+.avatar [data-levis-avatar-image][data-state='loaded'] { /* ... */ }
+```
 
-各ライブラリの `exports` には `@levis-ui/source` 条件で `src/index.ts` を指定しています。
-docs / storybook はこの条件で解決するため、ライブラリをビルドしなくても変更が即座に反映されます。
-npm 利用者側ではこの条件は使われず、`lib/` のビルド成果物が読み込まれます。
+## Packages
 
-## 新しいコンポーネントの追加
+| Package | Description |
+| --- | --- |
+| [`levis-ui`](./packages/levis-ui) | All components in one package |
+| [`@levis-ui/avatar`](./packages/components/avatar) | An image element with a fallback for representing the user |
 
-手順は `.agents/rules/project-structure.md` を参照してください。設計・テスト・コミットのルールも `.agents/rules/` にまとめています（AI エージェント向けの入口は `AGENTS.md`）。
+## Contributing
 
-## 設計判断
+Contributions are welcome! Please read [CONTRIBUTING.md](./CONTRIBUTING.md) to get started.
 
-ライブラリ全体に関わる設計判断は [`adr/`](adr/README.md) に ADR として記録しています。
+Design decisions are recorded in [`adr/`](./adr/README.md).
+
+## License
+
+[MIT](./LICENSE)

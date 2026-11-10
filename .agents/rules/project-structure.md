@@ -35,6 +35,10 @@ levis-ui/
 ├── .github/
 │   ├── assets/                    # README 用の画像（logo-dark.svg: 明るい背景用 / logo-light.svg: 暗い背景用）
 │   ├── actions/setup/             # CI 共通のセットアップ（pnpm / Node / install）
+│   ├── scripts/                   # リリース用スクリプト（package:bootstrap / package:check-npm）
+│   ├── ISSUE_TEMPLATE/            # Issue テンプレート（英語）
+│   ├── pull_request_template.md   # PR テンプレート（英語）
+│   ├── CODEOWNERS
 │   └── workflows/
 │       ├── ci.yml                 # PR と main への push で実行する CI
 │       └── release.yml            # リリース PR の作成と npm への公開（Changesets）
@@ -44,6 +48,8 @@ levis-ui/
 ├── .claude/rules -> ../.agents/rules
 ├── .claude/skills -> ../.agents/skills
 ├── AGENTS.md                      # AI エージェント向けの入口（正本）
+├── CONTRIBUTING.md                # 人間の Contributor 向けガイド（英語）
+├── README.md                      # ライブラリ利用者向け（英語）
 ├── CLAUDE.md -> AGENTS.md
 ├── biome.json
 ├── .node-version                  # Node.js のバージョン（CI もこれを使う）
@@ -61,6 +67,12 @@ levis-ui/
 - ストーリーは `apps/storybook/stories/`、E2E は `apps/e2e/tests/` に置く。パッケージ内には置かない。
 - ディレクトリ名・ファイル名は kebab-case。パッケージ名は `@levis-ui/<ディレクトリ名>` にする。
 - 上記にないトップレベルのディレクトリやワークスペースを新設する場合は、作業前にユーザーに確認する。
+
+## 文書の言語
+
+- 英語で書く: `README.md`、`CONTRIBUTING.md`、`.github/` のテンプレート、ADR、コミットメッセージ、PR タイトル、changeset（`adr/0021`）。
+- 日本語でよい: `AGENTS.md`、`.agents/rules/`、`.agents/skills/`、PR の本文、レビューコメント。
+- 規約を変えたときは、`.agents/rules/` と `CONTRIBUTING.md` の両方を更新する。
 
 ## 新しいコンポーネントの追加
 

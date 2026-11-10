@@ -65,7 +65,7 @@ docs(adr): add 0018 and accept 0011
 `main` はブランチ保護されており、直接 push できない（`adr/0018`）。
 
 - 作業は `main` から切ったブランチで行う。ブランチ名は `<type>/<short-description>`（例: `feat/dialog`、`fix/avatar-ssr-state`）。
-- PR を作り、CI（Commit messages / Lint / Typecheck / Unit test / Build / E2E）がすべて通ってからマージする。
+- PR を作り、CI（Commit messages / Lint / Typecheck / Unit test / Build / E2E / Publish readiness）がすべて通ってからマージする。PR の本文は `.github/pull_request_template.md` に沿って書く。
 - マージは squash merge のみ。**PR のタイトルがそのまま `main` のコミットメッセージになる**ため、PR タイトルも commitlint の形式（英語）で書く。CI で検証される。
 - PR の説明文は日本語でもよい。
 
@@ -80,7 +80,9 @@ npm への公開は GitHub Actions が行う（`.github/workflows/release.yml`�
 
 ### 新しいパッケージの初回公開
 
-npm の Trusted Publishing は、npm 上に存在するパッケージにしか設定できない。新しいパッケージ（`create-component` で作ったものなど）は、`main` にマージした後、**ユーザーが** 手元から 1 回だけ公開し、npm で Trusted Publisher を設定する。手順は `create-component` スキルの「6. 初回公開」を参照。AI エージェントはこの公開を代行せず、ユーザーに依頼する。
+npm の Trusted Publishing は、npm 上に存在するパッケージにしか設定できない（`adr/0020`）。新しいパッケージは、`main` にマージした後、**リリース PR をマージする前に**、**ユーザーが** `pnpm package:bootstrap @levis-ui/<name>` を実行する。AI エージェントはこのコマンドや公開を代行せず、ユーザーに依頼する。
+
+リリース PR では「Publish readiness」チェックが、npm に存在しない公開パッケージがないかを確認する。失敗している場合はユーザーに bootstrap を依頼する。
 
 ## コミット時に自動で行われること（lefthook）
 

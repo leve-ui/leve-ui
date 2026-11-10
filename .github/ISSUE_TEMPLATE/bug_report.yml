@@ -1,0 +1,44 @@
+name: Bug report
+description: Report something that doesn't work as expected
+labels: [bug]
+body:
+  - type: input
+    id: package
+    attributes:
+      label: Package and version
+      placeholder: "@levis-ui/avatar@0.1.0"
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: What happened?
+      description: Describe the bug and what you expected to happen instead.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to reproduce
+      description: A minimal code example or a link to a reproduction repository.
+      render: tsx
+    validations:
+      required: true
+  - type: dropdown
+    id: accessibility
+    attributes:
+      label: Is this an accessibility issue?
+      options:
+        - "No"
+        - "Yes — keyboard interaction"
+        - "Yes — screen reader"
+        - "Yes — other"
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Qwik version, browser, and assistive technology if relevant.
+      placeholder: |
+        - @builder.io/qwik: 1.20.4
+        - Browser: Chrome 150
+        - Screen reader: VoiceOver

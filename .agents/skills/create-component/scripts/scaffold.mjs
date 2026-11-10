@@ -329,6 +329,24 @@ const sbPkg = readJson(sbPkgPath);
 sbPkg.devDependencies = sortObject({ ...sbPkg.devDependencies, [pkgName]: 'workspace:*' });
 writeJson(sbPkgPath, sbPkg);
 
+// README の Packages 表に行を追加する
+const readmePath = join(ROOT, 'README.md');
+const readme = readFileSync(readmePath, 'utf8');
+if (!readme.includes(`[\`${pkgName}\`]`)) {
+  const lines = readme.split('\n');
+  const header = lines.findIndex((l) => l.startsWith('| Package |'));
+  if (header !== -1) {
+    let last = header + 1;
+    while (lines[last + 1]?.startsWith('|')) last++;
+    lines.splice(
+      last + 1,
+      0,
+      `| [\`${pkgName}\`](./packages/components/${name}) | TODO: one-line description |`,
+    );
+    writeFileSync(readmePath, lines.join('\n'));
+  }
+}
+
 console.log(`✔ ${pkgName} を生成しました\n`);
 console.log('作成したファイル:');
 for (const f of created) console.log(`  + ${f}`);
@@ -336,4 +354,5 @@ console.log('\n更新したファイル:');
 console.log('  ~ packages/levis-ui/package.json');
 console.log('  ~ packages/levis-ui/src/index.ts');
 console.log('  ~ apps/storybook/package.json');
+console.log('  ~ README.md（Packages 表。説明文の TODO を書き換えること）');
 console.log('\n次に実行してください: pnpm install && pnpm check:fix');

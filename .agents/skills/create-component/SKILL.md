@@ -28,12 +28,13 @@ pnpm install
   - `package.json` に `license: "MIT"`・`repository`・`homepage`・`bugs` を設定し、ルートの `LICENSE` をコピーする
   - `apps/storybook/stories/<name>.stories.tsx` と `apps/e2e/tests/<name>.spec.ts` を生成する
   - `packages/levis-ui` の `dependencies` と `src/index.ts`、`apps/storybook` の `devDependencies` に登録する
+  - `README.md` の Packages 表に行を追加する（説明文は `TODO` になっているので、英語の 1 行説明に書き換える）
 
 ## 3. 実装する
 
 `.agents/rules/accessibility.md` と `.agents/rules/component-architecture.md` に従う。見本は `packages/components/avatar`。
 
-- 雛形の `TODO` をすべて解消する。要素は仮で `div` になっているので、APG に合わせて変える（`button`、`h2` など）。
+- 雛形の `TODO`（README の Packages 表を含む）をすべて解消する。要素は仮で `div` になっているので、APG に合わせて変える（`button`、`h2` など）。
 - `<name>-context.ts` に共有する状態を定義し、Root で `useContextProvider` する。
 - 必須の `role` / `aria-*` / `data-state` は `{...props}` の後に書く。イベントは `[internal$, props.onXxx$]` で合成する。
 - パーツ間の ID 関連付けは `useId()`。2 つ以上のコンポーネントで使うロジックは `packages/utils` に置く。
@@ -60,23 +61,14 @@ pnpm changeset   # minor で @levis-ui/<name> と levis-ui を選び、要約は
 
 ## 6. 初回公開（ユーザーが行う）
 
-npm の Trusted Publishing は npm 上に存在するパッケージにしか設定できないため、新しいパッケージは最初の 1 回だけ手元から公開する（`adr/0019`）。**AI エージェントは実行せず、PR のマージ後にユーザーへ以下の手順を伝える。**
+npm の Trusted Publishing は npm 上に存在するパッケージにしか設定できないため、新しいパッケージは最初の 1 回だけ手元から公開する（`adr/0020`）。**AI エージェントは実行せず、PR のマージ後にユーザーへ以下を伝える。**
 
-1. PR を `main` にマージし、`main` を手元に取り込む。
-2. npm にログインする: `npm login`
-3. プレースホルダーとして `0.0.0` を公開する。
+```sh
+git switch main && git pull
+npm login
+pnpm package:bootstrap @levis-ui/<name>   # --dry-run で実行内容を確認できる
+```
 
-   ```sh
-   pnpm --filter @levis-ui/<name> build
-   pnpm --filter @levis-ui/<name> publish --access public --no-git-checks
-   ```
-
-4. npmjs.com で `@levis-ui/<name>` の Settings → Trusted Publisher に以下を登録する。
-   - Publisher: GitHub Actions
-   - Organization or user: `levis-ui` / Repository: `levis-ui`
-   - Workflow filename: `release.yml`（パスではなくファイル名のみ）
-   - Environment: なし
-   - 直接公開（`npm publish`）を許可する
-5. 同じ Settings の Publishing access で「Require two-factor authentication and disallow tokens」を選ぶ。
-
-以降のバージョンは、リリース PR のマージで自動的に公開される。
+- ビルド → `0.0.0` の公開 → Trusted Publisher（`release.yml`）の登録 → 2FA 必須化、までをまとめて行う。
+- **リリース PR をマージする前に** 実行する必要がある。未実行の場合、リリース PR の「Publish readiness」チェックが失敗して知らせる。
+- 以降のバージョンは、リリース PR のマージで自動的に公開される。

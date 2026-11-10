@@ -33,7 +33,9 @@
     "version-packages": "changeset version",
     "release": "turbo run build --filter=./packages/** && changeset publish",
     "component:new": "node .agents/skills/create-component/scripts/scaffold.mjs",
-    "adr:new": "node .agents/skills/write-adr/scripts/new-adr.mjs"
+    "adr:new": "node .agents/skills/write-adr/scripts/new-adr.mjs",
+    "package:bootstrap": "node .github/scripts/bootstrap-package.mjs",
+    "package:check-npm": "node .github/scripts/check-npm-packages.mjs"
   },
   "devDependencies": {
     "@biomejs/biome": "2.6.6",

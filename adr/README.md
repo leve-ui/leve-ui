@@ -49,3 +49,5 @@ Component-specific specs (which APG pattern a component follows, its parts, and 
 | [0017](0017-write-commit-messages-in-english.md) | Write commit messages in English | Accepted |
 | [0018](0018-run-ci-on-pull-requests-and-protect-main-with-rulesets.md) | Run CI on pull requests and protect main with rulesets | Accepted |
 | [0019](0019-release-with-changesets-and-npm-trusted-publishing.md) | Release with Changesets and npm trusted publishing | Accepted |
+| [0020](0020-bootstrap-new-packages-and-keep-individual-packages.md) | Bootstrap new packages and keep individual packages | Accepted |
+| [0021](0021-write-contributor-facing-documents-in-english.md) | Write contributor-facing documents in English | Accepted |

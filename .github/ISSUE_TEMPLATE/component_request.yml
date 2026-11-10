@@ -1,0 +1,29 @@
+name: Component request
+description: Propose a new component
+labels: [component-request]
+body:
+  - type: input
+    id: name
+    attributes:
+      label: Component name
+      placeholder: Dialog
+    validations:
+      required: true
+  - type: input
+    id: apg
+    attributes:
+      label: WAI-ARIA APG pattern
+      description: Link to the matching pattern, if any.
+      placeholder: https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/
+  - type: textarea
+    id: parts
+    attributes:
+      label: Proposed parts
+      description: The parts (one per DOM element) you'd expect, e.g. Root, Trigger, Content, Close.
+  - type: textarea
+    id: motivation
+    attributes:
+      label: Motivation
+      description: What do you need it for? Are there similar components in other libraries?
+    validations:
+      required: true
