@@ -19,6 +19,7 @@ description: UI コンポーネントを WAI-ARIA / APG に準拠させるため
 - **パーツ間の ID 関連付けには `useId()` を使う。** SSR とクライアントで一致させるため。利用者が `id` を渡した場合はそちらを優先する。
 - **APG が定めるキーボード操作をすべて実装する。** Enter / Space / Escape / 矢印キー / Home / End / Tab など。
 - **フォーカスを管理する。** 開いたときの初期フォーカス、閉じたときのトリガーへの復帰、モーダルのフォーカストラップ、ロービングタブインデックス（`tabIndex` の 0 / -1 切り替え）を必要に応じて実装する。
+- **ロービングタブインデックスは `@leve-ui/utils` の `moveRovingFocus` を使う。** 項目の `tabIndex` は、アクティブな 1 つだけ `0`、残りを `-1` で SSR 出力し、`keydown` で `moveRovingFocus(event, items, { orientation, loop })` を呼ぶ。矢印キーのスクロールを確実に止めるには `sync$` / `preventdefault:keydown` を併用する（Qwik のハンドラは非同期のため）。
 - **無効状態の扱い。** ネイティブ要素なら `disabled`、それ以外は `aria-disabled="true"` を使う。フォーカスを残すかどうかは APG に従う。
 - **状態は data 属性でも出す。** スタイル用に `data-state`、`data-disabled` など（`component-architecture.md` を参照）。ただし ARIA 属性の代わりにはしない。
 - **アクセシブルネームを確保する。** ラベルが必要なパーツは、`aria-label` / `aria-labelledby` を受け取れるようにするか、Label パーツと関連付ける。
