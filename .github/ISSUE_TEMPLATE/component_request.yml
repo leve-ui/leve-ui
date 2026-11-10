@@ -1,6 +1,6 @@
 name: Component request
 description: Propose a new component
-labels: [component-request]
+labels: ["type: component", "status: needs triage"]
 body:
   - type: input
     id: name
