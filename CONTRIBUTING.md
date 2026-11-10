@@ -105,6 +105,7 @@ New components are grouped into milestones in dependency order, from **M0: Found
 - Prefer native elements (`<button>`, `<a>`) over adding roles to `<div>`.
 - Required `role` and `aria-*` attributes are set by the library, after `{...props}`, so they can't be overridden by accident.
 - Link parts with IDs from `useId()`.
+- For roving `tabIndex` (one tabbable item, arrow keys move focus), render `tabIndex={0}` on the active item and `-1` on the rest, and call `moveRovingFocus` from `@leve-ui/utils` on `keydown`.
 
 ### Headless Parts
 
