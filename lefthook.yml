@@ -1,0 +1,15 @@
+# Git フックの設定（https://lefthook.dev）
+# `pnpm install` 時に `prepare` スクリプトで自動的に設置されます。
+
+pre-commit:
+  commands:
+    biome:
+      # ステージされたファイルだけを Biome でチェックし、自動修正した結果を再ステージする
+      glob: "*.{js,mjs,cjs,ts,mts,cts,jsx,tsx,json,jsonc,css}"
+      run: pnpm exec biome check --write --no-errors-on-unmatched --files-ignore-unknown=true {staged_files}
+      stage_fixed: true
+
+commit-msg:
+  commands:
+    commitlint:
+      run: pnpm exec commitlint --edit {1}

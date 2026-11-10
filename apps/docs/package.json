@@ -1,0 +1,27 @@
+{
+  "name": "@levis-ui/docs",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --mode ssr",
+    "build": "qwik build",
+    "build.client": "vite build",
+    "build.preview": "vite build --ssr src/entry.preview.tsx",
+    "build.types": "tsc --noEmit",
+    "typecheck": "tsc --noEmit",
+    "preview": "qwik build preview && vite preview",
+    "qwik": "qwik"
+  },
+  "devDependencies": {
+    "@builder.io/qwik": "1.20.4",
+    "@builder.io/qwik-city": "1.20.4",
+    "@levis-ui/tsconfig": "workspace:*",
+    "@levis-ui/vite-config": "workspace:*",
+    "@types/node": "^24.19.2",
+    "levis-ui": "workspace:*",
+    "typescript": "~5.9.3",
+    "undici": "*",
+    "vite": "^7.3.8",
+    "vite-tsconfig-paths": "^6.1.1"
+  }
+}

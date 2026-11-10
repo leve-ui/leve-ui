@@ -1,0 +1,15 @@
+packages:
+  - "apps/*"
+  - "packages/levis-ui"
+  - "packages/components/*"
+  - "packages/utils"
+  - "tooling/*"
+
+onlyBuiltDependencies:
+  - esbuild
+
+ignoredBuiltDependencies:
+  - lefthook
+  - sharp
+
+autoInstallPeers: true

@@ -1,0 +1,16 @@
+{
+  "name": "@levis-ui/vite-config",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "default": "./index.js"
+    }
+  },
+  "peerDependencies": {
+    "@builder.io/qwik": "^1.20.4",
+    "vite": "^7.0.0"
+  }
+}

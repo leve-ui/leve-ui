@@ -1,0 +1,4 @@
+{
+  "extends": "@levis-ui/tsconfig/app.json",
+  "include": ["stories", ".storybook", "*.config.ts"]
+}

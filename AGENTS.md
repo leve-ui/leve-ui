@@ -1,0 +1,81 @@
+# levis-ui
+
+Qwik 向けの Headless UI ライブラリ。pnpm workspace + Turborepo のモノレポ。
+
+- フレームワーク: Qwik 1.x（`@builder.io/qwik`）/ Vite 7 / TypeScript 5.9
+- Lint・Format: Biome（ESLint / Prettier は使わない）
+- テスト: Vitest（`@builder.io/qwik/testing` の `createDOM`）/ Playwright（Storybook に対して実行）
+- リリース: Changesets
+
+## コマンド
+
+```sh
+pnpm build        # 全パッケージビルド
+pnpm test         # ユニットテスト
+pnpm typecheck    # 型チェック
+pnpm e2e          # E2E（Storybook を 6106 番ポートで自動起動）
+pnpm check:fix    # Biome（lint + format + import 整理）
+pnpm storybook    # Storybook (6006)
+pnpm docs         # ドキュメントサイト
+pnpm changeset    # 変更記録
+```
+
+特定パッケージだけ実行する場合は `pnpm --filter @levis-ui/avatar test` のように指定する。
+
+## ルール
+
+以下は必ず守ること。作業を始める前に、関係するルールファイルを読むこと。
+
+| #   | ルール                                                             | ファイル                                                                             |
+| --- | ------------------------------------------------------------------ | ------------------------------------------------------------------------------------ |
+| 1   | UI コンポーネントは WAI-ARIA に準拠する                            | [`.agents/rules/accessibility.md`](.agents/rules/accessibility.md)                   |
+| 2   | スタイルを後から当てられるよう、パーツごとにコンポーネントを分ける | [`.agents/rules/component-architecture.md`](.agents/rules/component-architecture.md) |
+| 3   | Git コミットは commitlint（Conventional Commits）に従う            | [`.agents/rules/git-commit.md`](.agents/rules/git-commit.md)                         |
+| 4   | コンポーネントには必ずテストを書く                                 | [`.agents/rules/testing.md`](.agents/rules/testing.md)                               |
+| 5   | プロジェクトのディレクトリ構成に従う                               | [`.agents/rules/project-structure.md`](.agents/rules/project-structure.md)           |
+
+### 要点
+
+1. **WAI-ARIA**: 実装前に [APG](https://www.w3.org/WAI/ARIA/apg/patterns/) の該当パターンを確認する。ネイティブ要素を優先し、必須の `role` / `aria-*` はライブラリ側で `{...props}` の後に出力する。ID の関連付けは `useId()`。キーボード操作とフォーカス管理をすべて実装する。
+2. **パーツ分割**: DOM 要素 1 つ = パーツ 1 つ = 1 ファイル（`<name>-<part>.tsx`）。`export * as Avatar from './avatar'` の namespace 形式で公開する。`class` / `style` は出力せず、全パーツに `data-levis-<name>-<part>` と `data-state` を付ける。props はすべて要素に渡し、イベントは配列で合成する。
+3. **コミット**: `<type>(<scope>): <subject>`。scope は `commitlint.config.ts` がディレクトリ名から生成する。コミット時に lefthook が commitlint と Biome を自動実行する。`--no-verify` で回避しない。コミットはユーザーに頼まれたときだけ行う。
+4. **テスト**: ユニットテスト（`src/<name>.test.tsx`）・ストーリー（`apps/storybook/stories/`）・E2E（`apps/e2e/tests/`）の 3 つを必ず揃える。テストを消したり弱めたりして通さない。
+5. **構成**: 実装は `packages/components/<name>/` にだけ置き、`packages/levis-ui` は再エクスポートのみ。共通ロジックは `packages/utils`。新しいトップレベルのディレクトリは作る前にユーザーに確認する。
+
+## スキル（作業手順）
+
+手順の決まっている作業は、`.agents/skills/` のスキルに従う。
+
+| スキル                                                         | 使う場面                                                 |
+| -------------------------------------------------------------- | -------------------------------------------------------- |
+| [`create-component`](.agents/skills/create-component/SKILL.md) | 新しいコンポーネントを追加する（雛形生成スクリプトあり） |
+| [`write-tests`](.agents/skills/write-tests/SKILL.md)           | ユニットテスト・ストーリー・E2E を書く                   |
+| [`write-adr`](.agents/skills/write-adr/SKILL.md)               | ADR を書く・覆す（採番スクリプトあり）                   |
+
+スキルを自動で読み込まないエージェントは、該当する作業の前に `SKILL.md` を読むこと。
+
+## 設計判断（ADR）
+
+ライブラリ全体の設計判断は [`adr/`](adr/README.md) に記録している。**ADR は英語で書く。**
+
+- 既存の方針（パッケージ構成、ビルド、公開 API の形、ツール選定など）を変える前に、`adr/README.md` の一覧から関係する ADR を読む。
+- 一見不自然な実装（例: Avatar の Root に `data-state` がない、Storybook の CSR モード）は、ADR に理由が書かれていることが多い。ADR で決まっていることを、理由を確認せずに「改善」しない。
+- ADR の決定を覆す場合や、新しくライブラリ全体に関わる判断をした場合は、`adr/template.md` から新しい ADR を `Proposed` で作り、ユーザーに確認する。Accepted の ADR の本文は書き換えない。
+
+## 作業完了の条件
+
+コードを変更したら、完了を報告する前に以下を通すこと。
+
+1. `pnpm check:fix`
+2. `pnpm typecheck`
+3. `pnpm test`
+4. コンポーネントの振る舞いを変えた場合は `pnpm e2e`
+
+## このファイルについて
+
+- `AGENTS.md` が正本。`CLAUDE.md` は `AGENTS.md` へのシンボリックリンク。
+- 守るべき制約は `.agents/rules/`、作業手順は `.agents/skills/` に置く（`adr/0014`）。
+  - Antigravity は `.agents/` を直接読む。Claude Code は `.claude/rules` と `.claude/skills`（それぞれ `.agents/` へのシンボリックリンク）を読む。
+  - `.agents/rules/*.md` には `trigger` と `description` の frontmatter が必須（ないと Antigravity に無視される）。サブディレクトリは作らない。
+  - `SKILL.md` には `name` と `description` の frontmatter を付ける。
+- 編集するのは `AGENTS.md` と `.agents/` だけにする。シンボリックリンク側を実ファイルで置き換えない。

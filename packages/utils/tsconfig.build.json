@@ -1,0 +1,9 @@
+{
+  "extends": "@levis-ui/tsconfig/library.json",
+  "compilerOptions": {
+    "rootDir": "src",
+    "declarationDir": "lib-types"
+  },
+  "include": ["src"],
+  "exclude": ["src/**/*.test.ts", "src/**/*.test.tsx"]
+}

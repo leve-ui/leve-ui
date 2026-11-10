@@ -1,0 +1,9 @@
+{
+  "$schema": "https://json.schemastore.org/web-manifest-combined.json",
+  "name": "levis-ui",
+  "short_name": "levis-ui",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#fff",
+  "description": "Headless UI components for Qwik"
+}

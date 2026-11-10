@@ -1,0 +1,49 @@
+{
+  "name": "levis-ui-monorepo",
+  "description": "Headless, WAI-ARIA compliant UI components for Qwik. Bring your own styles.",
+  "homepage": "https://github.com/levis-ui/levis-ui#readme",
+  "bugs": {
+    "url": "https://github.com/levis-ui/levis-ui/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/levis-ui/levis-ui.git"
+  },
+  "license": "MIT",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@10.8.0",
+  "engines": {
+    "node": ">=20.19.0"
+  },
+  "scripts": {
+    "prepare": "lefthook install",
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "test": "turbo run test",
+    "typecheck": "turbo run typecheck",
+    "e2e": "turbo run e2e",
+    "storybook": "pnpm --filter @levis-ui/storybook dev",
+    "docs": "pnpm --filter @levis-ui/docs dev",
+    "lint": "biome lint .",
+    "format": "biome format --write .",
+    "check": "biome check .",
+    "check:fix": "biome check --write .",
+    "changeset": "changeset",
+    "version-packages": "changeset version",
+    "release": "turbo run build --filter=./packages/** && changeset publish",
+    "component:new": "node .agents/skills/create-component/scripts/scaffold.mjs",
+    "adr:new": "node .agents/skills/write-adr/scripts/new-adr.mjs"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.6.6",
+    "@changesets/cli": "^3.0.3",
+    "@commitlint/cli": "^21.2.4",
+    "@commitlint/config-conventional": "^21.2.4",
+    "@commitlint/types": "^21.2.3",
+    "@types/node": "^24.19.2",
+    "lefthook": "^2.2.2",
+    "turbo": "^2.11.10",
+    "typescript": "~5.9.3"
+  }
+}
