@@ -18,6 +18,7 @@
     "@leve-ui/meter": "workspace:*",
     "@leve-ui/progress": "workspace:*",
     "@leve-ui/separator": "workspace:*",
+    "@leve-ui/switch": "workspace:*",
     "@leve-ui/toggle": "workspace:*",
     "@leve-ui/tsconfig": "workspace:*",
     "@leve-ui/vite-config": "workspace:*",

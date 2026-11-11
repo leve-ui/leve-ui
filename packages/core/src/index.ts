@@ -11,4 +11,5 @@ export * from '@leve-ui/label';
 export * from '@leve-ui/meter';
 export * from '@leve-ui/progress';
 export * from '@leve-ui/separator';
+export * from '@leve-ui/switch';
 export * from '@leve-ui/toggle';
