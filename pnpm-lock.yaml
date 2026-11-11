@@ -47,6 +47,9 @@ importers:
       '@builder.io/qwik-city':
         specifier: 1.20.4
         version: 1.20.4(@types/node@24.19.2)(jiti@2.7.0)(rollup@4.68.2)(typescript@5.9.3)
+      '@leve-ui/core':
+        specifier: workspace:*
+        version: link:../../packages/core
       '@leve-ui/tsconfig':
         specifier: workspace:*
         version: link:../../tooling/tsconfig
@@ -56,9 +59,6 @@ importers:
       '@types/node':
         specifier: ^24.19.2
         version: 24.19.2
-      leve-ui:
-        specifier: workspace:*
-        version: link:../../packages/leve-ui
       typescript:
         specifier: ~5.9.3
         version: 5.9.3
@@ -372,7 +372,7 @@ importers:
         specifier: ^5.1.0
         version: 5.1.0(@types/node@24.19.2)(vite@7.3.8(@types/node@24.19.2)(jiti@2.7.0)(yaml@2.9.1))
 
-  packages/leve-ui:
+  packages/core:
     dependencies:
       '@leve-ui/alert':
         specifier: workspace:*

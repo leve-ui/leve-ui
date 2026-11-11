@@ -16,7 +16,7 @@ leve-ui/
 │   └── e2e/                       # @leve-ui/e2e        Playwright
 │       └── tests/<name>.spec.ts
 ├── packages/                      # npm に公開するパッケージ
-│   ├── leve-ui/                  # leve-ui             全部入り（再エクスポートのみ）
+│   ├── core/                      # @leve-ui/core       全部入り（再エクスポートのみ）
 │   ├── components/
 │   │   └── <name>/                # @leve-ui/<name>     個別コンポーネント
 │   │       └── src/
@@ -64,7 +64,7 @@ leve-ui/
 
 ## 配置のルール
 
-- コンポーネントの実装は `packages/components/<name>/` にだけ置く。`packages/leve-ui` には実装を書かず、再エクスポートだけを行う。
+- コンポーネントの実装は `packages/components/<name>/` にだけ置く。`packages/core`（`@leve-ui/core`）には実装を書かず、再エクスポートだけを行う。
 - 2 つ以上のコンポーネントで使うロジック（ID 生成、フォーカス管理、キーボード操作、制御/非制御の状態管理など）は `packages/utils` に置く。コンポーネントパッケージ同士で直接依存させない（循環依存の防止）。
 - ストーリーは `apps/storybook/stories/`、E2E は `apps/e2e/tests/` に置く。パッケージ内には置かない。
 - ディレクトリ名・ファイル名は kebab-case。パッケージ名は `@leve-ui/<ディレクトリ名>` にする。

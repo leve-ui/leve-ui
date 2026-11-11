@@ -1,6 +1,6 @@
 # 0003. Ship an all-in-one package and individual packages
 
-- Status: Accepted
+- Status: Superseded by [0025](0025-rename-the-all-in-one-package-to-leve-ui-core.md)
 - Date: 2026-11-10
 - Related: [0002](0002-monorepo-structure.md)
 

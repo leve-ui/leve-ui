@@ -1,6 +1,6 @@
 ---
 "@leve-ui/toggle": minor
-"leve-ui": minor
+"@leve-ui/core": minor
 ---
 
 Add Toggle component.

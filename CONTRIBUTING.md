@@ -20,7 +20,7 @@ pnpm --filter @leve-ui/e2e exec playwright install chromium   # for E2E tests
 
 | Path | Package | Published | Description |
 | --- | --- | --- | --- |
-| `packages/leve-ui` | `leve-ui` | Yes | All-in-one package; only re-exports `@leve-ui/*` |
+| `packages/core` | `@leve-ui/core` | Yes | All-in-one package; only re-exports `@leve-ui/*` |
 | `packages/components/*` | `@leve-ui/<name>` | Yes | One package per component |
 | `packages/utils` | `@leve-ui/utils` | Yes | Internal utilities shared by components |
 | `apps/docs` | `@leve-ui/docs` | No | Documentation site (Qwik City) |
@@ -74,7 +74,7 @@ Commit messages and pull request titles must be in English and follow Convention
 ```
 
 - **type**: `feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `build`, `ci`, `chore`, `revert`
-- **scope** (optional): a directory name such as `avatar`, `utils`, `leve-ui`, `docs`, `storybook`, `e2e`, or `repo` (see [`commitlint.config.ts`](./commitlint.config.ts))
+- **scope** (optional): a directory name such as `avatar`, `utils`, `core`, `docs`, `storybook`, `e2e`, or `repo` (see [`commitlint.config.ts`](./commitlint.config.ts))
 - **subject**: imperative mood, starts with a lowercase letter, no trailing period
 
 ```
@@ -143,7 +143,7 @@ pnpm component:new dialog trigger,overlay,content,title,description,close
 pnpm install
 ```
 
-The scaffold creates the package, a story, an E2E test, and registers the package in `leve-ui` and Storybook. Then implement it following the guidelines above and fill in its row in the README's package table.
+The scaffold creates the package, a story, an E2E test, and registers the package in `@leve-ui/core` and Storybook. Then implement it following the guidelines above and fill in its row in the README's package table.
 
 You don't need to publish anything. After your pull request is merged, a maintainer publishes the new package to npm (see [For Maintainers](#for-maintainers)).
 

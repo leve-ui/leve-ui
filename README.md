@@ -31,7 +31,7 @@ pnpm add @leve-ui/avatar
 Or install everything at once:
 
 ```sh
-pnpm add leve-ui
+pnpm add @leve-ui/core
 ```
 
 Both expose the same API. Individual packages keep components you don't use out of your dependencies entirely — handy when you combine leve-ui with another component library.
@@ -61,7 +61,7 @@ Style each part however you like, for example with data attributes:
 
 | Package | Description |
 | --- | --- |
-| [`leve-ui`](./packages/leve-ui) | All components in one package |
+| [`@leve-ui/core`](./packages/core) | All components in one package |
 | [`@leve-ui/avatar`](./packages/components/avatar) | An image element with a fallback for representing the user |
 | [`@leve-ui/separator`](./packages/components/separator) | Visually or semantically separates content |
 | [`@leve-ui/label`](./packages/components/label) | Accessible label for a custom control |

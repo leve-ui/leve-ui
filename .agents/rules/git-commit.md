@@ -44,7 +44,7 @@ description: 英語・Conventional Commits のコミットメッセージ、ブ�
 scope は必須ではないが、付ける場合は以下のいずれかにする（`commitlint.config.ts` がディレクトリから自動生成する）。
 
 - コンポーネント: `packages/components/` 配下のディレクトリ名（例: `avatar`）
-- パッケージ: `leve-ui`、`utils`
+- パッケージ: `core`（`@leve-ui/core`）、`utils`
 - アプリ: `docs`、`storybook`、`e2e`
 - tooling: `tsconfig`、`vite-config`
 - その他: `repo`（ルート設定）、`deps`（依存関係）、`release`（リリース）、`ai`（AGENTS.md・`.agents/`・`.claude/`）、`adr`（`adr/`）

@@ -1,6 +1,6 @@
 ---
 "@leve-ui/meter": minor
-"leve-ui": minor
+"@leve-ui/core": minor
 ---
 
 Add the Meter component.

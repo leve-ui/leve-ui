@@ -1,6 +1,6 @@
 import { component$ } from '@builder.io/qwik';
 import type { DocumentHead } from '@builder.io/qwik-city';
-import { Avatar } from 'leve-ui';
+import { Avatar } from '@leve-ui/core';
 
 export default component$(() => {
   return (
