@@ -30,3 +30,6 @@ coverage
 !.vscode/settings.json
 .idea
 .DS_Store
+
+# Panda
+styled-system

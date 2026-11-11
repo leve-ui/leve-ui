@@ -3,8 +3,9 @@
   "compilerOptions": {
     "lib": ["ES2022", "DOM", "DOM.Iterable", "WebWorker"],
     "paths": {
-      "~/*": ["./src/*"]
+      "~/*": ["./src/*"],
+      "styled-system/*": ["./styled-system/*"]
     }
   },
-  "include": ["src", "./*.d.ts", "./*.config.ts"]
+  "include": ["src", "./*.d.ts", "./*.config.ts", "styled-system"]
 }
