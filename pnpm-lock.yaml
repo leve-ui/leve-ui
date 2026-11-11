@@ -104,6 +104,9 @@ importers:
       '@leve-ui/breadcrumb':
         specifier: workspace:*
         version: link:../../packages/components/breadcrumb
+      '@leve-ui/field':
+        specifier: workspace:*
+        version: link:../../packages/components/field
       '@leve-ui/fieldset':
         specifier: workspace:*
         version: link:../../packages/components/fieldset
@@ -198,6 +201,31 @@ importers:
         version: 5.1.0(@types/node@24.19.2)(vite@7.3.8(@types/node@24.19.2)(jiti@2.7.0)(yaml@2.9.1))
 
   packages/components/breadcrumb:
+    dependencies:
+      '@leve-ui/utils':
+        specifier: workspace:*
+        version: link:../../utils
+    devDependencies:
+      '@builder.io/qwik':
+        specifier: 1.20.4
+        version: 1.20.4(vite@7.3.8(@types/node@24.19.2)(jiti@2.7.0)(yaml@2.9.1))
+      '@leve-ui/tsconfig':
+        specifier: workspace:*
+        version: link:../../../tooling/tsconfig
+      '@leve-ui/vite-config':
+        specifier: workspace:*
+        version: link:../../../tooling/vite-config
+      typescript:
+        specifier: ~5.9.3
+        version: 5.9.3
+      vite:
+        specifier: ^7.3.8
+        version: 7.3.8(@types/node@24.19.2)(jiti@2.7.0)(yaml@2.9.1)
+      vitest:
+        specifier: ^5.1.0
+        version: 5.1.0(@types/node@24.19.2)(vite@7.3.8(@types/node@24.19.2)(jiti@2.7.0)(yaml@2.9.1))
+
+  packages/components/field:
     dependencies:
       '@leve-ui/utils':
         specifier: workspace:*
@@ -383,6 +411,9 @@ importers:
       '@leve-ui/breadcrumb':
         specifier: workspace:*
         version: link:../components/breadcrumb
+      '@leve-ui/field':
+        specifier: workspace:*
+        version: link:../components/field
       '@leve-ui/fieldset':
         specifier: workspace:*
         version: link:../components/fieldset

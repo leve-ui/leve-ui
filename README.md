@@ -71,6 +71,7 @@ Style each part however you like, for example with data attributes:
 | [`@leve-ui/alert`](./packages/components/alert) | Displays an important inline message without moving focus |
 | [`@leve-ui/breadcrumb`](./packages/components/breadcrumb) | Shows the current page's location within a hierarchy |
 | [`@leve-ui/toggle`](./packages/components/toggle) | A two-state button that can be toggled on or off |
+| [`@leve-ui/field`](./packages/components/field) | Label, description and error message wiring for form controls |
 
 ## Contributing
 
