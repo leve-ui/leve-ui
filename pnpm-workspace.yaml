@@ -1,6 +1,6 @@
 packages:
   - "apps/*"
-  - "packages/leve-ui"
+  - "packages/core"
   - "packages/components/*"
   - "packages/utils"
   - "tooling/*"

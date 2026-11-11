@@ -1,5 +1,5 @@
 {
-  "name": "leve-ui",
+  "name": "@leve-ui/core",
   "version": "0.0.0",
   "description": "Headless, WAI-ARIA compliant UI components for Qwik. Bring your own styles.",
   "keywords": [
@@ -19,7 +19,7 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/leve-ui/leve-ui.git",
-    "directory": "packages/leve-ui"
+    "directory": "packages/core"
   },
   "license": "MIT",
   "type": "module",

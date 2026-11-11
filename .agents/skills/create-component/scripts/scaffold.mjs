@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * 新しいコンポーネントパッケージの雛形を生成し、leve-ui / storybook に登録します。
+ * 新しいコンポーネントパッケージの雛形を生成し、@leve-ui/core / storybook に登録します。
  *
  * 使い方:
  *   node .agents/skills/create-component/scripts/scaffold.mjs <name> [part,part,...]
@@ -331,12 +331,12 @@ test.describe('${Name}', () => {
 );
 
 // ---------- 登録 ----------
-const levePkgPath = join(ROOT, 'packages/leve-ui/package.json');
+const levePkgPath = join(ROOT, 'packages/core/package.json');
 const levePkg = readJson(levePkgPath);
 levePkg.dependencies = sortObject({ ...levePkg.dependencies, [pkgName]: 'workspace:*' });
 writeJson(levePkgPath, levePkg);
 
-const leveIndexPath = join(ROOT, 'packages/leve-ui/src/index.ts');
+const leveIndexPath = join(ROOT, 'packages/core/src/index.ts');
 const leveIndex = readFileSync(leveIndexPath, 'utf8');
 const exportLine = `export * from '${pkgName}';`;
 if (!leveIndex.includes(exportLine)) {
@@ -373,8 +373,8 @@ console.log(`✔ ${pkgName} を生成しました\n`);
 console.log('作成したファイル:');
 for (const f of created) console.log(`  + ${f}`);
 console.log('\n更新したファイル:');
-console.log('  ~ packages/leve-ui/package.json');
-console.log('  ~ packages/leve-ui/src/index.ts');
+console.log('  ~ packages/core/package.json');
+console.log('  ~ packages/core/src/index.ts');
 console.log('  ~ apps/storybook/package.json');
 console.log('  ~ README.md（Packages 表。説明文の TODO を書き換えること）');
 console.log('\n次に実行してください: pnpm install && pnpm check:fix');
