@@ -32,7 +32,7 @@ Component-specific specs (which APG pattern a component follows, its parts, and 
 | ------------------------------------------------------- | ------------------------------------------------------------------------------ | -------- |
 | [0001](0001-record-architecture-decisions.md)           | Record architecture decisions with ADRs                                        | Accepted |
 | [0002](0002-monorepo-structure.md)                      | Use a pnpm workspace + Turborepo monorepo                                      | Accepted |
-| [0003](0003-all-in-one-and-individual-packages.md)      | Ship an all-in-one package and individual packages                             | Accepted |
+| [0003](0003-all-in-one-and-individual-packages.md)      | Ship an all-in-one package and individual packages                             | Superseded by [0025](0025-rename-the-all-in-one-package-to-leve-ui-core.md) |
 | [0004](0004-qwik-v1-and-toolchain-versions.md)          | Adopt Qwik 1.x and pin Vite 7 / TypeScript 5.9                                 | Accepted |
 | [0005](0005-source-condition-for-development.md)        | Resolve `src` directly via the `@leve-ui/source` condition during development | Accepted |
 | [0006](0006-biome-for-lint-and-format.md)               | Use Biome for linting and formatting                                           | Accepted |
@@ -54,3 +54,4 @@ Component-specific specs (which APG pattern a component follows, its parts, and 
 | [0022](0022-release-strategy-before-and-after-1-0.md) | Release strategy before and after 1.0 | Accepted |
 | [0023](0023-skip-publishing-until-all-packages-are-bootstrapped.md) | Skip publishing until all packages are bootstrapped | Accepted |
 | [0024](0024-wire-field-ids-and-descriptions-from-the-field-root.md) | Wire field ids and descriptions from the Field root | Accepted |
+| [0025](0025-rename-the-all-in-one-package-to-leve-ui-core.md) | Rename the all-in-one package to @leve-ui/core | Accepted |
