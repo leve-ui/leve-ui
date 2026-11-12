@@ -73,6 +73,7 @@ Style each part however you like, for example with data attributes:
 | [`@leve-ui/toggle`](./packages/components/toggle) | A two-state button that can be toggled on or off |
 | [`@leve-ui/field`](./packages/components/field) | Label, description and error message wiring for form controls |
 | [`@leve-ui/switch`](./packages/components/switch) | A control that toggles a setting on or off |
+| [`@leve-ui/collapsible`](./packages/components/collapsible) | An interactive component that can be expanded or collapsed |
 
 ## Contributing
 
