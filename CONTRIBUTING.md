@@ -138,6 +138,7 @@ Storybook generates a Docs page for every component, and its "Show code" panel s
 - Put the styles in the demo file: write the CSS in a `const styles` string at the top and call `useStyles$(styles)` inside the component. Style with `class`, and prefix class names with the component name (e.g. `.progress-track`), because the CSS applies to the whole page.
 - In the story, render the demo and pass the same file, imported with `?raw`, to `parameters.docs.source.code`, so the code shown always matches what runs.
 - Write comments in demo files, including CSS comments, in English.
+- Give demos the shared look so they fit both docs themes: accent `#009dfd`, surfaces `light-dark(#ffffff, #1b2045)`, borders `light-dark(#cbd5e1, #ffffff3d)`, text `light-dark(#0f172a, #ffffff)`, muted text `light-dark(#475569, #c9ddf0)`, radius `6px` (`4px` for small controls), focus `outline: 2px solid #009dfd; outline-offset: 2px`, disabled `opacity: 0.5`, and `font: inherit`. Write the values in each demo instead of sharing variables or files.
 - Don't write JSX directly in `render`, and don't hide parts, props, or styles behind helper components, shared constants, or shared stylesheets. They wouldn't show up in "Show code".
 
 ### Adding a Component

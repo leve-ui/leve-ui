@@ -58,6 +58,26 @@ export default component$(() => {
 - demo は利用者が読むので、**コメント（CSS のコメントを含む）は英語**で書く。
 - 同じコンポーネントの demo 同士で CSS が重複してもよい。demo 1 つを単体でコピーして動くことを優先する。
 
+## demo の見た目（`adr/0031`、#95）
+
+demo は docs サイトのライト／ダークの両テーマに置かれ、利用者がそのままコピーする。見た目を揃えるため、次の値だけを使う（デザインは `apps/docs/design/leve-ui-docs.pen` の「Demo style guide」）。
+
+| 用途 | 値 |
+| --- | --- |
+| アクセント（checked・選択中・フォーカス） | `#009dfd` |
+| 背景（コントロール・パネル） | `light-dark(#ffffff, #1b2045)` |
+| 枠線 | `light-dark(#cbd5e1, #ffffff3d)` |
+| 文字 | `light-dark(#0f172a, #ffffff)` |
+| 補足の文字 | `light-dark(#475569, #c9ddf0)` |
+| 角丸 | パネル・ボタンは `6px`、チェックボックスなどの小さいコントロールは `4px` |
+| フォーカス | `outline: 2px solid #009dfd; outline-offset: 2px;`（`:focus-visible`） |
+| 無効 | `opacity: 0.5; cursor: not-allowed;` |
+| 書体 | `font: inherit`（docs サイトの書体、または利用者の書体を使う） |
+
+- 色はテーマに合わせて `light-dark()` で切り替える。`color-scheme` は docs サイト側で設定するので、demo では設定しない。
+- 値は CSS 変数や共有ファイルにまとめず、demo ごとに書く（コピーして単体で動かすため）。
+- 状態は `[data-state="..."]` や `[data-disabled]` などの data 属性で当てる。
+
 ## ストーリーファイル
 
 ```tsx
