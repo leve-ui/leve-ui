@@ -122,6 +122,9 @@ importers:
       '@leve-ui/checkbox':
         specifier: workspace:*
         version: link:../../packages/components/checkbox
+      '@leve-ui/collapsible':
+        specifier: workspace:*
+        version: link:../../packages/components/collapsible
       '@leve-ui/field':
         specifier: workspace:*
         version: link:../../packages/components/field
@@ -137,12 +140,18 @@ importers:
       '@leve-ui/progress':
         specifier: workspace:*
         version: link:../../packages/components/progress
+      '@leve-ui/radio-group':
+        specifier: workspace:*
+        version: link:../../packages/components/radio-group
       '@leve-ui/separator':
         specifier: workspace:*
         version: link:../../packages/components/separator
       '@leve-ui/switch':
         specifier: workspace:*
         version: link:../../packages/components/switch
+      '@leve-ui/tabs':
+        specifier: workspace:*
+        version: link:../../packages/components/tabs
       '@leve-ui/toggle':
         specifier: workspace:*
         version: link:../../packages/components/toggle
@@ -246,7 +255,7 @@ importers:
         specifier: ^5.1.0
         version: 5.1.0(@types/node@24.19.2)(vite@7.3.8(@types/node@24.19.2)(jiti@2.7.0)(yaml@2.9.1))
 
-  packages/components/checkbox:
+  packages/components/collapsible:
     dependencies:
       '@leve-ui/utils':
         specifier: workspace:*
@@ -399,6 +408,31 @@ importers:
         specifier: ^5.1.0
         version: 5.1.0(@types/node@24.19.2)(vite@7.3.8(@types/node@24.19.2)(jiti@2.7.0)(yaml@2.9.1))
 
+  packages/components/radio-group:
+    dependencies:
+      '@leve-ui/utils':
+        specifier: workspace:*
+        version: link:../../utils
+    devDependencies:
+      '@builder.io/qwik':
+        specifier: 1.20.4
+        version: 1.20.4(vite@7.3.8(@types/node@24.19.2)(jiti@2.7.0)(yaml@2.9.1))
+      '@leve-ui/tsconfig':
+        specifier: workspace:*
+        version: link:../../../tooling/tsconfig
+      '@leve-ui/vite-config':
+        specifier: workspace:*
+        version: link:../../../tooling/vite-config
+      typescript:
+        specifier: ~5.9.3
+        version: 5.9.3
+      vite:
+        specifier: ^7.3.8
+        version: 7.3.8(@types/node@24.19.2)(jiti@2.7.0)(yaml@2.9.1)
+      vitest:
+        specifier: ^5.1.0
+        version: 5.1.0(@types/node@24.19.2)(vite@7.3.8(@types/node@24.19.2)(jiti@2.7.0)(yaml@2.9.1))
+
   packages/components/separator:
     dependencies:
       '@leve-ui/utils':
@@ -436,6 +470,31 @@ importers:
       '@leve-ui/field':
         specifier: workspace:*
         version: link:../field
+      '@leve-ui/tsconfig':
+        specifier: workspace:*
+        version: link:../../../tooling/tsconfig
+      '@leve-ui/vite-config':
+        specifier: workspace:*
+        version: link:../../../tooling/vite-config
+      typescript:
+        specifier: ~5.9.3
+        version: 5.9.3
+      vite:
+        specifier: ^7.3.8
+        version: 7.3.8(@types/node@24.19.2)(jiti@2.7.0)(yaml@2.9.1)
+      vitest:
+        specifier: ^5.1.0
+        version: 5.1.0(@types/node@24.19.2)(vite@7.3.8(@types/node@24.19.2)(jiti@2.7.0)(yaml@2.9.1))
+
+  packages/components/tabs:
+    dependencies:
+      '@leve-ui/utils':
+        specifier: workspace:*
+        version: link:../../utils
+    devDependencies:
+      '@builder.io/qwik':
+        specifier: 1.20.4
+        version: 1.20.4(vite@7.3.8(@types/node@24.19.2)(jiti@2.7.0)(yaml@2.9.1))
       '@leve-ui/tsconfig':
         specifier: workspace:*
         version: link:../../../tooling/tsconfig
@@ -491,6 +550,9 @@ importers:
       '@leve-ui/checkbox':
         specifier: workspace:*
         version: link:../components/checkbox
+      '@leve-ui/collapsible':
+        specifier: workspace:*
+        version: link:../components/collapsible
       '@leve-ui/field':
         specifier: workspace:*
         version: link:../components/field
@@ -506,12 +568,18 @@ importers:
       '@leve-ui/progress':
         specifier: workspace:*
         version: link:../components/progress
+      '@leve-ui/radio-group':
+        specifier: workspace:*
+        version: link:../components/radio-group
       '@leve-ui/separator':
         specifier: workspace:*
         version: link:../components/separator
       '@leve-ui/switch':
         specifier: workspace:*
         version: link:../components/switch
+      '@leve-ui/tabs':
+        specifier: workspace:*
+        version: link:../components/tabs
       '@leve-ui/toggle':
         specifier: workspace:*
         version: link:../components/toggle
