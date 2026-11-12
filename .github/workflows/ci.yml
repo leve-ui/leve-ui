@@ -54,7 +54,25 @@ jobs:
     steps:
       - uses: actions/checkout@v7
       - uses: ./.github/actions/setup
+      # typecheck and test depend on ^build (turbo.json), so all three jobs build the
+      # same packages. Persist the Turborepo local cache per job so unchanged tasks
+      # are replayed instead of rebuilt. Keys are per job to avoid save races.
+      - name: Restore Turborepo cache
+        uses: actions/cache/restore@v6
+        with:
+          path: .turbo/cache
+          key: turbo-${{ runner.os }}-${{ github.job }}-${{ github.sha }}
+          restore-keys: |
+            turbo-${{ runner.os }}-${{ github.job }}-
       - run: pnpm typecheck
+      # Restored caches keep growing; drop entries not rewritten for a week.
+      - name: Prune old Turborepo cache entries
+        run: find .turbo/cache -type f -mtime +7 -delete 2>/dev/null || true
+      - name: Save Turborepo cache
+        uses: actions/cache/save@v6
+        with:
+          path: .turbo/cache
+          key: turbo-${{ runner.os }}-${{ github.job }}-${{ github.sha }}
 
   test:
     name: Unit test
@@ -62,7 +80,25 @@ jobs:
     steps:
       - uses: actions/checkout@v7
       - uses: ./.github/actions/setup
+      # typecheck and test depend on ^build (turbo.json), so all three jobs build the
+      # same packages. Persist the Turborepo local cache per job so unchanged tasks
+      # are replayed instead of rebuilt. Keys are per job to avoid save races.
+      - name: Restore Turborepo cache
+        uses: actions/cache/restore@v6
+        with:
+          path: .turbo/cache
+          key: turbo-${{ runner.os }}-${{ github.job }}-${{ github.sha }}
+          restore-keys: |
+            turbo-${{ runner.os }}-${{ github.job }}-
       - run: pnpm test
+      # Restored caches keep growing; drop entries not rewritten for a week.
+      - name: Prune old Turborepo cache entries
+        run: find .turbo/cache -type f -mtime +7 -delete 2>/dev/null || true
+      - name: Save Turborepo cache
+        uses: actions/cache/save@v6
+        with:
+          path: .turbo/cache
+          key: turbo-${{ runner.os }}-${{ github.job }}-${{ github.sha }}
 
   build:
     name: Build
@@ -70,7 +106,25 @@ jobs:
     steps:
       - uses: actions/checkout@v7
       - uses: ./.github/actions/setup
+      # typecheck and test depend on ^build (turbo.json), so all three jobs build the
+      # same packages. Persist the Turborepo local cache per job so unchanged tasks
+      # are replayed instead of rebuilt. Keys are per job to avoid save races.
+      - name: Restore Turborepo cache
+        uses: actions/cache/restore@v6
+        with:
+          path: .turbo/cache
+          key: turbo-${{ runner.os }}-${{ github.job }}-${{ github.sha }}
+          restore-keys: |
+            turbo-${{ runner.os }}-${{ github.job }}-
       - run: pnpm build
+      # Restored caches keep growing; drop entries not rewritten for a week.
+      - name: Prune old Turborepo cache entries
+        run: find .turbo/cache -type f -mtime +7 -delete 2>/dev/null || true
+      - name: Save Turborepo cache
+        uses: actions/cache/save@v6
+        with:
+          path: .turbo/cache
+          key: turbo-${{ runner.os }}-${{ github.job }}-${{ github.sha }}
 
   publish-readiness:
     name: Publish readiness
