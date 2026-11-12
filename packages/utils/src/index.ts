@@ -35,3 +35,10 @@ export {
   type RovingOrientation,
 } from './roving-focus';
 export { withCssVars } from './style';
+export {
+  getTypeaheadIndex,
+  isTypeaheadKey,
+  moveTypeaheadFocus,
+  resetTypeahead,
+  type TypeaheadOptions,
+} from './typeahead';
