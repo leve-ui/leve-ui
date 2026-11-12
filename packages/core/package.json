@@ -47,6 +47,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@leve-ui/accordion": "workspace:*",
     "@leve-ui/alert": "workspace:*",
     "@leve-ui/avatar": "workspace:*",
     "@leve-ui/breadcrumb": "workspace:*",
