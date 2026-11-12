@@ -26,6 +26,13 @@ export {
   useFieldControl,
   useFieldProvider,
 } from './field';
+export {
+  createFocusScope,
+  type FocusScope,
+  type FocusScopeOptions,
+  type FocusTarget,
+  getTabbableElements,
+} from './focus-scope';
 export { clamp, valueToPercent } from './range';
 export {
   getRovingIndex,
