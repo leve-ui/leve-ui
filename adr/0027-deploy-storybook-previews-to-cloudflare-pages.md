@@ -1,6 +1,6 @@
 # 0027. Deploy Storybook previews to Cloudflare Pages
 
-- Status: Proposed
+- Status: Accepted
 - Date: 2026-11-12
 - Related: [0018](0018-run-ci-on-pull-requests-and-protect-main-with-rulesets.md), [0019](0019-release-with-changesets-and-npm-trusted-publishing.md)
 
