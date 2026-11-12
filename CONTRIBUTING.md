@@ -152,6 +152,14 @@ The scaffold creates the package, a story, an E2E test, and registers the packag
 
 You don't need to publish anything. After your pull request is merged, a maintainer publishes the new package to npm (see [For Maintainers](#for-maintainers)).
 
+## Docs Site
+
+The docs site (`apps/docs`) is the first user of leve-ui ([ADR 0032](./adr/0032-author-docs-in-mdx-and-generate-api-reference-from-prop-types.md)):
+
+- Build its UI with leve-ui components whenever one fits (for example `Tabs` for the Code / CSS tabs, `Collapsible` for the sidebar). Don't reimplement a component the library already provides.
+- Import only from the public packages (`@leve-ui/core` or `@leve-ui/<name>`), not from `@leve-ui/utils` or package internals.
+- If the site needs a component that doesn't exist yet, or an existing component is missing a feature or is awkward to use, report it in your pull request or open an issue. If you can't wait for it, keep a minimal temporary implementation based on native elements and mark it with `// TODO(leve-ui): replace with <Name> (#<issue>)`.
+
 ## Design Decisions
 
 Library-wide decisions are recorded as Architecture Decision Records in [`adr/`](./adr/README.md). Please read the related ADRs before proposing changes to existing conventions. If your change reverses or adds a library-wide decision, add a new ADR (in English) with `pnpm adr:new "<title>"`.

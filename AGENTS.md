@@ -35,6 +35,7 @@ pnpm changeset    # 変更記録
 | 5   | プロジェクトのディレクトリ構成に従う                               | [`.agents/rules/project-structure.md`](.agents/rules/project-structure.md)           |
 | 6   | issue にはラベルと Milestone を付ける                              | [`.agents/rules/issues.md`](.agents/rules/issues.md)                                 |
 | 7   | Storybook は Docs の「Show code」がそのまま使える形で書く          | [`.agents/rules/storybook.md`](.agents/rules/storybook.md)                           |
+| 8   | ドキュメントサイトは leve-ui で作り、足りないコンポーネントを報告する | [`.agents/rules/docs-site.md`](.agents/rules/docs-site.md)                           |
 
 ### 要点
 
@@ -45,6 +46,7 @@ pnpm changeset    # 変更記録
 5. **構成**: 実装は `packages/components/<name>/` にだけ置き、`packages/core`（`@leve-ui/core`）は再エクスポートのみ。共通ロジックは `packages/utils`。新しいトップレベルのディレクトリは作る前にユーザーに確認する。
 6. **Issue**: タイトルと本文は英語。`type:` と `qwik:`（`v1` / `v2`）のラベルを必ず 1 つずつ付け、`scope:` / `status:` / `size:` と Milestone（M0〜M5、v2 対応は「Qwik v2」）を付ける。対応を開始する際は `status: in progress` を付ける。
 7. **Storybook**: ストーリー 1 つにつき demo ファイル（`stories/demos/<name>/<story>.tsx`、`export default component$`）を作り、スタイルは demo の中の `useStyles$` で当てる。ストーリーは demo を描画し、同じファイルを `?raw` で `parameters.docs.source.code` に渡す。`render` に JSX を直接書かない。demo のコメントは英語。
+8. **ドキュメントサイト**: `apps/docs` の UI は、leve-ui で作れるものは必ず leve-ui（公開 API）で作る。足りないコンポーネントや既存コンポーネントの不具合・使いにくさに気づいたら、自前実装で済ませずにユーザーへ報告する。暫定実装はネイティブ要素で最小限にし、`// TODO(leve-ui): replace with <Name>` を付ける。
 
 ## 人間向けの文書
 
