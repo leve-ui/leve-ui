@@ -2,10 +2,11 @@ name: Storybook preview
 
 on:
   pull_request:
-    types: [opened, synchronize, reopened]
+    types: [opened, synchronize, reopened, closed]
   push:
     branches: [main]
 
+# A pull request close cancels any in-progress deployment for the same PR.
 concurrency:
   group: storybook-preview-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
@@ -22,7 +23,8 @@ jobs:
     name: Deploy Storybook
     # Skip pull requests from forks because repository secrets are unavailable
     # to them and pull_request_target must not be used (see adr/0027).
-    if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name == github.repository
+    # Also skip when a pull request is closed (handled by the cleanup job).
+    if: github.event.action != 'closed' && (github.event_name == 'push' || github.event.pull_request.head.repo.full_name == github.repository)
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -109,3 +111,81 @@ jobs:
               echo "| Branch alias (latest) | $ALIAS_URL |"
             fi
           } >> "$GITHUB_STEP_SUMMARY"
+
+  cleanup:
+    name: Delete Storybook previews
+    # Delete preview deployments when a PR is closed so deployments do not
+    # accumulate indefinitely in Cloudflare Pages (see adr/0027).
+    # Skip pull requests from forks as no preview deployments were created for them.
+    if: github.event.action == 'closed' && github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+      - name: Delete preview deployments for the branch
+        id: cleanup
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          PROJECT_NAME: leve-ui-storybook
+          BRANCH: ${{ github.head_ref }}
+        run: |
+          set -euo pipefail
+
+          BASE="https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/pages/projects/$PROJECT_NAME/deployments"
+          AUTH_HEADER="Authorization: Bearer $CLOUDFLARE_API_TOKEN"
+
+          page=1
+          ids_file=$(mktemp)
+          trap 'rm -f "$ids_file"' EXIT
+
+          while :; do
+            response=$(curl -fsS -H "$AUTH_HEADER" "$BASE?env=preview&page=$page&per_page=25")
+            count=$(echo "$response" | jq '.result | length')
+            if [ "$count" -eq 0 ]; then
+              break
+            fi
+
+            echo "$response" | jq -r --arg branch "$BRANCH" '.result[] | select(.deployment_trigger.metadata.branch == $branch) | .id' >> "$ids_file"
+            page=$((page + 1))
+          done
+
+          deleted=0
+          while IFS= read -r id; do
+            if [ -n "$id" ]; then
+              curl -fsS -X DELETE -H "$AUTH_HEADER" "$BASE/$id?force=true" > /dev/null
+              deleted=$((deleted + 1))
+            fi
+          done < "$ids_file"
+
+          echo "Deleted $deleted preview deployment(s) for branch $BRANCH."
+          echo "deleted=$deleted" >> "$GITHUB_OUTPUT"
+      - name: Update pull request comment
+        uses: actions/github-script@v8
+        env:
+          DELETED: ${{ steps.cleanup.outputs.deleted }}
+        with:
+          script: |
+            const marker = '<!-- storybook-preview -->';
+            const deleted = process.env.DELETED || '0';
+
+            const comments = await github.paginate(github.rest.issues.listComments, {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              per_page: 100,
+            });
+
+            const existing = comments.find((comment) =>
+              comment.body && comment.body.includes(marker)
+            );
+
+            if (existing) {
+              const body = `${marker}\n### Storybook preview\n\nDeleted the preview deployments for this pull request (${deleted} deployments) because it was closed.`;
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: existing.id,
+                body,
+              });
+            }

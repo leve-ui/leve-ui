@@ -26,6 +26,7 @@ Constraints:
 - We will add `.github/workflows/storybook-preview.yml`, which builds Storybook with the shared setup action and deploys `apps/storybook/storybook-static` to the Cloudflare Pages project `leve-ui-storybook` with `cloudflare/wrangler-action`.
   - On `pull_request`: deploy as a preview for the PR branch and create or update a single comment on the PR with the deployment URL and the branch alias URL.
   - On `push` to `main`: deploy as the production deployment (`main` is the production branch of the Pages project).
+  - When a pull request is closed (merged or not): delete all preview deployments of its branch through the Cloudflare API, and update the PR comment to say so.
 - The workflow uses the repository secrets `CLOUDFLARE_API_TOKEN` (scope: Account → Cloudflare Pages → Edit) and `CLOUDFLARE_ACCOUNT_ID`.
 - We will skip the deployment for pull requests from forks and will not use `pull_request_target`.
 - The preview workflow is not a required check; a failed preview must not block merging.
@@ -39,7 +40,7 @@ Constraints:
 
 - Maintainers must create the Pages project once and register the two secrets. AI agents must not create tokens or change Cloudflare settings.
 - Fork PRs get no preview; maintainers can push the branch to the repository if a preview is needed.
-- Preview deployments accumulate in the Pages project. Cloudflare keeps them; clean up manually if needed.
+- Preview URLs stop working once the pull request is closed. Reopening the pull request deploys a new preview.
 - Attaching a custom domain later only requires Cloudflare settings, not workflow changes.
 
 ## Revisit When
