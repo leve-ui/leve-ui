@@ -1,6 +1,6 @@
 {
   "name": "@leve-ui/progress",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Headless, WAI-ARIA compliant Progress component for Qwik. Bring your own styles.",
   "homepage": "https://github.com/leve-ui/leve-ui#readme",
   "bugs": {
