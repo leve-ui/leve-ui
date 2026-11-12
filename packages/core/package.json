@@ -57,6 +57,7 @@
     "@leve-ui/progress": "workspace:*",
     "@leve-ui/separator": "workspace:*",
     "@leve-ui/switch": "workspace:*",
+    "@leve-ui/tabs": "workspace:*",
     "@leve-ui/toggle": "workspace:*"
   },
   "peerDependencies": {
