@@ -1,3 +1,10 @@
+export {
+  type AnnounceOptions,
+  type AnnouncePoliteness,
+  announce,
+  clearAnnouncer,
+  destroyAnnouncer,
+} from './announcer';
 export { type UseControllableStateOptions, useControllableState } from './controllable-state';
 export { dataAttr } from './data-attr';
 export { isBrowser } from './env';
