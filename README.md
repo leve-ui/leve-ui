@@ -78,6 +78,7 @@ Style each part however you like, for example with data attributes:
 | [`@leve-ui/radio-group`](./packages/components/radio-group) | A set of checkable buttons where only one item can be checked at a time |
 | [`@leve-ui/tabs`](./packages/components/tabs) | A set of layered sections of content that display one panel at a time |
 | [`@leve-ui/accordion`](./packages/components/accordion) | A vertically stacked set of headings that each reveal a section of content |
+| [`@leve-ui/toggle-group`](./packages/components/toggle-group) | A set of two-state buttons that can be toggled on or off, with single or multiple selection |
 
 ## Contributing
 

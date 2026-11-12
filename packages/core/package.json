@@ -62,7 +62,8 @@
     "@leve-ui/separator": "workspace:*",
     "@leve-ui/switch": "workspace:*",
     "@leve-ui/tabs": "workspace:*",
-    "@leve-ui/toggle": "workspace:*"
+    "@leve-ui/toggle": "workspace:*",
+    "@leve-ui/toggle-group": "workspace:*"
   },
   "peerDependencies": {
     "@builder.io/qwik": "^1.20.4"

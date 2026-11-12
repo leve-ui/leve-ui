@@ -18,3 +18,4 @@ export * from '@leve-ui/separator';
 export * from '@leve-ui/switch';
 export * from '@leve-ui/tabs';
 export * from '@leve-ui/toggle';
+export * from '@leve-ui/toggle-group';
