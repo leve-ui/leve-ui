@@ -47,6 +47,16 @@ issue は GitHub で管理する。issue のタイトルと本文は **英語** 
 - `size: M`: 状態やキーボード操作がある（例: Tabs、Dialog）
 - `size: L`: 状態やキーボード操作の仕組みが複雑（例: Combobox、Date Picker）
 
+### `qwik:`（対象の Qwik のバージョン。必ず 1 つ付ける）
+
+| ラベル     | 用途                                                                   |
+| ---------- | ---------------------------------------------------------------------- |
+| `qwik: v1` | Qwik v1（`@builder.io/qwik`）向けの issue。現在の開発はすべてこちら   |
+| `qwik: v2` | Qwik v2（`@qwik.dev/core`）への対応や、v2 向けにだけ必要な issue       |
+
+- 迷ったら `qwik: v1` を付ける（v2 への対応が始まるまでは、v2 に関する issue 以外はすべて v1）。
+- `qwik: v2` の issue は Milestone「Qwik v2」に入れる。
+
 ### その他
 
 `breaking change`、`good first issue`、`help wanted`、`question`、`duplicate`、`invalid`、`wontfix`
@@ -63,6 +73,7 @@ issue は GitHub で管理する。issue のタイトルと本文は **英語** 
 | M3: Inputs       | 入力系のコンポーネント                                       |
 | M4: Collections  | Listbox・Select・Combobox など、一覧から選ぶコンポーネント   |
 | M5: Advanced     | Date Picker・Tour など大きなもの                             |
+| Qwik v2          | Qwik v2 への対応（`qwik: v2` の issue。M0〜M5 とは別に進める） |
 
 ## issue に着手するときのルール
 

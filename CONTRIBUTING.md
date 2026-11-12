@@ -95,8 +95,9 @@ Please write issues in English. Maintainers triage them with prefixed labels:
 - **`scope:`**: the affected package or app, matching the commit scope (e.g. `scope: dialog`, `scope: utils`)
 - **`status:`**: `needs triage`, `needs design`, `needs adr`, `blocked`, `ready`, `in progress`
 - **`size:`**: `S`, `M`, `L`
+- **`qwik:`** (exactly one): `v1` for Qwik v1 (`@builder.io/qwik`, all current work), `v2` for Qwik v2 (`@qwik.dev/core`) support
 
-New components are grouped into milestones in dependency order, from **M0: Foundation** (shared logic in `@leve-ui/utils` and library-wide ADRs) to **M5: Advanced**. Issues labeled `status: ready` are good places to start.
+New components are grouped into milestones in dependency order, from **M0: Foundation** (shared logic in `@leve-ui/utils` and library-wide ADRs) to **M5: Advanced**. Work on Qwik v2 support is tracked separately in the **Qwik v2** milestone. Issues labeled `status: ready` are good places to start.
 
 When working on an issue, you must add the `status: in progress` label (replacing `status: ready`) to indicate that work is underway and prevent duplicate work.
 
