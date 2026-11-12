@@ -39,6 +39,7 @@ issue は GitHub で管理する。issue のタイトルと本文は **英語** 
 | `status: needs adr`    | ADR が Accepted になるまで着手できない             |
 | `status: blocked`      | 他の issue を待っている（本文に `Blocked by #N`）  |
 | `status: ready`        | 着手できる                                         |
+| `status: in progress`  | 着手中（対応を開始する際に必ず付ける）             |
 
 ### `size:`（規模の目安）
 
@@ -62,6 +63,12 @@ issue は GitHub で管理する。issue のタイトルと本文は **英語** 
 | M3: Inputs       | 入力系のコンポーネント                                       |
 | M4: Collections  | Listbox・Select・Combobox など、一覧から選ぶコンポーネント   |
 | M5: Advanced     | Date Picker・Tour など大きなもの                             |
+
+## issue に着手するときのルール
+
+- **issue の対応を開始する際は、必ず `status: in progress` ラベルを付ける（義務）。**
+  - `status: ready` など既存のステータスラベルが付いている場合は、`status: in progress` に付け替える。
+  - 重複作業の防止と進行状況の可視化のため、作業開始前のラベル更新を必須とする。
 
 ## コンポーネントの issue に書くこと
 
