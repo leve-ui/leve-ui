@@ -47,11 +47,12 @@ pnpm component:new <name> <part,...>   # scaffold a new component package
 ## Workflow
 
 1. **Open an issue first** for new components or larger changes, so we can agree on the design before you start.
-2. **Fork** the repository and create a branch named `<type>/<short-description>` (e.g. `feat/dialog`, `fix/avatar-ssr-state`).
-3. **Make your change** following the guidelines below.
-4. **Add a changeset** if you changed a published package (`packages/**`): run `pnpm changeset`, choose the packages and bump types, and write the summary in English. It goes into the changelog. **Until 1.0, never choose `major`** — see [Choosing a Bump Type](#choosing-a-bump-type).
-5. **Commit** with an English [Conventional Commits](https://www.conventionalcommits.org/) message (see below).
-6. **Open a pull request** against `main`. Fill in the template.
+2. **Claim the issue**: When starting work on an issue, add the `status: in progress` label (replacing `status: ready`) to let others know it is actively being worked on and prevent duplicate work.
+3. **Fork** the repository and create a branch named `<type>/<short-description>` (e.g. `feat/dialog`, `fix/avatar-ssr-state`).
+4. **Make your change** following the guidelines below.
+5. **Add a changeset** if you changed a published package (`packages/**`): run `pnpm changeset`, choose the packages and bump types, and write the summary in English. It goes into the changelog. **Until 1.0, never choose `major`** — see [Choosing a Bump Type](#choosing-a-bump-type).
+6. **Commit** with an English [Conventional Commits](https://www.conventionalcommits.org/) message (see below).
+7. **Open a pull request** against `main`. Fill in the template.
 
 CI runs on every pull request: commit messages and PR title, lint, type checks, unit tests, build, and E2E. For first-time contributors, a maintainer has to approve the workflow run first. Pull requests are merged with **squash merge** once CI passes and a maintainer has reviewed them.
 
@@ -92,10 +93,12 @@ Please write issues in English. Maintainers triage them with prefixed labels:
 
 - **`type:`** (exactly one): `component`, `feature`, `bug`, `a11y`, `foundation`, `adr`, `docs`, `tooling`
 - **`scope:`**: the affected package or app, matching the commit scope (e.g. `scope: dialog`, `scope: utils`)
-- **`status:`**: `needs triage`, `needs design`, `needs adr`, `blocked`, `ready`
+- **`status:`**: `needs triage`, `needs design`, `needs adr`, `blocked`, `ready`, `in progress`
 - **`size:`**: `S`, `M`, `L`
 
 New components are grouped into milestones in dependency order, from **M0: Foundation** (shared logic in `@leve-ui/utils` and library-wide ADRs) to **M5: Advanced**. Issues labeled `status: ready` are good places to start.
+
+When working on an issue, you must add the `status: in progress` label (replacing `status: ready`) to indicate that work is underway and prevent duplicate work.
 
 ## Component Guidelines
 

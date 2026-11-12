@@ -9,6 +9,7 @@
   },
   "devDependencies": {
     "@builder.io/qwik": "1.20.4",
+    "@leve-ui/accordion": "workspace:*",
     "@leve-ui/alert": "workspace:*",
     "@leve-ui/avatar": "workspace:*",
     "@leve-ui/breadcrumb": "workspace:*",
@@ -24,6 +25,7 @@
     "@leve-ui/switch": "workspace:*",
     "@leve-ui/tabs": "workspace:*",
     "@leve-ui/toggle": "workspace:*",
+    "@leve-ui/toggle-group": "workspace:*",
     "@leve-ui/tsconfig": "workspace:*",
     "@leve-ui/vite-config": "workspace:*",
     "@storybook/addon-docs": "^10.6.6",
