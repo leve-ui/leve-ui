@@ -5,7 +5,7 @@ pre-commit:
   commands:
     biome:
       # ステージされたファイルだけを Biome でチェックし、自動修正した結果を再ステージする
-      glob: "*.{js,mjs,cjs,ts,mts,cts,jsx,tsx,json,jsonc,css}"
+      glob: "*.{js,mjs,cjs,ts,mts,cts,jsx,tsx,json,jsonc,css,yml,yaml}"
       run: pnpm exec biome check --write --no-errors-on-unmatched --files-ignore-unknown=true {staged_files}
       stage_fixed: true
 
