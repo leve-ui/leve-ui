@@ -7,6 +7,13 @@ export {
 } from './announcer';
 export { type UseControllableStateOptions, useControllableState } from './controllable-state';
 export { dataAttr } from './data-attr';
+export {
+  createDismissableLayer,
+  type DismissableLayer,
+  type DismissableLayerEvent,
+  type DismissableLayerOptions,
+  type DismissReason,
+} from './dismissable-layer';
 export { isBrowser } from './env';
 export {
   type FieldContext,
