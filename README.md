@@ -74,6 +74,8 @@ Style each part however you like, for example with data attributes:
 | [`@leve-ui/field`](./packages/components/field) | Label, description and error message wiring for form controls |
 | [`@leve-ui/switch`](./packages/components/switch) | A control that toggles a setting on or off |
 | [`@leve-ui/collapsible`](./packages/components/collapsible) | An interactive component that can be expanded or collapsed |
+| [`@leve-ui/radio-group`](./packages/components/radio-group) | A set of checkable buttons where only one item can be checked at a time |
+| [`@leve-ui/tabs`](./packages/components/tabs) | A set of layered sections of content that display one panel at a time |
 
 ## Contributing
 

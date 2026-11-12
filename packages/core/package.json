@@ -56,8 +56,10 @@
     "@leve-ui/label": "workspace:*",
     "@leve-ui/meter": "workspace:*",
     "@leve-ui/progress": "workspace:*",
+    "@leve-ui/radio-group": "workspace:*",
     "@leve-ui/separator": "workspace:*",
     "@leve-ui/switch": "workspace:*",
+    "@leve-ui/tabs": "workspace:*",
     "@leve-ui/toggle": "workspace:*"
   },
   "peerDependencies": {
