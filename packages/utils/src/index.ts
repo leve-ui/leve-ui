@@ -41,6 +41,7 @@ export {
   type RovingFocusOptions,
   type RovingOrientation,
 } from './roving-focus';
+export { getScrollLockCount, lockScroll } from './scroll-lock';
 export { withCssVars } from './style';
 export {
   getTypeaheadIndex,
