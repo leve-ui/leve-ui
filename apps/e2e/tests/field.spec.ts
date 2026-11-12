@@ -63,7 +63,7 @@ test.describe('Field', () => {
   });
 
   test('disabled のときは Tab で Input を飛ばす', async ({ page }) => {
-    await gotoStory(page, 'components-field--disabled');
+    await gotoStory(page, 'components-field--disabled', { focusGuards: true });
 
     await page.getByRole('button', { name: 'Before' }).focus();
     await page.keyboard.press('Tab');
