@@ -8,27 +8,27 @@ on:
     # Pull requests that never touched these paths never created a preview, so skipping
     # the cleanup on close for them is fine.
     paths:
-      - 'packages/**'
-      - 'apps/storybook/**'
-      - 'tooling/**'
-      - 'package.json'
-      - 'pnpm-lock.yaml'
-      - 'pnpm-workspace.yaml'
-      - '.node-version'
-      - '.github/actions/setup/**'
-      - '.github/workflows/storybook-preview.yml'
+      - "packages/**"
+      - "apps/storybook/**"
+      - "tooling/**"
+      - "package.json"
+      - "pnpm-lock.yaml"
+      - "pnpm-workspace.yaml"
+      - ".node-version"
+      - ".github/actions/setup/**"
+      - ".github/workflows/storybook-preview.yml"
   push:
     branches: [main]
     paths:
-      - 'packages/**'
-      - 'apps/storybook/**'
-      - 'tooling/**'
-      - 'package.json'
-      - 'pnpm-lock.yaml'
-      - 'pnpm-workspace.yaml'
-      - '.node-version'
-      - '.github/actions/setup/**'
-      - '.github/workflows/storybook-preview.yml'
+      - "packages/**"
+      - "apps/storybook/**"
+      - "tooling/**"
+      - "package.json"
+      - "pnpm-lock.yaml"
+      - "pnpm-workspace.yaml"
+      - ".node-version"
+      - ".github/actions/setup/**"
+      - ".github/workflows/storybook-preview.yml"
 
 # A pull request close cancels any in-progress deployment for the same PR.
 concurrency:
