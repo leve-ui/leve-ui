@@ -1,6 +1,6 @@
 # 0030. Position floating content with Floating UI
 
-- Status: Proposed
+- Status: Accepted
 - Date: 2026-11-12
 - Related: [0009](0009-headless-parts-and-data-attributes.md), [0029](0029-render-overlays-in-place-in-the-top-layer-with-native-dialog-and-popover.md)
 
@@ -57,7 +57,10 @@ We will position floating content with **Floating UI** (`@floating-ui/dom`), wra
   trigger width in consumer CSS.
 - Inline positioning styles are merged after the consumer's `style`, and each component comments
   why they are inline.
-- `@floating-ui/dom` is a `dependency` of `@leve-ui/utils` only.
+- `@floating-ui/dom` is a `dependency` of `@leve-ui/utils` only. The positioning logic (props to
+  middleware, `autoUpdate` while open, final `data-side` / `data-align`, arrow offset, CSS
+  variables) is shared by every floating component, so it belongs in `@leve-ui/utils` like other
+  shared logic. We will not create a separate positioning package.
 
 ## Rationale
 
@@ -72,7 +75,13 @@ We will position floating content with **Floating UI** (`@floating-ui/dom`), wra
 
 ## Consequences
 
-- `@leve-ui/utils` gains a runtime dependency on `@floating-ui/dom`.
+- `@leve-ui/utils` gains a runtime dependency on `@floating-ui/dom` (with `@floating-ui/core` and
+  `@floating-ui/utils`, about 460 KB unpacked, no other dependencies). Every component package
+  depends on `@leve-ui/utils`, so it is **installed** for all consumers, including those who only
+  use components without floating content.
+- It must not reach their **bundles**: `@leve-ui/utils` keeps its per-module build and
+  `"sideEffects": false`, and the positioning code lives in its own module that only floating
+  components import.
 - Each floating component needs a client task (`useVisibleTask$` or a task guarded by
   `isServer`) while open; it must be commented.
 - The position may lag one frame behind fast scrolling, as with any JavaScript positioning.
