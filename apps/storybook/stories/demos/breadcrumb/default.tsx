@@ -1,46 +1,33 @@
 import { component$, useStyles$ } from '@builder.io/qwik';
 import { Breadcrumb } from '@leve-ui/breadcrumb';
-
-const styles = `
-  .breadcrumb-list {
-    display: flex;
-    gap: 8px;
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-
-  .breadcrumb-link[data-current] {
-    font-weight: 600;
-    text-decoration: none;
-    color: inherit;
-  }
-
-  .breadcrumb-separator {
-    color: #9ca3af;
-  }
-`;
+import { LuChevronRight } from '@qwikest/icons/lucide';
+import styles from './default.css?inline';
 
 export default component$(() => {
   useStyles$(styles);
 
   return (
-    <Breadcrumb.Root>
-      <Breadcrumb.List class="breadcrumb-list">
+    <Breadcrumb.Root class="breadcrumb-default">
+      <Breadcrumb.List class="breadcrumb-default-list">
         <Breadcrumb.Item>
-          <Breadcrumb.Link href="#home" class="breadcrumb-link">
+          <Breadcrumb.Link href="#home" class="breadcrumb-default-link">
             Home
           </Breadcrumb.Link>
         </Breadcrumb.Item>
-        <Breadcrumb.Separator class="breadcrumb-separator">/</Breadcrumb.Separator>
+        {/* The library hides the separator from assistive technology */}
+        <Breadcrumb.Separator class="breadcrumb-default-separator">
+          <LuChevronRight class="breadcrumb-default-separator-icon" aria-hidden="true" />
+        </Breadcrumb.Separator>
         <Breadcrumb.Item>
-          <Breadcrumb.Link href="#components" class="breadcrumb-link">
+          <Breadcrumb.Link href="#components" class="breadcrumb-default-link">
             Components
           </Breadcrumb.Link>
         </Breadcrumb.Item>
-        <Breadcrumb.Separator class="breadcrumb-separator">/</Breadcrumb.Separator>
+        <Breadcrumb.Separator class="breadcrumb-default-separator">
+          <LuChevronRight class="breadcrumb-default-separator-icon" aria-hidden="true" />
+        </Breadcrumb.Separator>
         <Breadcrumb.Item>
-          <Breadcrumb.Link href="#breadcrumb" current class="breadcrumb-link">
+          <Breadcrumb.Link href="#breadcrumb" current class="breadcrumb-default-link">
             Breadcrumb
           </Breadcrumb.Link>
         </Breadcrumb.Item>

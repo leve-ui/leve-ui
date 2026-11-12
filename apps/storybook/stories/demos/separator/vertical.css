@@ -1,0 +1,15 @@
+.separator-vertical-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: inherit;
+  font-size: 13px;
+  color: light-dark(#0f172a, #ffffff);
+}
+
+.separator-vertical {
+  width: 1px;
+  height: 16px;
+  align-self: center;
+  background: light-dark(#e2e8f0, #ffffff1f);
+}

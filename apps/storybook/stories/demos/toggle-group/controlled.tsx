@@ -1,86 +1,41 @@
 import { component$, useSignal, useStyles$ } from '@builder.io/qwik';
 import { ToggleGroup } from '@leve-ui/toggle-group';
-
-const styles = `
-  .toggle-group {
-    display: inline-flex;
-    border-radius: 6px;
-    border: 1px solid #d1d5db;
-    background-color: #ffffff;
-    padding: 2px;
-    gap: 2px;
-  }
-
-  .toggle-group-item {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 6px 12px;
-    font-size: 14px;
-    font-weight: 500;
-    line-height: 1;
-    border-radius: 4px;
-    border: none;
-    background-color: transparent;
-    color: #374151;
-    cursor: pointer;
-    user-select: none;
-    transition: background-color 150ms ease, color 150ms ease;
-  }
-
-  .toggle-group-item:hover:not(:disabled) {
-    background-color: #f3f4f6;
-    color: #111827;
-  }
-
-  /* Pressed state */
-  .toggle-group-item[data-state="on"] {
-    background-color: #111827;
-    color: #ffffff;
-  }
-
-  .toggle-group-item[data-state="on"]:hover:not(:disabled) {
-    background-color: #1f2937;
-  }
-
-  /* Focus indicator */
-  .toggle-group-item:focus-visible {
-    outline: 2px solid #2563eb;
-    outline-offset: 2px;
-  }
-
-  /* Disabled state */
-  .toggle-group-item:disabled,
-  .toggle-group-item[data-disabled] {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
-
-  .toggle-group-output {
-    margin-top: 12px;
-    font-size: 14px;
-    color: #4b5563;
-  }
-`;
+import { LuAlignCenter, LuAlignLeft, LuAlignRight } from '@qwikest/icons/lucide';
+import styles from './controlled.css?inline';
 
 export default component$(() => {
   useStyles$(styles);
   const value = useSignal<string[]>(['left']);
 
   return (
-    <div>
-      <ToggleGroup.Root aria-label="Text alignment" bind:value={value} class="toggle-group">
-        <ToggleGroup.Item value="left" class="toggle-group-item" aria-label="Align left">
+    <div class="toggle-group-controlled-wrapper">
+      <ToggleGroup.Root
+        aria-label="Text alignment"
+        bind:value={value}
+        class="toggle-group-controlled"
+      >
+        <ToggleGroup.Item value="left" class="toggle-group-controlled-item" aria-label="Align left">
+          <LuAlignLeft class="toggle-group-controlled-icon" aria-hidden="true" />
           Left
         </ToggleGroup.Item>
-        <ToggleGroup.Item value="center" class="toggle-group-item" aria-label="Align center">
+        <ToggleGroup.Item
+          value="center"
+          class="toggle-group-controlled-item"
+          aria-label="Align center"
+        >
+          <LuAlignCenter class="toggle-group-controlled-icon" aria-hidden="true" />
           Center
         </ToggleGroup.Item>
-        <ToggleGroup.Item value="right" class="toggle-group-item" aria-label="Align right">
+        <ToggleGroup.Item
+          value="right"
+          class="toggle-group-controlled-item"
+          aria-label="Align right"
+        >
+          <LuAlignRight class="toggle-group-controlled-icon" aria-hidden="true" />
           Right
         </ToggleGroup.Item>
       </ToggleGroup.Root>
-      <p class="toggle-group-output">
+      <p class="toggle-group-controlled-output">
         Selected: {value.value.length > 0 ? value.value.join(', ') : 'none'}
       </p>
     </div>

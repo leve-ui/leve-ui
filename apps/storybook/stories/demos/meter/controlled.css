@@ -1,0 +1,77 @@
+.meter-controlled {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  row-gap: 8px;
+  align-items: center;
+  width: 240px;
+  font-family: inherit;
+}
+
+.meter-controlled-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: light-dark(#0f172a, #ffffff);
+}
+
+.meter-controlled-value {
+  font-size: 13px;
+  color: light-dark(#475569, #c9ddf0);
+  text-align: right;
+}
+
+.meter-controlled-track {
+  grid-column: 1 / -1;
+  height: 8px;
+  border-radius: 9999px;
+  background: light-dark(#e2e8f0, #ffffff1f);
+  overflow: hidden;
+}
+
+.meter-controlled-indicator {
+  height: 100%;
+  /* Percentage of the Root value, set by the library */
+  width: var(--leve-meter-percent);
+  border-radius: 9999px;
+  background: #009dfd;
+  transition: width 200ms ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .meter-controlled-indicator {
+    transition: none;
+  }
+}
+
+.meter-controlled-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  font-family: inherit;
+}
+
+.meter-controlled-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.meter-controlled-button {
+  height: 32px;
+  padding: 0 12px;
+  border: 1px solid light-dark(#cbd5e1, #ffffff3d);
+  border-radius: 6px;
+  background: light-dark(#ffffff, #1b2045);
+  color: light-dark(#0f172a, #ffffff);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.meter-controlled-button:hover {
+  background: light-dark(#f1f5f9, #ffffff14);
+}
+
+.meter-controlled-button:focus-visible {
+  outline: 2px solid #009dfd;
+  outline-offset: 2px;
+}

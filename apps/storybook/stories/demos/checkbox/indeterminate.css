@@ -1,0 +1,81 @@
+.checkbox-indeterminate-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  font-family: inherit;
+}
+
+.checkbox-indeterminate-group-children {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-left: 28px;
+}
+
+.checkbox-indeterminate-root {
+  /* HiddenInput is absolutely positioned inside Root */
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.checkbox-indeterminate-control {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  padding: 0;
+  border: 1px solid light-dark(#cbd5e1, #ffffff3d);
+  border-radius: 4px;
+  background: light-dark(#ffffff, #1b2045);
+  cursor: pointer;
+}
+
+.checkbox-indeterminate-control[data-state="checked"],
+.checkbox-indeterminate-control[data-state="indeterminate"] {
+  background: #009dfd;
+  border-color: #009dfd;
+}
+
+.checkbox-indeterminate-control:focus-visible {
+  outline: 2px solid #009dfd;
+  outline-offset: 2px;
+}
+
+/* The indicator is always rendered; show it only when checked or indeterminate */
+.checkbox-indeterminate-indicator {
+  display: none;
+  color: #ffffff;
+}
+
+.checkbox-indeterminate-indicator[data-state="checked"],
+.checkbox-indeterminate-indicator[data-state="indeterminate"] {
+  display: inline-flex;
+}
+
+.checkbox-indeterminate-icon-check,
+.checkbox-indeterminate-icon-indeterminate {
+  display: none;
+  width: 12px;
+  height: 12px;
+}
+
+/* Check icon when checked, minus icon when indeterminate */
+.checkbox-indeterminate-indicator[data-state="checked"] .checkbox-indeterminate-icon-check,
+.checkbox-indeterminate-indicator[data-state="indeterminate"]
+  .checkbox-indeterminate-icon-indeterminate {
+  display: block;
+}
+
+.checkbox-indeterminate-label {
+  font-size: 14px;
+  color: light-dark(#0f172a, #ffffff);
+  cursor: pointer;
+}
+
+.checkbox-indeterminate-count {
+  font-size: 13px;
+  color: light-dark(#475569, #c9ddf0);
+}

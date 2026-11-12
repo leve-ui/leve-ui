@@ -1,0 +1,24 @@
+.avatar-default {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border-radius: 9999px;
+  overflow: hidden;
+  background: light-dark(#daf0ff, #009dfd26);
+  font-family: inherit;
+}
+
+.avatar-default-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Initials shown while the image is loading or when it fails */
+.avatar-default-fallback {
+  font-size: 15px;
+  font-weight: 600;
+  color: light-dark(#006ce9, #4cb8ff);
+}

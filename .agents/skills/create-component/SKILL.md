@@ -26,7 +26,7 @@ pnpm install
 - スクリプトは次のことを行う。
   - `packages/components/<name>/` にパッケージ一式を生成する（設定ファイル、Context、パーツ、`index.ts`、ユニットテスト）
   - `package.json` に `license: "MIT"`・`repository`・`homepage`・`bugs` を設定し、ルートの `LICENSE` をコピーする
-  - `apps/storybook/stories/<name>.stories.tsx` と demo（`apps/storybook/stories/demos/<name>/default.tsx`）、`apps/e2e/tests/<name>.spec.ts` を生成する
+  - `apps/storybook/stories/<name>.stories.tsx` と demo（`apps/storybook/stories/demos/<name>/default.tsx` と `default.css`）、`apps/e2e/tests/<name>.spec.ts` を生成する
   - `packages/core`（`@leve-ui/core`）の `dependencies` と `src/index.ts`、`apps/storybook` の `devDependencies` に登録する
   - `README.md` の Packages 表に行を追加する（説明文は `TODO` になっているので、英語の 1 行説明に書き換える）
 

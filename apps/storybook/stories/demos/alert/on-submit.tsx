@@ -1,33 +1,25 @@
 import { component$, useSignal, useStyles$ } from '@builder.io/qwik';
 import { Alert } from '@leve-ui/alert';
-
-const styles = `
-  .alert {
-    border: 1px solid #fca5a5;
-    background: #fef2f2;
-    padding: 12px;
-    border-radius: 6px;
-  }
-
-  .alert-title {
-    font-weight: 600;
-  }
-`;
+import { LuAlertCircle } from '@qwikest/icons/lucide';
+import styles from './on-submit.css?inline';
 
 export default component$(() => {
   useStyles$(styles);
   const error = useSignal(false);
 
   return (
-    <div>
-      <button type="button" onClick$={() => (error.value = true)}>
+    <div class="alert-on-submit-wrapper">
+      <button type="button" class="alert-on-submit-button" onClick$={() => (error.value = true)}>
         Submit
       </button>
       {/* Render the alert when it should be announced */}
       {error.value && (
-        <Alert.Root class="alert">
-          <Alert.Title class="alert-title">Submission failed</Alert.Title>
-          <Alert.Description>Email is required.</Alert.Description>
+        <Alert.Root class="alert-on-submit">
+          <LuAlertCircle class="alert-on-submit-icon" aria-hidden="true" />
+          <Alert.Title class="alert-on-submit-title">Submission failed</Alert.Title>
+          <Alert.Description class="alert-on-submit-description">
+            Email is required.
+          </Alert.Description>
         </Alert.Root>
       )}
     </div>

@@ -28,6 +28,7 @@
     "@leve-ui/toggle-group": "workspace:*",
     "@leve-ui/tsconfig": "workspace:*",
     "@leve-ui/vite-config": "workspace:*",
+    "@qwikest/icons": "^0.0.13",
     "@storybook/addon-docs": "^10.6.6",
     "@types/node": "^24.19.2",
     "storybook": "^10.6.6",

@@ -1,37 +1,20 @@
 import { component$, useStyles$ } from '@builder.io/qwik';
 import { Separator } from '@leve-ui/separator';
-
-const styles = `
-  .separator {
-    background: #d1d5db;
-  }
-
-  .separator[data-orientation='horizontal'] {
-    height: 1px;
-    margin: 8px 0;
-  }
-
-  .separator[data-orientation='vertical'] {
-    width: 1px;
-    align-self: stretch;
-  }
-
-  .separator-row {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    height: 24px;
-  }
-`;
+import styles from './default.css?inline';
 
 export default component$(() => {
   useStyles$(styles);
 
   return (
-    <div>
-      <p>Above</p>
-      <Separator.Root class="separator" />
-      <p>Below</p>
+    <div class="separator-default-card">
+      <p class="separator-default-title">leve-ui</p>
+      <p class="separator-default-text">Headless UI for Qwik.</p>
+      <Separator.Root class="separator-default" />
+      <div class="separator-default-links">
+        <span>Docs</span>
+        <span>GitHub</span>
+        <span>npm</span>
+      </div>
     </div>
   );
 });

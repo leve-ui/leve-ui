@@ -1,0 +1,40 @@
+.toggle-default {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 1px solid light-dark(#cbd5e1, #ffffff3d);
+  border-radius: 6px;
+  background: light-dark(#ffffff, #1b2045);
+  color: light-dark(#475569, #c9ddf0);
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.toggle-default:hover {
+  background: light-dark(#f1f5f9, #ffffff14);
+}
+
+/* Pressed */
+.toggle-default[data-state="on"] {
+  border-color: #009dfd;
+  background: light-dark(#daf0ff, #009dfd26);
+  color: light-dark(#006ce9, #4cb8ff);
+}
+
+.toggle-default:focus-visible {
+  outline: 2px solid #009dfd;
+  outline-offset: 2px;
+}
+
+.toggle-default[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.toggle-default-icon {
+  width: 16px;
+  height: 16px;
+}

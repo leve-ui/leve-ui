@@ -1,0 +1,62 @@
+.tabs-vertical-root {
+  display: flex;
+  gap: 16px;
+  width: 360px;
+  max-width: 100%;
+  font-family: inherit;
+  font-size: 14px;
+}
+
+.tabs-vertical-list {
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid light-dark(#e2e8f0, #ffffff1f);
+}
+
+.tabs-vertical-trigger {
+  margin: 0 -1px 0 0;
+  padding: 8px 12px;
+  background: none;
+  border: none;
+  border-right: 2px solid transparent;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  color: light-dark(#475569, #c9ddf0);
+  text-align: left;
+  cursor: pointer;
+}
+
+.tabs-vertical-trigger:hover {
+  color: light-dark(#0f172a, #ffffff);
+}
+
+/* Selected tab */
+.tabs-vertical-trigger[data-state="active"] {
+  color: light-dark(#0f172a, #ffffff);
+  border-right-color: #009dfd;
+}
+
+.tabs-vertical-trigger:focus-visible {
+  outline: 2px solid #009dfd;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.tabs-vertical-trigger[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.tabs-vertical-content {
+  padding-top: 8px;
+  font-size: 13px;
+  line-height: 1.6;
+  color: light-dark(#475569, #c9ddf0);
+}
+
+.tabs-vertical-content:focus-visible {
+  outline: 2px solid #009dfd;
+  outline-offset: 2px;
+  border-radius: 4px;
+}

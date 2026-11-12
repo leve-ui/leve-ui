@@ -1,0 +1,30 @@
+.separator-decorative-card {
+  width: 240px;
+  font-family: inherit;
+}
+
+.separator-decorative-title {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: light-dark(#0f172a, #ffffff);
+}
+
+.separator-decorative-text {
+  margin: 0;
+  font-size: 13px;
+  color: light-dark(#475569, #c9ddf0);
+}
+
+.separator-decorative {
+  height: 1px;
+  margin: 12px 0;
+  background: light-dark(#e2e8f0, #ffffff1f);
+}
+
+.separator-decorative-links {
+  display: flex;
+  gap: 12px;
+  font-size: 13px;
+  color: light-dark(#0f172a, #ffffff);
+}

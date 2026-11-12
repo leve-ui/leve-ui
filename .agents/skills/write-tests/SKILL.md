@@ -43,44 +43,46 @@ describe('Dialog', () => {
 
 ## ストーリー（Storybook）
 
-場所: `apps/storybook/stories/<name>.stories.tsx` と `apps/storybook/stories/demos/<name>/<story>.tsx`
+場所: `apps/storybook/stories/<name>.stories.tsx` と `apps/storybook/stories/demos/<name>/<story>.tsx`・`<story>.css`
 
 - `title` は `Components/<Name>`。
 - テストしたい状態ごとにストーリーを用意する（E2E はストーリー単位でしか開けないため）。
 - autodocs が有効なので、Docs の「Show code」に表示するコードを、**スタイルを含めて利用者がそのままコピーして使える形にする**（`.agents/rules/storybook.md`）。
 
-demo ファイル（ストーリー 1 つにつき 1 つ。コメントは英語）:
+demo ファイル（ストーリー 1 つにつき TSX と CSS を 1 組。コメントは英語）:
 
 ```tsx
 // stories/demos/progress/default.tsx
 import { component$, useStyles$ } from '@builder.io/qwik';
 import { Progress } from '@leve-ui/progress';
-
-const styles = `
-  .progress-track {
-    height: 0.5rem;
-    background: #e5e7eb;
-  }
-
-  .progress-indicator {
-    height: 100%;
-    width: var(--leve-progress-percent);
-    background: #2563eb;
-  }
-`;
+import styles from './default.css?inline';
 
 export default component$(() => {
   useStyles$(styles);
 
   return (
-    <Progress.Root value={40} class="progress">
+    <Progress.Root value={40} class="progress-default">
       <Progress.Label>Uploading</Progress.Label>
-      <Progress.Track class="progress-track">
-        <Progress.Indicator class="progress-indicator" />
+      <Progress.Track class="progress-default-track">
+        <Progress.Indicator class="progress-default-indicator" />
       </Progress.Track>
     </Progress.Root>
   );
 });
+```
+
+```css
+/* stories/demos/progress/default.css */
+.progress-default-track {
+  height: 0.5rem;
+  background: light-dark(#e2e8f0, #ffffff1f);
+}
+
+.progress-default-indicator {
+  height: 100%;
+  width: var(--leve-progress-percent);
+  background: #009dfd;
+}
 ```
 
 ストーリーファイル:
@@ -90,6 +92,8 @@ export default component$(() => {
 import type { Meta, StoryObj } from 'storybook-framework-qwik';
 import DefaultDemo from './demos/progress/default';
 import defaultSource from './demos/progress/default?raw';
+import defaultCss from './demos/progress/default.css?raw';
+import { demoSource } from './source';
 
 const meta: Meta = {
   title: 'Components/Progress',
@@ -101,12 +105,13 @@ type Story = StoryObj;
 
 export const Default: Story = {
   render: () => <DefaultDemo />,
-  parameters: { docs: { source: { code: defaultSource } } },
+  parameters: { docs: { source: { code: demoSource(defaultSource, defaultCss, 'default.css') } } },
 };
 ```
 
 - 状態を持つ例（`useSignal` など）も同じ形で書ける。`render` はコンポーネントとして実行されないので、フックは demo の中で使う。
-- クラス名はコンポーネント名で始める（`useStyles$` の CSS はページ全体に効き、Docs では複数の demo が同じページに並ぶため）。
+- クラス名は `<component>-<story>` で始める（`useStyles$` の CSS はページ全体に効き、Docs では複数の demo が同じページに並ぶため）。
+- 色・角丸・フォーカスなどは `.agents/rules/storybook.md` の「demo の見た目」の値を使う。
 - `@keyframes` や `[data-state="..."]` のような属性セレクタも CSS に書く。ライブラリが出す data 属性・CSS 変数の使い方の例にもなる。
 
 ## E2E（Playwright）
@@ -137,5 +142,6 @@ test.describe('Dialog', () => {
   - `Components/RadioGroup` の `WithDisabled` → `components-radiogroup--with-disabled`（単語の区切りは入らない）
 - 要素は `getByRole` を優先する。ロールで取れないこと自体が、アクセシビリティの問題を示している場合が多い。
 - フォーカスは `toBeFocused()`、キー入力は `page.keyboard.press('ArrowDown')` などで確認する。
+- Tab でフォーカスが入る・抜ける・無効な要素を飛ばすことを確かめるときは、`gotoStory(page, id, { focusGuards: true })` で開く。ストーリーの前後に `Before` / `After` ボタンが置かれる（`.storybook/preview.tsx` のデコレーター）。**demo にはこうしたテスト用のボタンを書かない**（demo は docs サイトにも載るため）。
 - 外部リソースは `page.route` でモックする（例: `apps/e2e/tests/avatar.spec.ts`）。
 - 実行: `pnpm e2e`（Storybook が 6106 番ポートで自動起動する。`adr/0008` を参照）

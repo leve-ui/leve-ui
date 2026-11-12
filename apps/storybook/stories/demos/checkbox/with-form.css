@@ -1,0 +1,92 @@
+.checkbox-with-form-root {
+  /* HiddenInput is absolutely positioned inside Root */
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.checkbox-with-form-control {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  padding: 0;
+  border: 1px solid light-dark(#cbd5e1, #ffffff3d);
+  border-radius: 4px;
+  background: light-dark(#ffffff, #1b2045);
+  cursor: pointer;
+}
+
+.checkbox-with-form-control[data-state="checked"] {
+  background: #009dfd;
+  border-color: #009dfd;
+}
+
+.checkbox-with-form-control:focus-visible {
+  outline: 2px solid #009dfd;
+  outline-offset: 2px;
+}
+
+.checkbox-with-form-control:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* The indicator is always rendered; show it only when checked */
+.checkbox-with-form-indicator {
+  display: none;
+  color: #ffffff;
+}
+
+.checkbox-with-form-indicator[data-state="checked"] {
+  display: inline-flex;
+}
+
+.checkbox-with-form-icon {
+  width: 12px;
+  height: 12px;
+}
+
+.checkbox-with-form-label {
+  font-size: 14px;
+  color: light-dark(#0f172a, #ffffff);
+  cursor: pointer;
+}
+
+.checkbox-with-form-form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  font-family: inherit;
+}
+
+.checkbox-with-form-submit {
+  height: 32px;
+  padding: 0 12px;
+  border: none;
+  border-radius: 6px;
+  background: #009dfd;
+  color: #ffffff;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.checkbox-with-form-submit:hover {
+  background: #006ce9;
+}
+
+.checkbox-with-form-submit:focus-visible {
+  outline: 2px solid #009dfd;
+  outline-offset: 2px;
+}
+
+.checkbox-with-form-output {
+  margin: 0;
+  font-size: 13px;
+  color: light-dark(#475569, #c9ddf0);
+}
