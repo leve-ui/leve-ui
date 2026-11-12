@@ -47,6 +47,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@leve-ui/accordion": "workspace:*",
     "@leve-ui/alert": "workspace:*",
     "@leve-ui/avatar": "workspace:*",
     "@leve-ui/breadcrumb": "workspace:*",
@@ -61,7 +62,8 @@
     "@leve-ui/separator": "workspace:*",
     "@leve-ui/switch": "workspace:*",
     "@leve-ui/tabs": "workspace:*",
-    "@leve-ui/toggle": "workspace:*"
+    "@leve-ui/toggle": "workspace:*",
+    "@leve-ui/toggle-group": "workspace:*"
   },
   "peerDependencies": {
     "@builder.io/qwik": "^1.20.4"
