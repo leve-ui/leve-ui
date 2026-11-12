@@ -27,6 +27,19 @@ export {
   useFieldProvider,
 } from './field';
 export {
+  applyFloating,
+  computeFloating,
+  type FloatingAlign,
+  type FloatingAnchor,
+  type FloatingOptions,
+  type FloatingResult,
+  type FloatingSide,
+  fromPlacement,
+  type Placement,
+  startFloating,
+  toPlacement,
+} from './floating';
+export {
   createFocusScope,
   type FocusScope,
   type FocusScopeOptions,
