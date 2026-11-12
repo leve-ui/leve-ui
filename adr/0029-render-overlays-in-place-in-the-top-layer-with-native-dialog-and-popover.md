@@ -1,6 +1,6 @@
 # 0029. Render overlays in place in the top layer with native dialog and popover
 
-- Status: Proposed
+- Status: Accepted
 - Date: 2026-11-12
 - Related: [0010](0010-no-child-state-on-parent-attributes.md), [0028](0028-make-drawer-a-separate-package-and-a-non-modal-dialog-by-default.md)
 
@@ -94,7 +94,7 @@ reaches the top layer through native APIs:
 - Entry/exit animations use `@starting-style` and `transition-behavior: allow-discrete`
   (Baseline since 2024-08). leve-ui does not provide a presence/animation helper for now.
 - E2E must cover focus return in WebKit.
-- The Popover / Tooltip anchoring is decided separately (#13).
+- How floating content is positioned next to its trigger is decided separately (#13).
 
 ## Revisit When
 
