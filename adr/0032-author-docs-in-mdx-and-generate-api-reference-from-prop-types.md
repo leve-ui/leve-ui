@@ -1,6 +1,6 @@
 # 0032. Author docs in MDX and generate API reference from prop types
 
-- Status: Proposed
+- Status: Accepted
 - Date: 2026-11-13
 - Related: [0009](0009-headless-parts-and-data-attributes.md), [0011](0011-controlled-uncontrolled-props-naming.md), [0021](0021-write-contributor-facing-documents-in-english.md), [0031](0031-share-storybook-demos-with-the-docs-site-and-keep-demo-styles-in-css-files.md)
 

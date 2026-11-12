@@ -1,6 +1,6 @@
 # 0031. Share Storybook demos with the docs site and keep demo styles in CSS files
 
-- Status: Proposed
+- Status: Accepted
 - Date: 2026-11-13
 - Related: [0007](0007-storybook-csr-mode.md), [0009](0009-headless-parts-and-data-attributes.md), [0027](0027-deploy-storybook-previews-to-cloudflare-pages.md)
 

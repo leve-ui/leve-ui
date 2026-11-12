@@ -1,6 +1,6 @@
 # 0033. Translate docs through a segment-level translation memory with Gemini
 
-- Status: Proposed
+- Status: Accepted
 - Date: 2026-11-13
 - Related: [0021](0021-write-contributor-facing-documents-in-english.md), [0032](0032-author-docs-in-mdx-and-generate-api-reference-from-prop-types.md)
 

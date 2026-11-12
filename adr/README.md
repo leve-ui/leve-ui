@@ -60,6 +60,6 @@ Component-specific specs (which APG pattern a component follows, its parts, and 
 | [0028](0028-make-drawer-a-separate-package-and-a-non-modal-dialog-by-default.md) | Make Drawer a separate package and a non-modal dialog by default | Accepted |
 | [0029](0029-render-overlays-in-place-in-the-top-layer-with-native-dialog-and-popover.md) | Render overlays in place in the top layer with native dialog and popover | Accepted |
 | [0030](0030-position-floating-content-with-floating-ui.md) | Position floating content with Floating UI | Accepted |
-| [0031](0031-share-storybook-demos-with-the-docs-site-and-keep-demo-styles-in-css-files.md) | Share Storybook demos with the docs site and keep demo styles in CSS files | Proposed |
-| [0032](0032-author-docs-in-mdx-and-generate-api-reference-from-prop-types.md) | Author docs in MDX and generate API reference from prop types | Proposed |
-| [0033](0033-translate-docs-through-a-segment-level-translation-memory-with-gemini.md) | Translate docs through a segment-level translation memory with Gemini | Proposed |
+| [0031](0031-share-storybook-demos-with-the-docs-site-and-keep-demo-styles-in-css-files.md) | Share Storybook demos with the docs site and keep demo styles in CSS files | Accepted |
+| [0032](0032-author-docs-in-mdx-and-generate-api-reference-from-prop-types.md) | Author docs in MDX and generate API reference from prop types | Accepted |
+| [0033](0033-translate-docs-through-a-segment-level-translation-memory-with-gemini.md) | Translate docs through a segment-level translation memory with Gemini | Accepted |
