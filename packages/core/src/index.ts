@@ -2,6 +2,7 @@
  * @leve-ui/core: すべてのコンポーネントをまとめて提供するパッケージ。
  * 実装は各 @leve-ui/* パッケージにあり、ここでは再エクスポートのみ行います。
  */
+export * from '@leve-ui/accordion';
 export * from '@leve-ui/alert';
 export * from '@leve-ui/avatar';
 export * from '@leve-ui/breadcrumb';
