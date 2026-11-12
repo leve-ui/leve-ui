@@ -43,7 +43,7 @@ pnpm changeset    # 変更記録
 3. **コミット**: **英語で** `<type>(<scope>): <subject>`（subject は命令形・小文字始まり）。scope は `commitlint.config.ts` がディレクトリ名から生成する。コミット時に lefthook が commitlint と Biome を自動実行する。`--no-verify` で回避しない。`main` は保護されているため、ブランチを切って PR を作り、CI を通して squash merge する（PR タイトルも英語の commitlint 形式）。公開パッケージを変えたら英語の changeset を含める（**1.0 までは `major` を使わない**。破壊的変更は `minor`）。リリース PR のマージ（＝リリースのタイミング）はユーザーが決める。npm への公開は Release ワークフローが行い、手元から publish しない。新しいパッケージの初回公開（`pnpm package:bootstrap`）はユーザーに依頼する。コミットはユーザーに頼まれたときだけ行う。
 4. **テスト**: ユニットテスト（`src/<name>.test.tsx`）・ストーリー（`apps/storybook/stories/`）・E2E（`apps/e2e/tests/`）の 3 つを必ず揃える。テストを消したり弱めたりして通さない。
 5. **構成**: 実装は `packages/components/<name>/` にだけ置き、`packages/core`（`@leve-ui/core`）は再エクスポートのみ。共通ロジックは `packages/utils`。新しいトップレベルのディレクトリは作る前にユーザーに確認する。
-6. **Issue**: タイトルと本文は英語。`type:` ラベルを必ず 1 つ付け、`scope:` / `status:` / `size:` と Milestone（M0〜M5）を付ける。対応を開始する際は `status: in progress` を付ける。
+6. **Issue**: タイトルと本文は英語。`type:` と `qwik:`（`v1` / `v2`）のラベルを必ず 1 つずつ付け、`scope:` / `status:` / `size:` と Milestone（M0〜M5、v2 対応は「Qwik v2」）を付ける。対応を開始する際は `status: in progress` を付ける。
 7. **Storybook**: ストーリー 1 つにつき demo ファイル（`stories/demos/<name>/<story>.tsx`、`export default component$`）を作り、スタイルは demo の中の `useStyles$` で当てる。ストーリーは demo を描画し、同じファイルを `?raw` で `parameters.docs.source.code` に渡す。`render` に JSX を直接書かない。demo のコメントは英語。
 
 ## 人間向けの文書

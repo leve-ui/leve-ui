@@ -1,6 +1,6 @@
 name: Component request
 description: Propose a new component
-labels: ["type: component", "status: needs triage"]
+labels: ["type: component", "qwik: v1", "status: needs triage"]
 body:
   - type: input
     id: name
