@@ -1,6 +1,6 @@
 {
   "name": "@leve-ui/core",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Headless, WAI-ARIA compliant UI components for Qwik. Bring your own styles.",
   "keywords": [
     "qwik",
