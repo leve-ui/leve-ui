@@ -1,0 +1,108 @@
+name: Storybook preview
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  push:
+    branches: [main]
+
+concurrency:
+  group: storybook-preview-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  LEFTHOOK: 0
+  TURBO_TELEMETRY_DISABLED: 1
+
+jobs:
+  deploy:
+    name: Deploy Storybook
+    # Skip pull requests from forks because repository secrets are unavailable
+    # to them and pull_request_target must not be used (see adr/0027).
+    if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+      deployments: write
+    env:
+      DEPLOY_BRANCH: ${{ github.head_ref || github.ref_name }}
+      DEPLOY_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: ./.github/actions/setup
+      - name: Build Storybook
+        run: pnpm turbo run build --filter=@leve-ui/storybook
+      - name: Deploy to Cloudflare Pages
+        id: deploy
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy apps/storybook/storybook-static --project-name=leve-ui-storybook --branch=${{ env.DEPLOY_BRANCH }} --commit-hash=${{ env.DEPLOY_SHA }} --commit-dirty=true
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+      - name: Comment on pull request
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v8
+        env:
+          DEPLOYMENT_URL: ${{ steps.deploy.outputs.deployment-url }}
+          ALIAS_URL: ${{ steps.deploy.outputs.pages-deployment-alias-url }}
+          COMMIT_SHA: ${{ env.DEPLOY_SHA }}
+        with:
+          script: |
+            const marker = '<!-- storybook-preview -->';
+            const shortSha = (process.env.COMMIT_SHA || '').slice(0, 7);
+            const deploymentUrl = (process.env.DEPLOYMENT_URL || '').trim();
+            const aliasUrl = (process.env.ALIAS_URL || '').trim();
+
+            let body = `${marker}\n### Storybook preview\n\n| | URL |\n| --- | --- |\n| This commit (\`${shortSha}\`) | ${deploymentUrl} |`;
+            if (aliasUrl) {
+              body += `\n| Branch alias (latest) | ${aliasUrl} |`;
+            }
+
+            const comments = await github.paginate(github.rest.issues.listComments, {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              per_page: 100,
+            });
+
+            const existing = comments.find((comment) =>
+              comment.body && comment.body.includes(marker)
+            );
+
+            if (existing) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: existing.id,
+                body,
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body,
+              });
+            }
+      - name: Write step summary
+        env:
+          DEPLOYMENT_URL: ${{ steps.deploy.outputs.deployment-url }}
+          ALIAS_URL: ${{ steps.deploy.outputs.pages-deployment-alias-url }}
+          COMMIT_SHA: ${{ env.DEPLOY_SHA }}
+        run: |
+          SHORT_SHA="${COMMIT_SHA:0:7}"
+          {
+            echo "### Storybook preview"
+            echo ""
+            echo "| | URL |"
+            echo "| --- | --- |"
+            echo "| This commit (\`$SHORT_SHA\`) | $DEPLOYMENT_URL |"
+            if [ -n "$ALIAS_URL" ]; then
+              echo "| Branch alias (latest) | $ALIAS_URL |"
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
