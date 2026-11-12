@@ -12,6 +12,7 @@
     "@leve-ui/alert": "workspace:*",
     "@leve-ui/avatar": "workspace:*",
     "@leve-ui/breadcrumb": "workspace:*",
+    "@leve-ui/checkbox": "workspace:*",
     "@leve-ui/field": "workspace:*",
     "@leve-ui/fieldset": "workspace:*",
     "@leve-ui/label": "workspace:*",
