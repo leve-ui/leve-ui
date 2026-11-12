@@ -35,14 +35,17 @@ jobs:
       - uses: actions/checkout@v7
       - uses: ./.github/actions/setup
       - name: Build Storybook
-        run: pnpm turbo run build --filter=@leve-ui/storybook
+        # Storybook resolves component sources via the @leve-ui/source condition, so packages do not need to be built first.
+        run: pnpm --filter @leve-ui/storybook build
       - name: Deploy to Cloudflare Pages
         id: deploy
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy apps/storybook/storybook-static --project-name=leve-ui-storybook --branch=${{ env.DEPLOY_BRANCH }} --commit-hash=${{ env.DEPLOY_SHA }} --commit-dirty=true
+          # wrangler is a devDependency of @leve-ui/storybook; without it the action runs pnpm add at the workspace root, which fails.
+          workingDirectory: apps/storybook
+          command: pages deploy storybook-static --project-name=leve-ui-storybook --branch=${{ env.DEPLOY_BRANCH }} --commit-hash=${{ env.DEPLOY_SHA }} --commit-dirty=true
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
       - name: Comment on pull request
         if: github.event_name == 'pull_request'
