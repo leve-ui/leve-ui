@@ -20,6 +20,7 @@
     "@leve-ui/radio-group": "workspace:*",
     "@leve-ui/separator": "workspace:*",
     "@leve-ui/switch": "workspace:*",
+    "@leve-ui/tabs": "workspace:*",
     "@leve-ui/toggle": "workspace:*",
     "@leve-ui/tsconfig": "workspace:*",
     "@leve-ui/vite-config": "workspace:*",
