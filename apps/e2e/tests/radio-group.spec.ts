@@ -3,7 +3,7 @@ import { gotoStory } from './story';
 
 test.describe('RadioGroup', () => {
   test('Tab で（選択なし）最初の Item にフォーカス', async ({ page }) => {
-    await gotoStory(page, 'components-radiogroup--default');
+    await gotoStory(page, 'components-radiogroup--default', { focusGuards: true });
     const before = page.getByRole('button', { name: 'Before' });
     await expect(before).toBeVisible({ timeout: 15_000 });
     await before.focus();
@@ -15,7 +15,7 @@ test.describe('RadioGroup', () => {
   });
 
   test('Tab でグループの外へ出る（1 つのタブストップ）', async ({ page }) => {
-    await gotoStory(page, 'components-radiogroup--default');
+    await gotoStory(page, 'components-radiogroup--default', { focusGuards: true });
     const before = page.getByRole('button', { name: 'Before' });
     await expect(before).toBeVisible({ timeout: 15_000 });
     await before.focus();
@@ -30,7 +30,7 @@ test.describe('RadioGroup', () => {
   });
 
   test('Tab で選択中の Item にフォーカス', async ({ page }) => {
-    await gotoStory(page, 'components-radiogroup--default-value');
+    await gotoStory(page, 'components-radiogroup--default-value', { focusGuards: true });
     const before = page.getByRole('button', { name: 'Before' });
     await expect(before).toBeVisible({ timeout: 15_000 });
     await before.focus();

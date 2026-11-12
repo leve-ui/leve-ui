@@ -1,99 +1,7 @@
 import { $, component$, useSignal, useStyles$ } from '@builder.io/qwik';
 import { Checkbox } from '@leve-ui/checkbox';
-
-const styles = `
-  .checkbox-form {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 16px;
-    font-family: system-ui, -apple-system, sans-serif;
-  }
-
-  .checkbox-root {
-    position: relative;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .checkbox-label {
-    font-size: 14px;
-    font-weight: 500;
-    color: #374151;
-    cursor: pointer;
-    user-select: none;
-  }
-
-  .checkbox-control {
-    position: relative;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 20px;
-    height: 20px;
-    padding: 0;
-    border: 1px solid #d1d5db;
-    border-radius: 4px;
-    background-color: #ffffff;
-    cursor: pointer;
-    transition: background-color 150ms ease, border-color 150ms ease;
-  }
-
-  /* Checked state */
-  .checkbox-control[data-state="checked"] {
-    background-color: #2563eb;
-    border-color: #2563eb;
-  }
-
-  /* Focus indicator */
-  .checkbox-control:focus-visible {
-    outline: 2px solid #2563eb;
-    outline-offset: 2px;
-  }
-
-  /* Disabled state */
-  .checkbox-control:disabled,
-  .checkbox-control[data-disabled] {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
-
-  .checkbox-indicator {
-    display: none;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
-    color: #ffffff;
-  }
-
-  .checkbox-indicator[data-state="checked"] {
-    display: flex;
-  }
-
-  .checkbox-icon {
-    width: 14px;
-    height: 14px;
-  }
-
-  .checkbox-submit {
-    padding: 6px 12px;
-    font-size: 14px;
-    font-weight: 500;
-    color: #ffffff;
-    background-color: #2563eb;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-
-  .checkbox-output {
-    font-family: monospace;
-    font-size: 14px;
-    color: #374151;
-  }
-`;
+import { LuCheck } from '@qwikest/icons/lucide';
+import styles from './with-form.css?inline';
 
 export default component$(() => {
   useStyles$(styles);
@@ -105,31 +13,20 @@ export default component$(() => {
   });
 
   return (
-    <form class="checkbox-form" preventdefault:submit onSubmit$={handleSubmit$}>
-      <Checkbox.Root class="checkbox-root">
-        <Checkbox.Control class="checkbox-control">
-          <Checkbox.Indicator class="checkbox-indicator">
-            <svg
-              aria-hidden="true"
-              class="checkbox-icon"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="3"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <polyline points="20 6 9 17 4 12" />
-            </svg>
+    <form class="checkbox-with-form-form" preventdefault:submit onSubmit$={handleSubmit$}>
+      <Checkbox.Root class="checkbox-with-form-root">
+        <Checkbox.Control class="checkbox-with-form-control">
+          <Checkbox.Indicator class="checkbox-with-form-indicator">
+            <LuCheck class="checkbox-with-form-icon" aria-hidden="true" />
           </Checkbox.Indicator>
         </Checkbox.Control>
-        <Checkbox.Label class="checkbox-label">Agree to marketing emails</Checkbox.Label>
+        <Checkbox.Label class="checkbox-with-form-label">Agree to marketing emails</Checkbox.Label>
         <Checkbox.HiddenInput name="marketing" value="subscribed" />
       </Checkbox.Root>
-      <button type="submit" class="checkbox-submit">
+      <button type="submit" class="checkbox-with-form-submit">
         Submit
       </button>
-      <output class="checkbox-output">{submittedData.value}</output>
+      <output class="checkbox-with-form-output">{submittedData.value}</output>
     </form>
   );
 });

@@ -85,7 +85,7 @@ test.describe('Checkbox', () => {
   });
 
   test('disabled はフォーカスできず切り替わらない', async ({ page }) => {
-    await gotoStory(page, 'components-checkbox--disabled');
+    await gotoStory(page, 'components-checkbox--disabled', { focusGuards: true });
     const control = page.getByRole('checkbox', { name: 'Disabled option' });
 
     await expect(control).toBeDisabled();

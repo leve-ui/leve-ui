@@ -1,0 +1,82 @@
+.toggle-controlled-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  font-family: inherit;
+  font-size: 14px;
+}
+
+.toggle-controlled-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.toggle-controlled {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 1px solid light-dark(#cbd5e1, #ffffff3d);
+  border-radius: 6px;
+  background: light-dark(#ffffff, #1b2045);
+  color: light-dark(#475569, #c9ddf0);
+  cursor: pointer;
+}
+
+.toggle-controlled:hover {
+  background: light-dark(#f1f5f9, #ffffff14);
+}
+
+/* Pressed */
+.toggle-controlled[data-state="on"] {
+  border-color: #009dfd;
+  background: light-dark(#daf0ff, #009dfd26);
+  color: light-dark(#006ce9, #4cb8ff);
+}
+
+.toggle-controlled:focus-visible {
+  outline: 2px solid #009dfd;
+  outline-offset: 2px;
+}
+
+.toggle-controlled[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.toggle-controlled-icon {
+  width: 16px;
+  height: 16px;
+}
+
+/* Secondary button */
+.toggle-controlled-reset {
+  height: 32px;
+  padding: 0 12px;
+  border: 1px solid light-dark(#cbd5e1, #ffffff3d);
+  border-radius: 6px;
+  background: light-dark(#ffffff, #1b2045);
+  color: light-dark(#0f172a, #ffffff);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.toggle-controlled-reset:hover {
+  background: light-dark(#f1f5f9, #ffffff14);
+}
+
+.toggle-controlled-reset:focus-visible {
+  outline: 2px solid #009dfd;
+  outline-offset: 2px;
+}
+
+.toggle-controlled-status {
+  margin: 0;
+  font-size: 13px;
+  color: light-dark(#475569, #c9ddf0);
+}

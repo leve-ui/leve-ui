@@ -19,7 +19,7 @@ test.describe('Fieldset', () => {
   });
 
   test('disabled のときは Tab で中のコントロールを飛ばす', async ({ page }) => {
-    await gotoStory(page, 'components-fieldset--disabled');
+    await gotoStory(page, 'components-fieldset--disabled', { focusGuards: true });
 
     await page.getByRole('button', { name: 'Before' }).focus();
     await page.keyboard.press('Tab');

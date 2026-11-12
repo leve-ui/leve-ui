@@ -1,0 +1,58 @@
+.progress-indeterminate {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  row-gap: 8px;
+  align-items: center;
+  width: 240px;
+  font-family: inherit;
+}
+
+.progress-indeterminate-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: light-dark(#0f172a, #ffffff);
+}
+
+.progress-indeterminate-value {
+  font-size: 13px;
+  color: light-dark(#475569, #c9ddf0);
+  text-align: right;
+}
+
+.progress-indeterminate-track {
+  grid-column: 1 / -1;
+  height: 8px;
+  border-radius: 9999px;
+  background: light-dark(#e2e8f0, #ffffff1f);
+  overflow: hidden;
+}
+
+.progress-indeterminate-indicator {
+  height: 100%;
+  /* Percentage of the Root value, set by the library */
+  width: var(--leve-progress-percent);
+  border-radius: 9999px;
+  background: #009dfd;
+  transition: width 200ms ease;
+}
+
+/* No percentage while indeterminate, so slide a fixed-width bar instead */
+.progress-indeterminate-indicator[data-state="indeterminate"] {
+  width: 40%;
+  animation: progress-indeterminate-slide 1.2s ease-in-out infinite;
+}
+
+@keyframes progress-indeterminate-slide {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(250%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .progress-indeterminate-indicator[data-state="indeterminate"] {
+    animation: none;
+  }
+}

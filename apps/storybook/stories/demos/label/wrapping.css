@@ -1,0 +1,23 @@
+/* The label wraps the checkbox, so clicking the text toggles it */
+.label-wrapping-inline {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: inherit;
+  font-size: 14px;
+  color: light-dark(#0f172a, #ffffff);
+  cursor: pointer;
+}
+
+.label-wrapping-checkbox {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  accent-color: #009dfd;
+  cursor: pointer;
+}
+
+.label-wrapping-checkbox:focus-visible {
+  outline: 2px solid #009dfd;
+  outline-offset: 2px;
+}

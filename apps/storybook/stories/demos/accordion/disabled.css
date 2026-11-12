@@ -1,0 +1,64 @@
+.accordion-disabled-root {
+  width: 320px;
+  max-width: 100%;
+  font-family: inherit;
+}
+
+.accordion-disabled-item {
+  border-bottom: 1px solid light-dark(#e2e8f0, #ffffff1f);
+}
+
+.accordion-disabled-header {
+  margin: 0;
+}
+
+.accordion-disabled-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 12px 2px;
+  background: none;
+  border: none;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  color: light-dark(#0f172a, #ffffff);
+  text-align: left;
+  cursor: pointer;
+}
+
+.accordion-disabled-trigger:hover:not([data-disabled]) {
+  color: light-dark(#006ce9, #4cb8ff);
+}
+
+.accordion-disabled-trigger:focus-visible {
+  outline: 2px solid #009dfd;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.accordion-disabled-trigger[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Rotate the chevron while the item is open */
+.accordion-disabled-chevron {
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  color: light-dark(#475569, #c9ddf0);
+  transition: transform 200ms ease;
+}
+
+.accordion-disabled-trigger[data-state="open"] .accordion-disabled-chevron {
+  transform: rotate(180deg);
+}
+
+.accordion-disabled-content {
+  padding: 0 2px 12px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: light-dark(#475569, #c9ddf0);
+}

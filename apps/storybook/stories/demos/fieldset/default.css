@@ -1,0 +1,49 @@
+.fieldset-default {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 280px;
+  margin: 0;
+  padding: 0;
+  border: none;
+  font-family: inherit;
+}
+
+.fieldset-default-legend {
+  padding: 0;
+  margin-bottom: 10px;
+  font-size: 14px;
+  font-weight: 600;
+  color: light-dark(#0f172a, #ffffff);
+}
+
+/* Each option is a selectable card */
+.fieldset-default-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border: 1px solid light-dark(#cbd5e1, #ffffff3d);
+  border-radius: 6px;
+  background: light-dark(#ffffff, #1b2045);
+  font-size: 14px;
+  color: light-dark(#0f172a, #ffffff);
+  cursor: pointer;
+}
+
+.fieldset-default-option:has(input:checked) {
+  border-color: #009dfd;
+  background: light-dark(#daf0ff, #009dfd26);
+}
+
+.fieldset-default-radio {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  accent-color: #009dfd;
+}
+
+.fieldset-default-radio:focus-visible {
+  outline: 2px solid #009dfd;
+  outline-offset: 2px;
+}

@@ -1,0 +1,89 @@
+.collapsible-controlled-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  font-family: inherit;
+}
+
+.collapsible-controlled-external-button {
+  height: 32px;
+  padding: 0 12px;
+  border: 1px solid light-dark(#cbd5e1, #ffffff3d);
+  border-radius: 6px;
+  background: light-dark(#ffffff, #1b2045);
+  color: light-dark(#0f172a, #ffffff);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.collapsible-controlled-external-button:hover {
+  background: light-dark(#f1f5f9, #ffffff14);
+}
+
+.collapsible-controlled-external-button:focus-visible {
+  outline: 2px solid #009dfd;
+  outline-offset: 2px;
+}
+
+.collapsible-controlled-root {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 320px;
+}
+
+.collapsible-controlled-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid light-dark(#cbd5e1, #ffffff3d);
+  border-radius: 6px;
+  background: light-dark(#ffffff, #1b2045);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  color: light-dark(#0f172a, #ffffff);
+  text-align: left;
+  cursor: pointer;
+}
+
+.collapsible-controlled-trigger:hover:not(:disabled) {
+  background: light-dark(#f1f5f9, #ffffff14);
+}
+
+.collapsible-controlled-trigger:focus-visible {
+  outline: 2px solid #009dfd;
+  outline-offset: 2px;
+}
+
+.collapsible-controlled-trigger:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Rotate the chevron while the collapsible is open */
+.collapsible-controlled-chevron {
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  color: light-dark(#475569, #c9ddf0);
+  transition: transform 200ms ease;
+}
+
+.collapsible-controlled-trigger[data-state="open"] .collapsible-controlled-chevron {
+  transform: rotate(180deg);
+}
+
+.collapsible-controlled-content {
+  padding: 10px 14px;
+  border-radius: 6px;
+  background: light-dark(#f1f5f9, #ffffff14);
+  font-size: 13px;
+  line-height: 1.6;
+  color: light-dark(#475569, #c9ddf0);
+}

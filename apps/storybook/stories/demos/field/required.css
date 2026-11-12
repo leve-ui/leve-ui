@@ -1,0 +1,42 @@
+.field-required {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 280px;
+  font-family: inherit;
+  font-size: 14px;
+}
+
+.field-required-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: light-dark(#0f172a, #ffffff);
+}
+
+.field-required-input {
+  height: 36px;
+  padding: 0 12px;
+  border: 1px solid light-dark(#cbd5e1, #ffffff3d);
+  border-radius: 6px;
+  background: light-dark(#ffffff, #1b2045);
+  color: light-dark(#0f172a, #ffffff);
+  font: inherit;
+  font-size: 14px;
+}
+
+.field-required-input::placeholder {
+  color: light-dark(#475569, #c9ddf0);
+  opacity: 0.7;
+}
+
+.field-required-input:focus-visible {
+  border-color: #009dfd;
+  outline: 2px solid #009dfd;
+  outline-offset: 2px;
+}
+
+/* Mark the label of a required field with an asterisk */
+.field-required-label[data-required]::after {
+  content: " *";
+  color: light-dark(#dc2626, #f87171);
+}

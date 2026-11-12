@@ -1,77 +1,32 @@
 import { component$, useSignal, useStyles$ } from '@builder.io/qwik';
 import { Progress } from '@leve-ui/progress';
-
-const styles = `
-  .progress {
-    display: grid;
-    grid-template-columns: 1fr auto;
-    row-gap: 0.5rem;
-    width: 15rem;
-  }
-
-  .progress-track {
-    grid-column: 1 / -1;
-    height: 0.5rem;
-    background: #e5e7eb;
-    border-radius: 9999px;
-    overflow: hidden;
-  }
-
-  .progress-indicator {
-    height: 100%;
-    /* Percentage of the Root value, set by the library */
-    width: var(--leve-progress-percent);
-    background: #2563eb;
-    border-radius: 9999px;
-    transition: width 300ms ease-out;
-  }
-
-  /* No percentage while indeterminate, so slide a fixed-width bar instead */
-  .progress-indicator[data-state='indeterminate'] {
-    width: 50%;
-    animation: progress-indeterminate 1s ease-in-out infinite;
-  }
-
-  @keyframes progress-indeterminate {
-    from {
-      transform: translateX(-100%);
-    }
-    to {
-      transform: translateX(200%);
-    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .progress-indicator {
-      transition: none;
-    }
-
-    .progress-indicator[data-state='indeterminate'] {
-      animation: none;
-      opacity: 0.5;
-    }
-  }
-`;
+import styles from './controlled.css?inline';
 
 export default component$(() => {
   useStyles$(styles);
   const value = useSignal(0);
 
   return (
-    <div>
-      <button type="button" onClick$={() => (value.value = Math.min(value.value + 25, 100))}>
-        Advance
-      </button>
-      <button type="button" onClick$={() => (value.value = 0)}>
-        Reset
-      </button>
-      <Progress.Root value={value.value} class="progress">
-        <Progress.Label>Uploading</Progress.Label>
-        <Progress.ValueText />
-        <Progress.Track class="progress-track">
-          <Progress.Indicator class="progress-indicator" />
+    <div class="progress-controlled-wrapper">
+      <Progress.Root value={value.value} class="progress-controlled">
+        <Progress.Label class="progress-controlled-label">Uploading</Progress.Label>
+        <Progress.ValueText class="progress-controlled-value" />
+        <Progress.Track class="progress-controlled-track">
+          <Progress.Indicator class="progress-controlled-indicator" />
         </Progress.Track>
       </Progress.Root>
+      <div class="progress-controlled-buttons">
+        <button
+          type="button"
+          class="progress-controlled-button"
+          onClick$={() => (value.value = Math.min(value.value + 25, 100))}
+        >
+          Advance
+        </button>
+        <button type="button" class="progress-controlled-button" onClick$={() => (value.value = 0)}>
+          Reset
+        </button>
+      </div>
     </div>
   );
 });

@@ -1,0 +1,43 @@
+.progress-with-value-text {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  row-gap: 8px;
+  align-items: center;
+  width: 240px;
+  font-family: inherit;
+}
+
+.progress-with-value-text-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: light-dark(#0f172a, #ffffff);
+}
+
+.progress-with-value-text-value {
+  font-size: 13px;
+  color: light-dark(#475569, #c9ddf0);
+  text-align: right;
+}
+
+.progress-with-value-text-track {
+  grid-column: 1 / -1;
+  height: 8px;
+  border-radius: 9999px;
+  background: light-dark(#e2e8f0, #ffffff1f);
+  overflow: hidden;
+}
+
+.progress-with-value-text-indicator {
+  height: 100%;
+  /* Percentage of the Root value, set by the library */
+  width: var(--leve-progress-percent);
+  border-radius: 9999px;
+  background: #009dfd;
+  transition: width 200ms ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .progress-with-value-text-indicator {
+    transition: none;
+  }
+}

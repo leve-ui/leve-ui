@@ -134,12 +134,14 @@ Every component needs all three:
 
 Storybook generates a Docs page for every component, and its "Show code" panel should show code that users can copy as is, styles included:
 
-- Write one demo file per story at `apps/storybook/stories/demos/<name>/<story>.tsx` (`<story>` is the export name in kebab-case). Export a `component$` as the default export, written the way a user would write it.
-- Put the styles in the demo file: write the CSS in a `const styles` string at the top and call `useStyles$(styles)` inside the component. Style with `class`, and prefix class names with the component name (e.g. `.progress-track`), because the CSS applies to the whole page.
-- In the story, render the demo and pass the same file, imported with `?raw`, to `parameters.docs.source.code`, so the code shown always matches what runs.
+- Write one demo per story at `apps/storybook/stories/demos/<name>/<story>.tsx` (`<story>` is the export name in kebab-case). Export a `component$` as the default export, written the way a user would write it. The docs site renders the same demos ([ADR 0031](./adr/0031-share-storybook-demos-with-the-docs-site-and-keep-demo-styles-in-css-files.md)).
+- Put the styles in `<story>.css` next to the demo, import them with `import styles from './<story>.css?inline'`, and call `useStyles$(styles)` inside the component. Style with `class`, and start class names with the component and story name (e.g. `.progress-default-track`), because the CSS applies to the whole page and several demos share a page.
+- In the story, render the demo and pass its TSX and CSS, imported with `?raw`, to `parameters.docs.source.code` through `demoSource()` from `stories/source.ts`, so the code shown always matches what runs.
 - Write comments in demo files, including CSS comments, in English.
-- Give demos the shared look so they fit both docs themes: accent `#009dfd`, surfaces `light-dark(#ffffff, #1b2045)`, borders `light-dark(#cbd5e1, #ffffff3d)`, text `light-dark(#0f172a, #ffffff)`, muted text `light-dark(#475569, #c9ddf0)`, radius `6px` (`4px` for small controls), focus `outline: 2px solid #009dfd; outline-offset: 2px`, disabled `opacity: 0.5`, and `font: inherit`. Write the values in each demo instead of sharing variables or files.
-- Don't write JSX directly in `render`, and don't hide parts, props, or styles behind helper components, shared constants, or shared stylesheets. They wouldn't show up in "Show code".
+- Give demos the shared look so they fit both docs themes: accent `#009dfd` (hover `#006ce9`), accent text `light-dark(#006ce9, #4cb8ff)`, surfaces `light-dark(#ffffff, #1b2045)`, subtle surfaces `light-dark(#f1f5f9, #ffffff14)`, tracks `light-dark(#e2e8f0, #ffffff1f)`, borders `light-dark(#cbd5e1, #ffffff3d)`, text `light-dark(#0f172a, #ffffff)`, muted text `light-dark(#475569, #c9ddf0)`, errors `light-dark(#dc2626, #f87171)`, success `light-dark(#16a34a, #4ade80)`, radius `6px` (`4px` for small controls, `9999px` for round ones), focus `outline: 2px solid #009dfd; outline-offset: 2px`, disabled `opacity: 0.5`, and `font-family: inherit`. Write the values in each demo instead of sharing variables or files.
+- Use icons from `@qwikest/icons/lucide` instead of inline SVG, and mark them `aria-hidden="true"`. It is the only external package demos may import.
+- Don't add test-only elements (such as buttons to check Tab order) to demos. E2E tests that need them open the story with `gotoStory(page, id, { focusGuards: true })`, which wraps it in `Before` / `After` buttons.
+- Don't write JSX directly in `render`, and don't hide parts, props, or styles behind helper components, shared constants, or stylesheets other than the demo's own `<story>.css`. They wouldn't show up in "Show code".
 
 ### Adding a Component
 

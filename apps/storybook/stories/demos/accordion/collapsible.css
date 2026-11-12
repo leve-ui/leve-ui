@@ -1,0 +1,74 @@
+.accordion-collapsible-root {
+  width: 320px;
+  max-width: 100%;
+  font-family: inherit;
+}
+
+.accordion-collapsible-item {
+  border-bottom: 1px solid light-dark(#e2e8f0, #ffffff1f);
+}
+
+.accordion-collapsible-header {
+  margin: 0;
+}
+
+.accordion-collapsible-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 12px 2px;
+  background: none;
+  border: none;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  color: light-dark(#0f172a, #ffffff);
+  text-align: left;
+  cursor: pointer;
+}
+
+.accordion-collapsible-trigger:hover:not([data-disabled]) {
+  color: light-dark(#006ce9, #4cb8ff);
+}
+
+.accordion-collapsible-trigger:focus-visible {
+  outline: 2px solid #009dfd;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.accordion-collapsible-trigger[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Rotate the chevron while the item is open */
+.accordion-collapsible-chevron {
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  color: light-dark(#475569, #c9ddf0);
+  transition: transform 200ms ease;
+}
+
+.accordion-collapsible-trigger[data-state="open"] .accordion-collapsible-chevron {
+  transform: rotate(180deg);
+}
+
+.accordion-collapsible-content {
+  padding: 0 2px 12px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: light-dark(#475569, #c9ddf0);
+}
+
+.accordion-collapsible-link {
+  color: light-dark(#006ce9, #4cb8ff);
+  text-decoration: underline;
+}
+
+.accordion-collapsible-link:focus-visible {
+  outline: 2px solid #009dfd;
+  outline-offset: 2px;
+}

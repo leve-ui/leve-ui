@@ -88,7 +88,7 @@ test.describe('Switch', () => {
   });
 
   test('disabled のときは Tab で飛ばされる', async ({ page }) => {
-    await gotoStory(page, 'components-switch--disabled');
+    await gotoStory(page, 'components-switch--disabled', { focusGuards: true });
 
     await page.getByRole('button', { name: 'Before' }).focus();
     await page.keyboard.press('Tab');

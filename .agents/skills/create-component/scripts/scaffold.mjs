@@ -274,20 +274,25 @@ write(
   join(ROOT, 'apps/storybook/stories/demos', name, 'default.tsx'),
   `import { component$, useStyles$ } from '@builder.io/qwik';
 import { ${Name} } from '${pkgName}';
-
-// TODO: Add the styles for this example (prefix class names with "${name}")
-const styles = \`
-  .${name} {
-  }
-\`;
+import styles from './default.css?inline';
 
 export default component$(() => {
   useStyles$(styles);
 
   return (
-${jsxTree('    ')}
+${jsxTree('    ').replace(`<${Name}.Root>`, `<${Name}.Root class="${name}-default">`)}
   );
 });
+`,
+);
+// demo のスタイル（.agents/rules/storybook.md の「demo の見た目」の値を使う）
+write(
+  join(ROOT, 'apps/storybook/stories/demos', name, 'default.css'),
+  `/* TODO: Add the styles for this example (prefix class names with "${name}-default") */
+.${name}-default {
+  font-family: inherit;
+  color: light-dark(#0f172a, #ffffff);
+}
 `,
 );
 write(
@@ -295,6 +300,8 @@ write(
   `import type { Meta, StoryObj } from 'storybook-framework-qwik';
 import DefaultDemo from './demos/${name}/default';
 import defaultSource from './demos/${name}/default?raw';
+import defaultCss from './demos/${name}/default.css?raw';
+import { demoSource } from './source';
 
 // 各ストーリーは demos/${name}/ の component$ を描画し、そのソースを Docs の「Show code」に表示する
 const meta: Meta = {
@@ -307,7 +314,7 @@ type Story = StoryObj;
 
 export const Default: Story = {
   render: () => <DefaultDemo />,
-  parameters: { docs: { source: { code: defaultSource } } },
+  parameters: { docs: { source: { code: demoSource(defaultSource, defaultCss, 'default.css') } } },
 };
 `,
 );

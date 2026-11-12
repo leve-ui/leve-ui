@@ -1,0 +1,57 @@
+.switch-default-root {
+  /* HiddenInput is absolutely positioned inside Root */
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-width: 200px;
+  font-family: inherit;
+}
+
+.switch-default-label {
+  font-size: 14px;
+  color: light-dark(#0f172a, #ffffff);
+  cursor: pointer;
+}
+
+.switch-default-control {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+  width: 36px;
+  height: 20px;
+  padding: 2px;
+  border: none;
+  border-radius: 9999px;
+  background: light-dark(#cbd5e1, #ffffff3d);
+  cursor: pointer;
+}
+
+.switch-default-control[data-state="checked"] {
+  background: #009dfd;
+}
+
+.switch-default-control:focus-visible {
+  outline: 2px solid #009dfd;
+  outline-offset: 2px;
+}
+
+.switch-default-control:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.switch-default-thumb {
+  display: block;
+  width: 16px;
+  height: 16px;
+  border-radius: 9999px;
+  background: #ffffff;
+  box-shadow: 0 1px 2px rgb(15 23 42 / 0.2);
+  transition: transform 150ms ease;
+}
+
+.switch-default-thumb[data-state="checked"] {
+  transform: translateX(16px);
+}

@@ -1,0 +1,57 @@
+.checkbox-checked-root {
+  /* HiddenInput is absolutely positioned inside Root */
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: inherit;
+}
+
+.checkbox-checked-control {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  padding: 0;
+  border: 1px solid light-dark(#cbd5e1, #ffffff3d);
+  border-radius: 4px;
+  background: light-dark(#ffffff, #1b2045);
+  cursor: pointer;
+}
+
+.checkbox-checked-control[data-state="checked"] {
+  background: #009dfd;
+  border-color: #009dfd;
+}
+
+.checkbox-checked-control:focus-visible {
+  outline: 2px solid #009dfd;
+  outline-offset: 2px;
+}
+
+.checkbox-checked-control:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* The indicator is always rendered; show it only when checked */
+.checkbox-checked-indicator {
+  display: none;
+  color: #ffffff;
+}
+
+.checkbox-checked-indicator[data-state="checked"] {
+  display: inline-flex;
+}
+
+.checkbox-checked-icon {
+  width: 12px;
+  height: 12px;
+}
+
+.checkbox-checked-label {
+  font-size: 14px;
+  color: light-dark(#0f172a, #ffffff);
+  cursor: pointer;
+}

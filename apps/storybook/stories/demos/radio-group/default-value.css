@@ -1,0 +1,55 @@
+.radio-group-default-value-root {
+  font-family: inherit;
+  /* HiddenInput is absolutely positioned inside Root */
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.radio-group-default-value-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: light-dark(#0f172a, #ffffff);
+}
+
+.radio-group-default-value-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0;
+  background: none;
+  border: none;
+  font: inherit;
+  font-size: 14px;
+  color: light-dark(#0f172a, #ffffff);
+  cursor: pointer;
+  text-align: left;
+}
+
+.radio-group-default-value-item:focus-visible {
+  outline: 2px solid #009dfd;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.radio-group-default-value-item:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.radio-group-default-value-indicator {
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+  border: 1px solid light-dark(#cbd5e1, #ffffff3d);
+  border-radius: 9999px;
+  background: light-dark(#ffffff, #1b2045);
+  box-sizing: border-box;
+}
+
+/* A thick accent border draws the selected dot */
+.radio-group-default-value-indicator[data-state="checked"] {
+  border: 5px solid #009dfd;
+}
