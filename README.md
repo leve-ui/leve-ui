@@ -73,6 +73,7 @@ Style each part however you like, for example with data attributes:
 | [`@leve-ui/toggle`](./packages/components/toggle) | A two-state button that can be toggled on or off |
 | [`@leve-ui/field`](./packages/components/field) | Label, description and error message wiring for form controls |
 | [`@leve-ui/switch`](./packages/components/switch) | A control that toggles a setting on or off |
+| [`@leve-ui/checkbox`](./packages/components/checkbox) | A control that toggles between checked, unchecked, or indeterminate states |
 | [`@leve-ui/collapsible`](./packages/components/collapsible) | An interactive component that can be expanded or collapsed |
 | [`@leve-ui/radio-group`](./packages/components/radio-group) | A set of checkable buttons where only one item can be checked at a time |
 | [`@leve-ui/tabs`](./packages/components/tabs) | A set of layered sections of content that display one panel at a time |
