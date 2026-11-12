@@ -43,7 +43,8 @@ leve-ui/
 │   ├── CODEOWNERS
 │   └── workflows/
 │       ├── ci.yml                 # PR と main への push で実行する CI
-│       └── release.yml            # リリース PR の作成と npm への公開（Changesets）
+│       ├── release.yml            # リリース PR の作成と npm への公開（Changesets）
+│       └── storybook-preview.yml  # Storybook のプレビューを Cloudflare Pages にデプロイ（adr/0027）
 ├── .agents/
 │   ├── rules/                     # AI 向けの制約（常に読み込まれる）
 │   └── skills/<name>/SKILL.md     # AI 向けの作業手順（必要なときに読み込まれる）
