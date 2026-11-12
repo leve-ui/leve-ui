@@ -58,3 +58,5 @@ Component-specific specs (which APG pattern a component follows, its parts, and 
 | [0026](0026-participate-in-native-forms-through-a-hiddeninput-part.md) | Participate in native forms through a HiddenInput part | Accepted |
 | [0027](0027-deploy-storybook-previews-to-cloudflare-pages.md) | Deploy Storybook previews to Cloudflare Pages | Accepted |
 | [0028](0028-make-drawer-a-separate-package-and-a-non-modal-dialog-by-default.md) | Make Drawer a separate package and a non-modal dialog by default | Accepted |
+| [0029](0029-render-overlays-in-place-in-the-top-layer-with-native-dialog-and-popover.md) | Render overlays in place in the top layer with native dialog and popover | Proposed |
+| [0030](0030-position-floating-content-with-css-anchor-positioning.md) | Position floating content with CSS anchor positioning | Proposed |
