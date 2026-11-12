@@ -1,6 +1,6 @@
 # 0028. Make Drawer a separate package and a non-modal dialog by default
 
-- Status: Proposed
+- Status: Accepted
 - Date: 2026-11-12
 - Related: [0009](0009-headless-parts-and-data-attributes.md)
 
