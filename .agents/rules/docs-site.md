@@ -18,7 +18,7 @@ description: ドキュメントサイト（apps/docs）の UI を leve-ui 自身
 ## ページの書き分け
 
 - ページは英語だけで、`apps/docs/src/routes/en/` に書く。ほかの言語のページ（`src/routes/<locale>/`、git 管理外）はビルド時に生成されるので、作ったり編集したりしない（`adr/0033`）。
-- 翻訳は `apps/docs/i18n/<locale>.json`（翻訳メモリ。英語の文の hash がキー）にある。訳を直すときはこの JSON の `translation` を直す。英語の文を変えると hash が変わり、その文は訳し直しになる。
+- 翻訳は `apps/docs/i18n/<locale>.json`（翻訳メモリ。英語の文の hash がキー）にある。訳を直すときはこの JSON の `translation` を直す。`where` にはその文を使っているファイル（Props の説明は `props: <Part> <prop>`）が入る。英語が同じ文は 1 つの訳を共有するので、直す前に `where` で影響範囲を確かめる（`where` は CI が書き換えるので手で直さない）。英語の文を変えると hash が変わり、その文は訳し直しになる。
 - 翻訳は CI（`docs-translate.yml`）が `main` への push のたびに作り、`chore(docs): update translations` の PR にする。PR で `ja.json` などを手で書かない（英語を変えれば訳は自動で更新される）。手元で試すときは `gcloud auth application-default login` のうえ `GCP_PROJECT_ID=<id> pnpm --filter @leve-ui/docs i18n:translate`（`--dry-run` で件数だけ確認できる）。AI エージェントは Google Cloud の認証情報や設定を作らない・変えない。
 - サイトの UI の文言（ボタンの `aria-label`、見出しなど）は英語で書き、`t(locale, 'On this page')`（`locale` は `useLocale()`）で囲む。文字列はリテラルで書く（`scripts/i18n/ui.ts` が集めて翻訳メモリに入れるため）。定義する場所と表示する場所が違う文字列（`docs-nav.ts` のタイトルなど）は `msg('...')` で印を付け、表示するときに `t(locale, title)` で訳す。Props の説明（JSDoc）も同じメモリで訳される。
 - `t` はフックが返す関数にしない。Qwik は JSX の式が参照する値をシリアライズするため、関数を参照させると SSR で失敗する。

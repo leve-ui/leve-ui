@@ -27,6 +27,9 @@ describe('uiStrings', () => {
     );
     mkdirSync(join(src, 'routes/ja'), { recursive: true });
     writeFileSync(join(src, 'routes/ja/b.tsx'), "t(locale, 'Generated')");
-    assert.deepEqual(uiStrings(src), ['On this page', "It's here"]);
+    assert.deepEqual(uiStrings(src), [
+      { text: 'On this page', where: 'src/components/a.tsx' },
+      { text: "It's here", where: 'src/components/a.tsx' },
+    ]);
   });
 });

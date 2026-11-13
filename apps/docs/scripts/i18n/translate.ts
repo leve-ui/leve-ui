@@ -1,6 +1,7 @@
 /**
- * Translates the segments that are missing from the translation memory and
- * removes entries whose English text no longer exists (adr/0033).
+ * Translates the segments that are missing from the translation memory,
+ * removes entries whose English text no longer exists, and updates where each
+ * text is used (adr/0033).
  *
  * Run: pnpm --filter @leve-ui/docs i18n:translate [--locale ja] [--dry-run] [--keep-stale]
  *
@@ -56,7 +57,11 @@ function batches(texts: SourceText[]): SourceText[][] {
 
 /** Translates a batch and keeps only translations whose placeholders match. */
 async function translateBatch(translator: Translator, texts: SourceText[], locale: string) {
-  const requests: TranslationRequest[] = texts.map((t, i) => ({ id: `s${i}`, ...t }));
+  const requests: TranslationRequest[] = texts.map((t, i) => ({
+    id: `s${i}`,
+    text: t.text,
+    placeholders: t.placeholders,
+  }));
   const result = await translator.translate(requests, locale);
   const done = new Map<string, string>();
   const failed: { text: SourceText; problem: string }[] = [];
@@ -85,6 +90,11 @@ async function translateLocale(locale: string) {
   if (!values['keep-stale']) for (const hash of stale) delete memory[hash];
 
   const missing = texts.filter((t) => !memory[segmentHash(t.text)]);
+  const where = new Map(texts.map((t) => [segmentHash(t.text), t.where]));
+  for (const [hash, entry] of Object.entries(memory)) {
+    const used = where.get(hash);
+    if (used) entry.where = used;
+  }
   const chars = missing.reduce((sum, t) => sum + t.text.length, 0);
   console.log(
     `${locale}: ${texts.length} segments, ${missing.length} missing (${chars} chars), ` +
@@ -92,13 +102,14 @@ async function translateLocale(locale: string) {
   );
   if (values['dry-run']) return { missing: missing.length, errors: 0 };
   if (missing.length === 0) {
-    if (stale.length > 0 && !values['keep-stale']) writeMemory(locale, memory);
+    writeMemory(locale, memory);
     return { missing: 0, errors: 0 };
   }
   const translator = getTranslator();
 
   const save = (text: string, translation: string) => {
-    memory[segmentHash(text)] = { source: text, translation };
+    const hash = segmentHash(text);
+    memory[hash] = { source: text, translation, where: where.get(hash) };
   };
 
   let errors = 0;

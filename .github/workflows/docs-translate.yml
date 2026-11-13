@@ -81,7 +81,7 @@ jobs:
           body: |
             Machine translations of the docs that changed on `main` (adr/0033), made by the [Translate docs](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) workflow.
 
-            Review each `source` / `translation` pair. To fix a translation, edit its `translation` in this branch before merging.
+            Review each `source` / `translation` pair. `where` lists the files (or props) that use the sentence; identical sentences share one translation. To fix a translation, edit its `translation` in this branch before merging.
           labels: "scope: docs"
           delete-branch: true
 
