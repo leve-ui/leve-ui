@@ -27,10 +27,6 @@ Yes. Every part passes `class`, `style` and other attributes to its element, so 
 
 Yes. Components render on the server and resume without hydration. Ids that connect the parts come from Qwik's `useId()`, so they are the same on the server and the client, and the ARIA references in the server-rendered HTML are correct before any JavaScript runs.
 
-## Why does `Avatar.Root` have no `data-state`?
-
-The loading status is decided by `Avatar.Image`, and Qwik renders a parent's attributes on the server before its children. A state decided by a child would be stale on the parent, so it is exposed only on `Avatar.Image` and `Avatar.Fallback`. To style the Root, use `:has()`, for example `.avatar:has([data-state='loaded'])`.
-
 ## Where do I report a bug?
 
 Open an issue on [GitHub](https://github.com/leve-ui/leve-ui/issues). Please include the component, the version, and the steps to reproduce.

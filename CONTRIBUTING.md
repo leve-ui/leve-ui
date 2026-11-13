@@ -160,6 +160,7 @@ The docs site (`apps/docs`) is the first user of leve-ui ([ADR 0032](./adr/0032-
 
 - Build its UI with leve-ui components whenever one fits (for example `Tabs` for the Code / CSS tabs, `Collapsible` for the sidebar). Don't reimplement a component the library already provides.
 - Import only from the public packages (`@leve-ui/core` or `@leve-ui/<name>`), not from `@leve-ui/utils` or package internals.
+- Keep the FAQ to questions about the library as a whole. Explain a component's own behavior on that component's page.
 - If the site needs a component that doesn't exist yet, or an existing component is missing a feature or is awkward to use, report it in your pull request or open an issue. If you can't wait for it, keep a minimal temporary implementation based on native elements and mark it with `// TODO(leve-ui): replace with <Name> (#<issue>)`.
 
 ## Design Decisions

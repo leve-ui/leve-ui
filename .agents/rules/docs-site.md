@@ -15,6 +15,10 @@ description: ドキュメントサイト（apps/docs）の UI を leve-ui 自身
 - 見た目は docs サイトのスタイル（Panda CSS）で当てる。`data-state` などの data 属性を使ってスタイルを当て、ライブラリの使い方の見本にもなるようにする。
 - demo（`apps/storybook/stories/demos/`）は `storybook.md` に従い、Panda を使わない。
 
+## ページの書き分け
+
+- FAQ（`overview/faq`）には、ライブラリ全体に関わる質問だけを載せる。個別のコンポーネントの仕様や理由（例: Avatar の Root に `data-state` がない理由）は、そのコンポーネントのページに書く。
+
 ## 足りないコンポーネントを報告する
 
 ドキュメントサイトの構築中に、次のものに気づいたら、**作業の報告の中でユーザーに必ず伝える。** 黙って自前で実装して済ませない。
