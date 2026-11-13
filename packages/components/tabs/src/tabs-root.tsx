@@ -15,32 +15,28 @@ import { type TriggerItem, tabsContextId } from './tabs-context';
 
 export type TabsRootProps = PropsOf<'div'> & {
   /**
-   * 初期状態で選択されるタブの value（非制御モード）。
+   * The value of the tab selected initially (uncontrolled).
    * @default null
    */
   defaultValue?: string | null;
-  /**
-   * 選択中のタブの value を保持する Signal（制御モード）。
-   */
+  /** A signal with the value of the selected tab (controlled). */
   'bind:value'?: Signal<string | null> | Signal<string>;
-  /**
-   * 選択中のタブが変わったときに呼ばれるコールバック。
-   */
+  /** Called when the selected tab changes. */
   onValueChange$?: QRL<(value: string) => void>;
   /**
-   * タブの配置方向。
+   * The orientation of the tab list.
    * @default 'horizontal'
    */
   orientation?: 'horizontal' | 'vertical';
   /**
-   * タブの選択方式。
-   * - `'automatic'`: フォーカス移動と同時に選択する
-   * - `'manual'`: フォーカス移動のみ行い、Enter / Space で選択する
+   * How a tab is selected.
+   * - `'automatic'`: selected when it receives focus
+   * - `'manual'`: focus moves only; Enter or Space selects
    * @default 'automatic'
    */
   activationMode?: 'automatic' | 'manual';
   /**
-   * 端に達したときに反対側の端へループするかどうか。
+   * Whether arrow keys wrap from the last tab to the first and vice versa.
    * @default true
    */
   loop?: boolean;

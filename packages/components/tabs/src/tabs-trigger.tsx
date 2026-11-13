@@ -12,12 +12,11 @@ import { dataAttr, moveRovingFocus } from '@leve-ui/utils';
 import { getContentId, getTriggerId, tabsContextId } from './tabs-context';
 
 export type TabsTriggerProps = Omit<PropsOf<'button'>, 'value'> & {
-  /**
-   * タブを一意に識別する値。対応する Content の `value` と一致させる必要があります。
-   */
+  /** A unique value that identifies the tab. Must match the `value` of its Content. */
   value: string;
   /**
-   * タブを無効化するかどうか。
+   * Disables the tab.
+   * @default false
    */
   disabled?: boolean;
 };

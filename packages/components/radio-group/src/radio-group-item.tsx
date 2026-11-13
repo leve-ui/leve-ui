@@ -15,9 +15,12 @@ import { dataAttr, moveRovingFocus } from '@leve-ui/utils';
 import { radioGroupContextId, radioGroupItemContextId } from './radio-group-context';
 
 export type RadioGroupItemProps = PropsOf<'button'> & {
-  /** このラジオボタンの値（必須） */
+  /** The value of this radio button. */
   value: string;
-  /** このラジオボタンを無効化するかどうか */
+  /**
+   * Disables this radio button.
+   * @default false
+   */
   disabled?: boolean;
 };
 

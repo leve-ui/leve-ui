@@ -13,15 +13,21 @@ import { dataAttr, useControllableState } from '@leve-ui/utils';
 import { type CollapsibleIds, collapsibleContextId } from './collapsible-context';
 
 export type CollapsibleRootProps = PropsOf<'div'> & {
-  /** 各パーツの要素 ID を上書きする場合に指定します */
+  /** Overrides the element IDs of the parts. */
   ids?: Partial<CollapsibleIds>;
-  /** 非制御モードの初期値。既定値は false */
+  /**
+   * Whether the content is open initially (uncontrolled).
+   * @default false
+   */
   defaultOpen?: boolean;
-  /** 制御モード。開閉状態の Signal */
+  /** A signal with the open state (controlled). */
   'bind:open'?: Signal<boolean>;
-  /** ユーザー操作で開閉状態が変わったときに呼ばれる */
+  /** Called when the user opens or closes the content. */
   onOpenChange$?: QRL<(open: boolean) => void>;
-  /** コンポーネントを無効化するかどうか */
+  /**
+   * Disables the trigger.
+   * @default false
+   */
   disabled?: boolean;
 };
 

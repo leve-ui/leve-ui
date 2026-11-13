@@ -2,12 +2,28 @@ import { component$, type PropsOf, Slot, useComputed$ } from '@builder.io/qwik';
 import { dataAttr, type FieldIds, useFieldProvider } from '@leve-ui/utils';
 
 export type FieldRootProps = PropsOf<'div'> & {
-  /** adr/0024: IDs are overridden only here */
+  /** Overrides the element IDs of the parts. IDs can only be overridden here (adr/0024). */
   ids?: Partial<FieldIds>;
+  /**
+   * Marks the control as invalid (`aria-invalid`) and shows the ErrorMessage.
+   * @default false
+   */
   invalid?: boolean;
+  /**
+   * Disables the control.
+   * @default false
+   */
   disabled?: boolean;
+  /**
+   * Marks the control as required.
+   * @default false
+   */
   required?: boolean;
-  /** Set to true when Field.Description is used */
+  /**
+   * Set to `true` when a `Field.Description` is rendered, so that the control is
+   * described by it (`aria-describedby`).
+   * @default false
+   */
   hasDescription?: boolean;
 };
 

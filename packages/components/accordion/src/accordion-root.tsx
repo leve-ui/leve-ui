@@ -13,37 +13,39 @@ import { accordionContextId } from './accordion-context';
 
 export type AccordionRootProps = PropsOf<'div'> & {
   /**
-   * アコーディオンの展開モード。
-   * - `'single'`: 同時に開く項目は最大 1 つ（既定値）
-   * - `'multiple'`: 複数の項目を同時に開くことができる
+   * How many items can be open at once.
+   * - `'single'`: at most one item
+   * - `'multiple'`: any number of items
+   * @default 'single'
    */
   type?: 'single' | 'multiple';
   /**
-   * 非制御モードでの初期展開状態の項目値リスト。既定値は `[]`
+   * The values of the items that are open initially (uncontrolled).
+   * @default []
    */
   defaultValue?: string[];
-  /**
-   * 制御モードでの展開項目値リストの Signal
-   */
+  /** A signal with the values of the open items (controlled). */
   'bind:value'?: Signal<string[]>;
-  /**
-   * ユーザー操作で展開項目値リストが変更されたときに呼ばれるコールバック
-   */
+  /** Called when the user opens or closes an item. */
   onValueChange$?: QRL<(value: string[]) => void>;
   /**
-   * `type="single"` のとき、開いている項目をクリックして閉じられるかどうか。既定値は `false`
+   * When `type` is `'single'`, allows closing the open item by activating it again.
+   * @default false
    */
   collapsible?: boolean;
   /**
-   * すべての項目を無効化するかどうか。既定値は `false`
+   * Disables all items.
+   * @default false
    */
   disabled?: boolean;
   /**
-   * アコーディオンの配置方向。キーボードの矢印キー操作に影響します。既定値は `'vertical'`
+   * The orientation of the accordion, which decides the arrow keys that move focus.
+   * @default 'vertical'
    */
   orientation?: 'vertical' | 'horizontal';
   /**
-   * 矢印キー移動時に末尾から先頭（または先頭から末尾）へループするかどうか。既定値は `true`
+   * Whether arrow keys wrap from the last trigger to the first and vice versa.
+   * @default true
    */
   loop?: boolean;
 };

@@ -13,12 +13,11 @@ import { dataAttr, moveRovingFocus } from '@leve-ui/utils';
 import { toggleGroupContextId } from './toggle-group-context';
 
 export type ToggleGroupItemProps = Omit<PropsOf<'button'>, 'value'> & {
-  /**
-   * この項目の値（必須）。
-   */
+  /** The value of this item. */
   value: string;
   /**
-   * この項目を無効化するかどうか。
+   * Disables this item.
+   * @default false
    */
   disabled?: boolean;
 };

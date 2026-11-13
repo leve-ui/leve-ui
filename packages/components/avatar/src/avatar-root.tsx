@@ -11,7 +11,7 @@ import {
 import { avatarContextId, type ImageLoadingStatus } from './avatar-context';
 
 export type AvatarRootProps = PropsOf<'span'> & {
-  /** 画像の読み込み状態が変化したときに呼ばれます */
+  /** Called when the loading status of the image changes. */
   onStatusChange$?: QRL<(status: ImageLoadingStatus) => void>;
 };
 

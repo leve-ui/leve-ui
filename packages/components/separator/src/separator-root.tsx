@@ -3,11 +3,15 @@ import { component$, type PropsOf } from '@builder.io/qwik';
 export type SeparatorOrientation = 'horizontal' | 'vertical';
 
 export type SeparatorRootProps = PropsOf<'div'> & {
-  /** 区切りの向き。既定値は `horizontal` */
+  /**
+   * The orientation of the separator.
+   * @default 'horizontal'
+   */
   orientation?: SeparatorOrientation;
   /**
-   * 見た目だけの区切りとして、支援技術から隠します（`role="none"`）。
-   * 意味のある区切りでなければ `true` にしてください。
+   * Hides the separator from assistive technology (`role="none"`).
+   * Set to `true` when the separator is purely visual.
+   * @default false
    */
   decorative?: boolean;
 };

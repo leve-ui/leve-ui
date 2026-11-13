@@ -15,44 +15,40 @@ import { type ToggleGroupItemRegistration, toggleGroupContextId } from './toggle
 
 export type ToggleGroupRootProps = PropsOf<'div'> & {
   /**
-   * 選択モード。
-   * - `'single'`: 単一選択（0個または1個の値を保持）
-   * - `'multiple'`: 複数選択（複数の値を保持）
+   * How many items can be pressed at once.
+   * - `'single'`: zero or one item
+   * - `'multiple'`: any number of items
    * @default 'single'
    */
   type?: 'single' | 'multiple';
   /**
-   * 初期状態で押下される項目の value の配列（非制御モード）。
+   * The values of the items pressed initially (uncontrolled).
    * @default []
    */
   defaultValue?: string[];
-  /**
-   * 押下中の項目の value の配列を保持する Signal（制御モード）。
-   */
+  /** A signal with the values of the pressed items (controlled). */
   'bind:value'?: Signal<string[]>;
-  /**
-   * 押下状態が変わったときに呼ばれるコールバック。
-   */
+  /** Called when the pressed items change. */
   onValueChange$?: QRL<(value: string[]) => void>;
   /**
-   * グループ全体を無効化するかどうか。
-   * すべての Item が無効化されます。
+   * Disables all items.
+   * @default false
    */
   disabled?: boolean;
   /**
-   * 項目の配置方向。矢印キーの操作方向に影響します。
+   * The orientation of the group, which decides the arrow keys that move focus.
    * @default 'horizontal'
    */
   orientation?: 'horizontal' | 'vertical';
   /**
-   * 端に達したときに反対側の端へループするかどうか。
+   * Whether arrow keys wrap from the last item to the first and vice versa.
    * @default true
    */
   loop?: boolean;
   /**
-   * ロービングフォーカス管理を有効にするかどうか。
-   * `false` の場合、グループはフォーカス管理を行いません。Item は `tabIndex` 属性なし・矢印キーハンドラなしで描画され、
-   * 各 Item は通常のタブストップになります。Toolbar などの親コンポーネントがフォーカスを管理する場合に使用します。
+   * Manages focus with a roving tabindex and arrow keys.
+   * When `false`, items are rendered without `tabIndex` or arrow key handlers and
+   * each item is a regular tab stop. Use this when a parent such as a Toolbar manages focus.
    * @default true
    */
   rovingFocus?: boolean;

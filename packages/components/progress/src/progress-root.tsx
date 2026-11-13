@@ -10,15 +10,24 @@ import { clamp, valueToPercent } from '@leve-ui/utils';
 import { type ProgressState, progressContextId } from './progress-context';
 
 export type ProgressRootProps = PropsOf<'div'> & {
-  /** 現在の値。`null` のときは不確定（indeterminate）になります。既定値は `null` */
+  /**
+   * The current value. `null` means the progress is indeterminate.
+   * @default null
+   */
   value?: number | null;
-  /** 最小値。既定値は `0` */
+  /**
+   * The minimum value.
+   * @default 0
+   */
   min?: number;
-  /** 最大値。既定値は `100` */
+  /**
+   * The maximum value.
+   * @default 100
+   */
   max?: number;
   /**
-   * 値を人が読める形にした文字列（例: `"3 / 10 files"`）。
-   * `aria-valuetext` と ValueText の表示に使います。省略時は割合（例: `"30%"`）を表示します。
+   * A human-readable text for the value (e.g. `"3 / 10 files"`), used for
+   * `aria-valuetext` and shown by ValueText. Defaults to the percentage (e.g. `"30%"`).
    */
   valueText?: string;
 };
