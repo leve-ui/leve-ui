@@ -18,15 +18,26 @@ import {
 } from './checkbox-context';
 
 export type CheckboxRootProps = PropsOf<'div'> & {
-  /** 各パーツの要素 ID を上書きする場合に指定します（Field 外でのみ有効） */
+  /** Overrides the element IDs of the parts. Only used outside a Field. */
   ids?: Partial<CheckboxIds>;
-  /** 非制御モードの初期値。既定値は false */
+  /**
+   * The initial checked state (uncontrolled).
+   * @default false
+   */
   defaultChecked?: CheckboxCheckedState;
-  /** 制御モード。チェック状態の Signal */
+  /** A signal with the checked state (controlled). */
   'bind:checked'?: Signal<CheckboxCheckedState>;
-  /** ユーザー操作で状態が変わったときに呼ばれる */
+  /** Called when the user changes the checked state. */
   onCheckedChange$?: QRL<(checked: CheckboxCheckedState) => void>;
+  /**
+   * Disables the checkbox. Inside a Field, the Field's `disabled` also applies.
+   * @default false
+   */
   disabled?: boolean;
+  /**
+   * Marks the checkbox as required. Inside a Field, the Field's `required` also applies.
+   * @default false
+   */
   required?: boolean;
 };
 

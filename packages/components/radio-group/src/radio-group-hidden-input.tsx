@@ -3,7 +3,7 @@ import { dataAttr } from '@leve-ui/utils';
 import { radioGroupContextId } from './radio-group-context';
 
 export type RadioGroupHiddenInputProps = PropsOf<'input'> & {
-  /** 関連付ける form 要素の id */
+  /** The `id` of the form element to associate the input with. */
   form?: string;
 };
 

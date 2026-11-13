@@ -8,5 +8,5 @@
       "~demos/*": ["../storybook/stories/demos/*"]
     }
   },
-  "include": ["src", "./*.d.ts", "./*.config.ts", "styled-system", "vite", "theme"]
+  "include": ["src", "./*.d.ts", "./*.config.ts", "styled-system", "vite", "theme", "scripts"]
 }

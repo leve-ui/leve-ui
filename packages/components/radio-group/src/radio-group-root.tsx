@@ -18,21 +18,36 @@ import {
 } from './radio-group-context';
 
 export type RadioGroupRootProps = PropsOf<'div'> & {
-  /** 各パーツの要素 ID を上書きする場合に指定します */
+  /** Overrides the element IDs of the parts. */
   ids?: Partial<RadioGroupIds>;
-  /** 非制御モードの初期値。既定値は null */
+  /**
+   * The value selected initially (uncontrolled).
+   * @default null
+   */
   defaultValue?: string | null;
-  /** 制御モード。選択された値の Signal */
+  /** A signal with the selected value (controlled). */
   'bind:value'?: Signal<string | null>;
-  /** ユーザー操作で値が変わったときに呼ばれる */
+  /** Called when the user selects a value. */
   onValueChange$?: QRL<(value: string) => void>;
-  /** ラジオグループの配置方向。既定値は 'vertical' */
+  /**
+   * The orientation of the group.
+   * @default 'vertical'
+   */
   orientation?: 'horizontal' | 'vertical';
-  /** 矢印キー移動で端に達したときに循環するかどうか。既定値は true */
+  /**
+   * Whether arrow keys wrap from the last item to the first and vice versa.
+   * @default true
+   */
   loop?: boolean;
-  /** 無効化フラグ */
+  /**
+   * Disables all radio buttons.
+   * @default false
+   */
   disabled?: boolean;
-  /** 必須フラグ */
+  /**
+   * Marks the group as required.
+   * @default false
+   */
   required?: boolean;
 };
 

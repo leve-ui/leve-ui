@@ -6,7 +6,8 @@ export type AccordionHeaderLevel = 1 | 2 | 3 | 4 | 5 | 6;
 
 export type AccordionHeaderProps = PropsOf<'h3'> & {
   /**
-   * 見出しレベル（1〜6）。既定値は 3
+   * The heading level (1–6) of the element that wraps the trigger.
+   * @default 3
    */
   level?: AccordionHeaderLevel;
 };

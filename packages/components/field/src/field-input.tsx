@@ -2,9 +2,9 @@ import { component$, type PropsOf, type Signal } from '@builder.io/qwik';
 import { dataAttr, useFieldControl } from '@leve-ui/utils';
 
 export type FieldInputProps = PropsOf<'input'> & {
-  /** 入力値と双方向で同期する Signal です。 */
+  /** A signal synced two-way with the input value. */
   'bind:value'?: Signal<string>;
-  /** チェック状態と双方向で同期する Signal です（checkbox / radio 用）。 */
+  /** A signal synced two-way with the checked state (for checkbox and radio inputs). */
   'bind:checked'?: Signal<boolean>;
 };
 

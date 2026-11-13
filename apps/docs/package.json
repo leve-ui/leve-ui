@@ -4,12 +4,13 @@
   "type": "module",
   "scripts": {
     "prepare": "panda codegen",
-    "dev": "panda codegen && vite --mode ssr",
-    "build": "panda codegen && qwik build",
+    "props": "node scripts/generate-props.ts",
+    "dev": "pnpm props && panda codegen && vite --mode ssr",
+    "build": "pnpm props && panda codegen && qwik build",
     "build.client": "vite build",
     "build.preview": "vite build --ssr src/entry.preview.tsx",
     "build.types": "tsc --noEmit",
-    "typecheck": "panda codegen && tsc --noEmit",
+    "typecheck": "pnpm props && panda codegen && tsc --noEmit",
     "preview": "qwik build preview && vite preview",
     "qwik": "qwik"
   },

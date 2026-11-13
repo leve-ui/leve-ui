@@ -10,15 +10,21 @@ import { clamp, valueToPercent } from '@leve-ui/utils';
 import { meterContextId } from './meter-context';
 
 export type MeterRootProps = PropsOf<'div'> & {
-  /** 現在の値。`min` 〜 `max` の範囲に丸められます */
+  /** The current value. It is clamped between `min` and `max`. */
   value: number;
-  /** 最小値。既定値は `0` */
+  /**
+   * The minimum value.
+   * @default 0
+   */
   min?: number;
-  /** 最大値。既定値は `100` */
+  /**
+   * The maximum value.
+   * @default 100
+   */
   max?: number;
   /**
-   * 値を人が読める形にした文字列（例: `"50 GB / 200 GB"`）。
-   * `aria-valuetext` と ValueText の表示に使います。省略時は割合（例: `"25%"`）を表示します。
+   * A human-readable text for the value (e.g. `"50 GB / 200 GB"`), used for
+   * `aria-valuetext` and shown by ValueText. Defaults to the percentage (e.g. `"25%"`).
    */
   valueText?: string;
 };

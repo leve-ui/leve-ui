@@ -13,15 +13,26 @@ import { dataAttr, useControllableState, useFieldContext } from '@leve-ui/utils'
 import { type SwitchIds, switchContextId } from './switch-context';
 
 export type SwitchRootProps = PropsOf<'div'> & {
-  /** 各パーツの要素 ID を上書きする場合に指定します（Field 外でのみ有効） */
+  /** Overrides the element IDs of the parts. Only used outside a Field. */
   ids?: Partial<SwitchIds>;
-  /** 非制御モードの初期値。既定値は false */
+  /**
+   * Whether the switch is on initially (uncontrolled).
+   * @default false
+   */
   defaultChecked?: boolean;
-  /** 制御モード。オン/オフ状態の Signal */
+  /** A signal with the on/off state (controlled). */
   'bind:checked'?: Signal<boolean>;
-  /** ユーザー操作で状態が変わったときに呼ばれる */
+  /** Called when the user turns the switch on or off. */
   onCheckedChange$?: QRL<(checked: boolean) => void>;
+  /**
+   * Disables the switch. Inside a Field, the Field's `disabled` also applies.
+   * @default false
+   */
   disabled?: boolean;
+  /**
+   * Marks the switch as required. Inside a Field, the Field's `required` also applies.
+   * @default false
+   */
   required?: boolean;
 };
 

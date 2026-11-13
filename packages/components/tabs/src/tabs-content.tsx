@@ -2,9 +2,7 @@ import { component$, type PropsOf, Slot, useContext } from '@builder.io/qwik';
 import { getContentId, getTriggerId, tabsContextId } from './tabs-context';
 
 export type TabsContentProps = Omit<PropsOf<'div'>, 'value'> & {
-  /**
-   * 対応するタブ（Trigger）の `value` と一致させる値。
-   */
+  /** The `value` of the Trigger that shows this panel. */
   value: string;
 };
 

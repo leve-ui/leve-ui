@@ -2,7 +2,10 @@ import { component$, type PropsOf, Slot } from '@builder.io/qwik';
 import { dataAttr } from '@leve-ui/utils';
 
 export type BreadcrumbLinkProps = PropsOf<'a'> & {
-  /** 現在のページを表すリンクのとき `true` にします（`aria-current="page"` を出力します） */
+  /**
+   * Marks the link as the current page (outputs `aria-current="page"`).
+   * @default false
+   */
   current?: boolean;
 };
 

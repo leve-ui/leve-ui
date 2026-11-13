@@ -2,7 +2,7 @@ import { component$, type PropsOf, type Signal } from '@builder.io/qwik';
 import { dataAttr, useFieldControl } from '@leve-ui/utils';
 
 export type FieldTextareaProps = PropsOf<'textarea'> & {
-  /** 入力値と双方向で同期する Signal です。 */
+  /** A signal synced two-way with the textarea value. */
   'bind:value'?: Signal<string>;
 };
 

@@ -2,11 +2,14 @@ import { $, component$, type PropsOf, type QRL, type Signal, Slot } from '@build
 import { dataAttr, useControllableState } from '@leve-ui/utils';
 
 export type ToggleRootProps = PropsOf<'button'> & {
-  /** 非制御モードの初期値。既定値は false */
+  /**
+   * Whether the toggle is pressed initially (uncontrolled).
+   * @default false
+   */
   defaultPressed?: boolean;
-  /** 制御モード。押下状態の Signal */
+  /** A signal with the pressed state (controlled). */
   'bind:pressed'?: Signal<boolean>;
-  /** ユーザー操作で押下状態が変わったときに呼ばれる */
+  /** Called when the user presses or releases the toggle. */
   onPressedChange$?: QRL<(pressed: boolean) => void>;
 };
 

@@ -15,12 +15,11 @@ import {
 } from './accordion-context';
 
 export type AccordionItemProps = PropsOf<'div'> & {
-  /**
-   * この項目を一意に識別する値
-   */
+  /** A unique value that identifies this item. */
   value: string;
   /**
-   * この項目を無効化するかどうか
+   * Disables this item.
+   * @default false
    */
   disabled?: boolean;
 };
