@@ -21,7 +21,7 @@ const LANGUAGES: Record<string, { name: string; style: string }> = {
   ja: {
     name: 'Japanese',
     style:
-      'Use the polite です／ます style of Japanese technical documentation. Use full-width 、。：（）. ' +
+      'Use the polite です／ます style of Japanese technical documentation. Use full-width 、 and 。. ' +
       'Headings, table headers and navigation labels are short noun phrases without 。. ' +
       'Do not put spaces between Japanese and English words or placeholders unless the source needs them.',
   },

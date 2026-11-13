@@ -4,14 +4,19 @@
  *
  * Run: pnpm --filter @leve-ui/docs i18n:translate [--locale ja] [--dry-run] [--keep-stale]
  *
+ * Vertex AI is only called when segments are missing; stale entries are removed
+ * without it. `--dry-run` only counts, and writes `missing=<count>` to
+ * $GITHUB_OUTPUT so that CI can skip authenticating when nothing is missing.
+ *
  * Environment:
- * - GCP_PROJECT_ID: Google Cloud project with Vertex AI (required unless --dry-run)
+ * - GCP_PROJECT_ID: Google Cloud project with Vertex AI (required when segments are missing)
  * - GCP_LOCATION: Vertex AI location (default: global)
  * - GEMINI_MODEL: model id (default: see translator.ts)
  *
  * Authenticates with Application Default Credentials (`gcloud auth
  * application-default login` locally, Workload Identity Federation in CI).
  */
+import { appendFileSync } from 'node:fs';
 import { parseArgs } from 'node:util';
 import { LOCALES, SOURCE_LOCALE } from '../../src/i18n/locales.ts';
 import { type Memory, readMemory, type SourceText, sourceTexts, writeMemory } from './memory.ts';
@@ -71,7 +76,7 @@ async function translateBatch(translator: Translator, texts: SourceText[], local
   return { done, failed };
 }
 
-async function translateLocale(locale: string, translator: Translator | undefined) {
+async function translateLocale(locale: string) {
   const memory: Memory = readMemory(locale);
   const texts = sourceTexts();
   const hashes = new Set(texts.map((t) => segmentHash(t.text)));
@@ -85,7 +90,12 @@ async function translateLocale(locale: string, translator: Translator | undefine
     `${locale}: ${texts.length} segments, ${missing.length} missing (${chars} chars), ` +
       `${stale.length} stale${values['keep-stale'] ? ' (kept)' : ' (removed)'}`,
   );
-  if (!translator) return 0;
+  if (values['dry-run']) return { missing: missing.length, errors: 0 };
+  if (missing.length === 0) {
+    if (stale.length > 0 && !values['keep-stale']) writeMemory(locale, memory);
+    return { missing: 0, errors: 0 };
+  }
+  const translator = getTranslator();
 
   const save = (text: string, translation: string) => {
     memory[segmentHash(text)] = { source: text, translation };
@@ -118,12 +128,14 @@ async function translateLocale(locale: string, translator: Translator | undefine
     );
   }
   writeMemory(locale, memory);
-  return errors;
+  return { missing: missing.length, errors };
 }
 
 const locales = (values.locale ?? LOCALES.filter((l) => l !== SOURCE_LOCALE)) as string[];
 let translator: Translator | undefined;
-if (!values['dry-run']) {
+/** Created only when there is something to translate. */
+function getTranslator(): Translator {
+  if (translator) return translator;
   const project = process.env.GCP_PROJECT_ID;
   if (!project) throw new Error('Set GCP_PROJECT_ID (or use --dry-run)');
   translator = geminiTranslator({
@@ -131,10 +143,19 @@ if (!values['dry-run']) {
     location: process.env.GCP_LOCATION || undefined,
     model: process.env.GEMINI_MODEL || undefined,
   });
+  return translator;
 }
 
 let errors = 0;
-for (const locale of locales) errors += await translateLocale(locale, translator);
+let missing = 0;
+for (const locale of locales) {
+  const result = await translateLocale(locale);
+  errors += result.errors;
+  missing += result.missing;
+}
+if (values['dry-run'] && process.env.GITHUB_OUTPUT) {
+  appendFileSync(process.env.GITHUB_OUTPUT, `missing=${missing}\n`);
+}
 if (errors > 0) {
   console.error(`${errors} segments could not be translated with matching placeholders`);
   process.exitCode = 1;
