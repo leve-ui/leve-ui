@@ -2,6 +2,9 @@ import { $, component$, Resource, useResource$, useSignal } from '@builder.io/qw
 import { Collapsible } from '@leve-ui/collapsible';
 import { Tabs } from '@leve-ui/tabs';
 import { css } from 'styled-system/css';
+import type { Locale } from '../../i18n/locales';
+import { t } from '../../i18n/translate';
+import { useLocale } from '../../i18n/use-locale';
 import { LuCheck, LuChevronRight, LuCopy, LuExternalLink } from '../icons';
 import { loadDemoSource } from './demo-highlighted';
 
@@ -108,6 +111,7 @@ const collapsibleTriggerStyles = css({
 });
 
 const CopyButton = component$(() => {
+  const locale = useLocale();
   const copied = useSignal(false);
 
   // TODO(leve-ui): replace with Clipboard (#47)
@@ -127,7 +131,7 @@ const CopyButton = component$(() => {
     <button
       type="button"
       class={iconButtonStyles}
-      aria-label={copied.value ? 'Copied' : 'Copy code'}
+      aria-label={copied.value ? t(locale, 'Copied') : t(locale, 'Copy code')}
       onClick$={copy$}
     >
       {copied.value ? <LuCheck aria-hidden="true" /> : <LuCopy aria-hidden="true" />}
@@ -143,6 +147,13 @@ export type DemoFile = {
   html: string;
 };
 
+type DemoCodeProps = {
+  name: string;
+  files: DemoFile[];
+  /** From useLocale() of the calling component (inline components cannot use hooks) */
+  locale: Locale;
+};
+
 /** Loads the highlighted source in the browser when the page was not rendered on the server. */
 const LazyHighlightedCode = component$<{ source: string }>(({ source }) => {
   const html = useResource$(() => loadDemoSource(source));
@@ -154,11 +165,14 @@ const LazyHighlightedCode = component$<{ source: string }>(({ source }) => {
  * that the highlighted HTML is rendered once on the server and is never
  * serialized as props for the browser.
  */
-export function DemoCode({ name, files }: { name: string; files: DemoFile[] }) {
+export function DemoCode({ name, files, locale }: DemoCodeProps) {
   return (
     <Tabs.Root defaultValue={files[0].file}>
       <div class={codeHeaderStyles}>
-        <Tabs.List aria-label={`${name} source`} class={tabListStyles}>
+        <Tabs.List
+          aria-label={t(locale, 'Source of {demo}').replace('{demo}', name)}
+          class={tabListStyles}
+        >
           {files.map(({ file }) => (
             <Tabs.Trigger key={file} value={file} class={tabTriggerStyles}>
               {file}
@@ -170,7 +184,7 @@ export function DemoCode({ name, files }: { name: string; files: DemoFile[] }) {
             href={storybookUrl(name)}
             target="_blank"
             rel="noreferrer"
-            aria-label="Open in Storybook"
+            aria-label={t(locale, 'Open in Storybook')}
             class={iconButtonStyles}
           >
             <LuExternalLink aria-hidden="true" />
@@ -188,13 +202,14 @@ export function DemoCode({ name, files }: { name: string; files: DemoFile[] }) {
 }
 
 /** DemoCode behind a "Show code" toggle (used for Examples). Inline for the same reason. */
-export function CollapsedDemoCode(props: { name: string; files: DemoFile[] }) {
+export function CollapsedDemoCode(props: DemoCodeProps) {
+  const { locale } = props;
   return (
     <Collapsible.Root>
       <Collapsible.Trigger class={collapsibleTriggerStyles}>
         <LuChevronRight aria-hidden="true" />
-        <span data-label="show">Show code</span>
-        <span data-label="hide">Hide code</span>
+        <span data-label="show">{t(locale, 'Show code')}</span>
+        <span data-label="hide">{t(locale, 'Hide code')}</span>
       </Collapsible.Trigger>
       <Collapsible.Content>
         <DemoCode {...props} />

@@ -1,6 +1,8 @@
 import { component$ } from '@builder.io/qwik';
 import { css } from 'styled-system/css';
 import type { ComponentDoc } from '../../../scripts/generate-props';
+import { t } from '../../i18n/translate';
+import { useLocale } from '../../i18n/use-locale';
 
 // Generated from the `<Name><Part>Props` types by scripts/generate-props.ts (adr/0032)
 const docs = import.meta.glob<ComponentDoc>('../../generated/props/*.json', {
@@ -18,6 +20,18 @@ function inlineCode(text: string) {
   return text
     .split(/`([^`]+)`/)
     .map((chunk, i) => (i % 2 === 1 ? <code key={i}>{chunk}</code> : chunk));
+}
+
+/** Puts the element name, as code, in place of `{element}` in a translated sentence. */
+function withElement(sentence: string, element: string) {
+  const [before, after = ''] = sentence.split('{element}');
+  return (
+    <>
+      {before}
+      <code>{`<${element}>`}</code>
+      {after}
+    </>
+  );
 }
 
 export type PropsTableProps = {
@@ -59,6 +73,7 @@ const descriptionStyles = css({
  * Usage in MDX: `<PropsTable component="avatar" part="Root" />`
  */
 export const PropsTable = component$<PropsTableProps>(({ component, part }) => {
+  const locale = useLocale();
   const doc = findComponent(component);
   const partDoc = doc?.parts[part];
   if (!doc || !partDoc) {
@@ -67,19 +82,16 @@ export const PropsTable = component$<PropsTableProps>(({ component, part }) => {
 
   const elementNote = partDoc.element && (
     <p class={css({ fontSize: '14px' })}>
-      Also accepts all <code>{`<${partDoc.element}>`}</code> attributes.
+      {withElement(t(locale, 'Also accepts all {element} attributes.'), partDoc.element)}
     </p>
   );
 
   if (partDoc.props.length === 0) {
     return (
       <p class={css({ fontSize: '14px' })}>
-        No props of its own.
+        {t(locale, 'No props of its own.')}
         {partDoc.element && (
-          <>
-            {' '}
-            Accepts all <code>{`<${partDoc.element}>`}</code> attributes.
-          </>
+          <> {withElement(t(locale, 'Accepts all {element} attributes.'), partDoc.element)}</>
         )}
       </p>
     );
@@ -91,9 +103,9 @@ export const PropsTable = component$<PropsTableProps>(({ component, part }) => {
         <table>
           <thead>
             <tr>
-              <th scope="col">Prop</th>
-              <th scope="col">Default</th>
-              <th scope="col">Type</th>
+              <th scope="col">{t(locale, 'Prop')}</th>
+              <th scope="col">{t(locale, 'Default')}</th>
+              <th scope="col">{t(locale, 'Type')}</th>
             </tr>
           </thead>
           <tbody>
@@ -105,7 +117,7 @@ export const PropsTable = component$<PropsTableProps>(({ component, part }) => {
                     {prop.required && (
                       <>
                         <span aria-hidden="true">*</span>
-                        <span class={css({ srOnly: true })}> (required)</span>
+                        <span class={css({ srOnly: true })}> ({t(locale, 'required')})</span>
                       </>
                     )}
                   </span>
@@ -120,7 +132,7 @@ export const PropsTable = component$<PropsTableProps>(({ component, part }) => {
                 <td>
                   <span class={monoStyles}>{prop.type}</span>
                   {prop.description && (
-                    <p class={descriptionStyles}>{inlineCode(prop.description)}</p>
+                    <p class={descriptionStyles}>{inlineCode(t(locale, prop.description))}</p>
                   )}
                 </td>
               </tr>

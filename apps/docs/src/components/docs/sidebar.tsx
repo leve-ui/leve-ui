@@ -3,6 +3,7 @@ import { Link, useLocation } from '@builder.io/qwik-city';
 import { css } from 'styled-system/css';
 import { docsNav, normalizePath } from '../../docs-nav';
 import { localizeHref } from '../../i18n/locales';
+import { t } from '../../i18n/translate';
 import { useLocale } from '../../i18n/use-locale';
 
 const sectionTitleStyles = css({
@@ -41,10 +42,13 @@ export const DocsNavList = component$<{ onNavigate$?: QRL<() => void> }>(({ onNa
   const locale = useLocale();
 
   return (
-    <nav aria-label="Docs" class={css({ display: 'flex', flexDirection: 'column', gap: '6' })}>
+    <nav
+      aria-label={t(locale, 'Docs')}
+      class={css({ display: 'flex', flexDirection: 'column', gap: '6' })}
+    >
       {docsNav.map((section) => (
         <div key={section.title}>
-          <p class={sectionTitleStyles}>{section.title}</p>
+          <p class={sectionTitleStyles}>{t(locale, section.title)}</p>
           <ul class={css({ listStyle: 'none', p: 0, m: 0, display: 'grid', gap: '0.5' })}>
             {section.items.map((item) => (
               <li key={item.href}>
@@ -56,7 +60,7 @@ export const DocsNavList = component$<{ onNavigate$?: QRL<() => void> }>(({ onNa
                   aria-current={item.href === pathname ? 'page' : 'false'}
                   onClick$={onNavigate$}
                 >
-                  {item.title}
+                  {t(locale, item.title)}
                 </Link>
               </li>
             ))}

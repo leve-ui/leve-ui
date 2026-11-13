@@ -10,12 +10,14 @@ import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { SOURCE_LOCALE } from '../../src/i18n/locales.ts';
 import { extractSegments, segmentHash } from './segments.ts';
+import { propDescriptions, textSegment, uiStrings } from './ui.ts';
 
 export type MemoryEntry = { source: string; translation: string };
 export type Memory = Record<string, MemoryEntry>;
 
 const docsRoot = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
-export const ROUTES_DIR = join(docsRoot, 'src/routes');
+export const SRC_DIR = join(docsRoot, 'src');
+export const ROUTES_DIR = join(SRC_DIR, 'routes');
 export const SOURCE_DIR = join(ROUTES_DIR, SOURCE_LOCALE);
 const MEMORY_DIR = join(docsRoot, 'i18n');
 
@@ -47,12 +49,21 @@ export function* walkFiles(dir: string): Generator<string> {
   }
 }
 
-/** Every segment text of the English pages, without duplicates, in page order. */
-export function sourceTexts(): string[] {
-  const texts = new Set<string>();
+/** A text to translate, with what its placeholders stand for. */
+export type SourceText = { text: string; placeholders: Record<string, string> };
+
+/**
+ * Every segment of the English pages, UI strings and props descriptions,
+ * without duplicates, in that order. Run scripts/generate-props.ts first.
+ */
+export function sourceTexts(): SourceText[] {
+  const texts = new Map<string, SourceText>();
+  const add = ({ text, placeholders }: SourceText) => {
+    if (!texts.has(text)) texts.set(text, { text, placeholders });
+  };
   for (const file of walkFiles(SOURCE_DIR)) {
-    if (!file.endsWith('.mdx')) continue;
-    for (const segment of extractSegments(readFileSync(file, 'utf8'))) texts.add(segment.text);
+    if (file.endsWith('.mdx')) extractSegments(readFileSync(file, 'utf8')).forEach(add);
   }
-  return [...texts];
+  for (const text of [...uiStrings(SRC_DIR), ...propDescriptions(SRC_DIR)]) add(textSegment(text));
+  return [...texts.values()];
 }

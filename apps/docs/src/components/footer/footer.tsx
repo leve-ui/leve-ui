@@ -1,6 +1,8 @@
 import { component$ } from '@builder.io/qwik';
 import { Separator } from '@leve-ui/core';
 import { css } from 'styled-system/css';
+import { t } from '../../i18n/translate';
+import { useLocale } from '../../i18n/use-locale';
 import { LuGithub } from '../icons';
 
 const footerContainerStyles = css({
@@ -46,6 +48,7 @@ const githubLinkStyles = css({
 });
 
 export const Footer = component$(() => {
+  const locale = useLocale();
   return (
     <footer class={footerContainerStyles}>
       <Separator.Root class={css({ height: '1px', bg: 'border-default' })} />
@@ -53,7 +56,7 @@ export const Footer = component$(() => {
         <p class={copyrightStyles}>
           <span>&copy; 2026 leve-ui.</span>
           <span class={css({ color: 'fg-subtle', display: { base: 'none', sm: 'inline' } })}>
-            Released under the MIT License.
+            {t(locale, 'Released under the MIT License.')}
           </span>
         </p>
 
@@ -61,7 +64,7 @@ export const Footer = component$(() => {
           href="https://github.com/leve-ui/leve-ui"
           target="_blank"
           rel="noreferrer"
-          aria-label="GitHub repository"
+          aria-label={t(locale, 'GitHub repository')}
           class={githubLinkStyles}
         >
           <LuGithub />

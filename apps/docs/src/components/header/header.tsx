@@ -3,6 +3,7 @@ import { Link, useLocation } from '@builder.io/qwik-city';
 import { css, cx } from 'styled-system/css';
 import { normalizePath } from '../../docs-nav';
 import { isLocale, LOCALE_NAMES, LOCALES, localizeHref } from '../../i18n/locales';
+import { t } from '../../i18n/translate';
 import { useLocale } from '../../i18n/use-locale';
 import { DocsNavList } from '../docs/sidebar';
 import { LuBookOpen, LuGithub, LuMenu, LuMoon, LuPackage, LuSearch, LuSun, LuX } from '../icons';
@@ -56,7 +57,7 @@ const Logo = component$(() => {
   return (
     <Link
       href={localizeHref('/', locale)}
-      aria-label="leve-ui home"
+      aria-label={t(locale, 'leve-ui home')}
       class={css({ display: 'flex', flexShrink: 0, borderRadius: 'sm', ...focusRing })}
     >
       {/* The logo is swapped for the theme */}
@@ -79,6 +80,7 @@ const Logo = component$(() => {
 });
 
 const ThemeToggle = component$<{ class?: string }>((props) => {
+  const locale = useLocale();
   const toggleTheme$ = $(() => {
     const root = document.documentElement;
     const dark = !root.classList.contains('dark');
@@ -90,7 +92,7 @@ const ThemeToggle = component$<{ class?: string }>((props) => {
   return (
     <button
       type="button"
-      aria-label="Toggle color theme"
+      aria-label={t(locale, 'Toggle color theme')}
       onClick$={toggleTheme$}
       class={cx(iconButtonStyles, props.class)}
     >
@@ -111,7 +113,7 @@ const LanguageSwitcher = component$(() => {
   return (
     // TODO(leve-ui): replace with Menu (#39)
     <select
-      aria-label="Language"
+      aria-label={t(locale, 'Language')}
       onChange$={(_, el) => {
         if (!isLocale(el.value)) return;
         const path = normalizePath(loc.url.pathname);
@@ -143,6 +145,7 @@ const LanguageSwitcher = component$(() => {
 
 /** The docs navigation for small screens, opened from the menu button. */
 const MobileMenu = component$(() => {
+  const locale = useLocale();
   const dialog = useSignal<HTMLDialogElement>();
   const close$ = $(() => dialog.value?.close());
 
@@ -150,7 +153,7 @@ const MobileMenu = component$(() => {
     <>
       <button
         type="button"
-        aria-label="Open navigation"
+        aria-label={t(locale, 'Open navigation')}
         aria-haspopup="dialog"
         class={cx(iconButtonStyles, mobileIconStyles, css({ color: 'fg-default', ms: '-1.5' }))}
         onClick$={() => dialog.value?.showModal()}
@@ -160,7 +163,7 @@ const MobileMenu = component$(() => {
       {/* TODO(leve-ui): replace with Drawer (#35) */}
       <dialog
         ref={dialog}
-        aria-label="Navigation"
+        aria-label={t(locale, 'Navigation')}
         onClick$={(event, el) => {
           // Close when the backdrop (the dialog element itself) is clicked
           if (event.target === el) el.close();
@@ -192,7 +195,7 @@ const MobileMenu = component$(() => {
             <Logo />
             <button
               type="button"
-              aria-label="Close navigation"
+              aria-label={t(locale, 'Close navigation')}
               class={cx(iconButtonStyles, mobileIconStyles)}
               onClick$={close$}
             >
@@ -233,7 +236,7 @@ export const Header = component$(() => {
         </div>
         <Logo />
         <nav
-          aria-label="Main"
+          aria-label={t(locale, 'Main')}
           class={css({ display: { base: 'none', md: 'flex' }, alignItems: 'center', gap: '6' })}
         >
           <Link
@@ -241,14 +244,14 @@ export const Header = component$(() => {
             class={navLinkStyles}
             aria-current={path.startsWith('/overview/') ? 'page' : 'false'}
           >
-            Docs
+            {t(locale, 'Docs')}
           </Link>
           <Link
             href={localizeHref('/components/', locale)}
             class={navLinkStyles}
             aria-current={path.startsWith('/components/') ? 'page' : 'false'}
           >
-            Components
+            {t(locale, 'Components')}
           </Link>
         </nav>
       </div>
@@ -273,8 +276,8 @@ export const Header = component$(() => {
           <LuSearch aria-hidden="true" class={css({ w: '4', h: '4', color: 'fg-subtle' })} />
           <input
             type="search"
-            placeholder="Search docs"
-            aria-label="Search docs"
+            placeholder={t(locale, 'Search docs')}
+            aria-label={t(locale, 'Search docs')}
             class={css({
               flex: '1',
               minW: 0,
@@ -304,7 +307,7 @@ export const Header = component$(() => {
             href={GITHUB_URL}
             target="_blank"
             rel="noreferrer"
-            aria-label="GitHub repository"
+            aria-label={t(locale, 'GitHub repository')}
             class={iconButtonStyles}
           >
             <LuGithub aria-hidden="true" />
@@ -313,7 +316,7 @@ export const Header = component$(() => {
             href={NPM_URL}
             target="_blank"
             rel="noreferrer"
-            aria-label="npm package"
+            aria-label={t(locale, 'npm package')}
             class={iconButtonStyles}
           >
             <LuPackage aria-hidden="true" />

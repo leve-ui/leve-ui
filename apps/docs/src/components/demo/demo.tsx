@@ -1,5 +1,6 @@
 import { component$ } from '@builder.io/qwik';
 import { css } from 'styled-system/css';
+import { useLocale } from '../../i18n/use-locale';
 import { CollapsedDemoCode, DemoCode, type DemoFile } from './demo-code';
 import { demoSources } from './demo-highlighted';
 import { demoComponents } from './demo-sources';
@@ -27,6 +28,7 @@ const previewStyles = css({
  * Usage in MDX: `<Demo id="avatar/default" />`
  */
 export const Demo = component$<DemoProps>(({ id, collapsed = false }) => {
+  const locale = useLocale();
   const story = id.split('/')[1];
   const DemoComponent = demoComponents[`${id}.tsx`];
   if (!DemoComponent) {
@@ -55,9 +57,9 @@ export const Demo = component$<DemoProps>(({ id, collapsed = false }) => {
         <DemoComponent />
       </div>
       {collapsed ? (
-        <CollapsedDemoCode name={id} files={files} />
+        <CollapsedDemoCode name={id} files={files} locale={locale} />
       ) : (
-        <DemoCode name={id} files={files} />
+        <DemoCode name={id} files={files} locale={locale} />
       )}
     </div>
   );
