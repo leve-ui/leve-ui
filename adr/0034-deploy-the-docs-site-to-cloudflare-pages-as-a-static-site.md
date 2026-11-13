@@ -1,6 +1,6 @@
 # 0034. Deploy the docs site to Cloudflare Pages as a static site
 
-- Status: Proposed
+- Status: Accepted
 - Date: 2026-11-14
 - Related: [0027](0027-deploy-storybook-previews-to-cloudflare-pages.md), [0032](0032-author-docs-in-mdx-and-generate-api-reference-from-prop-types.md)
 
