@@ -18,7 +18,8 @@
       "!**/playwright-report",
       "!**/test-results",
       "!**/.turbo",
-      "!**/*.md"
+      "!**/*.md",
+      "!apps/docs/i18n"
     ]
   },
   "formatter": {
