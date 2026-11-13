@@ -152,6 +152,9 @@ importers:
       vite-tsconfig-paths:
         specifier: ^6.1.1
         version: 6.1.1(typescript@5.9.3)(vite@7.3.8(@types/node@24.19.2)(jiti@2.7.0)(yaml@2.9.1))
+      wrangler:
+        specifier: ^4.160.1
+        version: 4.160.1(@types/node@24.19.2)
 
   apps/e2e:
     devDependencies:

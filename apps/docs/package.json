@@ -9,6 +9,7 @@
     "build": "pnpm props && panda codegen && qwik build",
     "build.client": "vite build",
     "build.preview": "vite build --ssr src/entry.preview.tsx",
+    "build.server": "vite build -c adapters/static/vite.config.ts",
     "build.types": "tsc --noEmit",
     "typecheck": "pnpm props && panda codegen && tsc --noEmit",
     "preview": "qwik build preview && vite preview",
@@ -51,6 +52,7 @@
     "typescript": "~5.9.3",
     "undici": "*",
     "vite": "^7.3.8",
-    "vite-tsconfig-paths": "^6.1.1"
+    "vite-tsconfig-paths": "^6.1.1",
+    "wrangler": "^4.160.1"
   }
 }
