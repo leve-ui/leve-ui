@@ -1,0 +1,85 @@
+---
+title: Controlled & Uncontrolled
+description: Let a component manage its own state, or control it with a signal.
+---
+
+# Controlled & Uncontrolled
+
+Let a component manage its own state, or control it with a signal.
+
+Every stateful component, such as Switch (`checked`), Collapsible (`open`) or Tabs (`value`), supports both modes with the same three props:
+
+| Prop | Mode | Example |
+| --- | --- | --- |
+| `default<State>` | Uncontrolled: the initial value | `defaultChecked`, `defaultOpen`, `defaultValue` |
+| `bind:<state>` | Controlled: a `Signal` that holds the value | `bind:checked`, `bind:open`, `bind:value` |
+| `on<State>Change$` | A callback when the user changes the value | `onCheckedChange$`, `onOpenChange$`, `onValueChange$` |
+
+The exact props of each component are listed in its API reference.
+
+## Uncontrolled
+
+Pass `default<State>`, or nothing, and the component keeps the state itself:
+
+```tsx
+<Switch.Root defaultChecked>
+  <Switch.Label>Notifications</Switch.Label>
+  <Switch.Control>
+    <Switch.Thumb />
+  </Switch.Control>
+</Switch.Root>
+```
+
+Use `on<State>Change$` to react to changes without owning the state:
+
+```tsx
+<Switch.Root onCheckedChange$={(checked) => console.log(checked)}>
+```
+
+## Controlled
+
+Pass a signal with `bind:<state>`. The component reads and writes it, so the signal and the component stay in sync in both directions. Change the signal yourself to change the component:
+
+```tsx
+import { component$, useSignal } from '@builder.io/qwik';
+import { Collapsible } from '@leve-ui/collapsible';
+
+export default component$(() => {
+  const open = useSignal(false);
+
+  return (
+    <>
+      <button type="button" onClick$={() => (open.value = !open.value)}>
+        {open.value ? 'Close' : 'Open'} from outside
+      </button>
+
+      <Collapsible.Root bind:open={open}>
+        <Collapsible.Trigger>Controlled collapsible</Collapsible.Trigger>
+        <Collapsible.Content>
+          This collapsible state is controlled by an external signal.
+        </Collapsible.Content>
+      </Collapsible.Root>
+    </>
+  );
+});
+```
+
+<Demo id="collapsible/controlled" />
+
+When `bind:<state>` is given, `default<State>` is ignored and the signal's value is used as the initial value, also on the server.
+
+## When `on<State>Change$` is called
+
+`on<State>Change$` is called only when the component changes the value, for example when the user clicks the switch. It is not called:
+
+- when you write to the bound signal yourself, and
+- when the new value is the same as the current one.
+
+So you can update the signal from `on<State>Change$` or from anywhere else without causing a loop. To react to every change, including your own, track the signal instead, for example with `useTask$`.
+
+## Choosing a mode
+
+- Use **uncontrolled** when only the component needs the state, for example a disclosure that the user opens and closes.
+- Use **controlled** when other parts of your page read or change the state, for example a button that opens the Collapsible, or a value you save and restore.
+
+Do not switch a component between controlled and uncontrolled after it has rendered.

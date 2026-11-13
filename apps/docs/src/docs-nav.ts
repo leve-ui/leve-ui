@@ -19,6 +19,11 @@ export const docsNav: NavSection[] = [
       { title: 'Introduction', href: '/overview/introduction/' },
       { title: 'Getting Started', href: '/overview/getting-started/' },
       { title: 'Styling', href: '/overview/styling/' },
+      { title: 'Forms', href: '/overview/forms/' },
+      { title: 'Controlled & Uncontrolled', href: '/overview/controlled-uncontrolled/' },
+      { title: 'Accessibility', href: '/overview/accessibility/' },
+      { title: 'Roadmap', href: '/overview/roadmap/' },
+      { title: 'FAQ', href: '/overview/faq/' },
     ],
   },
   {

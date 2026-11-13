@@ -1,0 +1,37 @@
+---
+title: Accessibility
+description: What leve-ui handles for accessibility, and what is left to you.
+---
+
+# Accessibility
+
+What leve-ui handles for accessibility, and what is left to you.
+
+Every component follows the [WAI-ARIA Authoring Practices Guide](https://www.w3.org/WAI/ARIA/apg/patterns/) (APG). When there is no APG pattern for a component, such as Avatar or Field, it uses the semantics of native HTML elements. Each component page has an **Accessibility** section with the pattern it follows, the roles and attributes it renders, and its keyboard interactions.
+
+## What leve-ui handles
+
+- **Native elements first.** Buttons are `<button type="button">`, links are `<a>`, groups of fields are `<fieldset>`. A `role` is added only where no native element fits, for example `role="switch"` on `Switch.Control`.
+- **Roles and ARIA attributes.** The attributes a pattern requires, such as `role`, `aria-checked`, `aria-expanded`, `aria-controls` and `aria-labelledby`, are always rendered. They are written after your props, so they cannot be overridden by accident.
+- **Ids that match on the server and the client.** Parts are connected with ids from Qwik's `useId()`, so the references in the server-rendered HTML are correct before any JavaScript runs. Inside a [Field](/overview/forms/), the ids come from `Field.Root`.
+- **Keyboard interaction.** All keys that the APG pattern defines, such as Enter, Space, Escape, arrow keys, Home and End, are implemented.
+- **Focus management.** Composite widgets such as Tabs, Radio Group and Toggle Group use a roving tabindex: only one item is in the tab sequence, and the arrow keys move focus between the items.
+- **Disabled states.** Native elements use `disabled`; other elements use `aria-disabled="true"`. Whether a disabled item stays focusable follows the APG.
+- **Decorative parts are hidden.** Parts with no meaning of their own, such as `Switch.Thumb` and the `HiddenInput` of form controls, have `aria-hidden="true"`.
+
+## What you provide
+
+Because leve-ui is headless, some parts of accessibility depend on your content and your styles:
+
+- **Accessible names.** Give every control a name with its Label part, `Field.Label`, or `aria-label` / `aria-labelledby`. Icon-only buttons need an `aria-label`.
+- **Text alternatives.** Pass `alt` to images such as `Avatar.Image`, and mark your decorative icons with `aria-hidden="true"`.
+- **Visible focus.** leve-ui ships no CSS, so it neither adds nor removes focus outlines. Make sure that your styles keep focus visible, for example with `:focus-visible` (see [Styling](/overview/styling/)).
+- **Color and contrast.** Choose colors with enough contrast for text, controls and states, and do not convey a state by color alone.
+- **Content that matches the state.** Do not change a label to describe the state (for example, "On" / "Off" on a switch); the state is conveyed by attributes such as `aria-checked`.
+
+## How it is tested
+
+- **Unit tests** check that every part renders the required roles, `aria-*` attributes and id references.
+- **End-to-end tests** run in a real browser with [Playwright](https://playwright.dev/). Each keyboard interaction from the APG has its own test, and focus movement and return are tested too. Elements are found by their role and accessible name, as assistive technologies see them.
+
+The tests live in the [repository](https://github.com/leve-ui/leve-ui/tree/main/apps/e2e/tests). If you find an accessibility problem, please [open an issue](https://github.com/leve-ui/leve-ui/issues).

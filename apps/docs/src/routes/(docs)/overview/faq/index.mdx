@@ -1,0 +1,40 @@
+---
+title: FAQ
+description: Answers to common questions about leve-ui.
+---
+
+# FAQ
+
+Answers to common questions about leve-ui.
+
+## Does leve-ui support Qwik 2?
+
+Not yet. leve-ui supports Qwik 1.x (`@builder.io/qwik`), the stable release. Qwik 2 changes the package names (`@qwik.dev/*`) and some APIs, so support for it is tracked separately in the [Qwik v2 milestone](https://github.com/leve-ui/leve-ui/milestone/7).
+
+## Do I need to install every package?
+
+No. Every component is its own package, such as `@leve-ui/switch`, so you can install only the components you use. `@leve-ui/core` re-exports all components if you prefer a single dependency. Both expose the same API; see [Getting started](/overview/getting-started/).
+
+## Does leve-ui ship styles?
+
+No. leve-ui ships no CSS and outputs no `class` or `style` of its own. You style each part with classes and with the `data-*` attributes the library outputs. See [Styling](/overview/styling/).
+
+## Can I use Tailwind CSS, Panda CSS or plain CSS?
+
+Yes. Every part passes `class`, `style` and other attributes to its element, so any approach works: plain CSS, CSS modules, Tailwind CSS, Panda CSS, or Qwik's `useStyles$`. This site is styled with Panda CSS, and the examples use plain CSS.
+
+## Is it safe with SSR and resumability?
+
+Yes. Components render on the server and resume without hydration. Ids that connect the parts come from Qwik's `useId()`, so they are the same on the server and the client, and the ARIA references in the server-rendered HTML are correct before any JavaScript runs.
+
+## Why does `Avatar.Root` have no `data-state`?
+
+The loading status is decided by `Avatar.Image`, and Qwik renders a parent's attributes on the server before its children. A state decided by a child would be stale on the parent, so it is exposed only on `Avatar.Image` and `Avatar.Fallback`. To style the Root, use `:has()`, for example `.avatar:has([data-state='loaded'])`.
+
+## Where do I report a bug?
+
+Open an issue on [GitHub](https://github.com/leve-ui/leve-ui/issues). Please include the component, the version, and the steps to reproduce.
+
+## What is the license?
+
+[MIT](https://github.com/leve-ui/leve-ui/blob/main/LICENSE). Every package includes a copy of the license.

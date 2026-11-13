@@ -1,0 +1,117 @@
+---
+title: Forms
+description: Label, describe and validate form controls with Field and Fieldset, and submit them with native forms.
+---
+
+# Forms
+
+Label, describe and validate form controls with Field and Fieldset, and submit them with native forms.
+
+## Field
+
+`Field` connects a form control with its label, description and error message. Put the parts and a control inside `Field.Root`:
+
+```tsx
+<Field.Root invalid={username.value.trim() === ''} required>
+  <Field.Label>Username</Field.Label>
+  <Field.Input bind:value={username} />
+  <Field.ErrorMessage>Username is required.</Field.ErrorMessage>
+</Field.Root>
+```
+
+<Demo id="field/invalid" />
+
+`Field.Input` and `Field.Textarea` render native `<input>` and `<textarea>` elements. Checkbox and Switch join a Field the same way.
+
+### What the Field sets on the control
+
+`Field.Root` is the single source of truth for the field. The control reads it and renders the attributes itself:
+
+| Field.Root prop | On the control |
+| --- | --- |
+| (generated ids) | `id`, so that `Field.Label` points at the control |
+| `hasDescription` | `aria-describedby` references `Field.Description` |
+| `invalid` | `aria-invalid="true"` and `data-invalid`; `aria-describedby` references `Field.ErrorMessage` |
+| `disabled` | `disabled` and `data-disabled` |
+| `required` | `required` on native elements, `aria-required` on Checkbox and Switch |
+
+The Root also exposes `data-invalid`, `data-disabled` and `data-required` for styling.
+
+A few rules follow from this, because Qwik renders the parts on the server in document order and the control is rendered before the parts that come after it:
+
+- **Set `hasDescription` when you render `Field.Description`.** Without it, the control is not described by it.
+- **Render `Field.ErrorMessage` only while the field is invalid.** The control references it only then.
+- **Override ids on the Root.** Inside a Field, the control's own `id` is not used. Pass `ids` to `Field.Root` instead, for example `ids={{ control: 'email' }}`.
+- **States are combined.** `disabled` and `required` set on a control apply together with the ones on the Field, and the ids you pass in `aria-describedby` are kept.
+
+Every control also works without a Field. Outside a Field, it uses its own `id` (or a generated one) and its own `disabled` and `required` props.
+
+### With a Checkbox or Switch
+
+For controls with several parts, the Field wires the interactive part (`Checkbox.Control`, `Switch.Control`), so `Field.Label` names it:
+
+```tsx
+<Field.Root hasDescription>
+  <Checkbox.Root>
+    <Checkbox.Control>
+      <Checkbox.Indicator>
+        <LuCheck aria-hidden="true" />
+      </Checkbox.Indicator>
+    </Checkbox.Control>
+  </Checkbox.Root>
+  <Field.Label>Remember me</Field.Label>
+  <Field.Description>Save your session on this device for 30 days.</Field.Description>
+</Field.Root>
+```
+
+<Demo id="checkbox/with-field" />
+
+## Fieldset
+
+`Fieldset` groups related controls under one label. It renders a native `<fieldset>` and `<legend>`, so the group is named by its Legend. `disabled` on `Fieldset.Root` disables the native form controls inside it, and both parts expose `data-disabled`.
+
+```tsx
+<Fieldset.Root>
+  <Fieldset.Legend>Shipping method</Fieldset.Legend>
+  <label>
+    <input type="radio" name="shipping" value="standard" /> Standard
+  </label>
+  <label>
+    <input type="radio" name="shipping" value="express" /> Express
+  </label>
+</Fieldset.Root>
+```
+
+<Demo id="fieldset/default" />
+
+## Native form submission
+
+Switch, Checkbox and Radio Group are built from a `<button>` (or elements with a `role`) so that you can style their inner parts. These elements do not take part in native forms by themselves. Add the `HiddenInput` part to include the value in form submissions and `FormData`:
+
+```tsx
+<form preventdefault:submit onSubmit$={(_, form) => console.log(new FormData(form))}>
+  <Switch.Root>
+    <Switch.Label>Notifications</Switch.Label>
+    <Switch.Control>
+      <Switch.Thumb />
+    </Switch.Control>
+    <Switch.HiddenInput name="notifications" />
+  </Switch.Root>
+  <button type="submit">Save</button>
+</form>
+```
+
+<Demo id="switch/form" />
+
+- Pass `name`, `value` and `form` to `HiddenInput` like you would to an `<input>`. The library sets `checked`, `required` and `disabled` from the state of the component.
+- The hidden input is hidden from assistive technologies and is not in the tab order. It is hidden visually with an inline `position: absolute` style instead of the `hidden` attribute, so that native `required` validation still works. Set `position: relative` on the Root so that it stays in place.
+- `HiddenInput` is optional. Without it, the control works the same but does not submit a value.
+
+Radio Group submits the value of the selected item:
+
+<Demo id="radio-group/with-form" />
+
+## Next steps
+
+- [Field](/components/field/), [Fieldset](/components/fieldset/), [Checkbox](/components/checkbox/), [Switch](/components/switch/) and [Radio Group](/components/radio-group/): the API of each component.
+- [Controlled & Uncontrolled](/overview/controlled-uncontrolled/): read and set the value of a control.
