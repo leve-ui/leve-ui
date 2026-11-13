@@ -34,7 +34,7 @@ describe('extractSegments', () => {
         'Tabs',
         'A set of panels shown one at a time.',
         'Tabs',
-        'Use <x0/> to lay out the <x1>tab list</x1> **vertically**.',
+        'Use <x0/> to lay out the <x1>tab list</x1> <x2>vertically</x2>.',
         'An item with <x0/>',
         'Key',
         'Description',
@@ -45,7 +45,11 @@ describe('extractSegments', () => {
 
   it('describes each placeholder', () => {
     const segment = extractSegments(page)[3];
-    assert.deepEqual(segment.placeholders, { x0: '`orientation`', x1: '[…](/components/tabs/)' });
+    assert.deepEqual(segment.placeholders, {
+      x0: '`orientation`',
+      x1: '[…](/components/tabs/)',
+      x2: '<strong>…</strong>',
+    });
   });
 
   it('skips cells without words', () => {
@@ -56,8 +60,8 @@ describe('extractSegments', () => {
 describe('translateMdx', () => {
   const ja: Record<string, string> = {
     'A set of panels shown one at a time.': '一度に 1 つずつ表示するパネル。',
-    'Use <x0/> to lay out the <x1>tab list</x1> **vertically**.':
-      '<x0/> で<x1>タブの一覧</x1>を**縦に**並べます。',
+    'Use <x0/> to lay out the <x1>tab list</x1> <x2>vertically</x2>.':
+      '<x0/> で<x1>タブの一覧</x1>を<x2>縦に</x2>並べます。',
     'Moves to the first tab.': '最初のタブに移ります。',
   };
   const { mdx, translated, total } = translateMdx(page, (text) => ja[text]);
@@ -68,7 +72,7 @@ describe('translateMdx', () => {
     assert.match(mdx, /^description: "一度に 1 つずつ表示するパネル。"$/m);
     assert.match(
       mdx,
-      /^`orientation` で\[タブの一覧\]\(\/components\/tabs\/\)を\*\*縦に\*\*並べます。$/m,
+      /^`orientation` で\[タブの一覧\]\(\/components\/tabs\/\)を<strong>縦に<\/strong>並べます。$/m,
     );
     assert.match(mdx, /^\| `Home` \| 最初のタブに移ります。 \|$/m);
     assert.ok(mdx.includes("import { Tabs } from '@leve-ui/tabs';"));

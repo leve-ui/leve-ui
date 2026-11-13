@@ -7,7 +7,9 @@
  * - Code blocks, imports / exports, expressions and JSX blocks are skipped.
  * - Inside a segment, inline code, inline JSX and images become `<xN/>`, and
  *   links become `<xN>text</xN>` so that their text is translated but not their
- *   URL. Everything else (emphasis, strong) stays as Markdown.
+ *   URL. Emphasis, strong and delete become `<xN>text</xN>` too, and are written
+ *   back as `<em>` / `<strong>` / `<del>`: CommonMark does not close `**` after
+ *   punctuation such as `。` when a letter follows, which is common in Japanese.
  *
  * A translation is written into the original source by position, so the rest
  * of the file is kept byte for byte.
@@ -56,7 +58,9 @@ const ATOM_TYPES = new Set([
   'break',
 ]);
 /** Inline nodes whose children are translated, behind `<xN>...</xN>`. */
-const WRAP_TYPES = new Set(['link', 'linkReference']);
+const WRAP_TYPES = new Set(['link', 'linkReference', 'emphasis', 'strong', 'delete']);
+/** Written back as JSX elements instead of their Markdown. */
+const WRAP_ELEMENTS: Record<string, string> = { emphasis: 'em', strong: 'strong', delete: 'del' };
 
 const PLACEHOLDER = /<x(\d+)\/>|<x(\d+)>|<\/x(\d+)>/g;
 
@@ -98,11 +102,12 @@ function inlineText(
       const inner = inlineText(node.children, source, first, last, parts);
       if (WRAP_TYPES.has(node.type)) {
         const id = parts.atoms.size + parts.open.size;
-        parts.open.set(id, source.slice(range.start, first));
-        parts.close.set(id, source.slice(last, range.end));
+        const element = WRAP_ELEMENTS[node.type];
+        parts.open.set(id, element ? `<${element}>` : source.slice(range.start, first));
+        parts.close.set(id, element ? `</${element}>` : source.slice(last, range.end));
         text += `<x${id}>${inner}</x${id}>`;
       } else {
-        // Emphasis, strong, delete: keep their Markdown around the content
+        // Other containers: keep their Markdown around the content
         text += source.slice(range.start, first) + inner + source.slice(last, range.end);
       }
     } else if (WRAP_TYPES.has(node.type)) {

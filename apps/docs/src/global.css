@@ -40,3 +40,19 @@ body {
 :root.dark .shiki span {
   color: var(--shiki-dark);
 }
+
+/*
+ * Japanese has no spaces between words, so browsers break lines anywhere.
+ * auto-phrase breaks between phrases instead (Chromium; other browsers ignore it
+ * and keep the default). Headings are also balanced so that a short last line
+ * is not left alone.
+ */
+:lang(ja) {
+  word-break: auto-phrase;
+}
+
+h1,
+h2,
+h3 {
+  text-wrap: balance;
+}

@@ -21,6 +21,7 @@ const navLinkStyles = css({
   fontWeight: '500',
   color: 'fg-muted',
   textDecoration: 'none',
+  whiteSpace: 'nowrap',
   borderRadius: 'sm',
   transition: 'color 0.15s ease',
   _hover: { color: 'fg-default' },
@@ -261,7 +262,8 @@ export const Header = component$(() => {
         {/* TODO(leve-ui): replace with Combobox (#52) */}
         <div
           class={css({
-            display: { base: 'none', md: 'flex' },
+            // From lg only: on tablets, the nav labels of other languages need the room
+            display: { base: 'none', lg: 'flex' },
             alignItems: 'center',
             gap: '2',
             w: '240px',
@@ -295,7 +297,7 @@ export const Header = component$(() => {
         <div
           aria-hidden="true"
           class={css({
-            display: { base: 'none', md: 'block' },
+            display: { base: 'none', lg: 'block' },
             w: '1px',
             h: '5',
             bg: 'border-default',
