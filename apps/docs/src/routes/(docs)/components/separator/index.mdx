@@ -1,0 +1,71 @@
+---
+title: Separator
+description: A line that separates content.
+---
+
+# Separator
+
+A line that separates content.
+
+There is no WAI-ARIA APG pattern for static separators. Separator renders a `<div>` with the [`separator` role](https://www.w3.org/TR/wai-aria-1.2/#separator), because `<hr>` cannot express a vertical orientation.
+
+<Demo id="separator/default" />
+
+## Installation
+
+Install the all-in-one package:
+
+```sh
+pnpm add @leve-ui/core
+```
+
+Or only this component:
+
+```sh
+pnpm add @leve-ui/separator
+```
+
+## Anatomy
+
+```tsx
+import { Separator } from '@leve-ui/separator'; // or '@leve-ui/core'
+
+<Separator.Root />
+```
+
+| Part | Element | Description |
+| --- | --- | --- |
+| `Separator.Root` | `<div>` | The separator. Has no children. |
+
+## Examples
+
+### Decorative
+
+`decorative` hides a purely visual separator from assistive technologies with `role="none"`.
+
+<Demo id="separator/decorative" collapsed />
+
+### Vertical
+
+`orientation="vertical"` separates items in a row.
+
+<Demo id="separator/vertical" collapsed />
+
+## API Reference
+
+### Root
+
+<PropsTable component="separator" part="Root" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-separator` | Always present |
+| `data-orientation` | `"horizontal"` \| `"vertical"` |
+
+`data-orientation` is rendered even when `decorative` is set, so the same styles work for both.
+
+## Accessibility
+
+- `Separator.Root` renders `role="separator"`, and `aria-orientation="vertical"` when vertical. Horizontal is the default of the role, so `aria-orientation` is not rendered for it.
+- With `decorative`, it renders `role="none"` and no `aria-orientation`. Use it when the separator does not divide meaningful sections.
+- Separator is not focusable and has no keyboard interaction.

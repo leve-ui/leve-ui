@@ -1,0 +1,165 @@
+---
+title: Radio Group
+description: A set of options where only one can be selected.
+---
+
+# Radio Group
+
+A set of options where only one can be selected.
+
+Radio Group follows the [Radio Group WAI-ARIA design pattern](https://www.w3.org/WAI/ARIA/apg/patterns/radio/) (the roving tabindex version).
+
+<Demo id="radio-group/default" />
+
+## Installation
+
+Install the all-in-one package:
+
+```sh
+pnpm add @leve-ui/core
+```
+
+Or only this component:
+
+```sh
+pnpm add @leve-ui/radio-group
+```
+
+## Anatomy
+
+```tsx
+import { RadioGroup } from '@leve-ui/radio-group'; // or '@leve-ui/core'
+
+<RadioGroup.Root>
+  <RadioGroup.Label />
+  <RadioGroup.Item>
+    <RadioGroup.Indicator />
+  </RadioGroup.Item>
+  <RadioGroup.HiddenInput />
+</RadioGroup.Root>
+```
+
+| Part | Element | Description |
+| --- | --- | --- |
+| `RadioGroup.Root` | `<div>` | The group, with `role="radiogroup"`. Holds the selected value. |
+| `RadioGroup.Label` | `<span>` | The label. Names the group. |
+| `RadioGroup.Item` | `<button>` | One option, with `role="radio"`. |
+| `RadioGroup.Indicator` | `<span>` | Holds the dot or other icons. Always rendered. |
+| `RadioGroup.HiddenInput` | `<input type="radio">` | Optional. Sends the selected value with a native `<form>`. |
+
+## Examples
+
+### Controlled
+
+`bind:value` controls the selected value with a signal. The buttons outside the group change it, and setting it to `null` clears the selection.
+
+<Demo id="radio-group/controlled" collapsed />
+
+### Default Value
+
+`defaultValue` sets the initially selected value.
+
+<Demo id="radio-group/default-value" collapsed />
+
+### Disabled
+
+`disabled` on the Root disables every item.
+
+<Demo id="radio-group/disabled" collapsed />
+
+### Disabled Item
+
+`disabled` on an Item disables only that option. Arrow keys skip it.
+
+<Demo id="radio-group/disabled-item" collapsed />
+
+### Horizontal
+
+`orientation="horizontal"` lays the group out in a row. It sets `aria-orientation` and `data-orientation`.
+
+<Demo id="radio-group/horizontal" collapsed />
+
+### With Form
+
+Add `RadioGroup.HiddenInput` with `name` to submit the selected value with a native `<form>`.
+
+<Demo id="radio-group/with-form" collapsed />
+
+## API Reference
+
+### Root
+
+<PropsTable component="radio-group" part="Root" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-radio-group` | Always present |
+| `data-orientation` | `"vertical"` \| `"horizontal"` |
+| `data-disabled` | Present when disabled |
+
+The selected value is uncontrolled with `defaultValue`, or controlled with `bind:value`. `onValueChange$` is called when the user selects a value. `orientation` only changes `aria-orientation` and `data-orientation`: all four arrow keys move the selection in both orientations.
+
+### Label
+
+<PropsTable component="radio-group" part="Label" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-radio-group-label` | Always present |
+| `data-disabled` | Present when the group is disabled |
+
+The Label's `id` comes from the Root. To change it, pass `ids={{ label: '...' }}` to the Root.
+
+### Item
+
+<PropsTable component="radio-group" part="Item" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-radio-group-item` | Always present |
+| `data-state` | `"checked"` \| `"unchecked"` |
+| `data-disabled` | Present when the item or the group is disabled |
+| `data-orientation` | `"vertical"` \| `"horizontal"` |
+
+### Indicator
+
+<PropsTable component="radio-group" part="Indicator" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-radio-group-indicator` | Always present |
+| `data-state` | `"checked"` \| `"unchecked"` |
+| `data-disabled` | Present when the item or the group is disabled |
+
+The indicator is always rendered. Show or hide its contents with CSS, for example `[data-leve-radio-group-indicator][data-state="checked"]`.
+
+### HiddenInput
+
+<PropsTable component="radio-group" part="HiddenInput" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-radio-group-hidden-input` | Always present |
+| `data-state` | `"checked"` when a value is selected, otherwise `"unchecked"` |
+| `data-disabled` | Present when the group is disabled |
+
+The hidden input holds the selected value and follows the `required` and `disabled` states of the Root, so native form submission and `required` validation work ([ADR 0026](https://github.com/leve-ui/leve-ui/blob/main/adr/0026-participate-in-native-forms-through-a-hiddeninput-part.md)). It is positioned absolutely with an inline style, so give `RadioGroup.Root` `position: relative`.
+
+## Accessibility
+
+Complies with the [Radio Group WAI-ARIA design pattern](https://www.w3.org/WAI/ARIA/apg/patterns/radio/).
+
+- Name the group with `RadioGroup.Label`, or `aria-label` / `aria-labelledby` on `RadioGroup.Root`.
+- `RadioGroup.Root` renders `role="radiogroup"`, `aria-orientation`, and `aria-required` / `aria-disabled` when required or disabled.
+- Each `RadioGroup.Item` is a `<button type="button">` with `role="radio"` and `aria-checked`. Its text content is its accessible name. Disabled items use the native `disabled` attribute, so they are not focusable.
+- Only one item is in the tab sequence: the selected item, or the first enabled item when nothing is selected.
+- `RadioGroup.Indicator` and `RadioGroup.HiddenInput` are hidden from assistive technologies with `aria-hidden="true"`.
+
+### Keyboard Interactions
+
+| Key | Description |
+| --- | --- |
+| `Tab` | Moves focus into the group (to the selected item, or the first enabled item), or out of the group. |
+| `Space` | Selects the focused item. `Enter` does nothing. |
+| `ArrowDown` / `ArrowRight` | Moves focus to the next enabled item and selects it. Wraps to the first item when `loop` is `true`. |
+| `ArrowUp` / `ArrowLeft` | Moves focus to the previous enabled item and selects it. Wraps to the last item when `loop` is `true`. |

@@ -1,0 +1,149 @@
+---
+title: Progress
+description: The progress of a task, determinate or indeterminate.
+---
+
+# Progress
+
+The progress of a task, determinate or indeterminate.
+
+There is no WAI-ARIA APG pattern for progress bars. Progress renders a `<div>` with the [`progressbar` role](https://www.w3.org/TR/wai-aria-1.2/#progressbar). Use [Meter](/components/meter/) for a value that goes up and down within a range, such as disk usage.
+
+<Demo id="progress/default" />
+
+## Installation
+
+Install the all-in-one package:
+
+```sh
+pnpm add @leve-ui/core
+```
+
+Or only this component:
+
+```sh
+pnpm add @leve-ui/progress
+```
+
+## Anatomy
+
+```tsx
+import { Progress } from '@leve-ui/progress'; // or '@leve-ui/core'
+
+<Progress.Root>
+  <Progress.Label />
+  <Progress.ValueText />
+  <Progress.Track>
+    <Progress.Indicator />
+  </Progress.Track>
+</Progress.Root>
+```
+
+| Part | Element | Description |
+| --- | --- | --- |
+| `Progress.Root` | `<div>` | The progress bar, with `role="progressbar"`. Holds the value and the range. |
+| `Progress.Label` | `<span>` | The label. Names the Root. |
+| `Progress.ValueText` | `<span>` | Shows the value text (by default, the percentage). |
+| `Progress.Track` | `<div>` | The whole range. Contains the Indicator. |
+| `Progress.Indicator` | `<div>` | The current value. Exposes the percentage as a CSS variable. |
+
+## Examples
+
+### Controlled
+
+The `value` follows a signal. The state becomes `"complete"` when the value reaches `max`.
+
+<Demo id="progress/controlled" collapsed />
+
+### Indeterminate
+
+`value={null}` (the default) means the progress is unknown. The state is `"indeterminate"`, and the CSS animates the Indicator with `[data-state="indeterminate"]`.
+
+<Demo id="progress/indeterminate" collapsed />
+
+### With Value Text
+
+`valueText` replaces the percentage with a human-readable text. It is shown by `Progress.ValueText` and used as `aria-valuetext`.
+
+<Demo id="progress/with-value-text" collapsed />
+
+## API Reference
+
+### Root
+
+<PropsTable component="progress" part="Root" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-progress` | Always present |
+| `data-state` | `"indeterminate"` \| `"loading"` \| `"complete"` |
+| `data-value` | The value, clamped between `min` and `max`. Absent when indeterminate |
+| `data-min` | The `min` value |
+| `data-max` | The `max` value |
+
+`data-state` is `"indeterminate"` when `value` is `null`, `"complete"` when the value reaches `max`, and `"loading"` otherwise.
+
+### Label
+
+<PropsTable component="progress" part="Label" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-progress-label` | Always present |
+| `data-state` | `"indeterminate"` \| `"loading"` \| `"complete"` |
+| `data-value` | The clamped value. Absent when indeterminate |
+| `data-min` | The `min` value |
+| `data-max` | The `max` value |
+
+The Label gets a generated `id` that the Root references with `aria-labelledby`. If you pass your own `id`, also pass the same value as `aria-labelledby` to the Root.
+
+### ValueText
+
+<PropsTable component="progress" part="ValueText" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-progress-value-text` | Always present |
+| `data-state` | `"indeterminate"` \| `"loading"` \| `"complete"` |
+| `data-value` | The clamped value. Absent when indeterminate |
+| `data-min` | The `min` value |
+| `data-max` | The `max` value |
+
+Renders the Root's `valueText`, or the rounded percentage (for example `"40%"`) when it is not set. When indeterminate and `valueText` is not set, it is empty. It has no children.
+
+### Track
+
+<PropsTable component="progress" part="Track" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-progress-track` | Always present |
+| `data-state` | `"indeterminate"` \| `"loading"` \| `"complete"` |
+| `data-value` | The clamped value. Absent when indeterminate |
+| `data-min` | The `min` value |
+| `data-max` | The `max` value |
+
+### Indicator
+
+<PropsTable component="progress" part="Indicator" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-progress-indicator` | Always present |
+| `data-state` | `"indeterminate"` \| `"loading"` \| `"complete"` |
+| `data-value` | The clamped value. Absent when indeterminate |
+| `data-min` | The `min` value |
+| `data-max` | The `max` value |
+
+| CSS variable | Value |
+| --- | --- |
+| `--leve-progress-percent` | The value as a percentage of the range, for example `40%`. Not set when indeterminate |
+
+The library does not set a width. Use the variable yourself, for example `width: var(--leve-progress-percent)`.
+
+## Accessibility
+
+- `Progress.Root` renders `role="progressbar"` with `aria-valuemin` and `aria-valuemax`, `aria-valuenow` unless indeterminate, and `aria-valuetext` when `valueText` is set.
+- The Root is named by `Progress.Label` through `aria-labelledby`. If you pass `aria-label` or `aria-labelledby` to the Root, that is used instead.
+- When the percentage alone does not describe the progress (for example, "3 of 10 files"), set `valueText`.
+- Progress has no keyboard interaction.
