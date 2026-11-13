@@ -1,0 +1,64 @@
+---
+title: Label
+description: A label for a form control.
+---
+
+# Label
+
+A label for a form control.
+
+There is no WAI-ARIA APG pattern for labels. Label renders a native `<label>`, which names the control it is associated with.
+
+<Demo id="label/default" />
+
+## Installation
+
+Install the all-in-one package:
+
+```sh
+pnpm add @leve-ui/core
+```
+
+Or only this component:
+
+```sh
+pnpm add @leve-ui/label
+```
+
+## Anatomy
+
+```tsx
+import { Label } from '@leve-ui/label'; // or '@leve-ui/core'
+
+<Label.Root />
+```
+
+| Part | Element | Description |
+| --- | --- | --- |
+| `Label.Root` | `<label>` | The label. Associate it with a control with `for`, or by wrapping the control. |
+
+## Examples
+
+### Wrapping
+
+Wrapping a control in `Label.Root` associates them without `for` and `id`.
+
+<Demo id="label/wrapping" collapsed />
+
+## API Reference
+
+### Root
+
+<PropsTable component="label" part="Root" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-label` | Always present |
+
+All props, including `for`, are passed to the native `<label>`. Inside a [Field](/components/field/), use `Field.Label` instead: it is associated with the control automatically.
+
+## Accessibility
+
+- The label becomes the accessible name of the associated control. Set `for` to the control's `id`, or wrap the control in the label.
+- Clicking the label focuses the control, or toggles it when it is a checkbox or radio button.
+- Label has no keyboard interaction.

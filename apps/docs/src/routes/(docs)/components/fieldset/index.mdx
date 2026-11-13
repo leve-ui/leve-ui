@@ -1,0 +1,77 @@
+---
+title: Fieldset
+description: Groups related form controls under a legend.
+---
+
+# Fieldset
+
+Groups related form controls under a legend.
+
+There is no WAI-ARIA APG pattern for fieldsets. Fieldset renders the native `<fieldset>` and `<legend>` elements, so the group gets `role="group"` and is named by its legend.
+
+<Demo id="fieldset/default" />
+
+## Installation
+
+Install the all-in-one package:
+
+```sh
+pnpm add @leve-ui/core
+```
+
+Or only this component:
+
+```sh
+pnpm add @leve-ui/fieldset
+```
+
+## Anatomy
+
+```tsx
+import { Fieldset } from '@leve-ui/fieldset'; // or '@leve-ui/core'
+
+<Fieldset.Root>
+  <Fieldset.Legend />
+</Fieldset.Root>
+```
+
+| Part | Element | Description |
+| --- | --- | --- |
+| `Fieldset.Root` | `<fieldset>` | Groups the form controls. |
+| `Fieldset.Legend` | `<legend>` | The label of the group. Place it as the first child of the Root. |
+
+## Examples
+
+### Disabled
+
+`disabled` on the Root disables every form control inside it, like the native `<fieldset disabled>`.
+
+<Demo id="fieldset/disabled" collapsed />
+
+## API Reference
+
+### Root
+
+<PropsTable component="fieldset" part="Root" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-fieldset` | Always present |
+| `data-disabled` | Present when disabled |
+
+All props, including `disabled`, are passed to the native `<fieldset>`.
+
+### Legend
+
+<PropsTable component="fieldset" part="Legend" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-fieldset-legend` | Always present |
+| `data-disabled` | Present when the Root is disabled |
+
+## Accessibility
+
+- The native `<fieldset>` has the implicit `role="group"`, and `Fieldset.Legend` gives the group its accessible name.
+- When the Root is disabled, the controls inside it are disabled by the browser and skipped by Tab.
+- Fieldset has no keyboard interaction of its own.

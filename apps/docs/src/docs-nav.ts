@@ -30,6 +30,10 @@ export const docsNav: NavSection[] = [
       { title: 'Avatar', href: '/components/avatar/' },
       { title: 'Breadcrumb', href: '/components/breadcrumb/' },
       { title: 'Checkbox', href: '/components/checkbox/' },
+      { title: 'Collapsible', href: '/components/collapsible/' },
+      { title: 'Field', href: '/components/field/' },
+      { title: 'Fieldset', href: '/components/fieldset/' },
+      { title: 'Label', href: '/components/label/' },
     ],
   },
 ];
