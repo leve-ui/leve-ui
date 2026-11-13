@@ -1,0 +1,84 @@
+name: Translate docs
+
+# Translates the English docs that changed on main and proposes the result as a
+# pull request that only changes apps/docs/i18n/*.json (adr/0033).
+on:
+  push:
+    branches: [main]
+    paths:
+      - apps/docs/src/**
+      - apps/docs/scripts/i18n/**
+      # Props descriptions come from the JSDoc of the components
+      - packages/components/*/src/**
+  workflow_dispatch:
+
+concurrency:
+  group: docs-translate
+  cancel-in-progress: false
+
+permissions: {}
+
+env:
+  LEFTHOOK: 0
+  TURBO_TELEMETRY_DISABLED: 1
+  BRANCH: i18n/translations
+
+jobs:
+  translate:
+    name: Translate
+    # Never in forks: Workload Identity Federation only trusts this repository
+    if: github.repository == 'leve-ui/leve-ui'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # push the translations branch
+      pull-requests: write # open the translations PR
+      id-token: write # Workload Identity Federation (no long-lived key)
+      actions: write # dispatch CI on the translations PR
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: ./.github/actions/setup
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v3
+        with:
+          workload_identity_provider: ${{ vars.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+          service_account: ${{ vars.GCP_SERVICE_ACCOUNT }}
+
+      # Keeps the translations that matched even when some segments failed;
+      # the job fails at the end in that case
+      - name: Translate missing segments
+        id: translate
+        continue-on-error: true
+        run: pnpm --filter @leve-ui/docs i18n:translate
+        env:
+          GCP_PROJECT_ID: ${{ vars.GCP_PROJECT_ID }}
+          GCP_LOCATION: ${{ vars.GCP_LOCATION }}
+
+      - name: Open or update the translations PR
+        id: pr
+        uses: peter-evans/create-pull-request@v8
+        with:
+          branch: ${{ env.BRANCH }}
+          add-paths: apps/docs/i18n/*.json
+          commit-message: "chore(docs): update translations"
+          title: "chore(docs): update translations"
+          body: |
+            Machine translations of the docs that changed on `main` (adr/0033), made by the [Translate docs](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}) workflow.
+
+            Review each `source` / `translation` pair. To fix a translation, edit its `translation` in this branch before merging.
+          labels: "scope: docs"
+          delete-branch: true
+
+      # Pull requests opened with GITHUB_TOKEN do not trigger workflows
+      - name: Run CI on the translations PR
+        if: steps.pr.outputs.pull-request-number != '' && steps.pr.outputs.pull-request-operation != 'none'
+        run: gh workflow run ci.yml --repo "$GITHUB_REPOSITORY" --ref "$BRANCH"
+        env:
+          GH_TOKEN: ${{ github.token }}
+
+      - name: Fail when some segments were not translated
+        if: steps.translate.outcome == 'failure'
+        run: |
+          echo "::error::Some segments could not be translated. See the Translate missing segments step."
+          exit 1
