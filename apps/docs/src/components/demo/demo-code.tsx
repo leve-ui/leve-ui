@@ -1,8 +1,9 @@
-import { $, component$, useSignal } from '@builder.io/qwik';
+import { $, component$, Resource, useResource$, useSignal } from '@builder.io/qwik';
 import { Collapsible } from '@leve-ui/collapsible';
 import { Tabs } from '@leve-ui/tabs';
 import { css } from 'styled-system/css';
 import { LuCheck, LuChevronRight, LuCopy, LuExternalLink } from '../icons';
+import { loadDemoSource } from './demo-highlighted';
 
 const STORYBOOK_URL = 'https://leve-ui-storybook.pages.dev';
 
@@ -134,7 +135,19 @@ const CopyButton = component$(() => {
   );
 });
 
-export type DemoFile = { file: string; html: string };
+export type DemoFile = {
+  file: string;
+  /** `avatar/default.tsx` */
+  source: string;
+  /** Highlighted HTML. Empty when the page was rendered in the browser (SPA navigation). */
+  html: string;
+};
+
+/** Loads the highlighted source in the browser when the page was not rendered on the server. */
+const LazyHighlightedCode = component$<{ source: string }>(({ source }) => {
+  const html = useResource$(() => loadDemoSource(source));
+  return <Resource value={html} onResolved={(value) => <div dangerouslySetInnerHTML={value} />} />;
+});
 
 /**
  * The source tabs of a demo. This is an inline component (not `component$`) so
@@ -165,9 +178,9 @@ export function DemoCode({ name, files }: { name: string; files: DemoFile[] }) {
           <CopyButton />
         </div>
       </div>
-      {files.map(({ file, html }) => (
+      {files.map(({ file, source, html }) => (
         <Tabs.Content key={file} value={file} class={codeStyles}>
-          <div dangerouslySetInnerHTML={html} />
+          {html ? <div dangerouslySetInnerHTML={html} /> : <LazyHighlightedCode source={source} />}
         </Tabs.Content>
       ))}
     </Tabs.Root>

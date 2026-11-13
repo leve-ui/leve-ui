@@ -34,7 +34,10 @@ export const Demo = component$<DemoProps>(({ id, collapsed = false }) => {
   }
 
   const files = [`${story}.tsx`, `${story}.css`]
-    .map((file, i) => ({ file, html: demoSources[`${id}${i === 0 ? '.tsx' : '.css'}`] }))
+    .map((file, i) => {
+      const source = `${id}${i === 0 ? '.tsx' : '.css'}`;
+      return { file, source, html: demoSources[source] };
+    })
     .filter((f): f is DemoFile => typeof f.html === 'string');
 
   return (
