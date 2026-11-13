@@ -1,0 +1,218 @@
+name: Docs deploy
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, closed]
+    # Only run when something that affects the docs build changes.
+    # The preview is not a required check (adr/0027), so skipped runs never block merging.
+    # Pull requests that never touched these paths never created a preview, so skipping
+    # the cleanup on close for them is fine.
+    paths:
+      - "packages/**"
+      - "apps/docs/**"
+      - "apps/storybook/stories/demos/**"
+      - "tooling/**"
+      - "package.json"
+      - "pnpm-lock.yaml"
+      - "pnpm-workspace.yaml"
+      - ".node-version"
+      - ".github/actions/setup/**"
+      - ".github/workflows/docs-deploy.yml"
+  push:
+    branches: [main]
+    paths:
+      - "packages/**"
+      - "apps/docs/**"
+      - "apps/storybook/stories/demos/**"
+      - "tooling/**"
+      - "package.json"
+      - "pnpm-lock.yaml"
+      - "pnpm-workspace.yaml"
+      - ".node-version"
+      - ".github/actions/setup/**"
+      - ".github/workflows/docs-deploy.yml"
+
+# A pull request close cancels any in-progress deployment for the same PR.
+concurrency:
+  group: docs-deploy-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  LEFTHOOK: 0
+  TURBO_TELEMETRY_DISABLED: 1
+
+jobs:
+  deploy:
+    name: Deploy docs
+    # Skip pull requests from forks because repository secrets are unavailable
+    # to them and pull_request_target must not be used (see adr/0027, adr/0034).
+    # Also skip when a pull request is closed (handled by the cleanup job).
+    if: github.event.action != 'closed' && (github.event_name == 'push' || github.event.pull_request.head.repo.full_name == github.repository)
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+      deployments: write
+    env:
+      DEPLOY_BRANCH: ${{ github.head_ref || github.ref_name }}
+      DEPLOY_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: ./.github/actions/setup
+      - name: Build docs
+        # Static site generation (apps/docs/adapters/static). Packages are resolved from src via
+        # the @leve-ui/source condition, so they do not need to be built first.
+        run: pnpm --filter @leve-ui/docs build
+      - name: Deploy to Cloudflare Pages
+        id: deploy
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          # wrangler is a devDependency of @leve-ui/docs; without it the action runs pnpm add at the workspace root, which fails.
+          workingDirectory: apps/docs
+          command: pages deploy dist --project-name=leve-ui-docs --branch=${{ env.DEPLOY_BRANCH }} --commit-hash=${{ env.DEPLOY_SHA }} --commit-dirty=true
+          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+      - name: Comment on pull request
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v8
+        env:
+          DEPLOYMENT_URL: ${{ steps.deploy.outputs.deployment-url }}
+          ALIAS_URL: ${{ steps.deploy.outputs.pages-deployment-alias-url }}
+          COMMIT_SHA: ${{ env.DEPLOY_SHA }}
+        with:
+          script: |
+            const marker = '<!-- docs-preview -->';
+            const shortSha = (process.env.COMMIT_SHA || '').slice(0, 7);
+            const deploymentUrl = (process.env.DEPLOYMENT_URL || '').trim();
+            const aliasUrl = (process.env.ALIAS_URL || '').trim();
+
+            let body = `${marker}\n### Docs preview\n\n| | URL |\n| --- | --- |\n| This commit (\`${shortSha}\`) | ${deploymentUrl} |`;
+            if (aliasUrl) {
+              body += `\n| Branch alias (latest) | ${aliasUrl} |`;
+            }
+
+            const comments = await github.paginate(github.rest.issues.listComments, {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              per_page: 100,
+            });
+
+            const existing = comments.find((comment) =>
+              comment.body && comment.body.includes(marker)
+            );
+
+            if (existing) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: existing.id,
+                body,
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body,
+              });
+            }
+      - name: Write step summary
+        env:
+          DEPLOYMENT_URL: ${{ steps.deploy.outputs.deployment-url }}
+          ALIAS_URL: ${{ steps.deploy.outputs.pages-deployment-alias-url }}
+          COMMIT_SHA: ${{ env.DEPLOY_SHA }}
+        run: |
+          SHORT_SHA="${COMMIT_SHA:0:7}"
+          {
+            echo "### Docs preview"
+            echo ""
+            echo "| | URL |"
+            echo "| --- | --- |"
+            echo "| This commit (\`$SHORT_SHA\`) | $DEPLOYMENT_URL |"
+            if [ -n "$ALIAS_URL" ]; then
+              echo "| Branch alias (latest) | $ALIAS_URL |"
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  cleanup:
+    name: Delete Docs previews
+    # Delete preview deployments when a PR is closed so deployments do not
+    # accumulate indefinitely in Cloudflare Pages (see adr/0027, adr/0034).
+    # Skip pull requests from forks as no preview deployments were created for them.
+    if: github.event.action == 'closed' && github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+      - name: Delete preview deployments for the branch
+        id: cleanup
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          PROJECT_NAME: leve-ui-docs
+          BRANCH: ${{ github.head_ref }}
+        run: |
+          set -euo pipefail
+
+          BASE="https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/pages/projects/$PROJECT_NAME/deployments"
+          AUTH_HEADER="Authorization: Bearer $CLOUDFLARE_API_TOKEN"
+
+          page=1
+          ids_file=$(mktemp)
+          trap 'rm -f "$ids_file"' EXIT
+
+          while :; do
+            response=$(curl -fsS -H "$AUTH_HEADER" "$BASE?env=preview&page=$page&per_page=25")
+            count=$(echo "$response" | jq '.result | length')
+            if [ "$count" -eq 0 ]; then
+              break
+            fi
+
+            echo "$response" | jq -r --arg branch "$BRANCH" '.result[] | select(.deployment_trigger.metadata.branch == $branch) | .id' >> "$ids_file"
+            page=$((page + 1))
+          done
+
+          deleted=0
+          while IFS= read -r id; do
+            if [ -n "$id" ]; then
+              curl -fsS -X DELETE -H "$AUTH_HEADER" "$BASE/$id?force=true" > /dev/null
+              deleted=$((deleted + 1))
+            fi
+          done < "$ids_file"
+
+          echo "Deleted $deleted preview deployment(s) for branch $BRANCH."
+          echo "deleted=$deleted" >> "$GITHUB_OUTPUT"
+      - name: Update pull request comment
+        uses: actions/github-script@v8
+        env:
+          DELETED: ${{ steps.cleanup.outputs.deleted }}
+        with:
+          script: |
+            const marker = '<!-- docs-preview -->';
+            const deleted = process.env.DELETED || '0';
+
+            const comments = await github.paginate(github.rest.issues.listComments, {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              per_page: 100,
+            });
+
+            const existing = comments.find((comment) =>
+              comment.body && comment.body.includes(marker)
+            );
+
+            if (existing) {
+              const body = `${marker}\n### Docs preview\n\nDeleted the preview deployments for this pull request (${deleted} deployments) because it was closed.`;
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: existing.id,
+                body,
+              });
+            }
