@@ -1,18 +1,21 @@
 /**
  * The translation memory: apps/docs/i18n/<locale>.json (adr/0033).
  *
- * `{ "<hash of the English text>": { "source": "...", "translation": "..." } }`
- * The source is stored so that reviewers see both texts in pull requests. When
- * the English text changes, its hash changes, so a stale translation is never used.
+ * `{ "<hash of the English text>": { "source": "...", "translation": "...", "where": [...] } }`
+ * The source is stored so that reviewers see both texts in pull requests, and
+ * `where` lists the files (or props) that use the text, so that they see what a
+ * translation changes. Only the translation is read when generating the pages.
+ * When the English text changes, its hash changes, so a stale translation is
+ * never used.
  */
 import { existsSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
-import { dirname, join, resolve } from 'node:path';
+import { dirname, join, relative, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { SOURCE_LOCALE } from '../../src/i18n/locales.ts';
 import { extractSegments, segmentHash } from './segments.ts';
 import { propDescriptions, textSegment, uiStrings } from './ui.ts';
 
-export type MemoryEntry = { source: string; translation: string };
+export type MemoryEntry = { source: string; translation: string; where?: string[] };
 export type Memory = Record<string, MemoryEntry>;
 
 const docsRoot = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
@@ -32,7 +35,12 @@ export function readMemory(locale: string): Memory {
 
 /** Writes the memory sorted by key, so that diffs stay small. */
 export function writeMemory(locale: string, memory: Memory) {
-  const sorted = Object.fromEntries(Object.entries(memory).sort(([a], [b]) => a.localeCompare(b)));
+  const sorted = Object.fromEntries(
+    Object.entries(memory)
+      .sort(([a], [b]) => a.localeCompare(b))
+      // Same key order in every entry
+      .map(([hash, { source, translation, where }]) => [hash, { source, translation, where }]),
+  );
   writeFileSync(memoryPath(locale), `${JSON.stringify(sorted, null, 2)}\n`);
 }
 
@@ -49,8 +57,8 @@ export function* walkFiles(dir: string): Generator<string> {
   }
 }
 
-/** A text to translate, with what its placeholders stand for. */
-export type SourceText = { text: string; placeholders: Record<string, string> };
+/** A text to translate, with what its placeholders stand for and where it is used. */
+export type SourceText = { text: string; placeholders: Record<string, string>; where: string[] };
 
 /**
  * Every segment of the English pages, UI strings and props descriptions,
@@ -58,12 +66,22 @@ export type SourceText = { text: string; placeholders: Record<string, string> };
  */
 export function sourceTexts(): SourceText[] {
   const texts = new Map<string, SourceText>();
-  const add = ({ text, placeholders }: SourceText) => {
-    if (!texts.has(text)) texts.set(text, { text, placeholders });
+  const add = (text: string, placeholders: Record<string, string>, where: string) => {
+    const entry = texts.get(text) ?? { text, placeholders, where: [] };
+    if (!entry.where.includes(where)) entry.where.push(where);
+    texts.set(text, entry);
   };
   for (const file of walkFiles(SOURCE_DIR)) {
-    if (file.endsWith('.mdx')) extractSegments(readFileSync(file, 'utf8')).forEach(add);
+    if (!file.endsWith('.mdx')) continue;
+    const where = relative(docsRoot, file).split(sep).join('/');
+    for (const segment of extractSegments(readFileSync(file, 'utf8'))) {
+      add(segment.text, segment.placeholders, where);
+    }
   }
-  for (const text of [...uiStrings(SRC_DIR), ...propDescriptions(SRC_DIR)]) add(textSegment(text));
+  for (const { text, where } of [...uiStrings(SRC_DIR), ...propDescriptions(SRC_DIR)]) {
+    const segment = textSegment(text);
+    add(segment.text, segment.placeholders, where);
+  }
+  for (const entry of texts.values()) entry.where.sort();
   return [...texts.values()];
 }
