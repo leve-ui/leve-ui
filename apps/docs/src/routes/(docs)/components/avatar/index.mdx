@@ -1,16 +1,89 @@
 ---
 title: Avatar
-description: An image that represents a user, with a fallback while it loads or when it fails.
+description: An image that represents a user, with a fallback shown while it loads or when it fails.
 ---
 
 # Avatar
 
-An image that represents a user, with a fallback while it loads or when it fails.
+An image that represents a user, with a fallback shown while it loads or when it fails.
+
+There is no WAI-ARIA APG pattern for avatars. Avatar renders a native `<img>`, so the image is named by its `alt` text like any other image.
 
 <Demo id="avatar/default" />
+
+## Installation
+
+Install the all-in-one package:
+
+```sh
+pnpm add @leve-ui/core
+```
+
+Or only this component:
+
+```sh
+pnpm add @leve-ui/avatar
+```
+
+## Anatomy
+
+```tsx
+import { Avatar } from '@leve-ui/avatar'; // or '@leve-ui/core'
+
+<Avatar.Root>
+  <Avatar.Image />
+  <Avatar.Fallback />
+</Avatar.Root>
+```
+
+| Part | Element | Description |
+| --- | --- | --- |
+| `Avatar.Root` | `<span>` | Wraps the image and the fallback, and tracks the loading status. |
+| `Avatar.Image` | `<img>` | The image. Hidden until it has loaded. |
+| `Avatar.Fallback` | `<span>` | Shown while the image is loading, when it fails, or when there is no `src`. Removed once the image has loaded. |
 
 ## Examples
 
 ### Fallback
 
+When the image fails to load, the fallback (here, initials) stays visible.
+
 <Demo id="avatar/fallback" collapsed />
+
+## API Reference
+
+### Root
+
+<PropsTable component="avatar" part="Root" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-avatar` | Always present |
+
+The Root has no `data-state`: the loading status is decided by the Image, which is rendered after the Root ([ADR 0010](https://github.com/leve-ui/leve-ui/blob/main/adr/0010-no-child-state-on-parent-attributes.md)). To style the Root by status, use `:has()`, for example `[data-leve-avatar]:has([data-leve-avatar-image][data-state="loaded"])`.
+
+### Image
+
+<PropsTable component="avatar" part="Image" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-avatar-image` | Always present |
+| `data-state` | `"idle"` \| `"loading"` \| `"loaded"` \| `"error"` |
+
+The image has the `hidden` attribute until its status is `"loaded"`.
+
+### Fallback
+
+<PropsTable component="avatar" part="Fallback" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-avatar-fallback` | Always present |
+| `data-state` | `"idle"` \| `"loading"` \| `"error"` |
+
+## Accessibility
+
+- Always pass `alt` to `Avatar.Image`. Describe who the image represents (for example, the user's name). If the user's name is already shown next to the avatar, use `alt=""` so that screen readers do not read it twice.
+- The fallback is plain text and is read by screen readers while it is shown. If it only repeats a name that is visible nearby, hide it with `aria-hidden="true"`.
+- Avatar has no keyboard interaction. If the avatar is a link or a button, wrap it in an `<a>` or `<button>` with an accessible name.
