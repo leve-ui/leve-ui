@@ -1,14 +1,42 @@
 ---
 title: Introduction
-description: leve-ui is a headless, WAI-ARIA compliant UI component library for Qwik.
+description: leve-ui is a library of headless, WAI-ARIA compliant UI components for Qwik.
 ---
 
 # Introduction
 
-leve-ui is a headless, WAI-ARIA compliant UI component library for Qwik.
+leve-ui is a library of headless, WAI-ARIA compliant UI components for Qwik. Bring your own styles.
 
-This page is a placeholder. The full introduction is coming soon.
+Components handle the parts that are hard to get right — roles and ARIA attributes, keyboard interaction, focus management, and controlled or uncontrolled state — and leave every pixel of the design to you.
+
+## Why leve-ui
+
+- **Accessible.** Every component follows the [WAI-ARIA Authoring Practices Guide](https://www.w3.org/WAI/ARIA/apg/patterns/) (APG), including keyboard interaction and focus management. Native HTML elements are used wherever they fit.
+- **Unstyled.** Components ship no CSS. Each DOM element is a separate part that you style with classes or with the `data-*` attributes the library outputs.
+- **Install only what you use.** Every component is its own package. `@leve-ui/core` bundles all of them for convenience.
+- **Built for Qwik.** Components are written with `component$`, render on the server, and resume without hydration.
+
+## How components are built
+
+A component is a set of parts, one part per DOM element. You compose the parts yourself:
+
+```tsx
+<Switch.Root>
+  <Switch.Label>Airplane mode</Switch.Label>
+  <Switch.Control>
+    <Switch.Thumb />
+  </Switch.Control>
+</Switch.Root>
+```
+
+Every part accepts the attributes of the element it renders, such as `class`, `style`, `id`, `aria-*` and event handlers. The library adds the attributes the pattern requires (for example `role="switch"` and `aria-checked`) and data attributes for styling (for example `data-state="checked"`).
+
+## Status
+
+leve-ui is in the 0.x series. Breaking changes can happen in minor releases (0.1 → 0.2) until 1.0; they are listed in each package's changelog and on [GitHub Releases](https://github.com/leve-ui/leve-ui/releases). leve-ui supports Qwik 1.x.
 
 ## Next steps
 
-- Browse the [components](/components/).
+- [Getting started](/overview/getting-started/): install leve-ui and render your first component.
+- [Styling](/overview/styling/): style parts with classes, data attributes and CSS variables.
+- [Components](/components/): browse all components.
