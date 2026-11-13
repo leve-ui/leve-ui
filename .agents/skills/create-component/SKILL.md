@@ -47,7 +47,19 @@ pnpm install
 - ストーリー: 状態ごとに追加する（Default / Disabled / Open など）
 - E2E: APG のキーボード操作を 1 つずつテストする
 
-## 5. 仕上げ
+## 5. docs のページを書く
+
+`adr/0032` のテンプレートで、`apps/docs/src/routes/(docs)/components/<name>/index.mdx` を作る。見本は `components/avatar/index.mdx` と `components/checkbox/index.mdx`。
+
+- タイトルと 1 行の説明、APG パターンへのリンク（ない場合は採用したネイティブ要素の方針）
+- `<Demo id="<name>/default" />`、Installation（`@leve-ui/core` と `@leve-ui/<name>`）、Anatomy（パーツの一覧と描画する要素）
+- Examples: Storybook の demo（default 以外）ごとに `###` と `<Demo id="<name>/<story>" collapsed />`
+- API Reference: パーツごとに `<PropsTable component="<name>" part="<Part>" />` と、手書きの data 属性・CSS 変数の表（props の説明は JSDoc から生成されるので、公開 props には英語の JSDoc と `@default` を書く）
+- Accessibility: 準拠するパターン、出力する `role` / `aria-*`、実装したキー操作の表
+- `apps/docs/src/docs-nav.ts` と `components/index.mdx` の一覧に追加する
+- 書く内容はソースと一致させる（存在しない props やキー操作を書かない）
+
+## 6. 仕上げ
 
 ```sh
 pnpm check:fix
@@ -59,7 +71,7 @@ pnpm changeset   # minor で @leve-ui/<name> と @leve-ui/core を選び、要�
 
 ライブラリ全体に関わる判断をした場合（新しい共通ユーティリティの方針など）は、`write-adr` スキルで ADR を書く。
 
-## 6. 初回公開（ユーザーが行う）
+## 7. 初回公開（ユーザーが行う）
 
 npm の Trusted Publishing は npm 上に存在するパッケージにしか設定できないため、新しいパッケージは最初の 1 回だけ手元から公開する（`adr/0020`）。**AI エージェントは実行せず、PR のマージ後にユーザーへ以下を伝える。**
 
