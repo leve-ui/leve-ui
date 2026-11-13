@@ -189,14 +189,14 @@ export const Header = component$(() => {
           <Link
             href="/overview/introduction/"
             class={navLinkStyles}
-            aria-current={path.startsWith('/overview/') ? 'page' : undefined}
+            aria-current={path.startsWith('/overview/') ? 'page' : 'false'}
           >
             Docs
           </Link>
           <Link
             href="/components/"
             class={navLinkStyles}
-            aria-current={path.startsWith('/components/') ? 'page' : undefined}
+            aria-current={path.startsWith('/components/') ? 'page' : 'false'}
           >
             Components
           </Link>

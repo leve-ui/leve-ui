@@ -48,7 +48,9 @@ export const DocsNavList = component$<{ onNavigate$?: QRL<() => void> }>(({ onNa
                 <Link
                   href={item.href}
                   class={linkStyles}
-                  aria-current={item.href === pathname ? 'page' : undefined}
+                  // 'false' instead of undefined: after an SPA navigation, Link keeps an
+                  // attribute that changes to undefined, so the old page stayed marked
+                  aria-current={item.href === pathname ? 'page' : 'false'}
                   onClick$={onNavigate$}
                 >
                   {item.title}
