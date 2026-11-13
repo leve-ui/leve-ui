@@ -34,6 +34,10 @@ export const docsNav: NavSection[] = [
       { title: 'Field', href: '/components/field/' },
       { title: 'Fieldset', href: '/components/fieldset/' },
       { title: 'Label', href: '/components/label/' },
+      { title: 'Meter', href: '/components/meter/' },
+      { title: 'Progress', href: '/components/progress/' },
+      { title: 'Radio Group', href: '/components/radio-group/' },
+      { title: 'Separator', href: '/components/separator/' },
     ],
   },
 ];

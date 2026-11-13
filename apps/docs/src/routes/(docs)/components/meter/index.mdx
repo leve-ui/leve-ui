@@ -1,0 +1,140 @@
+---
+title: Meter
+description: A value within a known range, such as disk usage or battery level.
+---
+
+# Meter
+
+A value within a known range, such as disk usage or battery level.
+
+Meter follows the [Meter WAI-ARIA design pattern](https://www.w3.org/WAI/ARIA/apg/patterns/meter/). Use [Progress](/components/progress/) for the progress of a task.
+
+<Demo id="meter/default" />
+
+## Installation
+
+Install the all-in-one package:
+
+```sh
+pnpm add @leve-ui/core
+```
+
+Or only this component:
+
+```sh
+pnpm add @leve-ui/meter
+```
+
+## Anatomy
+
+```tsx
+import { Meter } from '@leve-ui/meter'; // or '@leve-ui/core'
+
+<Meter.Root>
+  <Meter.Label />
+  <Meter.ValueText />
+  <Meter.Track>
+    <Meter.Indicator />
+  </Meter.Track>
+</Meter.Root>
+```
+
+| Part | Element | Description |
+| --- | --- | --- |
+| `Meter.Root` | `<div>` | The meter, with `role="meter"`. Holds the value and the range. |
+| `Meter.Label` | `<span>` | The label. Names the Root. |
+| `Meter.ValueText` | `<span>` | Shows the value text (by default, the percentage). |
+| `Meter.Track` | `<div>` | The whole range. Contains the Indicator. |
+| `Meter.Indicator` | `<div>` | The current value. Exposes the percentage as a CSS variable. |
+
+## Examples
+
+### Controlled
+
+The `value` follows a signal. The meter updates when the buttons change it.
+
+<Demo id="meter/controlled" collapsed />
+
+### With Value Text
+
+`valueText` replaces the percentage with a human-readable text, here with `max={200}`. It is shown by `Meter.ValueText` and used as `aria-valuetext`.
+
+<Demo id="meter/with-value-text" collapsed />
+
+## API Reference
+
+### Root
+
+<PropsTable component="meter" part="Root" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-meter` | Always present |
+| `data-value` | The value, clamped between `min` and `max` |
+| `data-min` | The `min` value |
+| `data-max` | The `max` value |
+
+`value` is clamped between `min` and `max`.
+
+### Label
+
+<PropsTable component="meter" part="Label" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-meter-label` | Always present |
+| `data-value` | The clamped value |
+| `data-min` | The `min` value |
+| `data-max` | The `max` value |
+
+The Label gets a generated `id` that the Root references with `aria-labelledby`. If you pass your own `id`, also pass the same value as `aria-labelledby` to the Root.
+
+### ValueText
+
+<PropsTable component="meter" part="ValueText" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-meter-value-text` | Always present |
+| `data-value` | The clamped value |
+| `data-min` | The `min` value |
+| `data-max` | The `max` value |
+
+Renders the Root's `valueText`, or the rounded percentage (for example `"25%"`) when it is not set. It has no children.
+
+### Track
+
+<PropsTable component="meter" part="Track" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-meter-track` | Always present |
+| `data-value` | The clamped value |
+| `data-min` | The `min` value |
+| `data-max` | The `max` value |
+
+### Indicator
+
+<PropsTable component="meter" part="Indicator" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-meter-indicator` | Always present |
+| `data-value` | The clamped value |
+| `data-min` | The `min` value |
+| `data-max` | The `max` value |
+
+| CSS variable | Value |
+| --- | --- |
+| `--leve-meter-percent` | The value as a percentage of the range, for example `25%` |
+
+The library does not set a width. Use the variable yourself, for example `width: var(--leve-meter-percent)`.
+
+## Accessibility
+
+Complies with the [Meter WAI-ARIA design pattern](https://www.w3.org/WAI/ARIA/apg/patterns/meter/).
+
+- `Meter.Root` renders `role="meter"` with `aria-valuenow`, `aria-valuemin` and `aria-valuemax`, and `aria-valuetext` when `valueText` is set.
+- The Root is named by `Meter.Label` through `aria-labelledby`. If you pass `aria-label` or `aria-labelledby` to the Root, that is used instead.
+- When the percentage alone does not describe the value (for example, "50 GB of 200 GB"), set `valueText`.
+- Meter has no keyboard interaction.
