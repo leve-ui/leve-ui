@@ -10,6 +10,7 @@ export {
   LuArrowRight,
   LuBookOpen,
   LuCheck,
+  LuChevronLeft,
   LuChevronRight,
   LuCode2,
   LuCopy,

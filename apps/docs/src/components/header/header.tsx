@@ -3,6 +3,9 @@ import { Separator } from '@leve-ui/core';
 import { css } from 'styled-system/css';
 import { LuGithub, LuMoon, LuSearch, LuSun } from '../icons';
 
+const NPM_URL = 'https://www.npmjs.com/package/@leve-ui/core';
+const STORYBOOK_URL = 'https://leve-ui-storybook.pages.dev';
+
 const headerContainerStyles = css({
   position: 'sticky',
   top: 0,
@@ -209,17 +212,21 @@ export const Header = component$(() => {
               gap: { md: '5', lg: '6' },
             })}
           >
-            <a href="/" class={navLinkStyles}>
-              Home
-            </a>
-            <a href="#overview" class={navLinkStyles}>
+            <a href="/overview/introduction/" class={navLinkStyles}>
               Docs
             </a>
-            <a href="#components" class={navLinkStyles}>
+            <a href="/components/" class={navLinkStyles}>
               Components
             </a>
+            <a href={STORYBOOK_URL} target="_blank" rel="noreferrer" class={navLinkStyles}>
+              Storybook
+            </a>
+            <a href={NPM_URL} target="_blank" rel="noreferrer" class={navLinkStyles}>
+              npm
+            </a>
 
-            {/* 検索窓 */}
+            {/* 検索窓（見た目のみ。検索は後続で暫定実装する） */}
+            {/* TODO(leve-ui): replace with Combobox (#52) */}
             <div class={searchContainerStyles}>
               <LuSearch class={css({ color: 'fg.subtle', flexShrink: 0, fontSize: 'sm' })} />
               <input
@@ -427,11 +434,17 @@ export const Header = component$(() => {
           <a href="/" onClick$={closeModal$} class={spNavLinkStyles}>
             Home
           </a>
-          <a href="#overview" onClick$={closeModal$} class={spNavLinkStyles}>
+          <a href="/overview/introduction/" onClick$={closeModal$} class={spNavLinkStyles}>
             Docs
           </a>
-          <a href="#components" onClick$={closeModal$} class={spNavLinkStyles}>
+          <a href="/components/" onClick$={closeModal$} class={spNavLinkStyles}>
             Components
+          </a>
+          <a href={STORYBOOK_URL} target="_blank" rel="noreferrer" class={spNavLinkStyles}>
+            Storybook
+          </a>
+          <a href={NPM_URL} target="_blank" rel="noreferrer" class={spNavLinkStyles}>
+            npm
           </a>
         </nav>
 
