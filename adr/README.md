@@ -63,4 +63,4 @@ Component-specific specs (which APG pattern a component follows, its parts, and 
 | [0031](0031-share-storybook-demos-with-the-docs-site-and-keep-demo-styles-in-css-files.md) | Share Storybook demos with the docs site and keep demo styles in CSS files | Accepted |
 | [0032](0032-author-docs-in-mdx-and-generate-api-reference-from-prop-types.md) | Author docs in MDX and generate API reference from prop types | Accepted |
 | [0033](0033-translate-docs-through-a-segment-level-translation-memory-with-gemini.md) | Translate docs through a segment-level translation memory with Gemini | Accepted |
-| [0034](0034-deploy-the-docs-site-to-cloudflare-pages-as-a-static-site.md) | Deploy the docs site to Cloudflare Pages as a static site | Proposed |
+| [0034](0034-deploy-the-docs-site-to-cloudflare-pages-as-a-static-site.md) | Deploy the docs site to Cloudflare Pages as a static site | Accepted |
