@@ -1,0 +1,104 @@
+---
+title: Breadcrumb
+description: The path to the current page in the site hierarchy.
+---
+
+# Breadcrumb
+
+The path to the current page in the site hierarchy.
+
+Breadcrumb follows the [Breadcrumb WAI-ARIA design pattern](https://www.w3.org/WAI/ARIA/apg/patterns/breadcrumb/).
+
+<Demo id="breadcrumb/default" />
+
+## Installation
+
+Install the all-in-one package:
+
+```sh
+pnpm add @leve-ui/core
+```
+
+Or only this component:
+
+```sh
+pnpm add @leve-ui/breadcrumb
+```
+
+## Anatomy
+
+```tsx
+import { Breadcrumb } from '@leve-ui/breadcrumb'; // or '@leve-ui/core'
+
+<Breadcrumb.Root>
+  <Breadcrumb.List>
+    <Breadcrumb.Item>
+      <Breadcrumb.Link />
+    </Breadcrumb.Item>
+    <Breadcrumb.Separator />
+    <Breadcrumb.Item>
+      <Breadcrumb.Link current />
+    </Breadcrumb.Item>
+  </Breadcrumb.List>
+</Breadcrumb.Root>
+```
+
+| Part | Element | Description |
+| --- | --- | --- |
+| `Breadcrumb.Root` | `<nav>` | The navigation landmark. |
+| `Breadcrumb.List` | `<ol>` | The ordered list of items. |
+| `Breadcrumb.Item` | `<li>` | One item. Put a Link inside. |
+| `Breadcrumb.Link` | `<a>` | The link to a page. Use `current` for the current page. |
+| `Breadcrumb.Separator` | `<li>` | A decorative separator between items, such as `/` or an icon. Hidden from assistive technologies. |
+
+## API Reference
+
+### Root
+
+<PropsTable component="breadcrumb" part="Root" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-breadcrumb` | Always present |
+
+### List
+
+<PropsTable component="breadcrumb" part="List" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-breadcrumb-list` | Always present |
+
+### Item
+
+<PropsTable component="breadcrumb" part="Item" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-breadcrumb-item` | Always present |
+
+### Link
+
+<PropsTable component="breadcrumb" part="Link" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-breadcrumb-link` | Always present |
+| `data-current` | Present when `current` is `true` |
+
+### Separator
+
+<PropsTable component="breadcrumb" part="Separator" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-breadcrumb-separator` | Always present |
+
+## Accessibility
+
+Complies with the [Breadcrumb WAI-ARIA design pattern](https://www.w3.org/WAI/ARIA/apg/patterns/breadcrumb/).
+
+- `Breadcrumb.Root` is a `<nav>` landmark named `aria-label="Breadcrumb"` by default. Pass `aria-label` or `aria-labelledby` to change the name.
+- `Breadcrumb.Link` with `current` renders `aria-current="page"`.
+- `Breadcrumb.Separator` renders `role="presentation"` and `aria-hidden="true"`, so it is not read and not counted as a list item.
+- The links are native `<a>` elements and are reached with Tab. Breadcrumb adds no keyboard interaction of its own.

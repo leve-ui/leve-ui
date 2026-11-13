@@ -1,0 +1,156 @@
+---
+title: Checkbox
+description: A control that is checked, unchecked, or mixed.
+---
+
+# Checkbox
+
+A control that is checked, unchecked, or mixed.
+
+Checkbox follows the [Checkbox WAI-ARIA design pattern](https://www.w3.org/WAI/ARIA/apg/patterns/checkbox/).
+
+<Demo id="checkbox/default" />
+
+## Installation
+
+Install the all-in-one package:
+
+```sh
+pnpm add @leve-ui/core
+```
+
+Or only this component:
+
+```sh
+pnpm add @leve-ui/checkbox
+```
+
+## Anatomy
+
+```tsx
+import { Checkbox } from '@leve-ui/checkbox'; // or '@leve-ui/core'
+
+<Checkbox.Root>
+  <Checkbox.Control>
+    <Checkbox.Indicator />
+  </Checkbox.Control>
+  <Checkbox.Label />
+  <Checkbox.HiddenInput />
+</Checkbox.Root>
+```
+
+| Part | Element | Description |
+| --- | --- | --- |
+| `Checkbox.Root` | `<div>` | Wraps the parts and holds the checked state. Not interactive. |
+| `Checkbox.Control` | `<button>` | The checkbox itself, with `role="checkbox"`. |
+| `Checkbox.Indicator` | `<span>` | Holds the check mark or other icons. Always rendered. |
+| `Checkbox.Label` | `<label>` | The label. Clicking it toggles the checkbox. |
+| `Checkbox.HiddenInput` | `<input type="checkbox">` | Optional. Sends the state with a native `<form>`. |
+
+## Examples
+
+### Checked
+
+`defaultChecked` sets the initial state.
+
+<Demo id="checkbox/checked" collapsed />
+
+### Disabled
+
+`disabled` on the Root disables the checkbox.
+
+<Demo id="checkbox/disabled" collapsed />
+
+### Indeterminate
+
+The checked state can be `"indeterminate"`, for example for a "select all" checkbox. This demo controls the states with `bind:checked` and `onCheckedChange$`.
+
+<Demo id="checkbox/indeterminate" collapsed />
+
+### With Field
+
+Inside a `Field.Root`, use `Field.Label` instead of `Checkbox.Label`. The Field provides the IDs, the description and the `disabled` / `required` / `invalid` states.
+
+<Demo id="checkbox/with-field" collapsed />
+
+### With Form
+
+Add `Checkbox.HiddenInput` with `name` and `value` to submit the state with a native `<form>`.
+
+<Demo id="checkbox/with-form" collapsed />
+
+## API Reference
+
+### Root
+
+<PropsTable component="checkbox" part="Root" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-checkbox` | Always present |
+| `data-state` | `"checked"` \| `"unchecked"` \| `"indeterminate"` |
+| `data-disabled` | Present when disabled |
+
+The checked state is uncontrolled with `defaultChecked`, or controlled with `bind:checked`. `onCheckedChange$` is called when the user changes it. Toggling an `"indeterminate"` checkbox makes it checked.
+
+Inside a Field, the IDs come from the Field and `ids` is ignored ([ADR 0024](https://github.com/leve-ui/leve-ui/blob/main/adr/0024-wire-field-ids-and-descriptions-from-the-field-root.md)).
+
+### Control
+
+<PropsTable component="checkbox" part="Control" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-checkbox-control` | Always present |
+| `data-state` | `"checked"` \| `"unchecked"` \| `"indeterminate"` |
+| `data-disabled` | Present when disabled |
+| `data-invalid` | Present when the Field is invalid |
+
+### Indicator
+
+<PropsTable component="checkbox" part="Indicator" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-checkbox-indicator` | Always present |
+| `data-state` | `"checked"` \| `"unchecked"` \| `"indeterminate"` |
+| `data-disabled` | Present when disabled |
+
+The indicator is always rendered. Show or hide its icons with CSS, for example `[data-leve-checkbox-indicator][data-state="unchecked"]`.
+
+### Label
+
+<PropsTable component="checkbox" part="Label" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-checkbox-label` | Always present |
+| `data-state` | `"checked"` \| `"unchecked"` \| `"indeterminate"` |
+| `data-disabled` | Present when disabled |
+
+### HiddenInput
+
+<PropsTable component="checkbox" part="HiddenInput" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-checkbox-hidden-input` | Always present |
+| `data-state` | `"checked"` \| `"unchecked"` \| `"indeterminate"` |
+| `data-disabled` | Present when disabled |
+
+The hidden input follows the checked, `required` and `disabled` states, so native form submission and `required` validation work ([ADR 0026](https://github.com/leve-ui/leve-ui/blob/main/adr/0026-participate-in-native-forms-through-a-hiddeninput-part.md)). It is positioned absolutely with an inline style, so give `Checkbox.Root` `position: relative`.
+
+## Accessibility
+
+Complies with the [Checkbox WAI-ARIA design pattern](https://www.w3.org/WAI/ARIA/apg/patterns/checkbox/).
+
+- Name the checkbox with `Checkbox.Label`, `Field.Label`, or `aria-label` / `aria-labelledby` on `Checkbox.Control`.
+- `Checkbox.Control` renders `role="checkbox"` and `aria-checked` (`"true"`, `"false"` or `"mixed"`), and `aria-required` when required. Inside a Field it also renders `aria-describedby` and `aria-invalid`.
+- Do not change the label text with the state. The state is conveyed by `aria-checked`.
+- `Checkbox.Indicator` and `Checkbox.HiddenInput` are hidden from assistive technologies with `aria-hidden="true"`.
+
+### Keyboard Interactions
+
+| Key | Description |
+| --- | --- |
+| `Space` | Checks or unchecks the checkbox. `Enter` does nothing. |

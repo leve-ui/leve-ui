@@ -25,7 +25,11 @@ export const docsNav: NavSection[] = [
     title: 'Components',
     items: [
       { title: 'All components', href: '/components/' },
+      { title: 'Accordion', href: '/components/accordion/' },
+      { title: 'Alert', href: '/components/alert/' },
       { title: 'Avatar', href: '/components/avatar/' },
+      { title: 'Breadcrumb', href: '/components/breadcrumb/' },
+      { title: 'Checkbox', href: '/components/checkbox/' },
     ],
   },
 ];
