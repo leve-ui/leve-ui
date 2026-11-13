@@ -1,0 +1,140 @@
+---
+title: Tabs
+description: Layered panels of content, one shown at a time.
+---
+
+# Tabs
+
+Layered panels of content, one shown at a time.
+
+Tabs follows the [Tabs WAI-ARIA design pattern](https://www.w3.org/WAI/ARIA/apg/patterns/tabs/), with automatic or manual activation.
+
+<Demo id="tabs/default" />
+
+## Installation
+
+Install the all-in-one package:
+
+```sh
+pnpm add @leve-ui/core
+```
+
+Or only this component:
+
+```sh
+pnpm add @leve-ui/tabs
+```
+
+## Anatomy
+
+```tsx
+import { Tabs } from '@leve-ui/tabs'; // or '@leve-ui/core'
+
+<Tabs.Root>
+  <Tabs.List>
+    <Tabs.Trigger />
+  </Tabs.List>
+  <Tabs.Content />
+</Tabs.Root>
+```
+
+| Part | Element | Description |
+| --- | --- | --- |
+| `Tabs.Root` | `<div>` | Wraps the parts and holds the selected value. |
+| `Tabs.List` | `<div>` | The list of tabs, with `role="tablist"`. |
+| `Tabs.Trigger` | `<button>` | One tab, with `role="tab"`. Selects the Content with the same `value`. |
+| `Tabs.Content` | `<div>` | The panel of a tab, with `role="tabpanel"`. Always rendered, and hidden while its tab is not selected. |
+
+## Examples
+
+### Controlled
+
+`bind:value` controls the selected tab with a signal. The buttons outside the tabs change it.
+
+<Demo id="tabs/controlled" collapsed />
+
+### Disabled Trigger
+
+`disabled` on a Trigger disables that tab. Arrow keys skip it.
+
+<Demo id="tabs/disabled-trigger" collapsed />
+
+### Manual
+
+With `activationMode="manual"`, arrow keys only move focus. Press `Enter` or `Space` to select the focused tab.
+
+<Demo id="tabs/manual" collapsed />
+
+### Vertical
+
+`orientation="vertical"` makes `ArrowUp` / `ArrowDown` move between tabs instead of `ArrowLeft` / `ArrowRight`. It sets `aria-orientation` and `data-orientation`.
+
+<Demo id="tabs/vertical" collapsed />
+
+## API Reference
+
+### Root
+
+<PropsTable component="tabs" part="Root" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-tabs` | Always present |
+| `data-orientation` | `"horizontal"` \| `"vertical"` |
+
+The selected value is uncontrolled with `defaultValue`, or controlled with `bind:value`. `onValueChange$` is called when the selected tab changes. Give each Trigger and its Content the same `value`.
+
+### List
+
+<PropsTable component="tabs" part="List" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-tabs-list` | Always present |
+| `data-orientation` | `"horizontal"` \| `"vertical"` |
+
+### Trigger
+
+<PropsTable component="tabs" part="Trigger" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-tabs-trigger` | Always present |
+| `data-state` | `"active"` \| `"inactive"` |
+| `data-disabled` | Present when disabled |
+| `data-orientation` | `"horizontal"` \| `"vertical"` |
+
+### Content
+
+<PropsTable component="tabs" part="Content" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-tabs-content` | Always present |
+| `data-state` | `"active"` \| `"inactive"` |
+| `data-orientation` | `"horizontal"` \| `"vertical"` |
+
+The Content has the `hidden` attribute while its tab is not selected.
+
+## Accessibility
+
+Complies with the [Tabs WAI-ARIA design pattern](https://www.w3.org/WAI/ARIA/apg/patterns/tabs/).
+
+- Name the tab list with `aria-label` or `aria-labelledby` on `Tabs.List`.
+- `Tabs.List` renders `role="tablist"` and `aria-orientation`.
+- Each `Tabs.Trigger` is a `<button type="button">` with `role="tab"`, `aria-selected` and `aria-controls` pointing to its Content. Its text content is its accessible name. Disabled tabs use the native `disabled` attribute, so they are not focusable.
+- Each `Tabs.Content` renders `role="tabpanel"` and `aria-labelledby` pointing to its Trigger. It has `tabIndex={0}`, so the panel itself can receive focus.
+- Only one tab is in the tab sequence: the selected tab, or the first enabled tab when nothing is selected.
+
+### Keyboard Interactions
+
+| Key | Description |
+| --- | --- |
+| `Tab` | Moves focus to the selected tab. When focus is on a tab, moves focus to the selected panel. |
+| `ArrowRight` / `ArrowLeft` | Horizontal only. Moves focus to the next / previous enabled tab, and selects it in automatic mode. Wraps around when `loop` is `true`. |
+| `ArrowDown` / `ArrowUp` | Vertical only. Moves focus to the next / previous enabled tab, and selects it in automatic mode. Wraps around when `loop` is `true`. |
+| `Home` | Moves focus to the first enabled tab, and selects it in automatic mode. |
+| `End` | Moves focus to the last enabled tab, and selects it in automatic mode. |
+| `Enter` / `Space` | Selects the focused tab (manual mode). |
+
+In right-to-left text, `ArrowRight` and `ArrowLeft` are reversed.

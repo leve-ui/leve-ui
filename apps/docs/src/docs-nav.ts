@@ -38,6 +38,10 @@ export const docsNav: NavSection[] = [
       { title: 'Progress', href: '/components/progress/' },
       { title: 'Radio Group', href: '/components/radio-group/' },
       { title: 'Separator', href: '/components/separator/' },
+      { title: 'Switch', href: '/components/switch/' },
+      { title: 'Tabs', href: '/components/tabs/' },
+      { title: 'Toggle', href: '/components/toggle/' },
+      { title: 'Toggle Group', href: '/components/toggle-group/' },
     ],
   },
 ];
