@@ -2,3 +2,9 @@
 
 // Add global `vite/client` types. For more info, see: https://vitejs.dev/guide/features#client-types
 /// <reference types="vite/client" />
+
+// Source files highlighted with shiki at build time (vite/highlight.ts)
+declare module '*?highlight' {
+  const html: string;
+  export default html;
+}

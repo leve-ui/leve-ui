@@ -1,4 +1,5 @@
 import { defineConfig } from '@pandacss/dev';
+import { proseGlobalCss } from './theme/prose';
 
 export default defineConfig({
   presets: ['@pandacss/preset-base', '@pandacss/preset-panda'],
@@ -13,6 +14,10 @@ export default defineConfig({
   theme: {
     extend: {
       tokens: {
+        fonts: {
+          body: { value: 'Roboto, "Noto Sans JP", sans-serif' },
+          mono: { value: '"Roboto Mono", monospace' },
+        },
         colors: {
           white: { value: '#FFFFFF' },
           qwikBlue: { value: '#009dfd' },
@@ -34,12 +39,11 @@ export default defineConfig({
       semanticTokens: {
         colors: {
           bg: {
-            canvas: {
-              value: {
-                base: '#f8fafc',
-                _dark: '{colors.qwik.darkPurpleBg}',
-              },
-            },
+            // Docs design tokens (apps/docs/design/leve-ui-docs.pen, "Foundations")
+            canvas: { value: { base: '#FFFFFF', _dark: '#151934' } },
+            subtle: { value: { base: '#F8FAFC', _dark: '#1B2045' } },
+            muted: { value: { base: '#F1F5F9', _dark: '#252C5A' } },
+            code: { value: { base: '#F8FAFC', _dark: '#10132A' } },
             surface: {
               value: {
                 base: '{colors.white}',
@@ -84,24 +88,15 @@ export default defineConfig({
             },
           },
           fg: {
+            default: { value: { base: '#0F172A', _dark: '#FFFFFF' } },
             DEFAULT: {
               value: {
                 base: '#0f172a',
                 _dark: '{colors.white}',
               },
             },
-            muted: {
-              value: {
-                base: '#475569',
-                _dark: '{colors.qwik.lightBlue}',
-              },
-            },
-            subtle: {
-              value: {
-                base: '#94a3b8',
-                _dark: 'rgba(218, 240, 255, 0.6)',
-              },
-            },
+            muted: { value: { base: '#475569', _dark: '#C9DDF0' } },
+            subtle: { value: { base: '#64748B', _dark: '#8FA3C7' } },
             cardWhite: {
               value: {
                 base: '#0f172a',
@@ -116,18 +111,14 @@ export default defineConfig({
             },
           },
           border: {
+            default: { value: { base: '#E2E8F0', _dark: '#FFFFFF1F' } },
             DEFAULT: {
               value: {
                 base: '#e2e8f0',
                 _dark: 'rgba(255, 255, 255, 0.12)',
               },
             },
-            subtle: {
-              value: {
-                base: 'rgba(0, 0, 0, 0.08)',
-                _dark: 'rgba(255, 255, 255, 0.08)',
-              },
-            },
+            subtle: { value: { base: '#F1F5F9', _dark: '#FFFFFF14' } },
             card: {
               value: {
                 base: '#e2e8f0',
@@ -140,6 +131,16 @@ export default defineConfig({
                 _dark: 'rgba(0, 157, 253, 0.45)',
               },
             },
+          },
+          accent: {
+            default: { value: '#009DFD' },
+            text: { value: { base: '#006CE9', _dark: '#4CB8FF' } },
+            subtle: { value: { base: '#DAF0FF', _dark: '#009DFD26' } },
+            fg: { value: '#FFFFFF' },
+          },
+          secondary: {
+            default: { value: { base: '#6000FF', _dark: '#AC7EF4' } },
+            subtle: { value: { base: '#F1E9FF', _dark: '#AC7EF426' } },
           },
           brand: {
             primary: { value: '{colors.qwik.blue}' },
@@ -167,5 +168,6 @@ export default defineConfig({
       },
     },
   },
+  globalCss: proseGlobalCss,
   outdir: 'styled-system',
 });

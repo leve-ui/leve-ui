@@ -1,7 +1,15 @@
 @layer reset, base, tokens, recipes, utilities;
 
+/*
+ * Demo CSS uses light-dark(), so color-scheme must follow the site theme
+ * (the .dark class set by the theme toggle), not only the OS setting (adr/0031).
+ */
 :root {
-  color-scheme: light dark;
+  color-scheme: light;
+}
+
+:root.dark {
+  color-scheme: dark;
 }
 
 *,
@@ -12,14 +20,23 @@
 
 body {
   margin: 0;
-  font-family:
-    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif,
-    "Apple Color Emoji", "Segoe UI Emoji";
+  font-family: var(--fonts-body);
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
   background-color: var(--colors-bg-canvas);
-  color: var(--colors-fg);
+  color: var(--colors-fg-default);
   transition:
     background-color 0.2s ease,
     color 0.2s ease;
+}
+
+/* shiki dual themes (defaultColor: false): pick the colors for the current theme */
+.shiki,
+.shiki span {
+  color: var(--shiki-light);
+}
+
+:root.dark .shiki,
+:root.dark .shiki span {
+  color: var(--shiki-dark);
 }
