@@ -44,6 +44,7 @@ leve-ui/
 │   └── workflows/
 │       ├── ci.yml                 # PR と main への push で実行する CI
 │       ├── docs-deploy.yml        # docs サイトを静的ビルドして Cloudflare Pages にデプロイ（adr/0034）
+│       ├── docs-translate.yml     # main の英語の docs を Gemini で翻訳し、i18n/*.json の PR を作る（adr/0033）
 │       ├── release.yml            # リリース PR の作成と npm への公開（Changesets）
 │       └── storybook-preview.yml  # Storybook のプレビューを Cloudflare Pages にデプロイ（adr/0027）
 ├── .agents/
