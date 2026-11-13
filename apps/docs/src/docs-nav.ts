@@ -15,7 +15,11 @@ export type NavSection = {
 export const docsNav: NavSection[] = [
   {
     title: 'Overview',
-    items: [{ title: 'Introduction', href: '/overview/introduction/' }],
+    items: [
+      { title: 'Introduction', href: '/overview/introduction/' },
+      { title: 'Getting Started', href: '/overview/getting-started/' },
+      { title: 'Styling', href: '/overview/styling/' },
+    ],
   },
   {
     title: 'Components',

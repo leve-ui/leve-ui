@@ -1,0 +1,128 @@
+---
+title: Getting started
+description: Install leve-ui and render your first component.
+---
+
+# Getting started
+
+Install leve-ui and render your first component.
+
+## Requirements
+
+- Qwik 1.x (`@builder.io/qwik`). Qwik is a peer dependency, so leve-ui uses the version in your project.
+
+## Installation
+
+Install the components you need, one package per component:
+
+```sh
+pnpm add @leve-ui/switch
+```
+
+Or install all components at once:
+
+```sh
+pnpm add @leve-ui/core
+```
+
+Both expose the same API. The only difference is the import path:
+
+```tsx
+import { Switch } from '@leve-ui/switch';
+// or
+import { Switch } from '@leve-ui/core';
+```
+
+Individual packages keep the components you don't use out of your dependencies. This is handy when you combine leve-ui with another component library.
+
+## Your first component
+
+Compose the parts of a component and give them classes:
+
+```tsx
+import { component$, useStyles$ } from '@builder.io/qwik';
+import { Switch } from '@leve-ui/switch';
+import styles from './airplane-mode.css?inline';
+
+export default component$(() => {
+  useStyles$(styles);
+
+  return (
+    <Switch.Root class="switch">
+      <Switch.Label class="switch-label">Airplane mode</Switch.Label>
+      <Switch.Control class="switch-control">
+        <Switch.Thumb class="switch-thumb" />
+      </Switch.Control>
+    </Switch.Root>
+  );
+});
+```
+
+Then style the parts. The state is exposed as `data-state`:
+
+```css
+.switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.switch-control {
+  width: 36px;
+  height: 20px;
+  padding: 2px;
+  border: none;
+  border-radius: 9999px;
+  background: #cbd5e1;
+}
+
+.switch-control[data-state='checked'] {
+  background: #009dfd;
+}
+
+.switch-thumb {
+  display: block;
+  width: 16px;
+  height: 16px;
+  border-radius: 9999px;
+  background: #ffffff;
+  transition: transform 0.15s;
+}
+
+.switch-control[data-state='checked'] .switch-thumb {
+  transform: translateX(16px);
+}
+```
+
+Here it is with the styles from the [Switch demos](https://leve-ui-storybook.pages.dev/?path=/docs/components-switch--docs):
+
+<Demo id="switch/default" />
+
+The Control is a `<button role="switch">` with `aria-checked`, and the Label is connected to it, so the switch works with the keyboard (Space, Enter) and is announced correctly by screen readers. You did not have to write any of that.
+
+### In a form
+
+Form controls such as Switch, Checkbox and Radio Group have a `HiddenInput` part. Add it with a `name` to include the value in native form submissions and `FormData`:
+
+```tsx
+<Switch.Root>
+  <Switch.Label>Notifications</Switch.Label>
+  <Switch.Control>
+    <Switch.Thumb />
+  </Switch.Control>
+  <Switch.HiddenInput name="notifications" />
+</Switch.Root>
+```
+
+## About the examples
+
+The examples on this site are plain TSX and CSS files. Copy them into your project as they are: they use only leve-ui and Qwik, plus [`@qwikest/icons`](https://github.com/qwikest/icons) for the few icons (Lucide). Each example is in light and dark themes through the CSS `light-dark()` function, which follows the `color-scheme` of your page.
+
+## Versioning
+
+leve-ui is in the 0.x series. Until 1.0, breaking changes are released as minor versions (0.1 → 0.2) and are listed in the changelogs. Pin a minor range, for example `~0.1.0`, if you want to update deliberately.
+
+## Next steps
+
+- [Styling](/overview/styling/): the classes, data attributes and CSS variables you can style.
+- [Components](/components/): the API of each component.

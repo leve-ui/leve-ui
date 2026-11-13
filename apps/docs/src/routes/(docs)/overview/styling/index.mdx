@@ -1,0 +1,107 @@
+---
+title: Styling
+description: Style leve-ui parts with classes, data attributes and CSS variables.
+---
+
+# Styling
+
+Style leve-ui parts with classes, data attributes and CSS variables.
+
+leve-ui ships no CSS and outputs no `class` or `style` of its own. Use any styling approach: plain CSS, CSS modules, Tailwind CSS, Panda CSS, or Qwik's `useStyles$`.
+
+## Classes and other attributes
+
+Every part renders one element and passes all of its props to it. Add `class`, `style`, `id` or any other attribute directly to the part:
+
+```tsx
+<Tabs.Trigger value="account" class="tab">
+  Account
+</Tabs.Trigger>
+```
+
+Attributes that the accessibility pattern requires, such as `role` and `aria-selected`, are set by the library and cannot be overridden by props.
+
+## Part attributes
+
+Every part has a `data-leve-<component>-<part>` attribute (the Root has `data-leve-<component>`). Use it to style parts without adding classes, for example in a design system that wraps leve-ui:
+
+```css
+[data-leve-tabs-trigger] {
+  padding: 8px 12px;
+}
+```
+
+The attribute names are listed in the API reference of each component.
+
+## State attributes
+
+The state of a part is exposed as data attributes. Combine them with your class or the part attribute:
+
+| Attribute | Values | Used by |
+| --- | --- | --- |
+| `data-state` | `open` / `closed`, `checked` / `unchecked` / `indeterminate`, `active` / `inactive`, `on` / `off`, `loading` / `complete` / `indeterminate`, … | Most stateful parts |
+| `data-disabled` | Present when disabled | Controls and items |
+| `data-orientation` | `horizontal` / `vertical` | Tabs, Accordion, Radio Group, Separator, … |
+| `data-invalid` | Present when the field is invalid | Form controls in a Field |
+
+```css
+.switch-control[data-state='checked'] {
+  background: #009dfd;
+}
+
+.switch-control[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+```
+
+Boolean attributes such as `data-disabled` are removed entirely when false, so use `[data-disabled]` rather than `[data-disabled='true']`.
+
+The exact values for each part are listed in the API reference of each component.
+
+### Styling a parent by a child's state
+
+A state is only exposed on the part that owns it (and on parts rendered after it), because Qwik renders a parent's attributes on the server before its children. For example, `Avatar.Root` has no `data-state`; the loading status is on `Avatar.Image` and `Avatar.Fallback`. Use `:has()` to style a parent by a child's state:
+
+```css
+.avatar:has([data-leve-avatar-image][data-state='loaded']) {
+  outline: 2px solid #009dfd;
+}
+```
+
+## CSS variables
+
+Some parts expose values that only make sense as CSS variables:
+
+| Variable | Set on | Value |
+| --- | --- | --- |
+| `--leve-progress-percent` | `Progress.Root` | The value as a percentage of the range, e.g. `40%` |
+| `--leve-meter-percent` | `Meter.Root` | The value as a percentage of the range, e.g. `25%` |
+
+```css
+.progress-indicator {
+  height: 100%;
+  width: var(--leve-progress-percent);
+}
+```
+
+## Showing and hiding
+
+Parts that are hidden, such as closed Collapsible content or inactive Tabs panels, use the `hidden` attribute. If your CSS sets `display` on such a part, add a rule so that it stays hidden:
+
+```css
+.tabs-content[hidden] {
+  display: none;
+}
+```
+
+## Focus styles
+
+leve-ui does not remove focus outlines. Style keyboard focus with `:focus-visible`:
+
+```css
+.tab:focus-visible {
+  outline: 2px solid #009dfd;
+  outline-offset: 2px;
+}
+```
