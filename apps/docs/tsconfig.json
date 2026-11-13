@@ -2,6 +2,8 @@
   "extends": "@leve-ui/tsconfig/app.json",
   "compilerOptions": {
     "lib": ["ES2022", "DOM", "DOM.Iterable", "WebWorker"],
+    // The Node scripts import .ts files directly (type stripping)
+    "allowImportingTsExtensions": true,
     "paths": {
       "~/*": ["./src/*"],
       "styled-system/*": ["./styled-system/*"],

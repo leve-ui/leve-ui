@@ -9,12 +9,12 @@ const linkStyles = css({
   lineHeight: '16px',
   color: 'fg-muted',
   textDecoration: 'none',
-  borderLeft: '2px solid {colors.border-default}',
-  pl: '3',
+  borderInlineStart: '2px solid {colors.border-default}',
+  ps: '3',
   transition: 'color 0.15s ease, border-color 0.15s ease',
   _hover: { color: 'fg-default' },
   _focusVisible: { outline: '2px solid', outlineColor: 'accent-default', outlineOffset: '2px' },
-  '&[data-active]': { color: 'accent-text', borderLeftColor: 'accent-default' },
+  '&[data-active]': { color: 'accent-text', borderInlineStartColor: 'accent-default' },
 });
 
 /**

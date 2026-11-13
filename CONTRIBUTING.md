@@ -150,7 +150,7 @@ pnpm component:new dialog trigger,overlay,content,title,description,close
 pnpm install
 ```
 
-The scaffold creates the package, a story, an E2E test, and registers the package in `@leve-ui/core` and Storybook. Then implement it following the guidelines above, fill in its row in the README's package table, and add its docs page at `apps/docs/src/routes/(docs)/components/<name>/index.mdx` (use the Avatar or Checkbox page as a template; list it in `apps/docs/src/docs-nav.ts` and the components index).
+The scaffold creates the package, a story, an E2E test, and registers the package in `@leve-ui/core` and Storybook. Then implement it following the guidelines above, fill in its row in the README's package table, and add its docs page at `apps/docs/src/routes/en/(docs)/components/<name>/index.mdx` (use the Avatar or Checkbox page as a template; list it in `apps/docs/src/docs-nav.ts` and the components index).
 
 You don't need to publish anything. After your pull request is merged, a maintainer publishes the new package to npm (see [For Maintainers](#for-maintainers)).
 
@@ -160,6 +160,8 @@ The docs site (`apps/docs`) is the first user of leve-ui ([ADR 0032](./adr/0032-
 
 - Build its UI with leve-ui components whenever one fits (for example `Tabs` for the Code / CSS tabs, `Collapsible` for the sidebar). Don't reimplement a component the library already provides.
 - Import only from the public packages (`@leve-ui/core` or `@leve-ui/<name>`), not from `@leve-ui/utils` or package internals.
+- Write pages in English only, under `apps/docs/src/routes/en/`. Other languages are generated from them at build time ([ADR 0033](./adr/0033-translate-docs-through-a-segment-level-translation-memory-with-gemini.md)); don't add or edit files under `src/routes/<locale>/`. Link to other pages without the locale (`/overview/forms/`): the site adds it.
+- Use logical CSS properties (`ms` / `me`, `ps` / `pe`, `borderInlineStart`, `textAlign: 'start'`) in the site's styles, so right-to-left languages can be added later.
 - Keep the FAQ to questions about the library as a whole. Explain a component's own behavior on that component's page.
 - If the site needs a component that doesn't exist yet, or an existing component is missing a feature or is awkward to use, report it in your pull request or open an issue. If you can't wait for it, keep a minimal temporary implementation based on native elements and mark it with `// TODO(leve-ui): replace with <Name> (#<issue>)`.
 

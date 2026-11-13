@@ -2,7 +2,7 @@ import { component$, type PropsOf, Slot } from '@builder.io/qwik';
 import { css } from 'styled-system/css';
 
 const anchorStyles = css({
-  ml: '2',
+  ms: '2',
   color: 'fg-subtle',
   textDecoration: 'none',
   opacity: 0,

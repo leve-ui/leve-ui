@@ -1,6 +1,9 @@
 import { $, component$, useSignal } from '@builder.io/qwik';
 import { Link, useLocation } from '@builder.io/qwik-city';
 import { css, cx } from 'styled-system/css';
+import { normalizePath } from '../../docs-nav';
+import { isLocale, LOCALE_NAMES, LOCALES, localizeHref } from '../../i18n/locales';
+import { useLocale } from '../../i18n/use-locale';
 import { DocsNavList } from '../docs/sidebar';
 import { LuBookOpen, LuGithub, LuMenu, LuMoon, LuPackage, LuSearch, LuSun, LuX } from '../icons';
 
@@ -46,29 +49,34 @@ const mobileIconStyles = css({
   '& svg': { w: { base: '5', md: '18px' }, h: { base: '5', md: '18px' } },
 });
 
-const Logo = component$(() => (
-  <Link
-    href="/"
-    aria-label="leve-ui home"
-    class={css({ display: 'flex', flexShrink: 0, borderRadius: 'sm', ...focusRing })}
-  >
-    {/* The logo is swapped for the theme */}
-    <img
-      src="/logo-dark.svg"
-      alt=""
-      width={119}
-      height={32}
-      class={css({ h: '8', w: 'auto', display: 'block', _dark: { display: 'none' } })}
-    />
-    <img
-      src="/logo-light.svg"
-      alt=""
-      width={119}
-      height={32}
-      class={css({ h: '8', w: 'auto', display: 'none', _dark: { display: 'block' } })}
-    />
-  </Link>
-));
+const Logo = component$(() => {
+  // Hooks must run in the component body, not inside JSX props (they become getters)
+  const locale = useLocale();
+
+  return (
+    <Link
+      href={localizeHref('/', locale)}
+      aria-label="leve-ui home"
+      class={css({ display: 'flex', flexShrink: 0, borderRadius: 'sm', ...focusRing })}
+    >
+      {/* The logo is swapped for the theme */}
+      <img
+        src="/logo-dark.svg"
+        alt=""
+        width={119}
+        height={32}
+        class={css({ h: '8', w: 'auto', display: 'block', _dark: { display: 'none' } })}
+      />
+      <img
+        src="/logo-light.svg"
+        alt=""
+        width={119}
+        height={32}
+        class={css({ h: '8', w: 'auto', display: 'none', _dark: { display: 'block' } })}
+      />
+    </Link>
+  );
+});
 
 const ThemeToggle = component$<{ class?: string }>((props) => {
   const toggleTheme$ = $(() => {
@@ -92,6 +100,47 @@ const ThemeToggle = component$<{ class?: string }>((props) => {
   );
 });
 
+/**
+ * Switches to the same page in another language. A full page load, so that
+ * `<html lang>` is rendered again for the new locale.
+ */
+const LanguageSwitcher = component$(() => {
+  const loc = useLocation();
+  const locale = useLocale();
+
+  return (
+    // TODO(leve-ui): replace with Menu (#39)
+    <select
+      aria-label="Language"
+      onChange$={(_, el) => {
+        if (!isLocale(el.value)) return;
+        const path = normalizePath(loc.url.pathname);
+        window.location.assign(localizeHref(path, el.value) + loc.url.hash);
+      }}
+      class={css({
+        h: '8',
+        ps: '2',
+        pe: '1',
+        bg: 'transparent',
+        color: 'fg-muted',
+        border: '1px solid {colors.border-default}',
+        borderRadius: 'md',
+        fontFamily: 'inherit',
+        fontSize: '13px',
+        cursor: 'pointer',
+        _hover: { color: 'fg-default' },
+        ...focusRing,
+      })}
+    >
+      {LOCALES.map((l) => (
+        <option key={l} value={l} lang={l} selected={l === locale}>
+          {LOCALE_NAMES[l]}
+        </option>
+      ))}
+    </select>
+  );
+});
+
 /** The docs navigation for small screens, opened from the menu button. */
 const MobileMenu = component$(() => {
   const dialog = useSignal<HTMLDialogElement>();
@@ -103,7 +152,7 @@ const MobileMenu = component$(() => {
         type="button"
         aria-label="Open navigation"
         aria-haspopup="dialog"
-        class={cx(iconButtonStyles, mobileIconStyles, css({ color: 'fg-default', ml: '-1.5' }))}
+        class={cx(iconButtonStyles, mobileIconStyles, css({ color: 'fg-default', ms: '-1.5' }))}
         onClick$={() => dialog.value?.showModal()}
       >
         <LuMenu aria-hidden="true" />
@@ -159,7 +208,8 @@ const MobileMenu = component$(() => {
 
 export const Header = component$(() => {
   const loc = useLocation();
-  const path = loc.url.pathname;
+  const locale = useLocale();
+  const path = normalizePath(loc.url.pathname);
 
   return (
     <header
@@ -187,14 +237,14 @@ export const Header = component$(() => {
           class={css({ display: { base: 'none', md: 'flex' }, alignItems: 'center', gap: '6' })}
         >
           <Link
-            href="/overview/introduction/"
+            href={localizeHref('/overview/introduction/', locale)}
             class={navLinkStyles}
             aria-current={path.startsWith('/overview/') ? 'page' : 'false'}
           >
             Docs
           </Link>
           <Link
-            href="/components/"
+            href={localizeHref('/components/', locale)}
             class={navLinkStyles}
             aria-current={path.startsWith('/components/') ? 'page' : 'false'}
           >
@@ -278,6 +328,7 @@ export const Header = component$(() => {
             <LuBookOpen aria-hidden="true" />
           </a>
         </div>
+        <LanguageSwitcher />
         <ThemeToggle class={mobileIconStyles} />
       </div>
     </header>

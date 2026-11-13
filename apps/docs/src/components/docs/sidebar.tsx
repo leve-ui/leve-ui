@@ -2,6 +2,8 @@ import { component$, type QRL } from '@builder.io/qwik';
 import { Link, useLocation } from '@builder.io/qwik-city';
 import { css } from 'styled-system/css';
 import { docsNav, normalizePath } from '../../docs-nav';
+import { localizeHref } from '../../i18n/locales';
+import { useLocale } from '../../i18n/use-locale';
 
 const sectionTitleStyles = css({
   fontSize: '12px',
@@ -36,6 +38,7 @@ const linkStyles = css({
 export const DocsNavList = component$<{ onNavigate$?: QRL<() => void> }>(({ onNavigate$ }) => {
   const loc = useLocation();
   const pathname = normalizePath(loc.url.pathname);
+  const locale = useLocale();
 
   return (
     <nav aria-label="Docs" class={css({ display: 'flex', flexDirection: 'column', gap: '6' })}>
@@ -46,7 +49,7 @@ export const DocsNavList = component$<{ onNavigate$?: QRL<() => void> }>(({ onNa
             {section.items.map((item) => (
               <li key={item.href}>
                 <Link
-                  href={item.href}
+                  href={localizeHref(item.href, locale)}
                   class={linkStyles}
                   // 'false' instead of undefined: after an SPA navigation, Link keeps an
                   // attribute that changes to undefined, so the old page stayed marked
@@ -76,7 +79,7 @@ export const Sidebar = component$(() => (
       overflowY: 'auto',
       py: '8',
       px: '6',
-      borderRight: '1px solid {colors.border-default}',
+      borderInlineEnd: '1px solid {colors.border-default}',
     })}
   >
     <DocsNavList />

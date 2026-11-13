@@ -50,7 +50,7 @@ export const proseGlobalCss = defineGlobalStyles({
     },
     'h2 > a, h3 > a': { textDecoration: 'none', color: 'fg-subtle' },
     strong: { color: 'fg-default', fontWeight: '600' },
-    'ul, ol': { pl: '6', my: '4' },
+    'ul, ol': { ps: '6', my: '4' },
     ul: { listStyleType: 'disc' },
     ol: { listStyleType: 'decimal' },
     li: { my: '1.5' },
@@ -58,8 +58,8 @@ export const proseGlobalCss = defineGlobalStyles({
     blockquote: {
       m: 0,
       my: '4',
-      pl: '4',
-      borderLeft: '3px solid {colors.accent-default}',
+      ps: '4',
+      borderInlineStart: '3px solid {colors.accent-default}',
     },
     ':not(pre) > code': {
       fontFamily: 'mono',
@@ -94,7 +94,7 @@ export const proseGlobalCss = defineGlobalStyles({
       lineHeight: '1.6',
     },
     th: {
-      textAlign: 'left',
+      textAlign: 'start',
       fontWeight: '600',
       color: 'fg-default',
       bg: 'bg-subtle',
@@ -109,7 +109,7 @@ export const proseGlobalCss = defineGlobalStyles({
       borderBottom: '1px solid {colors.border-default}',
     },
     'tr:last-child td': { borderBottom: 'none' },
-    'th:first-child': { borderTopLeftRadius: 'lg' },
-    'th:last-child': { borderTopRightRadius: 'lg' },
+    'th:first-child': { borderStartStartRadius: 'lg' },
+    'th:last-child': { borderStartEndRadius: 'lg' },
   }),
 });
