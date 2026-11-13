@@ -3,7 +3,7 @@ import { css } from 'styled-system/css';
 
 const anchorStyles = css({
   ml: '2',
-  color: 'fg.subtle',
+  color: 'fg-subtle',
   textDecoration: 'none',
   opacity: 0,
   transition: 'opacity 0.15s ease',
@@ -15,7 +15,7 @@ const h2Styles = css({
   fontSize: '28px',
   fontWeight: '700',
   lineHeight: '1.3',
-  color: 'fg.default',
+  color: 'fg-default',
   pt: '10',
   mt: 0,
   mb: '4',
@@ -26,7 +26,7 @@ const h3Styles = css({
   fontSize: '20px',
   fontWeight: '600',
   lineHeight: '1.4',
-  color: 'fg.default',
+  color: 'fg-default',
   mt: '8',
   mb: '3',
   scrollMarginTop: '20',

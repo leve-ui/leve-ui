@@ -17,8 +17,8 @@ const previewStyles = css({
   justifyContent: 'center',
   minH: '220px',
   p: '8',
-  bg: 'bg.canvas',
-  color: 'fg.default',
+  bg: 'bg-canvas',
+  color: 'fg-default',
   overflowX: 'auto',
 });
 
@@ -43,7 +43,7 @@ export const Demo = component$<DemoProps>(({ id, collapsed = false }) => {
       class={css({
         my: '6',
         border: '1px solid',
-        borderColor: 'border.default',
+        borderColor: 'border-default',
         borderRadius: 'xl',
         overflow: 'hidden',
       })}

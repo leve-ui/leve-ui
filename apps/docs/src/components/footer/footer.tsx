@@ -4,7 +4,7 @@ import { css } from 'styled-system/css';
 import { LuGithub } from '../icons';
 
 const footerContainerStyles = css({
-  bg: 'bg.surface',
+  bg: 'bg-canvas',
   mt: 'auto',
   width: '100%',
   transition: 'background-color 0.2s ease',
@@ -23,7 +23,7 @@ const footerInnerStyles = css({
 
 const copyrightStyles = css({
   fontSize: 'sm',
-  color: 'fg.muted',
+  color: 'fg-muted',
   display: 'flex',
   alignItems: 'center',
   gap: '2',
@@ -34,25 +34,25 @@ const githubLinkStyles = css({
   display: 'inline-flex',
   alignItems: 'center',
   justifyContent: 'center',
-  color: 'fg.muted',
+  color: 'fg-muted',
   p: '2',
   borderRadius: 'lg',
   fontSize: 'xl',
   transition: 'color 0.15s ease, background-color 0.15s ease',
   _hover: {
-    color: 'fg',
-    bg: 'bg.surfaceSubtle',
+    color: 'fg-default',
+    bg: 'bg-muted',
   },
 });
 
 export const Footer = component$(() => {
   return (
     <footer class={footerContainerStyles}>
-      <Separator.Root class={css({ height: '1px', bg: 'border' })} />
+      <Separator.Root class={css({ height: '1px', bg: 'border-default' })} />
       <div class={footerInnerStyles}>
         <p class={copyrightStyles}>
           <span>&copy; 2026 leve-ui.</span>
-          <span class={css({ color: 'fg.subtle', display: { base: 'none', sm: 'inline' } })}>
+          <span class={css({ color: 'fg-subtle', display: { base: 'none', sm: 'inline' } })}>
             Released under the MIT License.
           </span>
         </p>

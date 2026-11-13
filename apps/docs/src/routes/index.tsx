@@ -1,7 +1,7 @@
 import { $, component$, useSignal } from '@builder.io/qwik';
 import type { DocumentHead } from '@builder.io/qwik-city';
 import { Alert, Avatar, Meter, Progress, Separator, Toggle } from '@leve-ui/core';
-import { css } from 'styled-system/css';
+import { css, cx } from 'styled-system/css';
 import { Card } from '../components/card';
 import {
   LuArrowRight,
@@ -119,18 +119,22 @@ export default component$(() => {
       {/* ========================================================= */}
       <section
         id="overview"
-        class={css({
-          position: 'relative',
-          borderRadius: '3xl',
-          overflow: 'hidden',
-          p: { base: '8', md: '14', lg: '16' },
-          mb: '16',
-          bg: 'qwik.darkPurpleBg',
-          color: 'white',
-          border: '1px solid',
-          borderColor: 'rgba(255, 255, 255, 0.1)',
-          boxShadow: '0 25px 50px -12px rgba(21, 25, 52, 0.5)',
-        })}
+        // The hero is dark in both themes: `dark` resolves the tokens inside to their dark values
+        class={cx(
+          'dark',
+          css({
+            position: 'relative',
+            borderRadius: '3xl',
+            overflow: 'hidden',
+            p: { base: '8', md: '14', lg: '16' },
+            mb: '16',
+            bg: 'bg-canvas',
+            color: 'white',
+            border: '1px solid',
+            borderColor: 'rgba(255, 255, 255, 0.1)',
+            boxShadow: '0 25px 50px -12px rgba(21, 25, 52, 0.5)',
+          }),
+        )}
       >
         {/* 背景のグラデーション光彩 */}
         <div
@@ -191,14 +195,14 @@ export default component$(() => {
                 borderColor: 'rgba(255, 255, 255, 0.15)',
                 fontSize: 'xs',
                 fontWeight: 'medium',
-                color: 'qwik.lightBlue',
+                color: 'fg-muted',
                 mb: '6',
               })}
             >
-              <LuSparkles class={css({ color: 'qwik.blue' })} />
+              <LuSparkles class={css({ color: 'accent-default' })} />
               <span>Headless UI for Qwik</span>
               <span class={css({ color: 'white', opacity: '0.4' })}>|</span>
-              <span class={css({ color: 'qwik.purple', fontWeight: 'semibold' })}>v0.1</span>
+              <span class={css({ color: 'secondary-default', fontWeight: 'semibold' })}>v0.1</span>
             </div>
 
             {/* H1 タイトル */}
@@ -215,8 +219,8 @@ export default component$(() => {
               <span
                 class={css({
                   bgGradient: 'to-r',
-                  gradientFrom: 'qwik.blue',
-                  gradientTo: 'qwik.purple',
+                  gradientFrom: 'accent-default',
+                  gradientTo: 'secondary-default',
                   backgroundClip: 'text',
                   color: 'transparent',
                 })}
@@ -229,7 +233,7 @@ export default component$(() => {
             <p
               class={css({
                 fontSize: { base: 'base', md: 'lg' },
-                color: 'qwik.lightBlue',
+                color: 'fg-muted',
                 lineHeight: 'relaxed',
                 mb: '8',
                 maxW: 'xl',
@@ -258,7 +262,7 @@ export default component$(() => {
                   px: '6',
                   py: '3.5',
                   borderRadius: 'xl',
-                  bg: 'qwik.blue',
+                  bg: 'accent-default',
                   color: 'white',
                   fontWeight: 'semibold',
                   fontSize: 'sm',
@@ -266,7 +270,7 @@ export default component$(() => {
                   boxShadow: '0 4px 14px rgba(0, 157, 253, 0.4)',
                   transition: 'background-color 0.2s ease, transform 0.2s ease',
                   _hover: {
-                    bg: 'qwik.darkBlue',
+                    bg: 'accent-text',
                     transform: 'translateY(-1px)',
                   },
                 })}
@@ -317,10 +321,10 @@ export default component$(() => {
                 borderColor: 'rgba(255, 255, 255, 0.12)',
                 fontSize: 'xs',
                 fontFamily: 'mono',
-                color: 'qwik.lightBlue',
+                color: 'fg-muted',
               })}
             >
-              <LuTerminal class={css({ color: 'qwik.blue', flexShrink: 0 })} />
+              <LuTerminal class={css({ color: 'accent-default', flexShrink: 0 })} />
               <span class={css({ userSelect: 'all' })}>pnpm add @leve-ui/core</span>
               <button
                 type="button"
@@ -333,7 +337,7 @@ export default component$(() => {
                   ml: '2',
                   p: '1',
                   borderRadius: 'md',
-                  color: installCopied.value ? '#34d399' : 'fg.subtle',
+                  color: installCopied.value ? '#34d399' : 'fg-subtle',
                   cursor: 'pointer',
                   bg: 'transparent',
                   border: 'none',
@@ -391,7 +395,7 @@ export default component$(() => {
                     gap: '1.5',
                   })}
                 >
-                  <LuCode2 class={css({ color: 'qwik.blue' })} />
+                  <LuCode2 class={css({ color: 'accent-default' })} />
                   <span>app.tsx</span>
                 </div>
               </div>
@@ -442,7 +446,7 @@ export default component$(() => {
                   justifyContent: 'space-between',
                 })}
               >
-                <span class={css({ fontSize: 'xs', color: 'qwik.lightBlue' })}>
+                <span class={css({ fontSize: 'xs', color: 'fg-muted' })}>
                   Live Component Preview:
                 </span>
                 <Toggle.Root
@@ -460,11 +464,11 @@ export default component$(() => {
                     color: 'white',
                     transition: 'all 0.2s ease',
                     '&[data-state="on"]': {
-                      bg: 'qwik.blue',
-                      borderColor: 'qwik.darkBlue',
+                      bg: 'accent-default',
+                      borderColor: 'accent-default',
                     },
                     _hover: {
-                      borderColor: 'qwik.blue',
+                      borderColor: 'accent-default',
                     },
                   })}
                 >
@@ -496,8 +500,8 @@ export default component$(() => {
               px: '3',
               py: '1',
               borderRadius: 'full',
-              bg: 'bg.surfaceSubtle',
-              color: 'qwik.blue',
+              bg: 'bg-muted',
+              color: 'accent-default',
               fontSize: 'xs',
               fontWeight: 'bold',
               textTransform: 'uppercase',
@@ -512,7 +516,7 @@ export default component$(() => {
             class={css({
               fontSize: { base: '2xl', md: '3xl' },
               fontWeight: '800',
-              color: 'fg',
+              color: 'fg-default',
               mb: '3',
               letterSpacing: 'tight',
             })}
@@ -521,7 +525,7 @@ export default component$(() => {
           </h2>
           <p
             class={css({
-              color: 'fg.muted',
+              color: 'fg-muted',
               fontSize: { base: 'sm', md: 'base' },
               lineHeight: 'relaxed',
             })}
@@ -547,7 +551,7 @@ export default component$(() => {
                   h: '11',
                   borderRadius: 'xl',
                   bg: 'rgba(0, 157, 253, 0.12)',
-                  color: 'qwik.blue',
+                  color: 'accent-default',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
@@ -566,8 +570,8 @@ export default component$(() => {
                   borderRadius: 'full',
                   fontSize: '2xs',
                   fontWeight: 'bold',
-                  bg: 'bg.surfaceSubtle',
-                  color: 'qwik.blue',
+                  bg: 'bg-muted',
+                  color: 'accent-default',
                   w: 'fit-content',
                   mb: '2',
                 })}
@@ -622,7 +626,7 @@ export default component$(() => {
                   h: '11',
                   borderRadius: 'xl',
                   bg: 'rgba(172, 126, 244, 0.12)',
-                  color: 'qwik.purple',
+                  color: 'secondary-default',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
@@ -641,8 +645,8 @@ export default component$(() => {
                   borderRadius: 'full',
                   fontSize: '2xs',
                   fontWeight: 'bold',
-                  bg: 'bg.surfaceSubtle',
-                  color: 'qwik.purple',
+                  bg: 'bg-muted',
+                  color: 'secondary-default',
                   w: 'fit-content',
                   mb: '2',
                 })}
@@ -699,7 +703,7 @@ export default component$(() => {
                   h: '11',
                   borderRadius: 'xl',
                   bg: 'rgba(0, 108, 233, 0.12)',
-                  color: 'qwik.darkBlue',
+                  color: 'accent-text',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
@@ -718,8 +722,8 @@ export default component$(() => {
                   borderRadius: 'full',
                   fontSize: '2xs',
                   fontWeight: 'bold',
-                  bg: 'bg.surfaceSubtle',
-                  color: 'qwik.blue',
+                  bg: 'bg-muted',
+                  color: 'accent-default',
                   w: 'fit-content',
                   mb: '2',
                 })}
@@ -763,7 +767,7 @@ export default component$(() => {
         </div>
       </section>
 
-      <Separator.Root class={css({ height: '1px', bg: 'border', my: '14' })} />
+      <Separator.Root class={css({ height: '1px', bg: 'border-default', my: '14' })} />
 
       {/* ========================================================= */}
       {/* UI COMPONENTS SHOWCASE                                    */}
@@ -778,8 +782,8 @@ export default component$(() => {
               px: '3',
               py: '1',
               borderRadius: 'full',
-              bg: 'bg.surfaceSubtle',
-              color: 'qwik.blue',
+              bg: 'bg-muted',
+              color: 'accent-default',
               fontSize: 'xs',
               fontWeight: 'bold',
               textTransform: 'uppercase',
@@ -794,13 +798,13 @@ export default component$(() => {
             class={css({
               fontSize: '2xl',
               fontWeight: '800',
-              color: 'fg',
+              color: 'fg-default',
               mb: '2',
             })}
           >
             UI Components (@leve-ui/core)
           </h2>
-          <p class={css({ color: 'fg.muted', fontSize: 'sm' })}>
+          <p class={css({ color: 'fg-muted', fontSize: 'sm' })}>
             Live interactive preview of unstyled components powered by <code>@leve-ui/core</code>{' '}
             and styled with Panda CSS in Light &amp; Dark themes.
           </p>
@@ -818,24 +822,23 @@ export default component$(() => {
             <Card.Title class={css({ mb: '4' })}>Alert</Card.Title>
             <Alert.Root
               class={css({
-                bg: 'qwik.lightBlue',
+                bg: 'accent-subtle',
                 borderLeft: '4px solid',
-                borderColor: 'qwik.blue',
+                borderColor: 'accent-default',
                 p: '4',
                 borderRadius: 'md',
                 _dark: {
                   bg: 'rgba(0, 157, 253, 0.12)',
-                  borderColor: 'qwik.blue',
+                  borderColor: 'accent-default',
                 },
               })}
             >
               <Alert.Title
                 class={css({
                   fontWeight: 'bold',
-                  color: 'qwik.darkBlue',
+                  color: 'accent-text',
                   fontSize: 'sm',
                   mb: '1',
-                  _dark: { color: 'qwik.lightBlue' },
                 })}
               >
                 Panda CSS Theme Switcher Ready
@@ -867,7 +870,7 @@ export default component$(() => {
                   borderRadius: 'full',
                   overflow: 'hidden',
                   border: '2px solid',
-                  borderColor: 'qwik.blue',
+                  borderColor: 'accent-default',
                 })}
               >
                 <Avatar.Image
@@ -884,7 +887,7 @@ export default component$(() => {
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    bg: 'qwik.purple',
+                    bg: 'secondary-default',
                     color: 'white',
                     fontWeight: 'bold',
                     fontSize: 'sm',
@@ -903,7 +906,7 @@ export default component$(() => {
                   h: '12',
                   borderRadius: 'full',
                   overflow: 'hidden',
-                  bg: 'qwik.purple',
+                  bg: 'secondary-default',
                   color: 'white',
                   fontWeight: 'bold',
                   fontSize: 'sm',
@@ -928,23 +931,23 @@ export default component$(() => {
                   fontSize: 'sm',
                   cursor: 'pointer',
                   border: '1px solid',
-                  borderColor: 'border',
-                  bg: 'bg.surfaceSubtle',
-                  color: 'fg',
+                  borderColor: 'border-default',
+                  bg: 'bg-muted',
+                  color: 'fg-default',
                   transition: 'all 0.2s',
                   '&[data-state="on"]': {
-                    bg: 'qwik.blue',
+                    bg: 'accent-default',
                     color: 'white',
-                    borderColor: 'qwik.darkBlue',
+                    borderColor: 'accent-default',
                   },
                   _hover: {
-                    borderColor: 'qwik.blue',
+                    borderColor: 'accent-default',
                   },
                 })}
               >
                 {isBookmarked.value ? '★ Bookmarked' : '☆ Bookmark'}
               </Toggle.Root>
-              <span class={css({ fontSize: 'xs', color: 'fg.muted' })}>
+              <span class={css({ fontSize: 'xs', color: 'fg-muted' })}>
                 State: <code>{isBookmarked.value ? 'on' : 'off'}</code>
               </span>
             </div>
@@ -967,7 +970,7 @@ export default component$(() => {
                   justifyContent: 'space-between',
                   fontSize: 'xs',
                   fontWeight: 'semibold',
-                  color: 'fg.muted',
+                  color: 'fg-muted',
                 })}
               >
                 <Progress.Label>Download Progress</Progress.Label>
@@ -976,7 +979,7 @@ export default component$(() => {
               <Progress.Track
                 class={css({
                   h: '2.5',
-                  bg: 'bg.surfaceSubtle',
+                  bg: 'bg-muted',
                   borderRadius: 'full',
                   overflow: 'hidden',
                 })}
@@ -986,8 +989,8 @@ export default component$(() => {
                     h: 'full',
                     w: 'var(--leve-progress-percent)',
                     bgGradient: 'to-r',
-                    gradientFrom: 'qwik.blue',
-                    gradientTo: 'qwik.purple',
+                    gradientFrom: 'accent-default',
+                    gradientTo: 'secondary-default',
                     borderRadius: 'full',
                     transition: 'width 0.3s ease',
                   })}
@@ -1006,12 +1009,12 @@ export default component$(() => {
                   py: '1',
                   fontSize: 'xs',
                   borderRadius: 'md',
-                  bg: 'bg.surfaceSubtle',
-                  color: 'fg',
+                  bg: 'bg-muted',
+                  color: 'fg-default',
                   border: '1px solid',
-                  borderColor: 'border',
+                  borderColor: 'border-default',
                   cursor: 'pointer',
-                  _hover: { bg: 'border' },
+                  _hover: { bg: 'border-default' },
                 })}
               >
                 -15%
@@ -1026,12 +1029,12 @@ export default component$(() => {
                   py: '1',
                   fontSize: 'xs',
                   borderRadius: 'md',
-                  bg: 'bg.surfaceSubtle',
-                  color: 'fg',
+                  bg: 'bg-muted',
+                  color: 'fg-default',
                   border: '1px solid',
-                  borderColor: 'border',
+                  borderColor: 'border-default',
                   cursor: 'pointer',
-                  _hover: { bg: 'border' },
+                  _hover: { bg: 'border-default' },
                 })}
               >
                 +15%
@@ -1043,7 +1046,7 @@ export default component$(() => {
                 mt: '6',
                 pt: '4',
                 borderTop: '1px solid',
-                borderColor: 'border',
+                borderColor: 'border-default',
               })}
             >
               <Meter.Root
@@ -1062,7 +1065,7 @@ export default component$(() => {
                     justifyContent: 'space-between',
                     fontSize: 'xs',
                     fontWeight: 'semibold',
-                    color: 'fg.muted',
+                    color: 'fg-muted',
                   })}
                 >
                   <Meter.Label>System Capacity (Meter)</Meter.Label>
@@ -1071,7 +1074,7 @@ export default component$(() => {
                 <Meter.Track
                   class={css({
                     h: '2',
-                    bg: 'bg.surfaceSubtle',
+                    bg: 'bg-muted',
                     borderRadius: 'full',
                     overflow: 'hidden',
                   })}
@@ -1080,7 +1083,7 @@ export default component$(() => {
                     class={css({
                       h: 'full',
                       w: 'var(--leve-meter-percent)',
-                      bg: 'qwik.darkBlue',
+                      bg: 'accent-text',
                       borderRadius: 'full',
                       transition: 'width 0.3s ease',
                     })}
@@ -1092,7 +1095,7 @@ export default component$(() => {
         </div>
       </section>
 
-      <Separator.Root class={css({ height: '1px', bg: 'border', my: '14' })} />
+      <Separator.Root class={css({ height: '1px', bg: 'border-default', my: '14' })} />
     </div>
   );
 });

@@ -1,34 +1,34 @@
-import { $, component$, type QRL, useSignal } from '@builder.io/qwik';
+import { component$, type QRL } from '@builder.io/qwik';
 import { Link, useLocation } from '@builder.io/qwik-city';
 import { css } from 'styled-system/css';
 import { docsNav, normalizePath } from '../../docs-nav';
-import { LuMenu, LuX } from '../icons';
 
 const sectionTitleStyles = css({
-  fontSize: 'xs',
+  fontSize: '12px',
   fontWeight: '600',
   textTransform: 'uppercase',
-  letterSpacing: '0.06em',
-  color: 'fg.subtle',
-  px: '3',
-  mb: '2',
+  letterSpacing: '0.04em',
+  color: 'fg-subtle',
+  m: 0,
+  mb: '1.5',
 });
 
 const linkStyles = css({
   display: 'block',
   px: '3',
-  py: '1.5',
+  py: { base: '2', lg: '7px' },
   borderRadius: 'md',
-  fontSize: 'sm',
-  color: 'fg.muted',
+  fontSize: '14px',
+  lineHeight: '16px',
+  color: 'fg-muted',
   textDecoration: 'none',
   transition: 'background-color 0.15s ease, color 0.15s ease',
-  _hover: { bg: 'bg.muted', color: 'fg.default' },
-  _focusVisible: { outline: '2px solid', outlineColor: 'accent.default', outlineOffset: '-2px' },
+  _hover: { bg: 'bg-muted', color: 'fg-default' },
+  _focusVisible: { outline: '2px solid', outlineColor: 'accent-default', outlineOffset: '-2px' },
   '&[aria-current="page"]': {
-    bg: 'accent.subtle',
-    color: 'accent.text',
-    fontWeight: '600',
+    bg: 'accent-subtle',
+    color: 'accent-text',
+    fontWeight: '500',
   },
 });
 
@@ -72,77 +72,11 @@ export const Sidebar = component$(() => (
       w: '272px',
       h: 'calc(100vh - 4rem)',
       overflowY: 'auto',
-      py: '10',
-      pr: '4',
-      borderRight: '1px solid {colors.border.default}',
+      py: '8',
+      px: '6',
+      borderRight: '1px solid {colors.border-default}',
     })}
   >
     <DocsNavList />
   </aside>
 ));
-
-const menuButtonStyles = css({
-  display: 'inline-flex',
-  alignItems: 'center',
-  gap: '2',
-  px: '3',
-  py: '1.5',
-  borderRadius: 'md',
-  border: '1px solid',
-  borderColor: 'border.default',
-  bg: 'bg.canvas',
-  color: 'fg.default',
-  fontFamily: 'inherit',
-  fontSize: 'sm',
-  cursor: 'pointer',
-  _hover: { bg: 'bg.muted' },
-  _focusVisible: { outline: '2px solid', outlineColor: 'accent.default', outlineOffset: '2px' },
-  '& svg': { w: '4', h: '4' },
-});
-
-/** The docs navigation for small screens, opened in a modal dialog. */
-export const MobileNav = component$(() => {
-  const dialog = useSignal<HTMLDialogElement>();
-
-  const close$ = $(() => dialog.value?.close());
-
-  return (
-    <div class={css({ display: { base: 'block', lg: 'none' }, mb: '6' })}>
-      <button type="button" class={menuButtonStyles} onClick$={() => dialog.value?.showModal()}>
-        <LuMenu aria-hidden="true" />
-        Docs menu
-      </button>
-      {/* TODO(leve-ui): replace with Drawer (#35) */}
-      <dialog
-        ref={dialog}
-        aria-label="Docs navigation"
-        onClick$={(event, el) => {
-          // Close when the backdrop (the dialog element itself) is clicked
-          if (event.target === el) el.close();
-        }}
-        class={css({
-          m: 0,
-          p: 0,
-          border: 'none',
-          maxW: '320px',
-          w: '85vw',
-          h: '100dvh',
-          maxH: '100dvh',
-          bg: 'bg.canvas',
-          color: 'fg.default',
-          boxShadow: 'xl',
-          _backdrop: { bg: 'rgb(15 23 42 / 0.4)' },
-        })}
-      >
-        <div class={css({ p: '5', h: 'full', overflowY: 'auto' })}>
-          <div class={css({ display: 'flex', justifyContent: 'flex-end', mb: '4' })}>
-            <button type="button" class={menuButtonStyles} aria-label="Close" onClick$={close$}>
-              <LuX aria-hidden="true" />
-            </button>
-          </div>
-          <DocsNavList onNavigate$={close$} />
-        </div>
-      </dialog>
-    </div>
-  );
-});

@@ -18,18 +18,16 @@ const cardBaseStyles = css({
 
 const variantStyles: Record<CardVariant, string> = {
   default: css({
-    bg: 'bg.card',
+    bg: 'bg-canvas',
     border: '1px solid',
-    borderColor: 'border.card',
-    boxShadow: 'card',
-    color: 'fg',
+    borderColor: 'border-default',
+    color: 'fg-default',
   }),
   white: css({
     bg: 'white',
     color: 'slate.900',
     border: '1px solid',
     borderColor: 'slate.200',
-    boxShadow: 'card',
     _dark: {
       bg: 'white',
       color: 'slate.900',
@@ -38,27 +36,25 @@ const variantStyles: Record<CardVariant, string> = {
     },
   }),
   glow: css({
-    bg: 'bg.card',
+    bg: 'bg-canvas',
     border: '1px solid',
-    borderColor: 'border.cardGlow',
-    boxShadow: 'card',
-    color: 'fg',
+    borderColor: 'accent-default',
+    color: 'fg-default',
     _hover: {
-      borderColor: 'qwik.blue',
+      borderColor: 'accent-default',
     },
   }),
   subtle: css({
-    bg: 'bg.cardSubtle',
+    bg: 'bg-subtle',
     border: '1px solid',
-    borderColor: 'border.subtle',
-    color: 'fg',
+    borderColor: 'border-subtle',
+    color: 'fg-default',
   }),
 };
 
 const hoverableStyles = css({
   _hover: {
     transform: 'translateY(-2px)',
-    boxShadow: 'cardHover',
   },
 });
 
@@ -126,7 +122,7 @@ export const CardDescription = component$<CardDescriptionProps>((props) => {
       class={[
         css({
           fontSize: 'sm',
-          color: 'fg.muted',
+          color: 'fg-muted',
           lineHeight: 'relaxed',
         }),
         props.class,
@@ -161,7 +157,7 @@ export const CardFooter = component$<CardFooterProps>((props) => {
           mt: '6',
           pt: '4',
           borderTop: '1px solid',
-          borderColor: 'border.subtle',
+          borderColor: 'border-subtle',
         }),
         props.class,
       ]}

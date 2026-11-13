@@ -20,7 +20,7 @@
 
 body {
   margin: 0;
-  font-family: var(--fonts-body);
+  font-family: var(--fonts-sans), var(--fonts-ja), sans-serif;
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
   background-color: var(--colors-bg-canvas);

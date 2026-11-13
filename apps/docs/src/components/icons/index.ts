@@ -19,6 +19,7 @@ export {
   LuLayers,
   LuMenu,
   LuMoon,
+  LuPackage,
   LuPalette,
   LuSearch,
   LuShieldCheck,

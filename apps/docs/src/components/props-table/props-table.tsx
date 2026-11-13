@@ -34,22 +34,22 @@ const chipStyles = css({
   lineHeight: '1.5',
   px: '1.5',
   borderRadius: 'sm',
-  bg: 'accent.subtle',
-  color: 'accent.text',
+  bg: 'accent-subtle',
+  color: 'accent-text',
   whiteSpace: 'nowrap',
 });
 
 const monoStyles = css({
   fontFamily: 'mono',
   fontSize: '13px',
-  color: 'fg.default',
+  color: 'fg-default',
   wordBreak: 'break-word',
 });
 
 const descriptionStyles = css({
   mt: '1',
   mb: 0,
-  color: 'fg.muted',
+  color: 'fg-muted',
   whiteSpace: 'pre-line',
 });
 
@@ -114,7 +114,7 @@ export const PropsTable = component$<PropsTableProps>(({ component, part }) => {
                   {prop.default ? (
                     <span class={monoStyles}>{prop.default}</span>
                   ) : (
-                    <span class={css({ color: 'fg.subtle' })}>–</span>
+                    <span class={css({ color: 'fg-subtle' })}>–</span>
                   )}
                 </td>
                 <td>
