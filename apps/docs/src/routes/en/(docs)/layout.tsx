@@ -2,11 +2,13 @@ import { component$, Slot } from '@builder.io/qwik';
 import { Link, useContent, useDocumentHead, useLocation } from '@builder.io/qwik-city';
 import { Breadcrumb } from '@leve-ui/breadcrumb';
 import { css, cx } from 'styled-system/css';
-import { PROSE_CLASS } from '../../../theme/prose';
-import { Sidebar } from '../../components/docs/sidebar';
-import { TableOfContents } from '../../components/docs/table-of-contents';
-import { LuChevronLeft, LuChevronRight } from '../../components/icons';
-import { findNavItem, getPrevNext } from '../../docs-nav';
+import { PROSE_CLASS } from '../../../../theme/prose';
+import { Sidebar } from '../../../components/docs/sidebar';
+import { TableOfContents } from '../../../components/docs/table-of-contents';
+import { LuChevronLeft, LuChevronRight } from '../../../components/icons';
+import { findNavItem, getPrevNext } from '../../../docs-nav';
+import { localizeHref } from '../../../i18n/locales';
+import { useLocale } from '../../../i18n/use-locale';
 
 const breadcrumbStyles = css({
   mb: '6',
@@ -62,6 +64,7 @@ const pagerLinkStyles = css({
 export default component$(() => {
   const loc = useLocation();
   const head = useDocumentHead();
+  const locale = useLocale();
   const { headings } = useContent();
   const current = findNavItem(loc.url.pathname);
   const { prev, next } = getPrevNext(loc.url.pathname);
@@ -89,7 +92,7 @@ export default component$(() => {
               {current && (
                 <>
                   <Breadcrumb.Item>
-                    <Breadcrumb.Link href={current.section.items[0].href}>
+                    <Breadcrumb.Link href={localizeHref(current.section.items[0].href, locale)}>
                       {current.section.title}
                     </Breadcrumb.Link>
                   </Breadcrumb.Item>
@@ -123,7 +126,7 @@ export default component$(() => {
               })}
             >
               {prev ? (
-                <Link href={prev.href} class={pagerLinkStyles}>
+                <Link href={localizeHref(prev.href, locale)} class={pagerLinkStyles}>
                   <span>
                     <LuChevronLeft aria-hidden="true" />
                     Previous
@@ -133,8 +136,8 @@ export default component$(() => {
               ) : null}
               {next && (
                 <Link
-                  href={next.href}
-                  class={cx(pagerLinkStyles, css({ ml: 'auto', textAlign: 'right' }))}
+                  href={localizeHref(next.href, locale)}
+                  class={cx(pagerLinkStyles, css({ ms: 'auto', textAlign: 'end' }))}
                 >
                   <span class={css({ justifyContent: 'flex-end' })}>
                     Next

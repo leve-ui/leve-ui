@@ -11,14 +11,18 @@
  *
  */
 import { type RenderToStreamOptions, renderToStream } from '@builder.io/qwik/server';
+import { getLocale } from './i18n/locales';
 import Root from './root';
 
 export default function (opts: RenderToStreamOptions) {
+  const url = opts.serverData?.url;
+  const lang = typeof url === 'string' ? getLocale(new URL(url).pathname) : 'en';
+
   return renderToStream(<Root />, {
     ...opts,
     // Use container attributes to set attributes on the html tag.
     containerAttributes: {
-      lang: 'en',
+      lang,
       ...opts.containerAttributes,
     },
     serverData: {

@@ -1,6 +1,9 @@
+import { stripLocale } from './i18n/locales';
+
 /**
  * Sidebar navigation of the docs pages (adr/0032).
  * Only pages that exist are listed; add a page here when it is written.
+ * Hrefs have no locale; links add it with `localizeHref` (src/i18n/locales.ts).
  */
 export type NavItem = {
   title: string;
@@ -51,8 +54,9 @@ export const docsNav: NavSection[] = [
   },
 ];
 
-/** Adds the trailing slash that Qwik City uses for page URLs. */
-export function normalizePath(path: string) {
+/** Removes the locale and adds the trailing slash that Qwik City uses for page URLs. */
+export function normalizePath(pathname: string) {
+  const path = stripLocale(pathname);
   return path.endsWith('/') ? path : `${path}/`;
 }
 

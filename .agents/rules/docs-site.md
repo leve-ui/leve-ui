@@ -17,6 +17,10 @@ description: ドキュメントサイト（apps/docs）の UI を leve-ui 自身
 
 ## ページの書き分け
 
+- ページは英語だけで、`apps/docs/src/routes/en/` に書く。ほかの言語のページ（`src/routes/<locale>/`、git 管理外）はビルド時に生成されるので、作ったり編集したりしない（`adr/0033`）。
+- ほかのページへのリンクはロケールなしで書く（`/overview/forms/`）。MDX のリンク・サイドバー・ヘッダーが現在のロケールを付ける。TSX でリンクを書くときは `localizeHref(href, useLocale())`（`src/i18n/`）を使う。
+- サイトのスタイルは論理プロパティ（`ms` / `me`、`ps` / `pe`、`borderInlineStart`、`textAlign: 'start'`）で書く。右から左に書く言語を後から足せるようにするため。
+
 - FAQ（`overview/faq`）には、ライブラリ全体に関わる質問だけを載せる。個別のコンポーネントの仕様や理由（例: Avatar の Root に `data-state` がない理由）は、そのコンポーネントのページに書く。
 
 ## 足りないコンポーネントを報告する

@@ -1,0 +1,4 @@
+# Every page has a locale prefix (adr/0033). Old URLs without one go to English.
+/ /en/ 302
+/overview/* /en/overview/:splat 301
+/components/* /en/components/:splat 301

@@ -49,7 +49,7 @@ pnpm install
 
 ## 5. docs のページを書く
 
-`adr/0032` のテンプレートで、`apps/docs/src/routes/(docs)/components/<name>/index.mdx` を作る。見本は `components/avatar/index.mdx` と `components/checkbox/index.mdx`。
+`adr/0032` のテンプレートで、`apps/docs/src/routes/en/(docs)/components/<name>/index.mdx` を作る。見本は `components/avatar/index.mdx` と `components/checkbox/index.mdx`。
 
 - タイトルと 1 行の説明、APG パターンへのリンク（ない場合は採用したネイティブ要素の方針）
 - `<Demo id="<name>/default" />`、Installation（`@leve-ui/core` と `@leve-ui/<name>`）、Anatomy（パーツの一覧と描画する要素）
