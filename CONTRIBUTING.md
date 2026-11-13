@@ -150,7 +150,7 @@ pnpm component:new dialog trigger,overlay,content,title,description,close
 pnpm install
 ```
 
-The scaffold creates the package, a story, an E2E test, and registers the package in `@leve-ui/core` and Storybook. Then implement it following the guidelines above and fill in its row in the README's package table.
+The scaffold creates the package, a story, an E2E test, and registers the package in `@leve-ui/core` and Storybook. Then implement it following the guidelines above, fill in its row in the README's package table, and add its docs page at `apps/docs/src/routes/(docs)/components/<name>/index.mdx` (use the Avatar or Checkbox page as a template; list it in `apps/docs/src/docs-nav.ts` and the components index).
 
 You don't need to publish anything. After your pull request is merged, a maintainer publishes the new package to npm (see [For Maintainers](#for-maintainers)).
 

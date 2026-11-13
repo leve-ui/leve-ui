@@ -1,0 +1,151 @@
+---
+title: Switch
+description: A control that turns an option on or off.
+---
+
+# Switch
+
+A control that turns an option on or off.
+
+Switch follows the [Switch WAI-ARIA design pattern](https://www.w3.org/WAI/ARIA/apg/patterns/switch/).
+
+<Demo id="switch/default" />
+
+## Installation
+
+Install the all-in-one package:
+
+```sh
+pnpm add @leve-ui/core
+```
+
+Or only this component:
+
+```sh
+pnpm add @leve-ui/switch
+```
+
+## Anatomy
+
+```tsx
+import { Switch } from '@leve-ui/switch'; // or '@leve-ui/core'
+
+<Switch.Root>
+  <Switch.Label />
+  <Switch.Control>
+    <Switch.Thumb />
+  </Switch.Control>
+  <Switch.HiddenInput />
+</Switch.Root>
+```
+
+| Part | Element | Description |
+| --- | --- | --- |
+| `Switch.Root` | `<div>` | Wraps the parts and holds the on/off state. Not interactive. |
+| `Switch.Label` | `<label>` | The label. Clicking it toggles the switch. |
+| `Switch.Control` | `<button>` | The switch itself, with `role="switch"`. |
+| `Switch.Thumb` | `<span>` | The thumb inside the control. Decorative. |
+| `Switch.HiddenInput` | `<input type="checkbox">` | Optional. Sends the state with a native `<form>`. |
+
+## Examples
+
+### Checked
+
+`defaultChecked` turns the switch on initially.
+
+<Demo id="switch/checked" collapsed />
+
+### Disabled
+
+`disabled` on the Root disables the switch.
+
+<Demo id="switch/disabled" collapsed />
+
+### Form
+
+Add `Switch.HiddenInput` with `name` to submit the state with a native `<form>`. The value is sent only while the switch is on.
+
+<Demo id="switch/form" collapsed />
+
+### With Field
+
+Inside a `Field.Root`, use `Field.Label` instead of `Switch.Label`. The Field provides the IDs, the description and the `disabled` / `required` / `invalid` states.
+
+<Demo id="switch/with-field" collapsed />
+
+## API Reference
+
+### Root
+
+<PropsTable component="switch" part="Root" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-switch` | Always present |
+| `data-state` | `"checked"` \| `"unchecked"` |
+| `data-disabled` | Present when disabled |
+
+The state is uncontrolled with `defaultChecked`, or controlled with `bind:checked`. `onCheckedChange$` is called when the user turns the switch on or off.
+
+Inside a Field, the IDs come from the Field and `ids` is ignored ([ADR 0024](https://github.com/leve-ui/leve-ui/blob/main/adr/0024-wire-field-ids-and-descriptions-from-the-field-root.md)).
+
+### Label
+
+<PropsTable component="switch" part="Label" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-switch-label` | Always present |
+| `data-state` | `"checked"` \| `"unchecked"` |
+| `data-disabled` | Present when disabled |
+
+### Control
+
+<PropsTable component="switch" part="Control" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-switch-control` | Always present |
+| `data-state` | `"checked"` \| `"unchecked"` |
+| `data-disabled` | Present when disabled |
+| `data-invalid` | Present when the Field is invalid |
+
+### Thumb
+
+<PropsTable component="switch" part="Thumb" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-switch-thumb` | Always present |
+| `data-state` | `"checked"` \| `"unchecked"` |
+| `data-disabled` | Present when disabled |
+
+Move the thumb with CSS, for example `[data-leve-switch-thumb][data-state="checked"]`.
+
+### HiddenInput
+
+<PropsTable component="switch" part="HiddenInput" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-switch-hidden-input` | Always present |
+| `data-state` | `"checked"` \| `"unchecked"` |
+| `data-disabled` | Present when disabled |
+
+The hidden input follows the checked, `required` and `disabled` states, so native form submission and `required` validation work ([ADR 0026](https://github.com/leve-ui/leve-ui/blob/main/adr/0026-participate-in-native-forms-through-a-hiddeninput-part.md)). It is positioned absolutely with an inline style, so give `Switch.Root` `position: relative`.
+
+## Accessibility
+
+Complies with the [Switch WAI-ARIA design pattern](https://www.w3.org/WAI/ARIA/apg/patterns/switch/).
+
+- Name the switch with `Switch.Label`, `Field.Label`, or `aria-label` / `aria-labelledby` on `Switch.Control`.
+- `Switch.Control` is a `<button type="button">` with `role="switch"` and `aria-checked` (`"true"` or `"false"`), and `aria-required` when required. Inside a Field it also renders `aria-describedby` and `aria-invalid`. When disabled, it uses the native `disabled` attribute, so it is not focusable.
+- Do not change the label text with the state. The state is conveyed by `aria-checked`.
+- `Switch.Thumb` and `Switch.HiddenInput` are hidden from assistive technologies with `aria-hidden="true"`. The hidden input is not in the tab sequence.
+
+### Keyboard Interactions
+
+| Key | Description |
+| --- | --- |
+| `Space` | Turns the switch on or off. |
+| `Enter` | Turns the switch on or off. |

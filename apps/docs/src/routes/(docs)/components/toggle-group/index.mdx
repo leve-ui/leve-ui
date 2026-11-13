@@ -1,0 +1,116 @@
+---
+title: Toggle Group
+description: A set of toggle buttons, single or multiple selection.
+---
+
+# Toggle Group
+
+A set of toggle buttons, single or multiple selection.
+
+There is no WAI-ARIA APG pattern for toggle groups. Toggle Group is a group of [toggle buttons](https://www.w3.org/WAI/ARIA/apg/patterns/button/) with a roving tabindex like the [Toolbar pattern](https://www.w3.org/WAI/ARIA/apg/patterns/toolbar/).
+
+<Demo id="toggle-group/default" />
+
+## Installation
+
+Install the all-in-one package:
+
+```sh
+pnpm add @leve-ui/core
+```
+
+Or only this component:
+
+```sh
+pnpm add @leve-ui/toggle-group
+```
+
+## Anatomy
+
+```tsx
+import { ToggleGroup } from '@leve-ui/toggle-group'; // or '@leve-ui/core'
+
+<ToggleGroup.Root>
+  <ToggleGroup.Item />
+</ToggleGroup.Root>
+```
+
+| Part | Element | Description |
+| --- | --- | --- |
+| `ToggleGroup.Root` | `<div>` | The group, with `role="group"`. Holds the pressed values. |
+| `ToggleGroup.Item` | `<button>` | One toggle button, with `aria-pressed`. |
+
+## Examples
+
+### Controlled
+
+`bind:value` controls the pressed values with a signal. The text below the group shows the current value.
+
+<Demo id="toggle-group/controlled" collapsed />
+
+### Disabled
+
+`disabled` on an Item disables only that item. Arrow keys skip it. `disabled` on the Root disables every item.
+
+<Demo id="toggle-group/disabled" collapsed />
+
+### Multiple
+
+`type="multiple"` lets any number of items be pressed at once.
+
+<Demo id="toggle-group/multiple" collapsed />
+
+### Vertical
+
+`orientation="vertical"` makes `ArrowUp` / `ArrowDown` move focus instead of `ArrowLeft` / `ArrowRight`. It sets `data-orientation`.
+
+<Demo id="toggle-group/vertical" collapsed />
+
+## API Reference
+
+### Root
+
+<PropsTable component="toggle-group" part="Root" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-toggle-group` | Always present |
+| `data-orientation` | `"horizontal"` \| `"vertical"` |
+| `data-disabled` | Present when disabled |
+
+The value is always an array of the pressed items' values, also with `type="single"` (empty or one value). It is uncontrolled with `defaultValue`, or controlled with `bind:value`. `onValueChange$` is called when the pressed items change. With `type="single"`, pressing the pressed item releases it.
+
+Set `rovingFocus={false}` when a parent such as a toolbar manages focus. The items are then rendered without `tabIndex` and arrow key handlers, so each item is a regular tab stop.
+
+### Item
+
+<PropsTable component="toggle-group" part="Item" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-toggle-group-item` | Always present |
+| `data-state` | `"on"` \| `"off"` |
+| `data-disabled` | Present when the item or the group is disabled |
+| `data-orientation` | `"horizontal"` \| `"vertical"` |
+
+## Accessibility
+
+There is no dedicated WAI-ARIA APG pattern. Each item follows the [Button WAI-ARIA design pattern](https://www.w3.org/WAI/ARIA/apg/patterns/button/) (toggle button), and focus moves like in the [Toolbar pattern](https://www.w3.org/WAI/ARIA/apg/patterns/toolbar/).
+
+- Name the group with `aria-label` or `aria-labelledby` on `ToggleGroup.Root`, which renders `role="group"`.
+- Each `ToggleGroup.Item` is a `<button type="button">` with `aria-pressed`. Its text content is its accessible name. For icon-only items, pass `aria-label` and hide the icon with `aria-hidden="true"`.
+- Disabled items use the native `disabled` attribute, so they are not focusable.
+- Only one item is in the tab sequence: the last focused item, the first pressed item, or the first enabled item when nothing is pressed.
+
+### Keyboard Interactions
+
+| Key | Description |
+| --- | --- |
+| `Tab` | Moves focus into the group (to the tab stop item), or out of the group. |
+| `Space` / `Enter` | Presses or releases the focused item. |
+| `ArrowRight` / `ArrowLeft` | Horizontal only. Moves focus to the next / previous enabled item. Wraps around when `loop` is `true`. |
+| `ArrowDown` / `ArrowUp` | Vertical only. Moves focus to the next / previous enabled item. Wraps around when `loop` is `true`. |
+| `Home` | Moves focus to the first enabled item. |
+| `End` | Moves focus to the last enabled item. |
+
+In right-to-left text, `ArrowRight` and `ArrowLeft` are reversed. Arrow keys, `Home` and `End` only work when `rovingFocus` is `true`.

@@ -1,0 +1,87 @@
+---
+title: Toggle
+description: A button that is pressed or not pressed.
+---
+
+# Toggle
+
+A button that is pressed or not pressed.
+
+Toggle follows the toggle button variant of the [Button WAI-ARIA design pattern](https://www.w3.org/WAI/ARIA/apg/patterns/button/). It renders a native `<button>` with `aria-pressed`.
+
+<Demo id="toggle/default" />
+
+## Installation
+
+Install the all-in-one package:
+
+```sh
+pnpm add @leve-ui/core
+```
+
+Or only this component:
+
+```sh
+pnpm add @leve-ui/toggle
+```
+
+## Anatomy
+
+```tsx
+import { Toggle } from '@leve-ui/toggle'; // or '@leve-ui/core'
+
+<Toggle.Root />
+```
+
+| Part | Element | Description |
+| --- | --- | --- |
+| `Toggle.Root` | `<button>` | The toggle button. Holds the pressed state. |
+
+## Examples
+
+### Controlled
+
+`bind:pressed` controls the pressed state with a signal. The Reset button outside the toggle changes it.
+
+<Demo id="toggle/controlled" collapsed />
+
+### Disabled
+
+`disabled` disables the toggle.
+
+<Demo id="toggle/disabled" collapsed />
+
+### Pressed
+
+`defaultPressed` makes the toggle pressed initially.
+
+<Demo id="toggle/pressed" collapsed />
+
+## API Reference
+
+### Root
+
+<PropsTable component="toggle" part="Root" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-toggle` | Always present |
+| `data-state` | `"on"` \| `"off"` |
+| `data-disabled` | Present when disabled |
+
+The pressed state is uncontrolled with `defaultPressed`, or controlled with `bind:pressed`. `onPressedChange$` is called when the user presses or releases the toggle. `disabled` is the native button attribute.
+
+## Accessibility
+
+Complies with the [Button WAI-ARIA design pattern](https://www.w3.org/WAI/ARIA/apg/patterns/button/) (toggle button).
+
+- `Toggle.Root` is a `<button type="button">` with `aria-pressed` (`"true"` or `"false"`). When disabled, it uses the native `disabled` attribute, so it is not focusable.
+- Its text content is its accessible name. For an icon-only toggle, pass `aria-label` and hide the icon with `aria-hidden="true"`.
+- Do not change the label with the state (for example, keep "Mute" instead of switching to "Unmute"). The state is conveyed by `aria-pressed`.
+
+### Keyboard Interactions
+
+| Key | Description |
+| --- | --- |
+| `Space` | Presses or releases the toggle. |
+| `Enter` | Presses or releases the toggle. |
