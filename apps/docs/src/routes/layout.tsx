@@ -18,8 +18,8 @@ export default component$(() => {
         minHeight: '100vh',
         display: 'flex',
         flexDirection: 'column',
-        bg: 'bg.canvas',
-        color: 'fg',
+        bg: 'bg-canvas',
+        color: 'fg-default',
         transition: 'background-color 0.2s ease, color 0.2s ease',
       })}
     >

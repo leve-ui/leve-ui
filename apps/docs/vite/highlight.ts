@@ -2,13 +2,14 @@ import { readFile } from 'node:fs/promises';
 import { extname } from 'node:path';
 import { createHighlighter, type Highlighter } from 'shiki';
 import type { Plugin } from 'vite';
+import { SHIKI_THEMES } from './shiki-themes';
+
+export { SHIKI_THEMES };
 
 const QUERY = '?highlight';
 const PREFIX = '\0highlight:';
 // Keeps the virtual module from being matched as CSS or TSX by other plugins
 const SUFFIX = '.highlight.js';
-
-export const SHIKI_THEMES = { light: 'github-light', dark: 'github-dark' } as const;
 
 const LANGS: Record<string, string> = {
   '.tsx': 'tsx',

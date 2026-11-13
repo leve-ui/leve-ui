@@ -5,17 +5,16 @@ import { css } from 'styled-system/css';
 const linkStyles = css({
   display: 'block',
   py: '1',
-  fontSize: 'sm',
-  color: 'fg.subtle',
+  fontSize: '13px',
+  lineHeight: '16px',
+  color: 'fg-muted',
   textDecoration: 'none',
-  borderLeft: '2px solid transparent',
-  ml: '-1px',
+  borderLeft: '2px solid {colors.border-default}',
   pl: '3',
   transition: 'color 0.15s ease, border-color 0.15s ease',
-  _hover: { color: 'fg.default' },
-  _focusVisible: { outline: '2px solid', outlineColor: 'accent.default', outlineOffset: '2px' },
-  '&[data-level="3"]': { pl: '6' },
-  '&[data-active]': { color: 'accent.text', borderColor: 'accent.default', fontWeight: '500' },
+  _hover: { color: 'fg-default' },
+  _focusVisible: { outline: '2px solid', outlineColor: 'accent-default', outlineOffset: '2px' },
+  '&[data-active]': { color: 'accent-text', borderLeftColor: 'accent-default' },
 });
 
 /**
@@ -24,7 +23,8 @@ const linkStyles = css({
  * component (decided on #97).
  */
 export const TableOfContents = component$<{ headings: ContentHeading[] }>(({ headings }) => {
-  const items = headings.filter((h) => h.level === 2 || h.level === 3);
+  // The design lists the h2 sections only
+  const items = headings.filter((h) => h.level === 2);
   const active = useSignal<string>();
 
   // biome-ignore lint/correctness/noQwikUseVisibleTask: observing scroll position needs the DOM; there is no event to hook into instead
@@ -62,18 +62,17 @@ export const TableOfContents = component$<{ headings: ContentHeading[] }>(({ hea
       class={css({
         display: { base: 'none', xl: 'block' },
         position: 'sticky',
-        top: '16',
+        top: '28',
         flexShrink: 0,
         w: '200px',
-        maxH: 'calc(100vh - 4rem)',
+        maxH: 'calc(100vh - 7rem)',
         overflowY: 'auto',
-        py: '10',
       })}
     >
       <nav aria-labelledby="docs-toc-title">
         <p
           id="docs-toc-title"
-          class={css({ fontSize: 'sm', fontWeight: '600', color: 'fg.default', mt: 0, mb: '3' })}
+          class={css({ fontSize: '13px', fontWeight: '600', color: 'fg-default', mt: 0, mb: '3' })}
         >
           On this page
         </p>
@@ -82,7 +81,6 @@ export const TableOfContents = component$<{ headings: ContentHeading[] }>(({ hea
             listStyle: 'none',
             p: 0,
             m: 0,
-            borderLeft: '1px solid {colors.border.default}',
           })}
         >
           {items.map((h) => (

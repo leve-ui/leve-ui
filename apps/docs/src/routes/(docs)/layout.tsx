@@ -3,7 +3,7 @@ import { Link, useContent, useDocumentHead, useLocation } from '@builder.io/qwik
 import { Breadcrumb } from '@leve-ui/breadcrumb';
 import { css, cx } from 'styled-system/css';
 import { PROSE_CLASS } from '../../../theme/prose';
-import { MobileNav, Sidebar } from '../../components/docs/sidebar';
+import { Sidebar } from '../../components/docs/sidebar';
 import { TableOfContents } from '../../components/docs/table-of-contents';
 import { LuChevronLeft, LuChevronRight } from '../../components/icons';
 import { findNavItem, getPrevNext } from '../../docs-nav';
@@ -18,19 +18,19 @@ const breadcrumbStyles = css({
     listStyle: 'none',
     p: 0,
     m: 0,
-    fontSize: 'sm',
+    fontSize: '13px',
   },
   '& a': {
-    color: 'fg.subtle',
+    color: 'fg-subtle',
     textDecoration: 'none',
-    _hover: { color: 'fg.default' },
-    _focusVisible: { outline: '2px solid', outlineColor: 'accent.default', outlineOffset: '2px' },
+    _hover: { color: 'fg-default' },
+    _focusVisible: { outline: '2px solid', outlineColor: 'accent-default', outlineOffset: '2px' },
   },
-  '& a[data-current]': { color: 'fg.default', fontWeight: '500' },
+  '& a[data-current]': { color: 'fg-muted' },
   '& [data-leve-breadcrumb-separator]': {
     display: 'inline-flex',
-    color: 'fg.subtle',
-    '& svg': { w: '3.5', h: '3.5' },
+    color: 'fg-subtle',
+    '& svg': { w: '3', h: '3' },
   },
 });
 
@@ -38,25 +38,25 @@ const pagerLinkStyles = css({
   display: 'flex',
   flexDirection: 'column',
   gap: '1',
-  flex: '1',
+  w: '240px',
   maxW: '50%',
-  p: '4',
-  border: '1px solid',
-  borderColor: 'border.default',
-  borderRadius: 'xl',
+  px: '18px',
+  py: '14px',
+  border: '1px solid {colors.border-default}',
+  borderRadius: 'lg',
   textDecoration: 'none',
   transition: 'border-color 0.15s ease',
-  _hover: { borderColor: 'accent.default' },
-  _focusVisible: { outline: '2px solid', outlineColor: 'accent.default', outlineOffset: '2px' },
+  _hover: { borderColor: 'accent-default' },
+  _focusVisible: { outline: '2px solid', outlineColor: 'accent-default', outlineOffset: '2px' },
   '& span:first-child': {
     display: 'inline-flex',
     alignItems: 'center',
     gap: '1',
-    fontSize: 'xs',
-    color: 'fg.subtle',
+    fontSize: '12px',
+    color: 'fg-subtle',
   },
-  '& span:last-child': { fontWeight: '600', color: 'fg.default' },
-  '& svg': { w: '3.5', h: '3.5' },
+  '& span:last-child': { fontSize: '15px', fontWeight: '500', color: 'accent-text' },
+  '& svg': { w: '3', h: '3' },
 });
 
 export default component$(() => {
@@ -68,42 +68,36 @@ export default component$(() => {
   const title = current?.item.title ?? head.title;
 
   return (
-    <div
-      class={css({
-        maxW: '1400px',
-        mx: 'auto',
-        px: { base: '4', sm: '6', lg: '8' },
-        display: 'flex',
-        alignItems: 'flex-start',
-        gap: { base: '0', lg: '10' },
-      })}
-    >
+    <div class={css({ display: 'flex', alignItems: 'flex-start' })}>
       <Sidebar />
 
-      <div class={css({ flex: '1', minW: 0, py: { base: '6', lg: '10' } })}>
-        <MobileNav />
-
-        <article class={css({ maxW: '768px', mx: 'auto' })}>
+      <div
+        class={css({
+          flex: '1',
+          minW: 0,
+          display: 'flex',
+          justifyContent: 'center',
+          gap: '16',
+          pt: { base: '6', lg: '12' },
+          pb: { base: '16', lg: '24' },
+          px: { base: '4', sm: '6', lg: '16' },
+        })}
+      >
+        <article class={css({ flex: '1', minW: 0, maxW: '776px' })}>
           <Breadcrumb.Root aria-label="Breadcrumb" class={breadcrumbStyles}>
             <Breadcrumb.List>
-              <Breadcrumb.Item>
-                <Breadcrumb.Link href="/overview/introduction/">Docs</Breadcrumb.Link>
-              </Breadcrumb.Item>
               {current && (
                 <>
-                  <Breadcrumb.Separator>
-                    <LuChevronRight aria-hidden="true" />
-                  </Breadcrumb.Separator>
                   <Breadcrumb.Item>
                     <Breadcrumb.Link href={current.section.items[0].href}>
                       {current.section.title}
                     </Breadcrumb.Link>
                   </Breadcrumb.Item>
+                  <Breadcrumb.Separator>
+                    <LuChevronRight aria-hidden="true" />
+                  </Breadcrumb.Separator>
                 </>
               )}
-              <Breadcrumb.Separator>
-                <LuChevronRight aria-hidden="true" />
-              </Breadcrumb.Separator>
               <Breadcrumb.Item>
                 <Breadcrumb.Link href={loc.url.pathname} current>
                   {title}
@@ -125,7 +119,7 @@ export default component$(() => {
                 gap: '4',
                 mt: '16',
                 pt: '8',
-                borderTop: '1px solid {colors.border.default}',
+                borderTop: '1px solid {colors.border-default}',
               })}
             >
               {prev ? (
@@ -152,9 +146,9 @@ export default component$(() => {
             </nav>
           )}
         </article>
-      </div>
 
-      <TableOfContents headings={headings ?? []} />
+        <TableOfContents headings={headings ?? []} />
+      </div>
     </div>
   );
 });
