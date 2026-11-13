@@ -33,7 +33,10 @@ export function readMemory(locale: string): Memory {
   return existsSync(path) ? JSON.parse(readFileSync(path, 'utf8')) : {};
 }
 
-/** Writes the memory sorted by key, so that diffs stay small. */
+/**
+ * Writes the memory sorted by key, so that diffs stay small. This is the only
+ * formatter of the memory: Biome ignores i18n/, since it would format it differently.
+ */
 export function writeMemory(locale: string, memory: Memory) {
   const sorted = Object.fromEntries(
     Object.entries(memory)
