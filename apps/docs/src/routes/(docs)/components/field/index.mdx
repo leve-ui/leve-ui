@@ -1,0 +1,162 @@
+---
+title: Field
+description: Connects a label, description and error message to a form control.
+---
+
+# Field
+
+Connects a label, description and error message to a form control.
+
+There is no WAI-ARIA APG pattern for form fields. Field uses the native `<label>`, `<input>` and `<textarea>` elements, and connects them with `for`, `aria-describedby` and `aria-invalid`.
+
+<Demo id="field/default" />
+
+## Installation
+
+Install the all-in-one package:
+
+```sh
+pnpm add @leve-ui/core
+```
+
+Or only this component:
+
+```sh
+pnpm add @leve-ui/field
+```
+
+## Anatomy
+
+```tsx
+import { Field } from '@leve-ui/field'; // or '@leve-ui/core'
+
+<Field.Root>
+  <Field.Label />
+  <Field.Input /> {/* or <Field.Textarea /> */}
+  <Field.Description />
+  <Field.ErrorMessage />
+</Field.Root>
+```
+
+| Part | Element | Description |
+| --- | --- | --- |
+| `Field.Root` | `<div>` | Wraps the parts and holds the IDs and the `invalid` / `disabled` / `required` states. |
+| `Field.Label` | `<label>` | The label of the control. |
+| `Field.Input` | `<input>` | A single-line control. |
+| `Field.Textarea` | `<textarea>` | A multi-line control. |
+| `Field.Description` | `<div>` | A hint for the control. |
+| `Field.ErrorMessage` | `<div>` | The error message. Rendered only while the Root is `invalid`. |
+
+Other leve-ui form controls, such as [Checkbox](/components/checkbox/), also read the Field and can be used instead of `Field.Input`.
+
+## Examples
+
+### Invalid
+
+`invalid` on the Root shows `Field.ErrorMessage` and marks the input as invalid. In this demo, clear the input to see the error.
+
+<Demo id="field/invalid" collapsed />
+
+### Disabled
+
+`disabled` on the Root disables the input.
+
+<Demo id="field/disabled" collapsed />
+
+### Required
+
+`required` on the Root makes the input required.
+
+<Demo id="field/required" collapsed />
+
+### Textarea
+
+Use `Field.Textarea` for multi-line text.
+
+<Demo id="field/textarea" collapsed />
+
+## API Reference
+
+### Root
+
+<PropsTable component="field" part="Root" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-field` | Always present |
+| `data-invalid` | Present when invalid |
+| `data-disabled` | Present when disabled |
+| `data-required` | Present when required |
+
+IDs of the parts can only be overridden with `ids` on the Root; `id` on the parts is ignored inside a Field. Set `hasDescription` when you render a `Field.Description`, so that the control is described by it ([ADR 0024](https://github.com/leve-ui/leve-ui/blob/main/adr/0024-wire-field-ids-and-descriptions-from-the-field-root.md)).
+
+### Label
+
+<PropsTable component="field" part="Label" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-field-label` | Always present |
+| `data-invalid` | Present when the Field is invalid |
+| `data-disabled` | Present when the Field is disabled |
+| `data-required` | Present when the Field is required |
+
+Inside a Field, `for` points to the control.
+
+### Input
+
+<PropsTable component="field" part="Input" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-field-input` | Always present |
+| `data-invalid` | Present when invalid |
+| `data-disabled` | Present when disabled |
+| `data-required` | Present when required |
+
+The input gets `disabled` and `required` from the Field. It also works outside a Field as a plain `<input>`.
+
+### Textarea
+
+<PropsTable component="field" part="Textarea" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-field-textarea` | Always present |
+| `data-invalid` | Present when invalid |
+| `data-disabled` | Present when disabled |
+| `data-required` | Present when required |
+
+The textarea gets `disabled` and `required` from the Field. It also works outside a Field as a plain `<textarea>`.
+
+### Description
+
+<PropsTable component="field" part="Description" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-field-description` | Always present |
+| `data-invalid` | Present when the Field is invalid |
+| `data-disabled` | Present when the Field is disabled |
+| `data-required` | Present when the Field is required |
+
+### ErrorMessage
+
+<PropsTable component="field" part="ErrorMessage" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-field-error-message` | Always present |
+| `data-invalid` | Present when the Field is invalid |
+| `data-disabled` | Present when the Field is disabled |
+| `data-required` | Present when the Field is required |
+
+Inside a Field, the error message is not rendered while the Field is not `invalid`.
+
+## Accessibility
+
+- `Field.Label` is a native `<label>` whose `for` points to the control, so it names the control and clicking it focuses the control.
+- The control renders `aria-describedby` pointing to `Field.Description` (when `hasDescription` is set) and to `Field.ErrorMessage` (while invalid), after any `aria-describedby` you pass.
+- The control renders `aria-invalid="true"` while invalid, and the native `disabled` and `required` attributes.
+- A disabled control is skipped by Tab.
+- Field has no keyboard interaction of its own.

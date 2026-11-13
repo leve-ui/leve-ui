@@ -1,0 +1,115 @@
+---
+title: Collapsible
+description: A button that shows or hides a section of content.
+---
+
+# Collapsible
+
+A button that shows or hides a section of content.
+
+Collapsible follows the [Disclosure (Show/Hide) WAI-ARIA design pattern](https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/).
+
+<Demo id="collapsible/default" />
+
+## Installation
+
+Install the all-in-one package:
+
+```sh
+pnpm add @leve-ui/core
+```
+
+Or only this component:
+
+```sh
+pnpm add @leve-ui/collapsible
+```
+
+## Anatomy
+
+```tsx
+import { Collapsible } from '@leve-ui/collapsible'; // or '@leve-ui/core'
+
+<Collapsible.Root>
+  <Collapsible.Trigger />
+  <Collapsible.Content />
+</Collapsible.Root>
+```
+
+| Part | Element | Description |
+| --- | --- | --- |
+| `Collapsible.Root` | `<div>` | Wraps the parts and holds the open state. |
+| `Collapsible.Trigger` | `<button>` | The button that opens and closes the content. |
+| `Collapsible.Content` | `<div>` | The content that is shown or hidden. |
+
+## Examples
+
+### Open
+
+`defaultOpen` opens the content initially.
+
+<Demo id="collapsible/open" collapsed />
+
+### Disabled
+
+`disabled` on the Root disables the trigger, so the content cannot be opened or closed.
+
+<Demo id="collapsible/disabled" collapsed />
+
+### Controlled
+
+`bind:open` controls the open state with a signal, so a button outside the collapsible can open and close it.
+
+<Demo id="collapsible/controlled" collapsed />
+
+## API Reference
+
+### Root
+
+<PropsTable component="collapsible" part="Root" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-collapsible` | Always present |
+| `data-state` | `"open"` \| `"closed"` |
+| `data-disabled` | Present when disabled |
+
+The open state is uncontrolled with `defaultOpen`, or controlled with `bind:open`. `onOpenChange$` is called when the user opens or closes the content.
+
+### Trigger
+
+<PropsTable component="collapsible" part="Trigger" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-collapsible-trigger` | Always present |
+| `data-state` | `"open"` \| `"closed"` |
+| `data-disabled` | Present when disabled |
+
+When the Root is disabled, the trigger gets the native `disabled` attribute.
+
+### Content
+
+<PropsTable component="collapsible" part="Content" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-collapsible-content` | Always present |
+| `data-state` | `"open"` \| `"closed"` |
+| `data-disabled` | Present when disabled |
+
+The content has the `hidden` attribute while it is closed. It stays in the DOM so that the trigger's `aria-controls` keeps pointing to it.
+
+## Accessibility
+
+Complies with the [Disclosure (Show/Hide) WAI-ARIA design pattern](https://www.w3.org/WAI/ARIA/apg/patterns/disclosure/).
+
+- `Collapsible.Trigger` is a `<button type="button">` with `aria-expanded` and `aria-controls` pointing to the content. IDs are generated with `useId()`, or set with `ids` on the Root.
+- The trigger is named by its text. If it only contains an icon, give it an `aria-label`.
+- A disabled trigger is skipped by Tab.
+
+### Keyboard Interactions
+
+| Key | Description |
+| --- | --- |
+| `Enter` / `Space` | Opens or closes the content. |
