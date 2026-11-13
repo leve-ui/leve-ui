@@ -1,6 +1,8 @@
 import { component$, useSignal, useVisibleTask$ } from '@builder.io/qwik';
 import type { ContentHeading } from '@builder.io/qwik-city';
 import { css } from 'styled-system/css';
+import { t } from '../../i18n/translate';
+import { useLocale } from '../../i18n/use-locale';
 
 const linkStyles = css({
   display: 'block',
@@ -23,6 +25,7 @@ const linkStyles = css({
  * component (decided on #97).
  */
 export const TableOfContents = component$<{ headings: ContentHeading[] }>(({ headings }) => {
+  const locale = useLocale();
   // The design lists the h2 sections only
   const items = headings.filter((h) => h.level === 2);
   const active = useSignal<string>();
@@ -74,7 +77,7 @@ export const TableOfContents = component$<{ headings: ContentHeading[] }>(({ hea
           id="docs-toc-title"
           class={css({ fontSize: '13px', fontWeight: '600', color: 'fg-default', mt: 0, mb: '3' })}
         >
-          On this page
+          {t(locale, 'On this page')}
         </p>
         <ul
           class={css({

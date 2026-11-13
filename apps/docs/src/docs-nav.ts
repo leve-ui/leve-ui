@@ -1,9 +1,11 @@
 import { stripLocale } from './i18n/locales';
+import { msg } from './i18n/translate';
 
 /**
  * Sidebar navigation of the docs pages (adr/0032).
  * Only pages that exist are listed; add a page here when it is written.
  * Hrefs have no locale; links add it with `localizeHref` (src/i18n/locales.ts).
+ * Titles are English, marked with `msg()` and translated where they are rendered.
  */
 export type NavItem = {
   title: string;
@@ -17,39 +19,39 @@ export type NavSection = {
 
 export const docsNav: NavSection[] = [
   {
-    title: 'Overview',
+    title: msg('Overview'),
     items: [
-      { title: 'Introduction', href: '/overview/introduction/' },
-      { title: 'Getting Started', href: '/overview/getting-started/' },
-      { title: 'Styling', href: '/overview/styling/' },
-      { title: 'Forms', href: '/overview/forms/' },
-      { title: 'Controlled & Uncontrolled', href: '/overview/controlled-uncontrolled/' },
-      { title: 'Accessibility', href: '/overview/accessibility/' },
-      { title: 'Roadmap', href: '/overview/roadmap/' },
-      { title: 'FAQ', href: '/overview/faq/' },
+      { title: msg('Introduction'), href: '/overview/introduction/' },
+      { title: msg('Getting Started'), href: '/overview/getting-started/' },
+      { title: msg('Styling'), href: '/overview/styling/' },
+      { title: msg('Forms'), href: '/overview/forms/' },
+      { title: msg('Controlled & Uncontrolled'), href: '/overview/controlled-uncontrolled/' },
+      { title: msg('Accessibility'), href: '/overview/accessibility/' },
+      { title: msg('Roadmap'), href: '/overview/roadmap/' },
+      { title: msg('FAQ'), href: '/overview/faq/' },
     ],
   },
   {
-    title: 'Components',
+    title: msg('Components'),
     items: [
-      { title: 'All components', href: '/components/' },
-      { title: 'Accordion', href: '/components/accordion/' },
-      { title: 'Alert', href: '/components/alert/' },
-      { title: 'Avatar', href: '/components/avatar/' },
-      { title: 'Breadcrumb', href: '/components/breadcrumb/' },
-      { title: 'Checkbox', href: '/components/checkbox/' },
-      { title: 'Collapsible', href: '/components/collapsible/' },
-      { title: 'Field', href: '/components/field/' },
-      { title: 'Fieldset', href: '/components/fieldset/' },
-      { title: 'Label', href: '/components/label/' },
-      { title: 'Meter', href: '/components/meter/' },
-      { title: 'Progress', href: '/components/progress/' },
-      { title: 'Radio Group', href: '/components/radio-group/' },
-      { title: 'Separator', href: '/components/separator/' },
-      { title: 'Switch', href: '/components/switch/' },
-      { title: 'Tabs', href: '/components/tabs/' },
-      { title: 'Toggle', href: '/components/toggle/' },
-      { title: 'Toggle Group', href: '/components/toggle-group/' },
+      { title: msg('All components'), href: '/components/' },
+      { title: msg('Accordion'), href: '/components/accordion/' },
+      { title: msg('Alert'), href: '/components/alert/' },
+      { title: msg('Avatar'), href: '/components/avatar/' },
+      { title: msg('Breadcrumb'), href: '/components/breadcrumb/' },
+      { title: msg('Checkbox'), href: '/components/checkbox/' },
+      { title: msg('Collapsible'), href: '/components/collapsible/' },
+      { title: msg('Field'), href: '/components/field/' },
+      { title: msg('Fieldset'), href: '/components/fieldset/' },
+      { title: msg('Label'), href: '/components/label/' },
+      { title: msg('Meter'), href: '/components/meter/' },
+      { title: msg('Progress'), href: '/components/progress/' },
+      { title: msg('Radio Group'), href: '/components/radio-group/' },
+      { title: msg('Separator'), href: '/components/separator/' },
+      { title: msg('Switch'), href: '/components/switch/' },
+      { title: msg('Tabs'), href: '/components/tabs/' },
+      { title: msg('Toggle'), href: '/components/toggle/' },
+      { title: msg('Toggle Group'), href: '/components/toggle-group/' },
     ],
   },
 ];

@@ -19,6 +19,8 @@ description: ドキュメントサイト（apps/docs）の UI を leve-ui 自身
 
 - ページは英語だけで、`apps/docs/src/routes/en/` に書く。ほかの言語のページ（`src/routes/<locale>/`、git 管理外）はビルド時に生成されるので、作ったり編集したりしない（`adr/0033`）。
 - 翻訳は `apps/docs/i18n/<locale>.json`（翻訳メモリ。英語の文の hash がキー）にある。訳を直すときはこの JSON の `translation` を直す。英語の文を変えると hash が変わり、その文は訳し直しになる。
+- サイトの UI の文言（ボタンの `aria-label`、見出しなど）は英語で書き、`t(locale, 'On this page')`（`locale` は `useLocale()`）で囲む。文字列はリテラルで書く（`scripts/i18n/ui.ts` が集めて翻訳メモリに入れるため）。定義する場所と表示する場所が違う文字列（`docs-nav.ts` のタイトルなど）は `msg('...')` で印を付け、表示するときに `t(locale, title)` で訳す。Props の説明（JSDoc）も同じメモリで訳される。
+- `t` はフックが返す関数にしない。Qwik は JSX の式が参照する値をシリアライズするため、関数を参照させると SSR で失敗する。
 - ほかのページへのリンクはロケールなしで書く（`/overview/forms/`）。MDX のリンク・サイドバー・ヘッダーが現在のロケールを付ける。TSX でリンクを書くときは `localizeHref(href, useLocale())`（`src/i18n/`）を使う。
 - サイトのスタイルは論理プロパティ（`ms` / `me`、`ps` / `pe`、`borderInlineStart`、`textAlign: 'start'`）で書く。右から左に書く言語を後から足せるようにするため。
 

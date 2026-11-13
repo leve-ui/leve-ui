@@ -8,6 +8,7 @@ import { TableOfContents } from '../../../components/docs/table-of-contents';
 import { LuChevronLeft, LuChevronRight } from '../../../components/icons';
 import { findNavItem, getPrevNext } from '../../../docs-nav';
 import { localizeHref } from '../../../i18n/locales';
+import { t } from '../../../i18n/translate';
 import { useLocale } from '../../../i18n/use-locale';
 
 const breadcrumbStyles = css({
@@ -68,7 +69,7 @@ export default component$(() => {
   const { headings } = useContent();
   const current = findNavItem(loc.url.pathname);
   const { prev, next } = getPrevNext(loc.url.pathname);
-  const title = current?.item.title ?? head.title;
+  const title = current ? t(locale, current.item.title) : head.title;
 
   return (
     <div class={css({ display: 'flex', alignItems: 'flex-start' })}>
@@ -87,13 +88,13 @@ export default component$(() => {
         })}
       >
         <article class={css({ flex: '1', minW: 0, maxW: '776px' })}>
-          <Breadcrumb.Root aria-label="Breadcrumb" class={breadcrumbStyles}>
+          <Breadcrumb.Root aria-label={t(locale, 'Breadcrumb')} class={breadcrumbStyles}>
             <Breadcrumb.List>
               {current && (
                 <>
                   <Breadcrumb.Item>
                     <Breadcrumb.Link href={localizeHref(current.section.items[0].href, locale)}>
-                      {current.section.title}
+                      {t(locale, current.section.title)}
                     </Breadcrumb.Link>
                   </Breadcrumb.Item>
                   <Breadcrumb.Separator>
@@ -115,7 +116,7 @@ export default component$(() => {
 
           {(prev || next) && (
             <nav
-              aria-label="Previous and next pages"
+              aria-label={t(locale, 'Previous and next pages')}
               class={css({
                 display: 'flex',
                 justifyContent: 'space-between',
@@ -129,9 +130,9 @@ export default component$(() => {
                 <Link href={localizeHref(prev.href, locale)} class={pagerLinkStyles}>
                   <span>
                     <LuChevronLeft aria-hidden="true" />
-                    Previous
+                    {t(locale, 'Previous')}
                   </span>
-                  <span>{prev.title}</span>
+                  <span>{t(locale, prev.title)}</span>
                 </Link>
               ) : null}
               {next && (
@@ -140,10 +141,10 @@ export default component$(() => {
                   class={cx(pagerLinkStyles, css({ ms: 'auto', textAlign: 'end' }))}
                 >
                   <span class={css({ justifyContent: 'flex-end' })}>
-                    Next
+                    {t(locale, 'Next')}
                     <LuChevronRight aria-hidden="true" />
                   </span>
-                  <span>{next.title}</span>
+                  <span>{t(locale, next.title)}</span>
                 </Link>
               )}
             </nav>
