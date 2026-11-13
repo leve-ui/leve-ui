@@ -1,0 +1,86 @@
+---
+title: Alert
+description: A message that draws attention without interrupting the user.
+---
+
+# Alert
+
+A message that draws attention without interrupting the user.
+
+Alert follows the [Alert WAI-ARIA design pattern](https://www.w3.org/WAI/ARIA/apg/patterns/alert/).
+
+<Demo id="alert/default" />
+
+## Installation
+
+Install the all-in-one package:
+
+```sh
+pnpm add @leve-ui/core
+```
+
+Or only this component:
+
+```sh
+pnpm add @leve-ui/alert
+```
+
+## Anatomy
+
+```tsx
+import { Alert } from '@leve-ui/alert'; // or '@leve-ui/core'
+
+<Alert.Root>
+  <Alert.Title />
+  <Alert.Description />
+</Alert.Root>
+```
+
+| Part | Element | Description |
+| --- | --- | --- |
+| `Alert.Root` | `<div>` | Wraps the message and has `role="alert"`. |
+| `Alert.Title` | `<div>` | The heading of the message. |
+| `Alert.Description` | `<div>` | The body of the message. |
+
+## Examples
+
+### On Submit
+
+Render `Alert.Root` at the moment the message should be announced, for example after a failed submit.
+
+<Demo id="alert/on-submit" collapsed />
+
+## API Reference
+
+### Root
+
+<PropsTable component="alert" part="Root" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-alert` | Always present |
+
+### Title
+
+<PropsTable component="alert" part="Title" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-alert-title` | Always present |
+
+### Description
+
+<PropsTable component="alert" part="Description" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-alert-description` | Always present |
+
+## Accessibility
+
+Complies with the [Alert WAI-ARIA design pattern](https://www.w3.org/WAI/ARIA/apg/patterns/alert/).
+
+- `Alert.Root` renders `role="alert"`, so screen readers announce its content.
+- An alert that is already in the page when it loads may not be announced. Render it when it should be shown.
+- Alert does not move focus and does not close itself. For temporary notifications, use a toast instead.
+- Alert has no keyboard interaction.

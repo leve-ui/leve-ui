@@ -1,0 +1,159 @@
+---
+title: Accordion
+description: A stack of headings that each show or hide a section of content.
+---
+
+# Accordion
+
+A stack of headings that each show or hide a section of content.
+
+Accordion follows the [Accordion WAI-ARIA design pattern](https://www.w3.org/WAI/ARIA/apg/patterns/accordion/).
+
+<Demo id="accordion/default" />
+
+## Installation
+
+Install the all-in-one package:
+
+```sh
+pnpm add @leve-ui/core
+```
+
+Or only this component:
+
+```sh
+pnpm add @leve-ui/accordion
+```
+
+## Anatomy
+
+```tsx
+import { Accordion } from '@leve-ui/accordion'; // or '@leve-ui/core'
+
+<Accordion.Root>
+  <Accordion.Item value="item-1">
+    <Accordion.Header>
+      <Accordion.Trigger />
+    </Accordion.Header>
+    <Accordion.Content />
+  </Accordion.Item>
+</Accordion.Root>
+```
+
+| Part | Element | Description |
+| --- | --- | --- |
+| `Accordion.Root` | `<div>` | Wraps the items and holds which ones are open. |
+| `Accordion.Item` | `<div>` | One pair of a header and its content, identified by `value`. |
+| `Accordion.Header` | `<h1>`–`<h6>` | The heading that wraps the trigger. The level is set by `level` (default `3`). |
+| `Accordion.Trigger` | `<button>` | Shows or hides the content. |
+| `Accordion.Content` | `<div>` | The section of content. Hidden while the item is closed. |
+
+## Examples
+
+### Multiple
+
+With `type="multiple"`, any number of items can be open at once.
+
+<Demo id="accordion/multiple" collapsed />
+
+### Collapsible
+
+With `collapsible`, the open item can be closed by activating its trigger again.
+
+<Demo id="accordion/collapsible" collapsed />
+
+### Disabled
+
+`disabled` on an `Accordion.Item` disables that item. `disabled` on the Root disables all items.
+
+<Demo id="accordion/disabled" collapsed />
+
+### Controlled
+
+Pass a signal to `bind:value` to read and change the open items from outside.
+
+<Demo id="accordion/controlled" collapsed />
+
+## API Reference
+
+### Root
+
+<PropsTable component="accordion" part="Root" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-accordion` | Always present |
+| `data-orientation` | `"vertical"` \| `"horizontal"` |
+| `data-disabled` | Present when the Root is disabled |
+
+The open items are uncontrolled with `defaultValue`, or controlled with `bind:value`. `onValueChange$` is called when the user opens or closes an item.
+
+### Item
+
+<PropsTable component="accordion" part="Item" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-accordion-item` | Always present |
+| `data-state` | `"open"` \| `"closed"` |
+| `data-disabled` | Present when the item or the Root is disabled |
+| `data-orientation` | `"vertical"` \| `"horizontal"` |
+
+### Header
+
+<PropsTable component="accordion" part="Header" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-accordion-header` | Always present |
+| `data-state` | `"open"` \| `"closed"` |
+| `data-disabled` | Present when the item is disabled |
+| `data-orientation` | `"vertical"` \| `"horizontal"` |
+
+### Trigger
+
+<PropsTable component="accordion" part="Trigger" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-accordion-trigger` | Always present |
+| `data-state` | `"open"` \| `"closed"` |
+| `data-disabled` | Present when the item is disabled |
+| `data-orientation` | `"vertical"` \| `"horizontal"` |
+
+A disabled item's trigger gets the native `disabled` attribute.
+
+### Content
+
+<PropsTable component="accordion" part="Content" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-accordion-content` | Always present |
+| `data-state` | `"open"` \| `"closed"` |
+| `data-disabled` | Present when the item is disabled |
+| `data-orientation` | `"vertical"` \| `"horizontal"` |
+
+The content has the `hidden` attribute while the item is closed. It stays in the DOM so that the trigger's `aria-controls` keeps pointing to it.
+
+## Accessibility
+
+Complies with the [Accordion WAI-ARIA design pattern](https://www.w3.org/WAI/ARIA/apg/patterns/accordion/).
+
+- `Accordion.Trigger` is a `<button type="button">` with `aria-expanded` and `aria-controls` pointing to its content.
+- `Accordion.Content` has `role="region"` and `aria-labelledby` pointing to its trigger. IDs are generated with `useId()`.
+- Choose a `level` on `Accordion.Header` that fits the heading structure of the page.
+- When `type` is `"single"` and `collapsible` is `false`, the trigger of the open item has `aria-disabled="true"`, because it cannot be closed.
+- Disabled triggers are skipped by Tab and the arrow keys.
+
+### Keyboard Interactions
+
+| Key | Description |
+| --- | --- |
+| `Enter` / `Space` | Opens or closes the item of the focused trigger. |
+| `Tab` / `Shift+Tab` | Moves focus to the next or previous focusable element. |
+| `ArrowDown` / `ArrowUp` | When `orientation` is `"vertical"`, moves focus to the next or previous trigger. |
+| `ArrowRight` / `ArrowLeft` | When `orientation` is `"horizontal"`, moves focus to the next or previous trigger (reversed in right-to-left text). |
+| `Home` / `End` | Moves focus to the first or last trigger. |
+
+The arrow keys wrap from the last trigger to the first and back while `loop` is `true` (the default).
