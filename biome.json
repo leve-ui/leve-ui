@@ -50,7 +50,13 @@
   },
   "overrides": [
     {
-      "includes": ["tooling/**", "**/*.config.ts", "**/.storybook/**", "apps/e2e/**"],
+      "includes": [
+        "tooling/**",
+        "**/*.config.ts",
+        "**/.storybook/**",
+        "apps/e2e/**",
+        "apps/docs/scripts/**"
+      ],
       "linter": {
         "domains": {
           "qwik": "none"
