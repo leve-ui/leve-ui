@@ -1,5 +1,25 @@
 # @leve-ui/core
 
+## 0.1.1
+
+### Patch Changes
+
+- Updated dependencies [[`3a66949`](https://github.com/leve-ui/leve-ui/commit/3a669493859898ec6943ba7801eef73d4cb398c8)]:
+  - @leve-ui/accordion@0.1.1
+  - @leve-ui/avatar@0.1.1
+  - @leve-ui/breadcrumb@0.1.1
+  - @leve-ui/checkbox@0.1.1
+  - @leve-ui/collapsible@0.1.1
+  - @leve-ui/field@0.1.1
+  - @leve-ui/meter@0.1.1
+  - @leve-ui/progress@0.1.1
+  - @leve-ui/radio-group@0.1.1
+  - @leve-ui/separator@0.1.1
+  - @leve-ui/switch@0.1.1
+  - @leve-ui/tabs@0.1.1
+  - @leve-ui/toggle@0.1.1
+  - @leve-ui/toggle-group@0.1.1
+
 ## 0.1.0
 
 ### Minor Changes

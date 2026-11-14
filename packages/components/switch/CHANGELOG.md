@@ -1,5 +1,11 @@
 # @leve-ui/switch
 
+## 0.1.1
+
+### Patch Changes
+
+- [#106](https://github.com/leve-ui/leve-ui/pull/106) [`3a66949`](https://github.com/leve-ui/leve-ui/commit/3a669493859898ec6943ba7801eef73d4cb398c8) Thanks [@itkyk0926](https://github.com/itkyk0926)! - Document props in English JSDoc with `@default` tags, shown in editor hints and in the docs props tables.
+
 ## 0.1.0
 
 ### Minor Changes
