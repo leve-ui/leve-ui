@@ -106,6 +106,46 @@ describe('Field', () => {
     );
   });
 
+  it('ErrorMessage に role="alert" が付き、role を渡すと上書きできる', async () => {
+    const { screen, render } = await createDOM();
+    await render(
+      <>
+        <Field.Root invalid>
+          <Field.Input />
+          <Field.ErrorMessage>Error</Field.ErrorMessage>
+        </Field.Root>
+        <Field.Root invalid>
+          <Field.Input />
+          <Field.ErrorMessage role="status">Status</Field.ErrorMessage>
+        </Field.Root>
+      </>,
+    );
+
+    const [alert, status] = screen.querySelectorAll('[data-leve-field-error-message]');
+    expect(alert.getAttribute('role')).toBe('alert');
+    expect(status.getAttribute('role')).toBe('status');
+  });
+
+  it('Field の外で Input / Textarea に invalid を渡すと aria-invalid と data-invalid が付き、invalid 属性は出力されない', async () => {
+    const { screen, render } = await createDOM();
+    await render(
+      <>
+        <Field.Input invalid />
+        <Field.Textarea invalid />
+        <Field.Input />
+      </>,
+    );
+
+    const [input, valid] = screen.querySelectorAll('[data-leve-field-input]');
+    const textarea = screen.querySelector('[data-leve-field-textarea]');
+    for (const element of [input, textarea]) {
+      expect(element?.getAttribute('aria-invalid')).toBe('true');
+      expect(element?.hasAttribute('data-invalid')).toBe(true);
+      expect(element?.hasAttribute('invalid')).toBe(false);
+    }
+    expect(valid.hasAttribute('aria-invalid')).toBe(false);
+  });
+
   it('disabled と required が Input/Textarea のネイティブ属性となり、各パーツに data 属性が出力される', async () => {
     const { screen, render } = await createDOM();
     await render(

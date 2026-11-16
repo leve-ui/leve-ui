@@ -114,7 +114,7 @@ Inside a Field, `for` points to the control.
 | `data-disabled` | Present when disabled |
 | `data-required` | Present when required |
 
-The input gets `disabled` and `required` from the Field. It also works outside a Field as a plain `<input>`.
+The input gets `disabled` and `required` from the Field. It also works outside a Field as a plain `<input>`; pass `invalid` to mark it as invalid there.
 
 ### Textarea
 
@@ -127,7 +127,7 @@ The input gets `disabled` and `required` from the Field. It also works outside a
 | `data-disabled` | Present when disabled |
 | `data-required` | Present when required |
 
-The textarea gets `disabled` and `required` from the Field. It also works outside a Field as a plain `<textarea>`.
+The textarea gets `disabled` and `required` from the Field. It also works outside a Field as a plain `<textarea>`; pass `invalid` to mark it as invalid there.
 
 ### Description
 
@@ -158,5 +158,6 @@ Inside a Field, the error message is not rendered while the Field is not `invali
 - `Field.Label` is a native `<label>` whose `for` points to the control, so it names the control and clicking it focuses the control.
 - The control renders `aria-describedby` pointing to `Field.Description` (when `hasDescription` is set) and to `Field.ErrorMessage` (while invalid), after any `aria-describedby` you pass.
 - The control renders `aria-invalid="true"` while invalid, and the native `disabled` and `required` attributes.
+- `Field.ErrorMessage` renders `role="alert"`, so screen readers announce the error when it appears. Pass `role="status"` to announce it without interrupting.
 - A disabled control is skipped by Tab.
 - Field has no keyboard interaction of its own.
