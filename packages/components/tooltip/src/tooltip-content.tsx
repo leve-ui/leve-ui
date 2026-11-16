@@ -11,7 +11,7 @@ import {
 import { type FloatingAlign, type FloatingSide, openPopoverElement } from '@leve-ui/utils';
 import { tooltipContextId } from './tooltip-context';
 
-export type TooltipContentProps = PropsOf<'div'> & {
+export type TooltipContentProps = PropsOf<'span'> & {
   /**
    * The side of the Trigger to place the tooltip on. It flips when there is no room.
    * @default 'top'
@@ -50,7 +50,8 @@ export type TooltipContentProps = PropsOf<'div'> & {
 };
 
 /**
- * ツールチップ本体です。`role="tooltip"` と `popover="manual"` を出力し、最前面（top layer）に出します。
+ * ツールチップ本体です。文中（`<p>` の中）にも置けるよう `<span>` を描画します。
+ * `role="tooltip"` と `popover="manual"` を出力し、最前面（top layer）に出します。
  *
  * - フォーカスは移しません。中にボタンなどの操作できる要素を置かないでください（Popover を使います）。
  * - ポインタが Content の上にある間は閉じません（WCAG 1.4.13）。Escape で閉じます。
@@ -111,16 +112,16 @@ export const TooltipContent = component$<TooltipContentProps>(
 
     // Keeps the tooltip open while the pointer is on it (WCAG 1.4.13)
     const enter$ = $(() => {
-      context.pointerInside.value = true;
+      context.pointerOnContent.value = true;
       context.cancel$();
     });
     const leave$ = $(() => {
-      context.pointerInside.value = false;
+      context.pointerOnContent.value = false;
       context.hide$(false);
     });
 
     return (
-      <div
+      <span
         {...props}
         ref={ref}
         id={context.ids.content}
@@ -132,7 +133,7 @@ export const TooltipContent = component$<TooltipContentProps>(
         data-state={context.open.value ? 'open' : 'closed'}
       >
         <Slot />
-      </div>
+      </span>
     );
   },
 );

@@ -1,6 +1,6 @@
 import { component$, type PropsOf, Slot } from '@builder.io/qwik';
 
-export type TooltipArrowProps = PropsOf<'div'>;
+export type TooltipArrowProps = PropsOf<'span'>;
 
 /**
  * Content の中に置く矢印です。見た目（SVG や回転した四角など）は利用者が描きます。
@@ -9,8 +9,8 @@ export type TooltipArrowProps = PropsOf<'div'>;
  */
 export const TooltipArrow = component$<TooltipArrowProps>((props) => {
   return (
-    <div {...props} aria-hidden="true" data-leve-tooltip-arrow="">
+    <span {...props} aria-hidden="true" data-leve-tooltip-arrow="">
       <Slot />
-    </div>
+    </span>
   );
 });

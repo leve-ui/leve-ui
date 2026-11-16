@@ -109,7 +109,7 @@ import { Popover } from '@leve-ui/popover'; // or '@leve-ui/core'
 | `--leve-popover-available-width` | The width available in the viewport |
 | `--leve-popover-available-height` | The height available in the viewport |
 
-The Content gets inline `position`, `top` and `left` while it is open, since its position depends on the Trigger. It matches `:popover-open` while shown; use it with `@starting-style` to animate it.
+The Content gets inline `position`, `top` and `left` while it is open, since its position depends on the Trigger. It matches `:popover-open` while shown; use it with `@starting-style` to animate it. Set `display` (for example `flex`) only on `:popover-open`: on the Content itself, it would override the browser's `display: none` of the closed popover.
 
 ### Arrow
 

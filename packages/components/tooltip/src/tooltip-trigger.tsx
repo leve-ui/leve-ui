@@ -15,11 +15,11 @@ export const TooltipTrigger = component$<TooltipTriggerProps>(
     const enter$ = $((event: PointerEvent) => {
       // Touch has no hover; a tap would show it and leave it open
       if (event.pointerType === 'touch') return;
-      context.pointerInside.value = true;
+      context.pointerOnTrigger.value = true;
       context.show$(false);
     });
     const leave$ = $(() => {
-      context.pointerInside.value = false;
+      context.pointerOnTrigger.value = false;
       context.hide$(false);
     });
     const press$ = $(() => context.hide$(true));

@@ -42,8 +42,8 @@ import { Tooltip } from '@leve-ui/tooltip'; // or '@leve-ui/core'
 | --- | --- | --- |
 | `Tooltip.Root` | `<span>` | Wraps the parts and holds the open state. An inline element, so it fits in a row of buttons or in text. |
 | `Tooltip.Trigger` | `<button>` | The button that the tooltip describes. |
-| `Tooltip.Content` | `<div>` | The tooltip, a `popover="manual"` element in the top layer. |
-| `Tooltip.Arrow` | `<div>` | Optional. An arrow pointing at the Trigger, drawn with CSS. |
+| `Tooltip.Content` | `<span>` | The tooltip, a `popover="manual"` element in the top layer. A `<span>` so that it can be placed in a paragraph. |
+| `Tooltip.Arrow` | `<span>` | Optional. An arrow pointing at the Trigger, drawn with CSS. |
 
 `Tooltip.Trigger` renders a `<button>` for now. Attaching a tooltip to another element, such as a link, is planned with `asChild` ([#153](https://github.com/leve-ui/leve-ui/issues/153)).
 
@@ -87,7 +87,7 @@ Tooltips are for short, plain text. Do not put links or buttons in them: use [Po
 | `--leve-tooltip-available-width` | The width available in the viewport |
 | `--leve-tooltip-available-height` | The height available in the viewport |
 
-The Content gets inline `position`, `top` and `left` while it is open. It matches `:popover-open` while shown; use it with `@starting-style` to animate it.
+The Content gets inline `position`, `top` and `left` while it is open. It matches `:popover-open` while shown; use it with `@starting-style` to animate it. Set `display` (for example `flex`) only on `:popover-open`: on the Content itself, it would override the browser's `display: none` of the closed popover.
 
 ### Arrow
 

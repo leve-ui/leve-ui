@@ -26,6 +26,8 @@ describe('Tooltip', () => {
     expect(query(screen, 'trigger')?.getAttribute('type')).toBe('button');
     expect(query(screen, 'content')?.getAttribute('role')).toBe('tooltip');
     expect(query(screen, 'content')?.getAttribute('popover')).toBe('manual');
+    expect(query(screen, 'content')?.tagName).toBe('SPAN');
+    expect(query(screen, 'arrow')?.tagName).toBe('SPAN');
     expect(query(screen, 'arrow')?.getAttribute('aria-hidden')).toBe('true');
     expect(query(screen, '')?.getAttribute('data-state')).toBe('closed');
   });

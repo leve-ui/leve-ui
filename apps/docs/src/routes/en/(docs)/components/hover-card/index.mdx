@@ -1,0 +1,117 @@
+---
+title: Hover Card
+description: A preview of a link's content, shown when the link is hovered or focused.
+---
+
+# Hover Card
+
+A preview of a link's content, shown when the link is hovered or focused.
+
+There is no WAI-ARIA APG pattern for hover cards. A hover card is a visual preview for pointer users: the page behind the link must have the same information, since the card is not connected to the link for assistive technologies.
+
+<Demo id="hover-card/default" />
+
+## Installation
+
+Install the all-in-one package:
+
+```sh
+pnpm add @leve-ui/core
+```
+
+Or only this component:
+
+```sh
+pnpm add @leve-ui/hover-card
+```
+
+## Anatomy
+
+```tsx
+import { HoverCard } from '@leve-ui/hover-card'; // or '@leve-ui/core'
+
+<HoverCard.Root>
+  <HoverCard.Trigger />
+  <HoverCard.Content>
+    <HoverCard.Arrow />
+  </HoverCard.Content>
+</HoverCard.Root>
+```
+
+| Part | Element | Description |
+| --- | --- | --- |
+| `HoverCard.Root` | `<span>` | Wraps the parts and holds the open state. An inline element, so it fits in text. |
+| `HoverCard.Trigger` | `<a>` | The link that shows the card. |
+| `HoverCard.Content` | `<span>` | The card, a `popover="manual"` element in the top layer. A `<span>` so that it can be placed in a paragraph: use only inline elements inside it. |
+| `HoverCard.Arrow` | `<span>` | Optional. An arrow pointing at the Trigger, drawn with CSS. |
+
+`HoverCard.Trigger` renders an `<a>` for now. Rendering Qwik City's `<Link>` or another element is planned with `asChild` ([#153](https://github.com/leve-ui/leve-ui/issues/153)).
+
+| Use | When |
+| --- | --- |
+| [Tooltip](/components/tooltip/) | A short text that describes a button. |
+| Hover Card | A rich preview of a link, which may contain links. |
+| [Popover](/components/popover/) | A panel that the user opens on purpose and works in, with the keyboard too. |
+
+## API Reference
+
+### Root
+
+<PropsTable component="hover-card" part="Root" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-hover-card` | Always present |
+| `data-state` | `"open"` \| `"closed"` |
+
+### Trigger
+
+<PropsTable component="hover-card" part="Trigger" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-hover-card-trigger` | Always present |
+| `data-state` | `"open"` \| `"closed"` |
+
+### Content
+
+<PropsTable component="hover-card" part="Content" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-hover-card-content` | Always present |
+| `data-state` | `"open"` \| `"closed"` |
+| `data-side` | The final side after flipping: `"top"` \| `"right"` \| `"bottom"` \| `"left"` |
+| `data-align` | `"start"` \| `"center"` \| `"end"` |
+
+| CSS variable | Value |
+| --- | --- |
+| `--leve-hover-card-anchor-width` | The width of the Trigger |
+| `--leve-hover-card-anchor-height` | The height of the Trigger |
+| `--leve-hover-card-available-width` | The width available in the viewport |
+| `--leve-hover-card-available-height` | The height available in the viewport |
+
+The Content gets inline `position`, `top` and `left` while it is open. Set `display` (for example `flex`) only on `:popover-open`: on the Content itself, it would override the browser's `display: none` of the closed popover.
+
+### Arrow
+
+<PropsTable component="hover-card" part="Arrow" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-hover-card-arrow` | Always present |
+| `data-side` | The final side of the Content |
+
+## Accessibility
+
+- The card opens after `openDelay` (700 ms) when the pointer rests on the link or the link is focused, and closes after `closeDelay` (300 ms) when the pointer leaves, when focus leaves, or on Escape.
+- Moving the pointer onto the card keeps it open, so its links can be clicked (WCAG 1.4.13 Content on Hover or Focus).
+- The card has no role and is not referenced from the link, and focus never moves into it. Do not put information or actions only in the card: keyboard and screen reader users reach them on the linked page.
+- `HoverCard.Arrow` is hidden from assistive technologies with `aria-hidden="true"`.
+
+### Keyboard Interactions
+
+| Key | Description |
+| --- | --- |
+| `Tab` | Focusing the link shows the card after the delay; leaving it hides the card. |
+| `Escape` | Hides the card. Focus stays on the link. |
