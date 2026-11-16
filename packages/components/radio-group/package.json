@@ -52,6 +52,7 @@
   },
   "devDependencies": {
     "@builder.io/qwik": "1.20.4",
+    "@leve-ui/field": "workspace:*",
     "@leve-ui/tsconfig": "workspace:*",
     "@leve-ui/vite-config": "workspace:*",
     "typescript": "~5.9.3",

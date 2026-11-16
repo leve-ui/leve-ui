@@ -79,6 +79,12 @@ import { RadioGroup } from '@leve-ui/radio-group'; // or '@leve-ui/core'
 
 <Demo id="radio-group/horizontal" collapsed />
 
+### With Field
+
+Inside a `Field`, the group uses the Field's IDs, and reads its `invalid`, `disabled` and `required` states. `Field.Description` and `Field.ErrorMessage` are linked with `aria-describedby`. Name the group with `RadioGroup.Label`, not `Field.Label`: a `<label>` cannot name a group.
+
+<Demo id="radio-group/with-field" collapsed />
+
 ### With Form
 
 Add `RadioGroup.HiddenInput` with `name` to submit the selected value with a native `<form>`.
@@ -96,6 +102,7 @@ Add `RadioGroup.HiddenInput` with `name` to submit the selected value with a nat
 | `data-leve-radio-group` | Always present |
 | `data-orientation` | `"vertical"` \| `"horizontal"` |
 | `data-disabled` | Present when disabled |
+| `data-invalid` | Present when the surrounding Field is invalid |
 
 The selected value is uncontrolled with `defaultValue`, or controlled with `bind:value`. `onValueChange$` is called when the user selects a value. `orientation` only changes `aria-orientation` and `data-orientation`: all four arrow keys move the selection in both orientations.
 
@@ -108,7 +115,7 @@ The selected value is uncontrolled with `defaultValue`, or controlled with `bind
 | `data-leve-radio-group-label` | Always present |
 | `data-disabled` | Present when the group is disabled |
 
-The Label's `id` comes from the Root. To change it, pass `ids={{ label: '...' }}` to the Root.
+The Label's `id` comes from the Root. To change it, pass `ids={{ label: '...' }}` to the Root (an `id` on the Label is also used, but then pass the same ID to the Root's `aria-labelledby`). Inside a Field, the Field's label ID is used.
 
 ### Item
 
@@ -150,7 +157,7 @@ The hidden input holds the selected value and follows the `required` and `disabl
 Complies with the [Radio Group WAI-ARIA design pattern](https://www.w3.org/WAI/ARIA/apg/patterns/radio/).
 
 - Name the group with `RadioGroup.Label`, or `aria-label` / `aria-labelledby` on `RadioGroup.Root`.
-- `RadioGroup.Root` renders `role="radiogroup"`, `aria-orientation`, and `aria-required` / `aria-disabled` when required or disabled.
+- `RadioGroup.Root` renders `role="radiogroup"`, `aria-orientation`, and `aria-required` / `aria-disabled` when required or disabled. Inside a Field, it also renders `aria-describedby` for `Field.Description` / `Field.ErrorMessage` and `aria-invalid="true"` while the Field is invalid.
 - Each `RadioGroup.Item` is a `<button type="button">` with `role="radio"` and `aria-checked`. Its text content is its accessible name. Disabled items use the native `disabled` attribute, so they are not focusable.
 - Only one item is in the tab sequence: the selected item, or the first enabled item when nothing is selected.
 - `RadioGroup.Indicator` and `RadioGroup.HiddenInput` are hidden from assistive technologies with `aria-hidden="true"`.
@@ -163,3 +170,5 @@ Complies with the [Radio Group WAI-ARIA design pattern](https://www.w3.org/WAI/A
 | `Space` | Selects the focused item. `Enter` does nothing. |
 | `ArrowDown` / `ArrowRight` | Moves focus to the next enabled item and selects it. Wraps to the first item when `loop` is `true`. |
 | `ArrowUp` / `ArrowLeft` | Moves focus to the previous enabled item and selects it. Wraps to the last item when `loop` is `true`. |
+| `Home` | Moves focus to the first enabled item and selects it. |
+| `End` | Moves focus to the last enabled item and selects it. |

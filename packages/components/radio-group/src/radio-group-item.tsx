@@ -55,15 +55,17 @@ export const RadioGroupItem = component$<RadioGroupItemProps>((props) => {
       existing.disabled = disabled;
     }
 
-    if (typeof document !== 'undefined' && context.items.length > 1) {
-      context.items.sort((a, b) => {
-        const elA = document.querySelector(`[data-leve-radio-group-item][value="${a.value}"]`);
-        const elB = document.querySelector(`[data-leve-radio-group-item][value="${b.value}"]`);
-        if (elA && elB) {
-          return elA.compareDocumentPosition(elB) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1;
-        }
-        return 0;
-      });
+    // Keeps the items in document order, looking only at the items of this group
+    const root = buttonRef.value?.closest('[data-leve-radio-group]');
+    if (root && context.items.length > 1) {
+      const order = Array.from(root.querySelectorAll('[data-leve-radio-group-item]'))
+        .filter((el) => el.closest('[data-leve-radio-group]') === root)
+        .map((el) => el.getAttribute('value'));
+      // Items not in the DOM yet go last
+      const rank = new Map(order.map((v, i) => [v, i]));
+      context.items.sort(
+        (a, b) => (rank.get(a.value) ?? order.length) - (rank.get(b.value) ?? order.length),
+      );
     }
   });
 
@@ -127,6 +129,8 @@ export const RadioGroupItem = component$<RadioGroupItemProps>((props) => {
       key === 'ArrowDown' ||
       key === 'ArrowLeft' ||
       key === 'ArrowRight' ||
+      key === 'Home' ||
+      key === 'End' ||
       key === 'Enter'
     ) {
       event.preventDefault();
@@ -135,7 +139,7 @@ export const RadioGroupItem = component$<RadioGroupItemProps>((props) => {
 
   const internalKeyDown$ = $(async (event: KeyboardEvent, element: HTMLButtonElement) => {
     const key = event.key;
-    if (key !== 'ArrowUp' && key !== 'ArrowDown' && key !== 'ArrowLeft' && key !== 'ArrowRight') {
+    if (!['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(key)) {
       return;
     }
 

@@ -111,6 +111,41 @@ test.describe('RadioGroup', () => {
     await expect(pro).not.toBeChecked();
   });
 
+  test('Home で最初の Item へ移動して選択', async ({ page }) => {
+    await gotoStory(page, 'components-radiogroup--default-value');
+    const starter = page.getByRole('radio', { name: 'Starter' });
+    const free = page.getByRole('radio', { name: 'Free' });
+    await expect(starter).toBeVisible({ timeout: 15_000 });
+
+    await starter.focus();
+    await page.keyboard.press('Home');
+
+    await expect(free).toBeFocused();
+    await expect(free).toBeChecked();
+  });
+
+  test('End で最後の Item へ移動して選択', async ({ page }) => {
+    await gotoStory(page, 'components-radiogroup--default-value');
+    const starter = page.getByRole('radio', { name: 'Starter' });
+    const pro = page.getByRole('radio', { name: 'Pro' });
+    await expect(starter).toBeVisible({ timeout: 15_000 });
+
+    await starter.focus();
+    await page.keyboard.press('End');
+
+    await expect(pro).toBeFocused();
+    await expect(pro).toBeChecked();
+  });
+
+  test('Field の中で、ラベルと説明文がグループに関連付けられる', async ({ page }) => {
+    await gotoStory(page, 'components-radiogroup--with-field');
+    const group = page.getByRole('radiogroup', { name: 'Shipping' });
+    await expect(group).toBeVisible({ timeout: 15_000 });
+
+    await expect(group).toHaveAccessibleDescription('Express arrives in one business day.');
+    await expect(group).toHaveAttribute('aria-required', 'true');
+  });
+
   test('無効な Item を飛ばす', async ({ page }) => {
     await gotoStory(page, 'components-radiogroup--disabled-item');
     const standard = page.getByRole('radio', { name: /Standard/ });
