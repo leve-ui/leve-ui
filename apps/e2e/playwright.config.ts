@@ -18,7 +18,12 @@ export default defineConfig({
     baseURL: `http://localhost:${PORT}`,
     trace: 'on-first-retry',
   },
-  projects: [{ name: 'chromium', use: { ...devices['Desktop Chrome'] } }],
+  projects: [
+    { name: 'chromium', use: { ...devices['Desktop Chrome'] } },
+    // Overlays rely on native <dialog> / popover behavior that differs by engine; focus return
+    // is unreliable in WebKit (adr/0029)
+    { name: 'webkit', use: { ...devices['Desktop Safari'] }, testMatch: /dialog\.spec\.ts/ },
+  ],
   webServer: {
     command: `pnpm --filter @leve-ui/storybook exec storybook dev -p ${PORT} --ci --no-open`,
     url: `http://localhost:${PORT}`,
