@@ -93,7 +93,7 @@ test.describe('Drawer（モーダル）', () => {
   test('背景のクリックで閉じ、Trigger にフォーカスが戻る', async ({ page }) => {
     const { trigger, drawer } = await openModal(page);
 
-    await page.mouse.click(page.viewportSize()!.width - 5, 5);
+    await page.mouse.click((page.viewportSize()?.width ?? 1280) - 5, 5);
     await expect(drawer).toBeHidden();
     await expect(trigger).toBeFocused();
   });
