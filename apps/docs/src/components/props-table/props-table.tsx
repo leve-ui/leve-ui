@@ -22,13 +22,22 @@ function inlineCode(text: string) {
     .map((chunk, i) => (i % 2 === 1 ? <code key={i}>{chunk}</code> : chunk));
 }
 
-/** Puts the element name, as code, in place of `{element}` in a translated sentence. */
+/**
+ * Puts the element name, as code, in place of `{element}` in a translated
+ * sentence. A range such as `h1–h6` becomes `<h1>`–`<h6>`.
+ */
 function withElement(sentence: string, element: string) {
   const [before, after = ''] = sentence.split('{element}');
+  const [first, last] = element.split('–');
   return (
     <>
       {before}
-      <code>{`<${element}>`}</code>
+      <code>{`<${first}>`}</code>
+      {last && (
+        <>
+          –<code>{`<${last}>`}</code>
+        </>
+      )}
       {after}
     </>
   );
