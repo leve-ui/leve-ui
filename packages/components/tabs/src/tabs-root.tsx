@@ -50,7 +50,16 @@ export type TabsRootProps = PropsOf<'div'> & {
  * 子パーツに対して Context を提供します。
  */
 export const TabsRoot = component$<TabsRootProps>((allProps) => {
-  const { defaultValue = null, 'bind:value': bindValue, onValueChange$, ...props } = allProps;
+  const {
+    defaultValue = null,
+    'bind:value': bindValue,
+    onValueChange$,
+    // Read from allProps below; removed so that they are not rendered as attributes
+    orientation: _orientation,
+    activationMode: _activationMode,
+    loop: _loop,
+    ...props
+  } = allProps;
 
   const baseId = useId();
   const triggers = useStore<TriggerItem[]>([]);
