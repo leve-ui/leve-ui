@@ -47,6 +47,7 @@ export const docsNav: NavSection[] = [
       { title: msg('Fieldset'), href: '/components/fieldset/' },
       { title: msg('Label'), href: '/components/label/' },
       { title: msg('Meter'), href: '/components/meter/' },
+      { title: msg('Popover'), href: '/components/popover/' },
       { title: msg('Progress'), href: '/components/progress/' },
       { title: msg('Radio Group'), href: '/components/radio-group/' },
       { title: msg('Separator'), href: '/components/separator/' },

@@ -53,6 +53,7 @@ export {
   type FocusTarget,
   getTabbableElements,
 } from './focus-scope';
+export { openPopoverElement, type PopoverElementOptions } from './popover-element';
 export { clamp, valueToPercent } from './range';
 export {
   getRovingIndex,

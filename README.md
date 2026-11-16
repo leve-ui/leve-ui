@@ -87,6 +87,7 @@ Style each part however you like, for example with data attributes:
 | [`@leve-ui/dialog`](./packages/components/dialog) | A modal window that asks the user for input or a decision |
 | [`@leve-ui/toolbar`](./packages/components/toolbar) | A row of controls, such as buttons and toggles, with one tab stop |
 | [`@leve-ui/drawer`](./packages/components/drawer) | A panel that slides in from an edge of the screen, such as a detail panel |
+| [`@leve-ui/popover`](./packages/components/popover) | A small panel that opens next to a button, such as settings or filters |
 
 ## Contributing
 

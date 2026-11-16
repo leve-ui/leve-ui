@@ -14,6 +14,7 @@ export * from '@leve-ui/field';
 export * from '@leve-ui/fieldset';
 export * from '@leve-ui/label';
 export * from '@leve-ui/meter';
+export * from '@leve-ui/popover';
 export * from '@leve-ui/progress';
 export * from '@leve-ui/radio-group';
 export * from '@leve-ui/separator';
