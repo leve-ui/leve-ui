@@ -16,6 +16,7 @@ export {
   LuCopy,
   LuExternalLink,
   LuGithub,
+  LuLanguages,
   LuLayers,
   LuMenu,
   LuMoon,

@@ -16,6 +16,15 @@ export const LOCALE_NAMES: Record<Locale, string> = {
   ja: '日本語',
 };
 
+/**
+ * Whether a person reviews the translations of a locale (in the translations pull requests).
+ * Pages of a locale without a reviewer show a machine translation notice.
+ */
+export const LOCALE_REVIEWED: Record<Locale, boolean> = {
+  en: true,
+  ja: true,
+};
+
 export function isLocale(value: string): value is Locale {
   return (LOCALES as readonly string[]).includes(value);
 }
