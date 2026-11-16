@@ -18,6 +18,7 @@ export const MachineTranslationNotice = component$(() => {
 
   return (
     <Alert.Root
+      live={false}
       class={css({
         display: 'flex',
         gap: '3',

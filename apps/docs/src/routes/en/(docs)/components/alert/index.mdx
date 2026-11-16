@@ -38,7 +38,7 @@ import { Alert } from '@leve-ui/alert'; // or '@leve-ui/core'
 
 | Part | Element | Description |
 | --- | --- | --- |
-| `Alert.Root` | `<div>` | Wraps the message and has `role="alert"`. |
+| `Alert.Root` | `<div>` | Wraps the message and has `role="alert"` (unless `live={false}`). |
 | `Alert.Title` | `<div>` | The heading of the message. |
 | `Alert.Description` | `<div>` | The body of the message. |
 
@@ -59,6 +59,8 @@ Render `Alert.Root` at the moment the message should be announced, for example a
 | Data attribute | Value |
 | --- | --- |
 | `data-leve-alert` | Always present |
+
+`live` (default `true`) decides whether the Root is a live region. Use `live={false}` for static notices.
 
 ### Title
 
@@ -82,5 +84,6 @@ Complies with the [Alert WAI-ARIA design pattern](https://www.w3.org/WAI/ARIA/ap
 
 - `Alert.Root` renders `role="alert"`, so screen readers announce its content.
 - An alert that is already in the page when it loads may not be announced. Render it when it should be shown.
+- For a notice that is on the page from the start (for example a banner about the page itself), pass `live={false}`: the Root renders no `role` and is read as normal content.
 - Alert does not move focus and does not close itself. For temporary notifications, use a toast instead.
 - Alert has no keyboard interaction.
