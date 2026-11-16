@@ -3,13 +3,15 @@ import {
   component$,
   getPlatform,
   type PropsOf,
+  type Signal,
   Slot,
   sync$,
   useComputed$,
   useContext,
+  useSignal,
   useTask$,
 } from '@builder.io/qwik';
-import { dataAttr, moveRovingFocus } from '@leve-ui/utils';
+import { dataAttr, moveRovingFocus, useToolbarItem } from '@leve-ui/utils';
 import { toggleGroupContextId } from './toggle-group-context';
 
 export type ToggleGroupItemProps = Omit<PropsOf<'button'>, 'value'> & {
@@ -144,6 +146,12 @@ export const ToggleGroupItem = component$<ToggleGroupItemProps>((props) => {
     return -1;
   });
 
+  // Inside a Toolbar, the item joins the toolbar's roving tabindex
+  const internalRef = useSignal<Element>();
+  // A ref passed by the consumer is used as it is
+  const ref = (props.ref as Signal<Element | undefined> | undefined) ?? internalRef;
+  const toolbarItem = useToolbarItem(isDisabledSignal, ref);
+
   const handleClick$ = $(async () => {
     if (isDisabledSignal.value) return;
     await context.toggleItem$(props.value);
@@ -176,7 +184,9 @@ export const ToggleGroupItem = component$<ToggleGroupItemProps>((props) => {
       type="button"
       aria-pressed={isPressedSignal.value ? 'true' : 'false'}
       disabled={isDisabledSignal.value}
-      tabIndex={tabIndexSignal.value}
+      tabIndex={toolbarItem.inToolbar ? toolbarItem.tabIndex.value : tabIndexSignal.value}
+      ref={ref}
+      data-leve-toolbar-item={toolbarItem.itemId}
       data-leve-toggle-group-item=""
       data-state={isPressedSignal.value ? 'on' : 'off'}
       data-disabled={dataAttr(isDisabledSignal.value)}
@@ -186,7 +196,7 @@ export const ToggleGroupItem = component$<ToggleGroupItemProps>((props) => {
       onKeyDown$={
         context.rovingFocus.value ? [syncKeyDown$, handleKeyDown$, onKeyDown$] : onKeyDown$
       }
-      onFocus$={[handleFocus$, onFocus$]}
+      onFocus$={[handleFocus$, toolbarItem.onFocus$, onFocus$]}
     >
       <Slot />
     </button>

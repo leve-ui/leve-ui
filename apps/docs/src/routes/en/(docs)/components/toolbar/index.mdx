@@ -1,0 +1,114 @@
+---
+title: Toolbar
+description: A row of controls, such as buttons and toggles, with one tab stop.
+---
+
+# Toolbar
+
+A row of controls, such as buttons and toggles, with one tab stop.
+
+Toolbar follows the [Toolbar WAI-ARIA design pattern](https://www.w3.org/WAI/ARIA/apg/patterns/toolbar/).
+
+<Demo id="toolbar/default" />
+
+## Installation
+
+Install the all-in-one package:
+
+```sh
+pnpm add @leve-ui/core
+```
+
+Or only this component:
+
+```sh
+pnpm add @leve-ui/toolbar
+```
+
+## Anatomy
+
+```tsx
+import { Toolbar } from '@leve-ui/toolbar'; // or '@leve-ui/core'
+
+<Toolbar.Root>
+  <Toolbar.Button />
+  <Toolbar.Separator />
+  <Toolbar.Link />
+</Toolbar.Root>
+```
+
+| Part | Element | Description |
+| --- | --- | --- |
+| `Toolbar.Root` | `<div>` | The toolbar. Moves focus between its items. |
+| `Toolbar.Button` | `<button>` | A button in the toolbar. |
+| `Toolbar.Link` | `<a>` | A link in the toolbar. |
+| `Toolbar.Separator` | `<div>` | A line between groups of items. |
+
+[Toggle](/components/toggle/) and [Toggle Group](/components/toggle-group/) items placed inside a Toolbar become toolbar items automatically: arrow keys move across all of them, and the Toggle Group stops handling arrow keys itself.
+
+## Examples
+
+### Vertical
+
+`orientation="vertical"` stacks the items, so Up and Down arrows move focus. The separators become horizontal. Disabled items are skipped, and a Toggle inside the toolbar joins it.
+
+<Demo id="toolbar/vertical" collapsed />
+
+## API Reference
+
+### Root
+
+<PropsTable component="toolbar" part="Root" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-toolbar` | Always present |
+| `data-orientation` | `"horizontal"` \| `"vertical"` |
+
+### Button
+
+<PropsTable component="toolbar" part="Button" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-toolbar-button` | Always present |
+| `data-leve-toolbar-item` | Always present (also on Toggle and Toggle Group items inside a Toolbar) |
+| `data-disabled` | Present when disabled |
+
+### Link
+
+<PropsTable component="toolbar" part="Link" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-toolbar-link` | Always present |
+| `data-leve-toolbar-item` | Always present |
+
+### Separator
+
+<PropsTable component="toolbar" part="Separator" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-toolbar-separator` | Always present |
+| `data-orientation` | `"vertical"` in a horizontal toolbar, `"horizontal"` in a vertical one |
+
+## Accessibility
+
+Complies with the [Toolbar WAI-ARIA design pattern](https://www.w3.org/WAI/ARIA/apg/patterns/toolbar/).
+
+- `Toolbar.Root` renders `role="toolbar"` and `aria-orientation`. Name it with `aria-label` or `aria-labelledby`.
+- The toolbar has one tab stop: the first enabled item, then the item that was focused last. The other items have `tabindex="-1"`.
+- `Toolbar.Separator` renders `role="separator"` with an `aria-orientation` perpendicular to the toolbar.
+- Disabled buttons use the native `disabled` attribute and are skipped by the arrow keys.
+- Give icon-only items an `aria-label`.
+
+### Keyboard Interactions
+
+| Key | Description |
+| --- | --- |
+| `Tab` | Moves focus into the toolbar (to the item focused last), or out of it. |
+| `ArrowRight` / `ArrowLeft` | In a horizontal toolbar, moves focus to the next / previous item. Wraps around when `loop` is `true`. |
+| `ArrowDown` / `ArrowUp` | In a vertical toolbar, moves focus to the next / previous item. Wraps around when `loop` is `true`. |
+| `Home` / `End` | Moves focus to the first / last item. |
+| `Enter` / `Space` | Activates the focused item. |

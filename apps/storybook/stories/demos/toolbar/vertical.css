@@ -1,0 +1,58 @@
+.toolbar-vertical {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 6px;
+  border: 1px solid light-dark(#cbd5e1, #ffffff3d);
+  border-radius: 6px;
+  background: light-dark(#ffffff, #1b2045);
+  font-family: inherit;
+}
+
+.toolbar-vertical-item {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: light-dark(#475569, #c9ddf0);
+  cursor: pointer;
+}
+
+.toolbar-vertical-item:hover:not(:disabled) {
+  background: light-dark(#f1f5f9, #ffffff14);
+  color: light-dark(#0f172a, #ffffff);
+}
+
+/* Pressed Toggle */
+.toolbar-vertical-item[data-state="on"] {
+  background: light-dark(#f1f5f9, #ffffff14);
+  color: #009dfd;
+}
+
+.toolbar-vertical-item:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.toolbar-vertical-item:focus-visible {
+  outline: 2px solid #009dfd;
+  outline-offset: 2px;
+}
+
+.toolbar-vertical-icon {
+  width: 16px;
+  height: 16px;
+}
+
+/* A horizontal line in a vertical toolbar */
+.toolbar-vertical-separator[data-orientation="horizontal"] {
+  align-self: stretch;
+  height: 1px;
+  margin: 2px 4px;
+  background: light-dark(#cbd5e1, #ffffff3d);
+}

@@ -44,6 +44,7 @@
     "@leve-ui/tabs": "workspace:*",
     "@leve-ui/toggle": "workspace:*",
     "@leve-ui/toggle-group": "workspace:*",
+    "@leve-ui/toolbar": "workspace:*",
     "@leve-ui/tsconfig": "workspace:*",
     "@leve-ui/vite-config": "workspace:*",
     "@pandacss/dev": "^2.5.0",

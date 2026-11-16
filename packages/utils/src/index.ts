@@ -63,6 +63,14 @@ export {
 export { getScrollLockCount, lockScroll } from './scroll-lock';
 export { withCssVars } from './style';
 export {
+  type ToolbarContext,
+  type ToolbarItemRegistration,
+  type ToolbarItemState,
+  toolbarContextId,
+  useToolbarContext,
+  useToolbarItem,
+} from './toolbar';
+export {
   getTypeaheadIndex,
   isTypeaheadKey,
   moveTypeaheadFocus,

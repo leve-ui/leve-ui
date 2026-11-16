@@ -10,7 +10,12 @@ import {
   useSignal,
   useStore,
 } from '@builder.io/qwik';
-import { dataAttr, useControllableState, useInheritedDisabled } from '@leve-ui/utils';
+import {
+  dataAttr,
+  useControllableState,
+  useInheritedDisabled,
+  useToolbarContext,
+} from '@leve-ui/utils';
 import { type ToggleGroupItemRegistration, toggleGroupContextId } from './toggle-group-context';
 
 export type ToggleGroupRootProps = PropsOf<'div'> & {
@@ -63,7 +68,8 @@ export type ToggleGroupRootProps = PropsOf<'div'> & {
  * グループのアクセシブルネームとして、利用側で `aria-label` または `aria-labelledby` を指定してください。
  *
  * `rovingFocus` が `false` の場合、グループはフォーカス管理を行いません。Item は `tabIndex` 属性なし・矢印キーハンドラなしで描画され、
- * 各 Item は通常のタブストップになります。Toolbar などの親コンポーネントがフォーカスを管理する場合に使用します。
+ * 各 Item は通常のタブストップになります。
+ * `Toolbar` の中では `rovingFocus` に関係なく、Item はツールバーの項目になり、ツールバーがフォーカスを管理します。
  */
 export const ToggleGroupRoot = component$<ToggleGroupRootProps>((props) => {
   const {
@@ -90,7 +96,9 @@ export const ToggleGroupRoot = component$<ToggleGroupRootProps>((props) => {
   const disabledSignal = useComputed$(() => Boolean(props.disabled) || inheritedDisabled.value);
   const orientationSignal = useComputed$(() => props.orientation ?? 'horizontal');
   const loopSignal = useComputed$(() => props.loop ?? true);
-  const rovingFocusSignal = useComputed$(() => props.rovingFocus ?? true);
+  // Inside a Toolbar, the toolbar moves focus across all of its items instead
+  const toolbar = useToolbarContext();
+  const rovingFocusSignal = useComputed$(() => !toolbar && (props.rovingFocus ?? true));
 
   const toggleItem$ = $(async (itemValue: string) => {
     const current = valueSignal.value;
