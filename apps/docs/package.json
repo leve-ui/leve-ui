@@ -33,6 +33,7 @@
     "@leve-ui/collapsible": "workspace:*",
     "@leve-ui/core": "workspace:*",
     "@leve-ui/dialog": "workspace:*",
+    "@leve-ui/drawer": "workspace:*",
     "@leve-ui/field": "workspace:*",
     "@leve-ui/fieldset": "workspace:*",
     "@leve-ui/label": "workspace:*",

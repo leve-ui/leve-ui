@@ -42,6 +42,7 @@ export const docsNav: NavSection[] = [
       { title: msg('Checkbox'), href: '/components/checkbox/' },
       { title: msg('Collapsible'), href: '/components/collapsible/' },
       { title: msg('Dialog'), href: '/components/dialog/' },
+      { title: msg('Drawer'), href: '/components/drawer/' },
       { title: msg('Field'), href: '/components/field/' },
       { title: msg('Fieldset'), href: '/components/fieldset/' },
       { title: msg('Label'), href: '/components/label/' },

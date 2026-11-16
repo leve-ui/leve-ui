@@ -1,0 +1,105 @@
+.drawer-default {
+  display: flex;
+  gap: 8px;
+  font-family: inherit;
+}
+
+.drawer-default-trigger {
+  padding: 8px 14px;
+  border: 1px solid light-dark(#cbd5e1, #ffffff3d);
+  border-radius: 6px;
+  background: light-dark(#ffffff, #1b2045);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  color: light-dark(#0f172a, #ffffff);
+  cursor: pointer;
+}
+
+.drawer-default-trigger:hover {
+  background: light-dark(#f1f5f9, #ffffff14);
+}
+
+/* The Content is a native <dialog>; data-side places it on an edge of the screen */
+.drawer-default-content {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 24px;
+  border: none;
+  background: light-dark(#ffffff, #1b2045);
+  color: light-dark(#0f172a, #ffffff);
+  font-family: inherit;
+  box-shadow: 0 16px 40px rgb(15 23 42 / 0.25);
+}
+
+.drawer-default-content[data-side="right"] {
+  inset: 0 0 0 auto;
+  width: min(320px, 100vw);
+  height: 100dvh;
+  max-height: none;
+  border-left: 1px solid light-dark(#cbd5e1, #ffffff3d);
+}
+
+/* Slide in when it opens */
+.drawer-default-content[data-side="right"]:popover-open {
+  transition: translate 200ms ease;
+  @starting-style {
+    translate: 100% 0;
+  }
+}
+
+.drawer-default-title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.drawer-default-description {
+  margin: 6px 0 20px;
+  font-size: 14px;
+  color: light-dark(#475569, #c9ddf0);
+}
+
+.drawer-default-list {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 8px 16px;
+  margin: 0;
+  font-size: 14px;
+}
+
+.drawer-default-list dt {
+  color: light-dark(#475569, #c9ddf0);
+}
+
+.drawer-default-list dd {
+  margin: 0;
+}
+
+.drawer-default-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: inline-flex;
+  padding: 4px;
+  border: none;
+  border-radius: 6px;
+  background: none;
+  color: light-dark(#475569, #c9ddf0);
+  cursor: pointer;
+}
+
+.drawer-default-close:hover {
+  background: light-dark(#f1f5f9, #ffffff14);
+}
+
+.drawer-default-icon {
+  width: 16px;
+  height: 16px;
+}
+
+.drawer-default-trigger:focus-visible,
+.drawer-default-close:focus-visible {
+  outline: 2px solid #009dfd;
+  outline-offset: 2px;
+}

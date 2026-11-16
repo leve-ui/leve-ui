@@ -1,0 +1,149 @@
+---
+title: Drawer
+description: A panel that slides in from an edge of the screen, such as a detail panel.
+---
+
+# Drawer
+
+A panel that slides in from an edge of the screen, such as a detail panel.
+
+By default, Drawer is a **non-modal** dialog: the rest of the page stays usable while it is open. With `modal`, it follows the [Dialog (Modal) WAI-ARIA design pattern](https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/) like [Dialog](/components/dialog/).
+
+<Demo id="drawer/default" />
+
+## When to use
+
+| Use | When |
+| --- | --- |
+| Drawer | A panel that opens next to the content while the page stays usable, such as the details of a row in a table. |
+| Drawer with `modal` | A panel that blocks the page, such as the navigation menu on small screens. |
+| [Dialog](/components/dialog/) | A task or decision that must be finished before going back to the page. |
+| A plain `<aside>` | A panel that is always visible and never opens or closes. It is part of the layout, not a dialog. |
+
+## Installation
+
+Install the all-in-one package:
+
+```sh
+pnpm add @leve-ui/core
+```
+
+Or only this component:
+
+```sh
+pnpm add @leve-ui/drawer
+```
+
+## Anatomy
+
+```tsx
+import { Drawer } from '@leve-ui/drawer'; // or '@leve-ui/core'
+
+<Drawer.Root>
+  <Drawer.Trigger />
+  <Drawer.Content>
+    <Drawer.Title />
+    <Drawer.Description />
+    <Drawer.Close />
+  </Drawer.Content>
+</Drawer.Root>
+```
+
+| Part | Element | Description |
+| --- | --- | --- |
+| `Drawer.Root` | `<div>` | Wraps the parts and holds the open state, `modal` and `side`. |
+| `Drawer.Trigger` | `<button>` | The button that opens and closes the drawer. |
+| `Drawer.Content` | `<dialog>` | The panel. |
+| `Drawer.Title` | `<h2>` | The title that names the drawer. |
+| `Drawer.Description` | `<p>` | The description of the drawer. |
+| `Drawer.Close` | `<button>` | A button that closes the drawer. |
+
+`Drawer.Content` is a native `<dialog>`, rendered where you place it and shown above the page in the top layer. A non-modal drawer is a `popover="manual"` element shown with `showPopover()`; a modal drawer is opened with `showModal()`. `side` only sets `data-side`: place the panel and its animation with CSS, as in the demos. A modal drawer has a backdrop, styled with `::backdrop` like Dialog.
+
+## Examples
+
+### Modal
+
+`modal` blocks the page: focus stays in the drawer, the page does not scroll, and clicking the backdrop closes it. `side="left"` sets `data-side="left"`.
+
+<Demo id="drawer/modal" collapsed />
+
+## API Reference
+
+### Root
+
+<PropsTable component="drawer" part="Root" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-drawer` | Always present |
+| `data-state` | `"open"` \| `"closed"` |
+| `data-side` | `"top"` \| `"right"` \| `"bottom"` \| `"left"` |
+
+The open state is uncontrolled with `defaultOpen`, or controlled with `bind:open`. `onOpenChange$` is called when the user opens or closes the drawer. The SSR HTML always renders the drawer closed: a drawer that is open initially opens when the page resumes.
+
+### Trigger
+
+<PropsTable component="drawer" part="Trigger" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-drawer-trigger` | Always present |
+| `data-state` | `"open"` \| `"closed"` |
+
+The trigger toggles the drawer: a non-modal drawer leaves it usable while open.
+
+### Content
+
+<PropsTable component="drawer" part="Content" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-drawer-content` | Always present |
+| `data-state` | `"open"` \| `"closed"` |
+| `data-side` | `"top"` \| `"right"` \| `"bottom"` \| `"left"` |
+
+A non-modal drawer matches `:popover-open` while it is shown, and a modal drawer has the `open` attribute. Use them with `@starting-style` to animate the drawer when it appears.
+
+### Title
+
+<PropsTable component="drawer" part="Title" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-drawer-title` | Always present |
+
+### Description
+
+<PropsTable component="drawer" part="Description" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-drawer-description` | Always present |
+
+### Close
+
+<PropsTable component="drawer" part="Close" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-drawer-close` | Always present |
+| `data-state` | `"open"` \| `"closed"` |
+
+## Accessibility
+
+There is no WAI-ARIA APG pattern for non-modal dialogs. A non-modal drawer is a `role="dialog"` without `aria-modal`, where focus can move freely between the drawer and the page ([ADR 0028](https://github.com/leve-ui/leve-ui/blob/main/adr/0028-make-drawer-a-separate-package-and-a-non-modal-dialog-by-default.md)). With `modal`, Drawer complies with the [Dialog (Modal) WAI-ARIA design pattern](https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/).
+
+- `Drawer.Content` renders `aria-labelledby` pointing to `Drawer.Title`, `aria-describedby` pointing to `Drawer.Description`, and `aria-modal="true"` only when `modal`.
+- `Drawer.Trigger` renders `aria-haspopup="dialog"`, `aria-expanded` and `aria-controls` pointing to the Content.
+- When the drawer opens, focus moves to its first focusable element. When it closes, focus returns to the element that was focused before it opened, or to the Trigger. If a non-modal drawer closes while focus is elsewhere on the page, focus does not move.
+- A non-modal drawer does not trap focus or stop the page from scrolling, and does not close when the page is clicked. A modal drawer does all three.
+- If `Drawer.Close` only contains an icon, give it an `aria-label`.
+
+### Keyboard Interactions
+
+| Key | Description |
+| --- | --- |
+| `Tab` | Non-modal: moves focus through the drawer and on to the page. Modal: cycles through the focusable elements in the drawer. |
+| `Shift` + `Tab` | Moves focus backwards, in the same way. |
+| `Escape` | Closes the drawer, unless `closeOnEscape` is `false`. |

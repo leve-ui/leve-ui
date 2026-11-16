@@ -22,7 +22,11 @@ export default defineConfig({
     { name: 'chromium', use: { ...devices['Desktop Chrome'] } },
     // Overlays rely on native <dialog> / popover behavior that differs by engine; focus return
     // is unreliable in WebKit (adr/0029)
-    { name: 'webkit', use: { ...devices['Desktop Safari'] }, testMatch: /dialog\.spec\.ts/ },
+    {
+      name: 'webkit',
+      use: { ...devices['Desktop Safari'] },
+      testMatch: /(dialog|drawer)\.spec\.ts/,
+    },
   ],
   webServer: {
     command: `pnpm --filter @leve-ui/storybook exec storybook dev -p ${PORT} --ci --no-open`,

@@ -7,8 +7,8 @@ import {
   useSignal,
   useVisibleTask$,
 } from '@builder.io/qwik';
+import { openDialogElement } from '@leve-ui/utils';
 import { dialogContextId } from './dialog-context';
-import { openModal } from './open-modal';
 
 export type DialogContentProps = PropsOf<'dialog'> & {
   /**
@@ -51,8 +51,11 @@ export const DialogContent = component$<DialogContentProps>(
         if (!dialog || !open) return;
 
         cleanup(
-          openModal(dialog, {
-            context,
+          openDialogElement(dialog, {
+            modal: true,
+            open: context.open,
+            setOpen$: context.setOpen$,
+            triggerId: context.ids.trigger,
             closeOnEscape: closeOnEscapeSignal,
             closeOnOutsideClick: closeOnOutsideClickSignal,
           }),
