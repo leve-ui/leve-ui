@@ -20,6 +20,19 @@ describe('Alert', () => {
     );
   });
 
+  it('live={false} では role を出力しない', async () => {
+    const { screen, render } = await createDOM();
+    await render(
+      <Alert.Root live={false}>
+        <Alert.Description>Notice</Alert.Description>
+      </Alert.Root>,
+    );
+
+    const root = screen.querySelector('[data-leve-alert]');
+    expect(root?.hasAttribute('role')).toBe(false);
+    expect(root?.hasAttribute('live')).toBe(false);
+  });
+
   it('任意の props を要素に渡し、role は上書きさせない', async () => {
     const { screen, render } = await createDOM();
     await render(
