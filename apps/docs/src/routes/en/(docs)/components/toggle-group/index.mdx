@@ -80,7 +80,7 @@ import { ToggleGroup } from '@leve-ui/toggle-group'; // or '@leve-ui/core'
 
 The value is always an array of the pressed items' values, also with `type="single"` (empty or one value). It is uncontrolled with `defaultValue`, or controlled with `bind:value`. `onValueChange$` is called when the pressed items change. With `type="single"`, pressing the pressed item releases it.
 
-Set `rovingFocus={false}` when a parent such as a toolbar manages focus. The items are then rendered without `tabIndex` and arrow key handlers, so each item is a regular tab stop.
+Set `rovingFocus={false}` when a parent manages focus. The items are then rendered without `tabIndex` and arrow key handlers, so each item is a regular tab stop. Inside a [Toolbar](/components/toolbar/), you do not need it: the items join the toolbar automatically, and the toolbar moves focus across all of its items.
 
 ### Item
 

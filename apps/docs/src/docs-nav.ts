@@ -53,6 +53,7 @@ export const docsNav: NavSection[] = [
       { title: msg('Tabs'), href: '/components/tabs/' },
       { title: msg('Toggle'), href: '/components/toggle/' },
       { title: msg('Toggle Group'), href: '/components/toggle-group/' },
+      { title: msg('Toolbar'), href: '/components/toolbar/' },
     ],
   },
 ];

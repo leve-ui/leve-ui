@@ -1,0 +1,87 @@
+.toolbar-default {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px;
+  border: 1px solid light-dark(#cbd5e1, #ffffff3d);
+  border-radius: 6px;
+  background: light-dark(#ffffff, #1b2045);
+  font-family: inherit;
+}
+
+.toolbar-default-group {
+  display: inline-flex;
+  gap: 2px;
+}
+
+.toolbar-default-item {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: light-dark(#475569, #c9ddf0);
+  cursor: pointer;
+}
+
+.toolbar-default-item:hover {
+  background: light-dark(#f1f5f9, #ffffff14);
+  color: light-dark(#0f172a, #ffffff);
+}
+
+/* Pressed */
+.toolbar-default-item[data-state="on"] {
+  background: light-dark(#f1f5f9, #ffffff14);
+  color: #009dfd;
+}
+
+.toolbar-default-icon {
+  width: 16px;
+  height: 16px;
+}
+
+/* A vertical line between groups; the Toolbar sets data-orientation="vertical" on it */
+.toolbar-default-separator[data-orientation="vertical"] {
+  align-self: stretch;
+  width: 1px;
+  margin: 2px 4px;
+  background: light-dark(#cbd5e1, #ffffff3d);
+}
+
+.toolbar-default-link {
+  margin-left: auto;
+  padding: 0 4px;
+  font-size: 13px;
+  color: light-dark(#475569, #c9ddf0);
+  text-decoration: none;
+}
+
+.toolbar-default-link:hover {
+  text-decoration: underline;
+}
+
+.toolbar-default-button {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  background: #009dfd;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.toolbar-default-button:hover {
+  background: #006ce9;
+}
+
+.toolbar-default-item:focus-visible,
+.toolbar-default-link:focus-visible,
+.toolbar-default-button:focus-visible {
+  outline: 2px solid #009dfd;
+  outline-offset: 2px;
+}

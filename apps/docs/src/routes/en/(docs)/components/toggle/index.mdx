@@ -78,6 +78,7 @@ Complies with the [Button WAI-ARIA design pattern](https://www.w3.org/WAI/ARIA/a
 - `Toggle.Root` is a `<button type="button">` with `aria-pressed` (`"true"` or `"false"`). When disabled, it uses the native `disabled` attribute, so it is not focusable.
 - Its text content is its accessible name. For an icon-only toggle, pass `aria-label` and hide the icon with `aria-hidden="true"`.
 - Do not change the label with the state (for example, keep "Mute" instead of switching to "Unmute"). The state is conveyed by `aria-pressed`.
+- Inside a [Toolbar](/components/toolbar/), the toggle joins the toolbar's roving tabindex: arrow keys move focus to it, and only one item of the toolbar is a tab stop.
 
 ### Keyboard Interactions
 

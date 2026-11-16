@@ -6,8 +6,14 @@ import {
   type Signal,
   Slot,
   useComputed$,
+  useSignal,
 } from '@builder.io/qwik';
-import { dataAttr, useControllableState, useInheritedDisabled } from '@leve-ui/utils';
+import {
+  dataAttr,
+  useControllableState,
+  useInheritedDisabled,
+  useToolbarItem,
+} from '@leve-ui/utils';
 
 export type ToggleRootProps = PropsOf<'button'> & {
   /**
@@ -37,6 +43,7 @@ export const ToggleRoot = component$<ToggleRootProps>(
     'bind:pressed': bindPressed,
     onPressedChange$,
     onClick$,
+    onFocus$,
     ...props
   }) => {
     const [pressed, setPressed$] = useControllableState({
@@ -48,6 +55,12 @@ export const ToggleRoot = component$<ToggleRootProps>(
     // Disabled by the prop, or by a surrounding Field or Fieldset
     const inheritedDisabled = useInheritedDisabled();
     const disabledSignal = useComputed$(() => Boolean(disabled) || inheritedDisabled.value);
+
+    // Inside a Toolbar, the toggle joins its roving tabindex
+    const internalRef = useSignal<Element>();
+    // A ref passed by the consumer is used as it is
+    const ref = (props.ref as Signal<Element | undefined> | undefined) ?? internalRef;
+    const toolbarItem = useToolbarItem(disabledSignal, ref);
 
     const toggle$ = $(() => {
       if (disabledSignal.value) return;
@@ -63,7 +76,11 @@ export const ToggleRoot = component$<ToggleRootProps>(
         data-leve-toggle=""
         data-state={pressed.value ? 'on' : 'off'}
         data-disabled={dataAttr(disabledSignal.value)}
+        ref={ref}
+        data-leve-toolbar-item={toolbarItem.itemId}
+        tabIndex={toolbarItem.inToolbar ? toolbarItem.tabIndex.value : props.tabIndex}
         onClick$={[toggle$, onClick$]}
+        onFocus$={[toolbarItem.onFocus$, onFocus$]}
       >
         <Slot />
       </button>
