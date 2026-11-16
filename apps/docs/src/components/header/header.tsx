@@ -1,5 +1,6 @@
 import { $, component$, useSignal } from '@builder.io/qwik';
 import { Link, useLocation } from '@builder.io/qwik-city';
+import { Drawer } from '@leve-ui/drawer';
 import { css, cx } from 'styled-system/css';
 import { normalizePath } from '../../docs-nav';
 import { isLocale, LOCALE_NAMES, LOCALES, localizeHref } from '../../i18n/locales';
@@ -147,32 +148,26 @@ const LanguageSwitcher = component$(() => {
 /** The docs navigation for small screens, opened from the menu button. */
 const MobileMenu = component$(() => {
   const locale = useLocale();
-  const dialog = useSignal<HTMLDialogElement>();
-  const close$ = $(() => dialog.value?.close());
+  const open = useSignal(false);
+  const close$ = $(() => {
+    open.value = false;
+  });
 
   return (
-    <>
-      <button
-        type="button"
+    <Drawer.Root bind:open={open} modal side="left">
+      <Drawer.Trigger
         aria-label={t(locale, 'Open navigation')}
-        aria-haspopup="dialog"
         class={cx(iconButtonStyles, mobileIconStyles, css({ color: 'fg-default', ms: '-1.5' }))}
-        onClick$={() => dialog.value?.showModal()}
       >
         <LuMenu aria-hidden="true" />
-      </button>
-      {/* TODO(leve-ui): replace with Drawer (#35) */}
-      <dialog
-        ref={dialog}
-        aria-label={t(locale, 'Navigation')}
-        onClick$={(event, el) => {
-          // Close when the backdrop (the dialog element itself) is clicked
-          if (event.target === el) el.close();
-        }}
+      </Drawer.Trigger>
+      <Drawer.Content
         class={css({
           m: 0,
           p: 0,
           border: 'none',
+          insetInlineStart: 0,
+          insetInlineEnd: 'auto',
           w: '300px',
           maxW: '85vw',
           h: '100dvh',
@@ -194,19 +189,18 @@ const MobileMenu = component$(() => {
             })}
           >
             <Logo />
-            <button
-              type="button"
+            <Drawer.Title class={css({ srOnly: true })}>{t(locale, 'Navigation')}</Drawer.Title>
+            <Drawer.Close
               aria-label={t(locale, 'Close navigation')}
               class={cx(iconButtonStyles, mobileIconStyles)}
-              onClick$={close$}
             >
               <LuX aria-hidden="true" />
-            </button>
+            </Drawer.Close>
           </div>
           <DocsNavList onNavigate$={close$} />
         </div>
-      </dialog>
-    </>
+      </Drawer.Content>
+    </Drawer.Root>
   );
 });
 
