@@ -10,7 +10,7 @@ import {
   useSignal,
   useStore,
 } from '@builder.io/qwik';
-import { dataAttr, useControllableState } from '@leve-ui/utils';
+import { dataAttr, useControllableState, useInheritedDisabled } from '@leve-ui/utils';
 import { type ToggleGroupItemRegistration, toggleGroupContextId } from './toggle-group-context';
 
 export type ToggleGroupRootProps = PropsOf<'div'> & {
@@ -85,7 +85,9 @@ export const ToggleGroupRoot = component$<ToggleGroupRootProps>((props) => {
   });
 
   const typeSignal = useComputed$(() => props.type ?? 'single');
-  const disabledSignal = useComputed$(() => Boolean(props.disabled));
+  // Disabled by the prop, or by a surrounding Field or Fieldset
+  const inheritedDisabled = useInheritedDisabled();
+  const disabledSignal = useComputed$(() => Boolean(props.disabled) || inheritedDisabled.value);
   const orientationSignal = useComputed$(() => props.orientation ?? 'horizontal');
   const loopSignal = useComputed$(() => props.loop ?? true);
   const rovingFocusSignal = useComputed$(() => props.rovingFocus ?? true);

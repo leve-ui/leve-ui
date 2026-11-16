@@ -1,4 +1,4 @@
-import { component$, Slot, useComputed$, useSignal } from '@builder.io/qwik';
+import { component$, Slot, useComputed$, useContextProvider, useSignal } from '@builder.io/qwik';
 import { createDOM } from '@builder.io/qwik/testing';
 import { describe, expect, it } from 'vitest';
 import {
@@ -7,7 +7,9 @@ import {
   useFieldContext,
   useFieldControl,
   useFieldProvider,
+  useInheritedDisabled,
 } from './field';
+import { fieldsetContextId } from './fieldset';
 
 interface TestFieldProps {
   ids?: Partial<FieldIds>;
@@ -59,6 +61,22 @@ const TestLabel = component$(() => {
       <Slot />
     </label>
   );
+});
+
+const TestFieldset = component$<{ disabled?: boolean }>((props) => {
+  const disabled = useComputed$(() => Boolean(props.disabled));
+  const parentDisabled = useComputed$(() => false);
+  useContextProvider(fieldsetContextId, { disabled, parentDisabled });
+  return (
+    <fieldset disabled={props.disabled}>
+      <Slot />
+    </fieldset>
+  );
+});
+
+const TestInherited = component$(() => {
+  const inherited = useInheritedDisabled();
+  return <span data-inherited={String(inherited.value)} />;
 });
 
 function getInput(screen: HTMLElement): HTMLInputElement | null {
@@ -364,6 +382,47 @@ describe('field', () => {
       await render(<ContextConsumer />);
 
       expect(screen.querySelector('#context-val')?.textContent).toBe('is-null');
+    });
+  });
+
+  describe('Fieldset', () => {
+    it('disabled の Fieldset の中では useFieldControl の disabled が true になる', async () => {
+      const { screen, render } = await createDOM();
+      await render(
+        <TestFieldset disabled>
+          <TestControl />
+        </TestFieldset>,
+      );
+      expect(getInput(screen)?.disabled).toBe(true);
+    });
+
+    it('disabled でない Fieldset の中では disabled にならない', async () => {
+      const { screen, render } = await createDOM();
+      await render(
+        <TestFieldset>
+          <TestControl />
+        </TestFieldset>,
+      );
+      expect(getInput(screen)?.disabled).toBe(false);
+    });
+
+    it('useInheritedDisabled は Field または Fieldset が disabled のとき true を返す', async () => {
+      const { screen, render } = await createDOM();
+      await render(
+        <>
+          <TestFieldset disabled>
+            <TestInherited />
+          </TestFieldset>
+          <TestField disabled>
+            <TestInherited />
+          </TestField>
+          <TestInherited />
+        </>,
+      );
+      const values = [...screen.querySelectorAll('[data-inherited]')].map((el) =>
+        el.getAttribute('data-inherited'),
+      );
+      expect(values).toEqual(['true', 'true', 'false']);
     });
   });
 });

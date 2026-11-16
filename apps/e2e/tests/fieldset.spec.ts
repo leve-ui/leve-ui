@@ -10,12 +10,19 @@ test.describe('Fieldset', () => {
     await expect(group.getByRole('radio')).toHaveCount(2);
   });
 
-  test('disabled のときは中のコントロールがすべて無効になる', async ({ page }) => {
+  test('disabled のときは中の leve-ui のコントロールも無効になる', async ({ page }) => {
     await gotoStory(page, 'components-fieldset--disabled');
 
-    const radios = page.getByRole('group', { name: 'Shipping method' }).getByRole('radio');
-    await expect(radios.nth(0)).toBeDisabled();
-    await expect(radios.nth(1)).toBeDisabled();
+    const group = page.getByRole('group', { name: 'Notifications' });
+    const email = group.getByRole('switch', { name: 'Email' });
+    const push = group.getByRole('switch', { name: 'Push' });
+    await expect(email).toBeDisabled();
+    await expect(push).toBeDisabled();
+    await expect(email).toHaveAttribute('data-disabled', '');
+
+    // Clicking the label does not toggle it either
+    await group.getByText('Push').click({ force: true });
+    await expect(push).not.toBeChecked();
   });
 
   test('disabled のときは Tab で中のコントロールを飛ばす', async ({ page }) => {

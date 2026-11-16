@@ -1,5 +1,5 @@
 import { component$, type PropsOf, Slot, useComputed$ } from '@builder.io/qwik';
-import { dataAttr, type FieldIds, useFieldProvider } from '@leve-ui/utils';
+import { dataAttr, type FieldIds, useFieldProvider, useFieldsetContext } from '@leve-ui/utils';
 
 export type FieldRootProps = PropsOf<'div'> & {
   /** Overrides the element IDs of the parts. IDs can only be overridden here (adr/0024). */
@@ -37,7 +37,9 @@ export type FieldRootProps = PropsOf<'div'> & {
 export const FieldRoot = component$<FieldRootProps>(
   ({ ids, invalid, disabled, required, hasDescription, ...props }) => {
     const invalidSignal = useComputed$(() => !!invalid);
-    const disabledSignal = useComputed$(() => !!disabled);
+    // A disabled Fieldset disables the Field too
+    const fieldset = useFieldsetContext();
+    const disabledSignal = useComputed$(() => !!disabled || !!fieldset?.disabled.value);
     const requiredSignal = useComputed$(() => !!required);
     const hasDescriptionSignal = useComputed$(() => !!hasDescription);
 

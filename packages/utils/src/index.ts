@@ -25,7 +25,13 @@ export {
   useFieldContext,
   useFieldControl,
   useFieldProvider,
+  useInheritedDisabled,
 } from './field';
+export {
+  type FieldsetContext,
+  fieldsetContextId,
+  useFieldsetContext,
+} from './fieldset';
 export {
   applyFloating,
   computeFloating,
