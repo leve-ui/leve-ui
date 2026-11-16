@@ -4,6 +4,12 @@ import { dataAttr, useFieldControl } from '@leve-ui/utils';
 export type FieldInputProps = PropsOf<'input'> & {
   /** A signal synced two-way with the input value. */
   'bind:value'?: Signal<string>;
+  /**
+   * Marks the control as invalid (`aria-invalid="true"`, `data-invalid`). Inside a
+   * Field, the control is also invalid while the Field is.
+   * @default false
+   */
+  invalid?: boolean;
   /** A signal synced two-way with the checked state (for checkbox and radio inputs). */
   'bind:checked'?: Signal<boolean>;
 };
@@ -18,8 +24,10 @@ export type FieldInputProps = PropsOf<'input'> & {
 export const FieldInput = component$<FieldInputProps>(
   ({ 'bind:value': bindValue, 'bind:checked': bindChecked, ...props }) => {
     const control = useFieldControl(props);
+    // Read by useFieldControl; not an attribute of the element
+    const { invalid: _invalid, ...elementProps } = props;
     const commonProps = {
-      ...props,
+      ...elementProps,
       id: control.value.id,
       'aria-describedby': control.value.describedBy,
       'aria-invalid': control.value.invalid ? ('true' as const) : undefined,

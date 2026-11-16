@@ -4,6 +4,12 @@ import { dataAttr, useFieldControl } from '@leve-ui/utils';
 export type FieldTextareaProps = PropsOf<'textarea'> & {
   /** A signal synced two-way with the textarea value. */
   'bind:value'?: Signal<string>;
+  /**
+   * Marks the control as invalid (`aria-invalid="true"`, `data-invalid`). Inside a
+   * Field, the control is also invalid while the Field is.
+   * @default false
+   */
+  invalid?: boolean;
 };
 
 /**
@@ -16,8 +22,10 @@ export type FieldTextareaProps = PropsOf<'textarea'> & {
 export const FieldTextarea = component$<FieldTextareaProps>(
   ({ 'bind:value': bindValue, ...props }) => {
     const control = useFieldControl(props);
+    // Read by useFieldControl; not an attribute of the element
+    const { invalid: _invalid, ...elementProps } = props;
     const commonProps = {
-      ...props,
+      ...elementProps,
       id: control.value.id,
       'aria-describedby': control.value.describedBy,
       'aria-invalid': control.value.invalid ? ('true' as const) : undefined,
