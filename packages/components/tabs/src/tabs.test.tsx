@@ -103,6 +103,25 @@ describe('Tabs', () => {
     expect(content?.getAttribute('data-orientation')).toBe('vertical');
   });
 
+  it('Root の orientation / activationMode / loop は HTML 属性として出力されない', async () => {
+    const { screen, render } = await createDOM();
+    await render(
+      <Tabs.Root orientation="vertical" activationMode="manual" loop={false} defaultValue="tab1">
+        <Tabs.List>
+          <Tabs.Trigger value="tab1">Tab 1</Tabs.Trigger>
+        </Tabs.List>
+        <Tabs.Content value="tab1">Panel 1</Tabs.Content>
+      </Tabs.Root>,
+    );
+
+    const root = screen.querySelector('[data-leve-tabs]');
+    expect(root?.hasAttribute('orientation')).toBe(false);
+    expect(root?.hasAttribute('activationmode')).toBe(false);
+    expect(root?.hasAttribute('activationMode')).toBe(false);
+    expect(root?.hasAttribute('loop')).toBe(false);
+    expect(root?.getAttribute('data-orientation')).toBe('vertical');
+  });
+
   it('選択中パーツに data-state="active"、非選択パーツに data-state="inactive" が付く', async () => {
     const { screen, render } = await createDOM();
     await render(
