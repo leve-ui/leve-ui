@@ -3,6 +3,7 @@ import { Link, useContent, useDocumentHead, useLocation } from '@builder.io/qwik
 import { Breadcrumb } from '@leve-ui/breadcrumb';
 import { css, cx } from 'styled-system/css';
 import { PROSE_CLASS } from '../../../../theme/prose';
+import { MachineTranslationNotice } from '../../../components/docs/machine-translation-notice';
 import { Sidebar } from '../../../components/docs/sidebar';
 import { TableOfContents } from '../../../components/docs/table-of-contents';
 import { LuChevronLeft, LuChevronRight } from '../../../components/icons';
@@ -109,6 +110,8 @@ export default component$(() => {
               </Breadcrumb.Item>
             </Breadcrumb.List>
           </Breadcrumb.Root>
+
+          <MachineTranslationNotice />
 
           <div class={PROSE_CLASS}>
             <Slot />
