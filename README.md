@@ -84,6 +84,7 @@ Style each part however you like, for example with data attributes:
 | [`@leve-ui/tabs`](./packages/components/tabs) | A set of layered sections of content that display one panel at a time |
 | [`@leve-ui/accordion`](./packages/components/accordion) | A vertically stacked set of headings that each reveal a section of content |
 | [`@leve-ui/toggle-group`](./packages/components/toggle-group) | A set of two-state buttons that can be toggled on or off, with single or multiple selection |
+| [`@leve-ui/dialog`](./packages/components/dialog) | A modal window that asks the user for input or a decision |
 
 ## Contributing
 

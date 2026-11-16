@@ -1,0 +1,148 @@
+---
+title: Dialog
+description: A modal window that asks the user for input or a decision.
+---
+
+# Dialog
+
+A modal window that asks the user for input or a decision.
+
+Dialog follows the [Dialog (Modal) WAI-ARIA design pattern](https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/).
+
+<Demo id="dialog/default" />
+
+## Installation
+
+Install the all-in-one package:
+
+```sh
+pnpm add @leve-ui/core
+```
+
+Or only this component:
+
+```sh
+pnpm add @leve-ui/dialog
+```
+
+## Anatomy
+
+```tsx
+import { Dialog } from '@leve-ui/dialog'; // or '@leve-ui/core'
+
+<Dialog.Root>
+  <Dialog.Trigger />
+  <Dialog.Content>
+    <Dialog.Title />
+    <Dialog.Description />
+    <Dialog.Close />
+  </Dialog.Content>
+</Dialog.Root>
+```
+
+| Part | Element | Description |
+| --- | --- | --- |
+| `Dialog.Root` | `<div>` | Wraps the parts and holds the open state. |
+| `Dialog.Trigger` | `<button>` | The button that opens the dialog. |
+| `Dialog.Content` | `<dialog>` | The dialog, opened with `showModal()`. |
+| `Dialog.Title` | `<h2>` | The title that names the dialog. |
+| `Dialog.Description` | `<p>` | The description of the dialog. |
+| `Dialog.Close` | `<button>` | A button that closes the dialog. |
+
+`Dialog.Content` is a native `<dialog>`. It is rendered where you place it, and the browser shows it above the page in the top layer, so `overflow: hidden` and `z-index` of its ancestors do not clip it. There is no Overlay part: style the backdrop with the `::backdrop` pseudo-element of the Content.
+
+```css
+[data-leve-dialog-content]::backdrop {
+  background: rgb(15 23 42 / 0.5);
+}
+```
+
+## Examples
+
+### Controlled
+
+`bind:open` controls the open state with a signal. Here, Save closes the dialog from code after saving.
+
+<Demo id="dialog/controlled" collapsed />
+
+### Persistent
+
+`closeOnOutsideClick={false}` keeps the dialog open when the backdrop is clicked. Escape and the buttons still close it.
+
+<Demo id="dialog/persistent" collapsed />
+
+## API Reference
+
+### Root
+
+<PropsTable component="dialog" part="Root" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-dialog` | Always present |
+| `data-state` | `"open"` \| `"closed"` |
+
+The open state is uncontrolled with `defaultOpen`, or controlled with `bind:open`. `onOpenChange$` is called when the user opens or closes the dialog. The SSR HTML always renders the dialog closed: a dialog that is open initially opens when the page resumes, since `showModal()` runs on the client.
+
+### Trigger
+
+<PropsTable component="dialog" part="Trigger" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-dialog-trigger` | Always present |
+| `data-state` | `"open"` \| `"closed"` |
+
+### Content
+
+<PropsTable component="dialog" part="Content" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-dialog-content` | Always present |
+| `data-state` | `"open"` \| `"closed"` |
+
+The browser adds the `open` attribute while the dialog is shown. Use `[open]` with `@starting-style` to animate the dialog and its `::backdrop` when they appear, as in the demos.
+
+### Title
+
+<PropsTable component="dialog" part="Title" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-dialog-title` | Always present |
+
+### Description
+
+<PropsTable component="dialog" part="Description" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-dialog-description` | Always present |
+
+### Close
+
+<PropsTable component="dialog" part="Close" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-dialog-close` | Always present |
+| `data-state` | `"open"` \| `"closed"` |
+
+## Accessibility
+
+Complies with the [Dialog (Modal) WAI-ARIA design pattern](https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/).
+
+- `Dialog.Content` is a native `<dialog>` opened with `showModal()`, so the rest of the page is inert while it is open. It renders `aria-modal="true"`, `aria-labelledby` pointing to `Dialog.Title` and `aria-describedby` pointing to `Dialog.Description`.
+- `Dialog.Trigger` renders `aria-haspopup="dialog"`, `aria-expanded` and `aria-controls` pointing to the Content.
+- When the dialog opens, focus moves to its first focusable element (or to the Content if it has none), and Tab stays inside the dialog. When it closes, focus returns to the element that was focused before it opened, or to the Trigger.
+- The page behind the dialog does not scroll while it is open.
+- If `Dialog.Close` only contains an icon, give it an `aria-label`.
+
+### Keyboard Interactions
+
+| Key | Description |
+| --- | --- |
+| `Tab` | Moves focus to the next focusable element in the dialog. From the last one, moves to the first. |
+| `Shift` + `Tab` | Moves focus to the previous focusable element in the dialog. From the first one, moves to the last. |
+| `Escape` | Closes the dialog, unless `closeOnEscape` is `false`. |
