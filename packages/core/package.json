@@ -67,7 +67,8 @@
     "@leve-ui/tabs": "workspace:*",
     "@leve-ui/toggle": "workspace:*",
     "@leve-ui/toggle-group": "workspace:*",
-    "@leve-ui/toolbar": "workspace:*"
+    "@leve-ui/toolbar": "workspace:*",
+    "@leve-ui/tooltip": "workspace:*"
   },
   "peerDependencies": {
     "@builder.io/qwik": "^1.20.4"

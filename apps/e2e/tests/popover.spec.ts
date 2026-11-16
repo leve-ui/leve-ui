@@ -26,7 +26,8 @@ test.describe('Popover', () => {
 
     const triggerBox = await trigger.boundingBox();
     const popoverBox = await popover.boundingBox();
-    expect(popoverBox!.y).toBeGreaterThan(triggerBox!.y + triggerBox!.height - 1);
+    if (!triggerBox || !popoverBox) throw new Error('Not rendered');
+    expect(popoverBox.y).toBeGreaterThan(triggerBox.y + triggerBox.height - 1);
     await expect(popover).toHaveAttribute('data-side', 'bottom');
     await expect(popover.locator('[data-leve-popover-arrow]')).toHaveAttribute(
       'data-side',
@@ -85,7 +86,8 @@ test.describe('Popover', () => {
 
     const anchorBox = await anchor.boundingBox();
     const popoverBox = await popover.boundingBox();
-    expect(Math.round(popoverBox!.x)).toBe(Math.round(anchorBox!.x));
-    expect(Math.round(popoverBox!.width)).toBe(Math.round(anchorBox!.width));
+    if (!anchorBox || !popoverBox) throw new Error('Not rendered');
+    expect(Math.round(popoverBox.x)).toBe(Math.round(anchorBox.x));
+    expect(Math.round(popoverBox.width)).toBe(Math.round(anchorBox.width));
   });
 });

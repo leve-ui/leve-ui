@@ -1,0 +1,60 @@
+.tooltip-default-trigger {
+  display: inline-flex;
+  padding: 8px;
+  border: 1px solid light-dark(#cbd5e1, #ffffff3d);
+  border-radius: 6px;
+  background: light-dark(#ffffff, #1b2045);
+  color: light-dark(#0f172a, #ffffff);
+  cursor: pointer;
+}
+
+.tooltip-default-trigger:hover {
+  background: light-dark(#f1f5f9, #ffffff14);
+}
+
+.tooltip-default-trigger:focus-visible {
+  outline: 2px solid #009dfd;
+  outline-offset: 2px;
+}
+
+.tooltip-default-icon {
+  width: 16px;
+  height: 16px;
+}
+
+/* The Content is a popover in the top layer; the library sets its position */
+.tooltip-default-content {
+  max-width: 240px;
+  padding: 6px 10px;
+  border: none;
+  border-radius: 6px;
+  background: light-dark(#0f172a, #ffffff);
+  color: light-dark(#ffffff, #0f172a);
+  font-family: inherit;
+  font-size: 13px;
+  overflow: visible;
+}
+
+/* Fade in when it opens */
+.tooltip-default-content:popover-open {
+  transition: opacity 120ms ease;
+  @starting-style {
+    opacity: 0;
+  }
+}
+
+/* A small rotated square on the edge facing the Trigger */
+.tooltip-default-arrow {
+  width: 8px;
+  height: 8px;
+  background: inherit;
+  rotate: 45deg;
+}
+
+.tooltip-default-arrow[data-side="top"] {
+  margin-bottom: -4px;
+}
+
+.tooltip-default-arrow[data-side="bottom"] {
+  margin-top: -4px;
+}

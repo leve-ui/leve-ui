@@ -30,6 +30,7 @@
     "@leve-ui/toggle": "workspace:*",
     "@leve-ui/toggle-group": "workspace:*",
     "@leve-ui/toolbar": "workspace:*",
+    "@leve-ui/tooltip": "workspace:*",
     "@leve-ui/tsconfig": "workspace:*",
     "@leve-ui/vite-config": "workspace:*",
     "@qwikest/icons": "^0.0.13",

@@ -1,0 +1,116 @@
+---
+title: Tooltip
+description: A short description that appears when a button is hovered or focused.
+---
+
+# Tooltip
+
+A short description that appears when a button is hovered or focused.
+
+Tooltip follows the [Tooltip WAI-ARIA design pattern](https://www.w3.org/WAI/ARIA/apg/patterns/tooltip/).
+
+<Demo id="tooltip/default" />
+
+## Installation
+
+Install the all-in-one package:
+
+```sh
+pnpm add @leve-ui/core
+```
+
+Or only this component:
+
+```sh
+pnpm add @leve-ui/tooltip
+```
+
+## Anatomy
+
+```tsx
+import { Tooltip } from '@leve-ui/tooltip'; // or '@leve-ui/core'
+
+<Tooltip.Root>
+  <Tooltip.Trigger />
+  <Tooltip.Content>
+    <Tooltip.Arrow />
+  </Tooltip.Content>
+</Tooltip.Root>
+```
+
+| Part | Element | Description |
+| --- | --- | --- |
+| `Tooltip.Root` | `<span>` | Wraps the parts and holds the open state. An inline element, so it fits in a row of buttons or in text. |
+| `Tooltip.Trigger` | `<button>` | The button that the tooltip describes. |
+| `Tooltip.Content` | `<div>` | The tooltip, a `popover="manual"` element in the top layer. |
+| `Tooltip.Arrow` | `<div>` | Optional. An arrow pointing at the Trigger, drawn with CSS. |
+
+`Tooltip.Trigger` renders a `<button>` for now. Attaching a tooltip to another element, such as a link, is planned with `asChild` ([#153](https://github.com/leve-ui/leve-ui/issues/153)).
+
+Tooltips are for short, plain text. Do not put links or buttons in them: use [Popover](/components/popover/) for interactive content.
+
+## API Reference
+
+### Root
+
+<PropsTable component="tooltip" part="Root" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-tooltip` | Always present |
+| `data-state` | `"open"` \| `"closed"` |
+
+### Trigger
+
+<PropsTable component="tooltip" part="Trigger" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-tooltip-trigger` | Always present |
+| `data-state` | `"open"` \| `"closed"` |
+
+### Content
+
+<PropsTable component="tooltip" part="Content" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-tooltip-content` | Always present |
+| `data-state` | `"open"` \| `"closed"` |
+| `data-side` | The final side after flipping: `"top"` \| `"right"` \| `"bottom"` \| `"left"` |
+| `data-align` | `"start"` \| `"center"` \| `"end"` |
+
+| CSS variable | Value |
+| --- | --- |
+| `--leve-tooltip-anchor-width` | The width of the Trigger |
+| `--leve-tooltip-anchor-height` | The height of the Trigger |
+| `--leve-tooltip-available-width` | The width available in the viewport |
+| `--leve-tooltip-available-height` | The height available in the viewport |
+
+The Content gets inline `position`, `top` and `left` while it is open. It matches `:popover-open` while shown; use it with `@starting-style` to animate it.
+
+### Arrow
+
+<PropsTable component="tooltip" part="Arrow" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-tooltip-arrow` | Always present |
+| `data-side` | The final side of the Content |
+
+## Accessibility
+
+Complies with the [Tooltip WAI-ARIA design pattern](https://www.w3.org/WAI/ARIA/apg/patterns/tooltip/).
+
+- `Tooltip.Content` renders `role="tooltip"`, and `Tooltip.Trigger` points to it with `aria-describedby`. The tooltip is a description: an icon-only Trigger still needs its own `aria-label`.
+- The tooltip opens at once on focus, and after `openDelay` (700 ms) when the pointer rests on the Trigger. It does not open on touch.
+- It closes when focus leaves, when the Trigger is pressed, on Escape, and after `closeDelay` (300 ms) when the pointer leaves.
+- Moving the pointer from the Trigger onto the tooltip keeps it open, so that it can be read (WCAG 1.4.13 Content on Hover or Focus).
+- Focus never moves into the tooltip.
+
+### Keyboard Interactions
+
+| Key | Description |
+| --- | --- |
+| `Tab` | Focusing the Trigger shows the tooltip; leaving it hides the tooltip. |
+| `Escape` | Hides the tooltip. Focus stays on the Trigger. |
