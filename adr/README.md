@@ -65,3 +65,4 @@ Component-specific specs (which APG pattern a component follows, its parts, and 
 | [0033](0033-translate-docs-through-a-segment-level-translation-memory-with-gemini.md) | Translate docs through a segment-level translation memory with Gemini | Accepted |
 | [0034](0034-deploy-the-docs-site-to-cloudflare-pages-as-a-static-site.md) | Deploy the docs site to Cloudflare Pages as a static site | Accepted |
 | [0035](0035-read-item-collections-from-the-dom-and-pick-the-focus-model-per-pattern.md) | Read item collections from the DOM and pick the focus model per pattern | Accepted |
+| [0036](0036-represent-dates-as-iso-strings-and-compute-them-with-internationalized-date.md) | Represent dates as ISO strings and compute them with @internationalized/date | Accepted |
