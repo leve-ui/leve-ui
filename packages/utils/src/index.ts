@@ -7,6 +7,7 @@ export {
 } from './announcer';
 export { type UseControllableStateOptions, useControllableState } from './controllable-state';
 export { dataAttr } from './data-attr';
+export { type DialogElementOptions, openDialogElement } from './dialog-element';
 export {
   createDismissableLayer,
   type DismissableLayer,

@@ -1,0 +1,104 @@
+.drawer-modal-trigger {
+  display: inline-flex;
+  padding: 8px;
+  border: 1px solid light-dark(#cbd5e1, #ffffff3d);
+  border-radius: 6px;
+  background: light-dark(#ffffff, #1b2045);
+  color: light-dark(#0f172a, #ffffff);
+  cursor: pointer;
+}
+
+.drawer-modal-trigger:hover {
+  background: light-dark(#f1f5f9, #ffffff14);
+}
+
+/* The Content is a native <dialog>; data-side places it on an edge of the screen */
+.drawer-modal-content {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 24px;
+  border: none;
+  background: light-dark(#ffffff, #1b2045);
+  color: light-dark(#0f172a, #ffffff);
+  font-family: inherit;
+  box-shadow: 0 16px 40px rgb(15 23 42 / 0.25);
+}
+
+.drawer-modal-content[data-side="left"] {
+  inset: 0 auto 0 0;
+  width: min(280px, 100vw);
+  height: 100dvh;
+  max-height: none;
+}
+
+/* A modal drawer has a backdrop, the ::backdrop of the <dialog> */
+.drawer-modal-content::backdrop {
+  background: light-dark(rgb(15 23 42 / 0.5), rgb(0 0 0 / 0.6));
+}
+
+/* Slide in when it opens */
+.drawer-modal-content[data-side="left"][open] {
+  transition: translate 200ms ease;
+  @starting-style {
+    translate: -100% 0;
+  }
+}
+
+.drawer-modal-title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.drawer-modal-description {
+  margin: 6px 0 20px;
+  font-size: 14px;
+  color: light-dark(#475569, #c9ddf0);
+}
+
+.drawer-modal-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.drawer-modal-link {
+  padding: 8px 10px;
+  border-radius: 6px;
+  font-size: 14px;
+  color: inherit;
+  text-decoration: none;
+}
+
+.drawer-modal-link:hover {
+  background: light-dark(#f1f5f9, #ffffff14);
+}
+
+.drawer-modal-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: inline-flex;
+  padding: 4px;
+  border: none;
+  border-radius: 6px;
+  background: none;
+  color: light-dark(#475569, #c9ddf0);
+  cursor: pointer;
+}
+
+.drawer-modal-close:hover {
+  background: light-dark(#f1f5f9, #ffffff14);
+}
+
+.drawer-modal-icon {
+  width: 16px;
+  height: 16px;
+}
+
+.drawer-modal-trigger:focus-visible,
+.drawer-modal-link:focus-visible,
+.drawer-modal-close:focus-visible {
+  outline: 2px solid #009dfd;
+  outline-offset: 2px;
+}
