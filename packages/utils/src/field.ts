@@ -6,6 +6,7 @@ import {
   useContextProvider,
   useId,
 } from '@builder.io/qwik';
+import { fieldsetContextId } from './fieldset';
 
 /**
  * Field を構成する各パーツの要素 ID。
@@ -139,7 +140,7 @@ export interface FieldControlState {
   describedBy: string | undefined;
   /** 無効（エラー）状態（`options.invalid || field.invalid`） */
   invalid: boolean;
-  /** 無効化状態（`options.disabled || field.disabled`） */
+  /** 無効化状態（`options.disabled || field.disabled || fieldset.disabled`） */
   disabled: boolean;
   /** 必須状態（`options.required || field.required`） */
   required: boolean;
@@ -152,6 +153,7 @@ export interface FieldControlState {
  * - `useId()` と `useContext(fieldContextId, null)` を無条件に呼び出し、フックの実行順序を固定します。
  * - `options` プロパティは `useComputed$` 内で参照するため、Qwik の props プロキシをそのまま渡せます。
  * - Field 内では `field.ids.control` が優先され、Field 外では `options.id ?? generatedId` が使われます。
+ * - `disabled` は、囲んでいる `Fieldset` が無効のときも `true` になります（ネイティブの `<fieldset disabled>` と同じ）。
  * - `describedBy` は利用者の `aria-describedby`、説明文（`hasDescription` 時）、エラーメッセージ（囲む Field が invalid の時）を空白区切りで結合します。空の場合は `undefined` になります。
  *
  * @param options フォームコントロールの props
@@ -174,13 +176,17 @@ export const useFieldControl = (
 ): ReadonlySignal<FieldControlState> => {
   const generatedId = useId();
   const field = useContext(fieldContextId, null);
+  const fieldset = useContext(fieldsetContextId, null);
 
   return useComputed$<FieldControlState>(() => {
     const id = field ? field.ids.control : (options.id ?? generatedId);
     const labelId = field?.ids.label;
 
     const invalid = Boolean(options.invalid) || Boolean(field?.invalid.value);
-    const disabled = Boolean(options.disabled) || Boolean(field?.disabled.value);
+    const disabled =
+      Boolean(options.disabled) ||
+      Boolean(field?.disabled.value) ||
+      Boolean(fieldset?.disabled.value);
     const required = Boolean(options.required) || Boolean(field?.required.value);
 
     const hasDescription = Boolean(field?.hasDescription.value);
@@ -207,4 +213,14 @@ export const useFieldControl = (
       required,
     };
   });
+};
+
+/**
+ * 囲んでいる `Field` または `Fieldset` によって無効化されているかどうかを返します。
+ * 独自の `disabled` を持つコントロールの Root で、`props.disabled || inherited.value` のように使います。
+ */
+export const useInheritedDisabled = (): ReadonlySignal<boolean> => {
+  const field = useContext(fieldContextId, null);
+  const fieldset = useContext(fieldsetContextId, null);
+  return useComputed$(() => Boolean(field?.disabled.value) || Boolean(fieldset?.disabled.value));
 };

@@ -68,7 +68,7 @@ For controls with several parts, the Field wires the interactive part (`Checkbox
 
 ## Fieldset
 
-`Fieldset` groups related controls under one label. It renders a native `<fieldset>` and `<legend>`, so the group is named by its Legend. `disabled` on `Fieldset.Root` disables the native form controls inside it, and both parts expose `data-disabled`.
+`Fieldset` groups related controls under one label. It renders a native `<fieldset>` and `<legend>`, so the group is named by its Legend. `disabled` on `Fieldset.Root` disables every form control inside it, both native and leve-ui controls, and both parts expose `data-disabled`.
 
 ```tsx
 <Fieldset.Root>

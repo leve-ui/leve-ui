@@ -1,5 +1,13 @@
-import { $, component$, type PropsOf, type QRL, type Signal, Slot } from '@builder.io/qwik';
-import { dataAttr, useControllableState } from '@leve-ui/utils';
+import {
+  $,
+  component$,
+  type PropsOf,
+  type QRL,
+  type Signal,
+  Slot,
+  useComputed$,
+} from '@builder.io/qwik';
+import { dataAttr, useControllableState, useInheritedDisabled } from '@leve-ui/utils';
 
 export type ToggleRootProps = PropsOf<'button'> & {
   /**
@@ -37,8 +45,12 @@ export const ToggleRoot = component$<ToggleRootProps>(
       onChange$: onPressedChange$,
     });
 
+    // Disabled by the prop, or by a surrounding Field or Fieldset
+    const inheritedDisabled = useInheritedDisabled();
+    const disabledSignal = useComputed$(() => Boolean(disabled) || inheritedDisabled.value);
+
     const toggle$ = $(() => {
-      if (disabled) return;
+      if (disabledSignal.value) return;
       setPressed$(!pressed.value);
     });
 
@@ -46,11 +58,11 @@ export const ToggleRoot = component$<ToggleRootProps>(
       <button
         {...props}
         type="button"
-        disabled={disabled}
+        disabled={disabledSignal.value}
         aria-pressed={pressed.value ? 'true' : 'false'}
         data-leve-toggle=""
         data-state={pressed.value ? 'on' : 'off'}
-        data-disabled={dataAttr(disabled)}
+        data-disabled={dataAttr(disabledSignal.value)}
         onClick$={[toggle$, onClick$]}
       >
         <Slot />

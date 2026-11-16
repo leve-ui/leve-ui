@@ -9,7 +9,12 @@ import {
   useContextProvider,
   useId,
 } from '@builder.io/qwik';
-import { dataAttr, useControllableState, useFieldContext } from '@leve-ui/utils';
+import {
+  dataAttr,
+  useControllableState,
+  useFieldContext,
+  useInheritedDisabled,
+} from '@leve-ui/utils';
 import {
   type CheckboxCheckedState,
   type CheckboxIds,
@@ -75,7 +80,9 @@ export const CheckboxRoot = component$<CheckboxRootProps>(
           label: propIds?.label ?? `${base}-label`,
         };
 
-    const disabledSignal = useComputed$(() => !!rootDisabled || !!field?.disabled.value);
+    // Disabled by the Root, or by a surrounding Field or Fieldset
+    const inheritedDisabled = useInheritedDisabled();
+    const disabledSignal = useComputed$(() => !!rootDisabled || inheritedDisabled.value);
     const requiredSignal = useComputed$(() => !!rootRequired || !!field?.required.value);
 
     const toggle$ = $(() => {

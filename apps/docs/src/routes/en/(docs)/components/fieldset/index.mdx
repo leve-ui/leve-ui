@@ -44,7 +44,7 @@ import { Fieldset } from '@leve-ui/fieldset'; // or '@leve-ui/core'
 
 ### Disabled
 
-`disabled` on the Root disables every form control inside it, like the native `<fieldset disabled>`.
+`disabled` on the Root disables every form control inside it, like the native `<fieldset disabled>`. The leve-ui controls inside it (Checkbox, Switch, Radio Group, Toggle, Toggle Group and Field) are disabled too: they render `data-disabled` and ignore clicks. As in HTML, controls inside the Legend are not disabled by its own Fieldset, and a nested Fieldset is disabled when an ancestor is.
 
 <Demo id="fieldset/disabled" collapsed />
 
@@ -73,5 +73,5 @@ All props, including `disabled`, are passed to the native `<fieldset>`.
 ## Accessibility
 
 - The native `<fieldset>` has the implicit `role="group"`, and `Fieldset.Legend` gives the group its accessible name.
-- When the Root is disabled, the controls inside it are disabled by the browser and skipped by Tab.
+- When the Root is disabled, the controls inside it are disabled and skipped by Tab: native controls by the browser, leve-ui controls through the Fieldset.
 - Fieldset has no keyboard interaction of its own.
