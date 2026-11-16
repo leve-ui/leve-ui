@@ -1,0 +1,164 @@
+---
+title: Popover
+description: A small panel that opens next to a button, such as settings or filters.
+---
+
+# Popover
+
+A small panel that opens next to a button, such as settings or filters.
+
+There is no WAI-ARIA APG pattern for popovers. Popover is a non-modal dialog attached to a button: the page stays usable, and the popover closes when the user moves on.
+
+<Demo id="popover/default" />
+
+## Installation
+
+Install the all-in-one package:
+
+```sh
+pnpm add @leve-ui/core
+```
+
+Or only this component:
+
+```sh
+pnpm add @leve-ui/popover
+```
+
+## Anatomy
+
+```tsx
+import { Popover } from '@leve-ui/popover'; // or '@leve-ui/core'
+
+<Popover.Root>
+  <Popover.Anchor /> {/* optional */}
+  <Popover.Trigger />
+  <Popover.Content>
+    <Popover.Title />
+    <Popover.Description />
+    <Popover.Close />
+    <Popover.Arrow />
+  </Popover.Content>
+</Popover.Root>
+```
+
+| Part | Element | Description |
+| --- | --- | --- |
+| `Popover.Root` | `<div>` | Wraps the parts and holds the open state. |
+| `Popover.Trigger` | `<button>` | The button that opens and closes the popover. |
+| `Popover.Anchor` | `<div>` | Optional. The element to place the popover next to, instead of the Trigger. |
+| `Popover.Content` | `<div>` | The panel, a `popover="manual"` element in the top layer. |
+| `Popover.Arrow` | `<div>` | Optional. An arrow pointing at the Trigger, drawn with CSS. |
+| `Popover.Title` | `<h2>` | The title that names the popover. |
+| `Popover.Description` | `<p>` | The description of the popover. |
+| `Popover.Close` | `<button>` | A button that closes the popover. |
+
+`Popover.Content` is rendered where you place it and shown in the top layer, so `overflow: hidden` and `z-index` of its ancestors do not clip it. It is positioned next to the Trigger with [Floating UI](https://floating-ui.com/): set `side`, `align` and the offsets on the Content, and it flips and shifts to stay in the viewport.
+
+## Examples
+
+### Anchor
+
+`Popover.Anchor` places the popover next to another element than the Trigger. Here, the filters open below the whole search field, and `--leve-popover-anchor-width` makes them as wide as the field.
+
+<Demo id="popover/anchor" collapsed />
+
+## API Reference
+
+### Root
+
+<PropsTable component="popover" part="Root" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-popover` | Always present |
+| `data-state` | `"open"` \| `"closed"` |
+
+### Trigger
+
+<PropsTable component="popover" part="Trigger" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-popover-trigger` | Always present |
+| `data-state` | `"open"` \| `"closed"` |
+
+### Anchor
+
+<PropsTable component="popover" part="Anchor" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-popover-anchor` | Always present |
+
+### Content
+
+<PropsTable component="popover" part="Content" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-popover-content` | Always present |
+| `data-state` | `"open"` \| `"closed"` |
+| `data-side` | The final side after flipping: `"top"` \| `"right"` \| `"bottom"` \| `"left"` |
+| `data-align` | `"start"` \| `"center"` \| `"end"` |
+
+| CSS variable | Value |
+| --- | --- |
+| `--leve-popover-anchor-width` | The width of the Trigger (or Anchor) |
+| `--leve-popover-anchor-height` | The height of the Trigger (or Anchor) |
+| `--leve-popover-available-width` | The width available in the viewport |
+| `--leve-popover-available-height` | The height available in the viewport |
+
+The Content gets inline `position`, `top` and `left` while it is open, since its position depends on the Trigger. It matches `:popover-open` while shown; use it with `@starting-style` to animate it.
+
+### Arrow
+
+<PropsTable component="popover" part="Arrow" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-popover-arrow` | Always present |
+| `data-side` | The final side of the Content |
+
+The Arrow gets an inline offset along the edge facing the Trigger. Draw it with CSS (for example a rotated square) or an SVG inside it.
+
+### Title
+
+<PropsTable component="popover" part="Title" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-popover-title` | Always present |
+
+### Description
+
+<PropsTable component="popover" part="Description" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-popover-description` | Always present |
+
+### Close
+
+<PropsTable component="popover" part="Close" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-popover-close` | Always present |
+| `data-state` | `"open"` \| `"closed"` |
+
+## Accessibility
+
+- `Popover.Content` renders `role="dialog"`, `aria-labelledby` pointing to `Popover.Title` and `aria-describedby` pointing to `Popover.Description`. Without a Title, name it with `aria-label`.
+- `Popover.Trigger` renders `aria-haspopup="dialog"`, `aria-expanded` and `aria-controls` pointing to the Content.
+- When the popover opens, focus moves to its first focusable element (or to the Content). Escape and `Popover.Close` close it and return focus to the Trigger.
+- Clicking outside the popover or moving focus out of it with Tab closes it, and focus stays where the user moved it.
+- `Popover.Arrow` is hidden from assistive technologies with `aria-hidden="true"`.
+
+### Keyboard Interactions
+
+| Key | Description |
+| --- | --- |
+| `Enter` / `Space` | On the Trigger, opens or closes the popover. |
+| `Tab` | Moves focus through the popover. Leaving it closes the popover. |
+| `Escape` | Closes the popover and returns focus to the Trigger, unless `closeOnEscape` is `false`. |

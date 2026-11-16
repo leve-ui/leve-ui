@@ -233,6 +233,10 @@ export const applyFloating = (
   floating.style.setProperty('position', 'fixed');
   floating.style.setProperty('left', `${Math.round(result.x)}px`);
   floating.style.setProperty('top', `${Math.round(result.y)}px`);
+  // A [popover] element has `inset: 0; margin: auto` from the browser, which would center it
+  floating.style.setProperty('right', 'auto');
+  floating.style.setProperty('bottom', 'auto');
+  floating.style.setProperty('margin', '0');
 
   floating.setAttribute('data-side', result.side);
   floating.setAttribute('data-align', result.align);

@@ -1,0 +1,114 @@
+.popover-default-trigger {
+  padding: 8px 14px;
+  border: 1px solid light-dark(#cbd5e1, #ffffff3d);
+  border-radius: 6px;
+  background: light-dark(#ffffff, #1b2045);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  color: light-dark(#0f172a, #ffffff);
+  cursor: pointer;
+}
+
+.popover-default-trigger:hover {
+  background: light-dark(#f1f5f9, #ffffff14);
+}
+
+/* The Content is a popover in the top layer; the library sets its position */
+.popover-default-content {
+  box-sizing: border-box;
+  width: 260px;
+  padding: 16px;
+  border: 1px solid light-dark(#cbd5e1, #ffffff3d);
+  border-radius: 6px;
+  background: light-dark(#ffffff, #1b2045);
+  color: light-dark(#0f172a, #ffffff);
+  font-family: inherit;
+  box-shadow: 0 8px 24px rgb(15 23 42 / 0.18);
+  overflow: visible;
+}
+
+.popover-default-content:focus-visible {
+  outline: 2px solid #009dfd;
+  outline-offset: 2px;
+}
+
+.popover-default-title {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.popover-default-description {
+  margin: 4px 0 12px;
+  font-size: 13px;
+  color: light-dark(#475569, #c9ddf0);
+}
+
+.popover-default-label {
+  display: grid;
+  grid-template-columns: 64px 1fr;
+  align-items: center;
+  margin-top: 8px;
+  font-size: 13px;
+}
+
+.popover-default-input {
+  min-width: 0;
+  padding: 6px 8px;
+  border: 1px solid light-dark(#cbd5e1, #ffffff3d);
+  border-radius: 6px;
+  background: light-dark(#ffffff, #1b2045);
+  font: inherit;
+  color: inherit;
+}
+
+.popover-default-close {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  display: inline-flex;
+  padding: 4px;
+  border: none;
+  border-radius: 6px;
+  background: none;
+  color: light-dark(#475569, #c9ddf0);
+  cursor: pointer;
+}
+
+.popover-default-close:hover {
+  background: light-dark(#f1f5f9, #ffffff14);
+}
+
+.popover-default-icon {
+  width: 14px;
+  height: 14px;
+}
+
+/* A rotated square half outside the edge facing the Trigger */
+.popover-default-arrow {
+  width: 10px;
+  height: 10px;
+  background: inherit;
+  border: inherit;
+  rotate: 45deg;
+}
+
+.popover-default-arrow[data-side="bottom"] {
+  margin-top: -6px;
+  border-right: none;
+  border-bottom: none;
+}
+
+.popover-default-arrow[data-side="top"] {
+  margin-bottom: -6px;
+  border-left: none;
+  border-top: none;
+}
+
+.popover-default-trigger:focus-visible,
+.popover-default-input:focus-visible,
+.popover-default-close:focus-visible {
+  outline: 2px solid #009dfd;
+  outline-offset: 2px;
+}
