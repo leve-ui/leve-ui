@@ -10,7 +10,7 @@ import {
   useId,
   useStore,
 } from '@builder.io/qwik';
-import { dataAttr, useControllableState } from '@leve-ui/utils';
+import { dataAttr, useControllableState, useFieldContext, useFieldControl } from '@leve-ui/utils';
 import {
   type RadioGroupIds,
   type RadioGroupItemRegistration,
@@ -18,7 +18,7 @@ import {
 } from './radio-group-context';
 
 export type RadioGroupRootProps = PropsOf<'div'> & {
-  /** Overrides the element IDs of the parts. */
+  /** Overrides the element IDs of the parts. Inside a Field, the Field's IDs are used instead. */
   ids?: Partial<RadioGroupIds>;
   /**
    * The value selected initially (uncontrolled).
@@ -59,7 +59,10 @@ export type RadioGroupRootProps = PropsOf<'div'> & {
  * 自動選択をサポートします。
  *
  * アクセシブルネームとして `RadioGroup.Label` を置くか、`aria-label` / `aria-labelledby` を指定してください。
- * 各パーツの要素 ID を上書きする場合は `ids` プロパティを使用します。
+ * 各パーツの要素 ID を上書きする場合は `ids` プロパティを使用します（Root の `id` も使えます）。
+ * `Field` の中では Field の ID・説明文（`aria-describedby`）・`invalid`・`disabled`・`required` を使います
+ * （`adr/0024`）。`<label>` はグループを名付けられないため、ラベルには `Field.Label` ではなく
+ * `RadioGroup.Label` を使ってください（Field の中では Field のラベル ID を使います）。
  * 非制御モード（`defaultValue`）と制御モード（`bind:value` / `onValueChange$`）の両方に対応しています。
  */
 export const RadioGroupRoot = component$<RadioGroupRootProps>((props) => {
@@ -89,13 +92,18 @@ export const RadioGroupRoot = component$<RadioGroupRootProps>((props) => {
     onChange$: handleValueChange$,
   });
 
+  const field = useFieldContext();
+  const control = useFieldControl(props);
   const base = useId();
-  const labelId = propIds?.label ?? `${base}-label`;
-  const rootId = `${base}-root`;
-  const ids: RadioGroupIds = { label: labelId, root: rootId };
+  const ids: RadioGroupIds = field
+    ? { label: field.ids.label, root: field.ids.control }
+    : {
+        label: propIds?.label ?? `${base}-label`,
+        root: props.id ?? propIds?.root ?? `${base}-root`,
+      };
 
-  const disabledSignal = useComputed$(() => Boolean(props.disabled));
-  const requiredSignal = useComputed$(() => Boolean(props.required));
+  const disabledSignal = useComputed$(() => control.value.disabled);
+  const requiredSignal = useComputed$(() => control.value.required);
   const orientationSignal = useComputed$(() => props.orientation ?? 'vertical');
   const loopSignal = useComputed$(() => props.loop ?? true);
 
@@ -128,9 +136,12 @@ export const RadioGroupRoot = component$<RadioGroupRootProps>((props) => {
       aria-orientation={orientationSignal.value}
       aria-required={requiredSignal.value ? 'true' : undefined}
       aria-disabled={disabledSignal.value ? 'true' : undefined}
+      aria-describedby={control.value.describedBy}
+      aria-invalid={control.value.invalid ? 'true' : undefined}
       data-leve-radio-group=""
       data-orientation={orientationSignal.value}
       data-disabled={dataAttr(disabledSignal.value)}
+      data-invalid={dataAttr(control.value.invalid)}
     >
       <Slot />
     </div>

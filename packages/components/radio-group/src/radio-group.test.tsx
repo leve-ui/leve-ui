@@ -1,5 +1,6 @@
 import { component$, useSignal } from '@builder.io/qwik';
 import { createDOM } from '@builder.io/qwik/testing';
+import { Field } from '@leve-ui/field';
 import { describe, expect, it } from 'vitest';
 import { RadioGroup } from './index';
 
@@ -655,5 +656,79 @@ describe('RadioGroup', () => {
     expect(screen.querySelector('#click-status')?.textContent).toBe('no');
     await userEvent('[data-leve-radio-group-item]', 'click');
     expect(screen.querySelector('#click-status')?.textContent).toBe('yes');
+  });
+
+  it('Field の中では Field の ID・説明文・invalid・disabled・required を使う', async () => {
+    const { screen, render } = await createDOM();
+    await render(
+      <Field.Root
+        invalid
+        disabled
+        required
+        hasDescription
+        ids={{ control: 'shipping', label: 'shipping-label' }}
+      >
+        <RadioGroup.Root>
+          <RadioGroup.Label>Shipping</RadioGroup.Label>
+          <RadioGroup.Item value="standard">Standard</RadioGroup.Item>
+        </RadioGroup.Root>
+        <Field.Description>Description</Field.Description>
+        <Field.ErrorMessage>Error</Field.ErrorMessage>
+      </Field.Root>,
+    );
+
+    const root = screen.querySelector('[data-leve-radio-group]');
+    const label = screen.querySelector('[data-leve-radio-group-label]');
+    const item = screen.querySelector<HTMLButtonElement>('[data-leve-radio-group-item]');
+    const description = screen.querySelector('[data-leve-field-description]');
+    const error = screen.querySelector('[data-leve-field-error-message]');
+
+    expect(root?.id).toBe('shipping');
+    expect(label?.id).toBe('shipping-label');
+    expect(root?.getAttribute('aria-labelledby')).toBe('shipping-label');
+    expect(root?.getAttribute('aria-describedby')).toBe(`${description?.id} ${error?.id}`);
+    expect(root?.getAttribute('aria-invalid')).toBe('true');
+    expect(root?.hasAttribute('data-invalid')).toBe(true);
+    expect(root?.getAttribute('aria-disabled')).toBe('true');
+    expect(root?.getAttribute('aria-required')).toBe('true');
+    expect(item?.disabled).toBe(true);
+  });
+
+  it('Field の外では aria-describedby / aria-invalid を出力しない', async () => {
+    const { screen, render } = await createDOM();
+    await render(
+      <RadioGroup.Root>
+        <RadioGroup.Label>Plan</RadioGroup.Label>
+        <RadioGroup.Item value="free">Free</RadioGroup.Item>
+      </RadioGroup.Root>,
+    );
+
+    const root = screen.querySelector('[data-leve-radio-group]');
+    expect(root?.hasAttribute('aria-describedby')).toBe(false);
+    expect(root?.hasAttribute('aria-invalid')).toBe(false);
+  });
+
+  it('利用者が指定した Root の id / ids.root / Label の id を優先する', async () => {
+    const { screen, render } = await createDOM();
+    await render(
+      <>
+        <RadioGroup.Root id="plan">
+          <RadioGroup.Label id="plan-label">Plan</RadioGroup.Label>
+          <RadioGroup.Item value="free">Free</RadioGroup.Item>
+        </RadioGroup.Root>
+        <RadioGroup.Root ids={{ root: 'size', label: 'size-label' }}>
+          <RadioGroup.Label>Size</RadioGroup.Label>
+          <RadioGroup.Item value="s">S</RadioGroup.Item>
+        </RadioGroup.Root>
+      </>,
+    );
+
+    const [plan, size] = screen.querySelectorAll('[data-leve-radio-group]');
+    const [planLabel, sizeLabel] = screen.querySelectorAll('[data-leve-radio-group-label]');
+    expect(plan.id).toBe('plan');
+    expect(planLabel.id).toBe('plan-label');
+    expect(size.id).toBe('size');
+    expect(sizeLabel.id).toBe('size-label');
+    expect(size.getAttribute('aria-labelledby')).toBe('size-label');
   });
 });

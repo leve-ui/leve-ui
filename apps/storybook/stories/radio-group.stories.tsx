@@ -17,6 +17,9 @@ import disabledItemCss from './demos/radio-group/disabled-item.css?raw';
 import HorizontalDemo from './demos/radio-group/horizontal';
 import horizontalSource from './demos/radio-group/horizontal?raw';
 import horizontalCss from './demos/radio-group/horizontal.css?raw';
+import WithFieldDemo from './demos/radio-group/with-field';
+import withFieldSource from './demos/radio-group/with-field?raw';
+import withFieldCss from './demos/radio-group/with-field.css?raw';
 import WithFormDemo from './demos/radio-group/with-form';
 import withFormSource from './demos/radio-group/with-form?raw';
 import withFormCss from './demos/radio-group/with-form.css?raw';
@@ -64,6 +67,13 @@ export const DisabledItem: Story = {
     docs: {
       source: { code: demoSource(disabledItemSource, disabledItemCss, 'disabled-item.css') },
     },
+  },
+};
+
+export const WithField: Story = {
+  render: () => <WithFieldDemo />,
+  parameters: {
+    docs: { source: { code: demoSource(withFieldSource, withFieldCss, 'with-field.css') } },
   },
 };
 
