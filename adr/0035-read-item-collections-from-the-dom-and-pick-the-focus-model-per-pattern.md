@@ -1,6 +1,6 @@
 # 0035. Read item collections from the DOM and pick the focus model per pattern
 
-- Status: Proposed
+- Status: Accepted
 - Date: 2026-11-16
 - Related: [0010](0010-no-child-state-on-parent-attributes.md), [0029](0029-render-overlays-in-place-in-the-top-layer-with-native-dialog-and-popover.md)
 
