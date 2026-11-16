@@ -25,22 +25,18 @@ test.describe('Checkbox', () => {
     await expect(control).toHaveAttribute('data-state', 'unchecked');
   });
 
-  test('Enter では変わらない', async ({ page }) => {
+  test('Enter で checked / unchecked が切り替わる', async ({ page }) => {
     await gotoStory(page, 'components-checkbox--default');
     const control = page.getByRole('checkbox', { name: 'Accept terms and conditions' });
 
     await control.focus();
     await page.keyboard.press('Enter');
+    await expect(control).toBeChecked();
+    await expect(control).toHaveAttribute('data-state', 'checked');
+
+    await page.keyboard.press('Enter');
     await expect(control).not.toBeChecked();
     await expect(control).toHaveAttribute('data-state', 'unchecked');
-
-    // Checked 状態でも Enter で変わらないことを確認
-    await gotoStory(page, 'components-checkbox--checked');
-    const checkedControl = page.getByRole('checkbox', { name: 'Subscribe to newsletter' });
-    await checkedControl.focus();
-    await page.keyboard.press('Enter');
-    await expect(checkedControl).toBeChecked();
-    await expect(checkedControl).toHaveAttribute('data-state', 'checked');
   });
 
   test('indeterminate から Space で checked', async ({ page }) => {
