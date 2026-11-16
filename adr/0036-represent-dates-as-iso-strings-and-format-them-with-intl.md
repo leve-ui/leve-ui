@@ -82,7 +82,7 @@ client; during SSR there is no "today" highlight.
 - `@leve-ui/utils` gets a date module with unit tests (including month and year boundaries
   and leap years).
 - Consumers convert to their own date type at the edge (`Temporal.PlainDate.from(value)`,
-  `new Date(`${value}T00:00`)`, `parseDate(value)` of `@internationalized/date`).
+  `` new Date(`${value}T00:00`) ``, `parseDate(value)` of `@internationalized/date`).
 - Invalid strings are treated as no date (`null`) and reported in development.
 - The "today" marker appears only after the component resumes on the client.
 
