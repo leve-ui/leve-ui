@@ -66,7 +66,8 @@ export const TooltipRoot = component$<TooltipRootProps>(
     };
 
     const timer = useSignal<number | undefined>();
-    const pointerInside = useSignal(false);
+    const pointerOnTrigger = useSignal(false);
+    const pointerOnContent = useSignal(false);
     const cancel$ = $(() => {
       if (timer.value !== undefined) clearTimeout(timer.value);
       timer.value = undefined;
@@ -79,7 +80,7 @@ export const TooltipRoot = component$<TooltipRootProps>(
       }
       timer.value = window.setTimeout(() => {
         timer.value = undefined;
-        if (pointerInside.value) setOpen$(true);
+        if (pointerOnTrigger.value || pointerOnContent.value) setOpen$(true);
       }, openDelay ?? 700);
     });
     const hide$ = $(async (immediate: boolean) => {
@@ -90,7 +91,7 @@ export const TooltipRoot = component$<TooltipRootProps>(
       }
       timer.value = window.setTimeout(() => {
         timer.value = undefined;
-        if (!pointerInside.value) setOpen$(false);
+        if (!(pointerOnTrigger.value || pointerOnContent.value)) setOpen$(false);
       }, closeDelay ?? 300);
     });
 
@@ -101,7 +102,8 @@ export const TooltipRoot = component$<TooltipRootProps>(
       show$,
       hide$,
       cancel$,
-      pointerInside,
+      pointerOnTrigger,
+      pointerOnContent,
     });
 
     return (

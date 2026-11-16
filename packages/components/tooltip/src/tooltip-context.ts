@@ -16,10 +16,11 @@ export interface TooltipContext {
   /** Cancels a pending open or close */
   cancel$: QRL<() => void>;
   /**
-   * Whether the pointer is on the Trigger or the Content. Pending opens and closes check it when
-   * they fire, since the async handlers of both elements may run in any order.
+   * Whether the pointer is on the Trigger / on the Content. Kept apart, since the async handlers
+   * of both elements may run in any order; pending opens and closes check them when they fire.
    */
-  pointerInside: Signal<boolean>;
+  pointerOnTrigger: Signal<boolean>;
+  pointerOnContent: Signal<boolean>;
 }
 
 export const tooltipContextId = createContextId<TooltipContext>('leve-ui.tooltip');
