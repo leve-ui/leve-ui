@@ -16,6 +16,11 @@ export interface PopoverElementOptions {
   floating: ReadonlyFloatingOptions;
   /** 開いたときにフォーカスを中へ移すかどうか（Popover は移す、Tooltip は移さない） */
   moveFocus: boolean;
+  /**
+   * `moveFocus` のとき、最初にフォーカスする要素。省略時は最初のフォーカス可能な要素（なければ要素自身）。
+   * 例: Menu は最初（または最後）の項目を返す。
+   */
+  initialFocus?: () => HTMLElement | null | undefined;
   /** Escape で閉じるかどうか */
   closeOnEscape: ReadonlySignal<boolean>;
   /** 外側でのポインタ押下で閉じるかどうか */
@@ -50,19 +55,28 @@ export function openPopoverElement(
 
   const { arrowSelector, ...floatingOptions } = options.floating;
   const arrow = arrowSelector ? element.querySelector<HTMLElement>(arrowSelector) : null;
-  const stopFloating = startFloating(options.anchor ?? options.trigger ?? element, element, {
-    ...floatingOptions,
-    arrow,
-  });
-
   let dismissedOutside = false;
   let restore = true;
+  let closed = false;
   function restoreTarget() {
     return restore ? options.trigger : null;
   }
-  const focusScope = options.moveFocus
-    ? createFocusScope(element, { trap: false, restoreFocus: restoreTarget })
-    : null;
+  // Focus moves in only after the first positioning: focusing earlier would scroll the page to
+  // where the browser first renders the popover
+  let focusScope: ReturnType<typeof createFocusScope> | null = null;
+  function onPositioned() {
+    if (focusScope || closed || !options.moveFocus) return;
+    focusScope = createFocusScope(element, {
+      trap: false,
+      initialFocus: options.initialFocus,
+      restoreFocus: restoreTarget,
+    });
+  }
+  const stopFloating = startFloating(options.anchor ?? options.trigger ?? element, element, {
+    ...floatingOptions,
+    arrow,
+    onUpdate: onPositioned,
+  });
 
   function close() {
     if (options.open.value) options.setOpen$(false);
@@ -114,6 +128,7 @@ export function openPopoverElement(
   options.trigger?.addEventListener('pointerup', onTriggerPointerUp);
 
   return function cleanup() {
+    closed = true;
     element.removeEventListener('focusout', onFocusOut);
     options.trigger?.removeEventListener('pointerdown', onTriggerPointerDown);
     options.trigger?.removeEventListener('pointerup', onTriggerPointerUp);
