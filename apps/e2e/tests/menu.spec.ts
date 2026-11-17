@@ -125,3 +125,66 @@ test.describe('Menu', () => {
     await expect(page.getByRole('group', { name: 'Share' })).toBeVisible();
   });
 });
+
+test.describe('Menu（チェックとラジオ）', () => {
+  const setup = async (page: Page) => {
+    await gotoStory(page, 'components-menu--checkable');
+    const trigger = page.getByRole('button', { name: 'View' });
+    await expect(trigger).toBeVisible({ timeout: 15_000 });
+    return { trigger, menu: page.getByRole('menu', { name: 'View' }) };
+  };
+
+  test('Space で切り替え、メニューは閉じない', async ({ page }) => {
+    const { trigger, menu } = await setup(page);
+    const grid = page.getByRole('menuitemcheckbox', { name: 'Show grid' });
+
+    await trigger.click();
+    await expect(grid).toBeFocused();
+    await expect(grid).toHaveAttribute('aria-checked', 'true');
+    await page.keyboard.press('Space');
+    await expect(grid).toHaveAttribute('aria-checked', 'false');
+    await expect(menu).toBeVisible();
+    await expect(page.getByText('Grid: off, zoom: 100%')).toBeVisible();
+  });
+
+  test('Enter で切り替え、メニューを閉じる', async ({ page }) => {
+    const { trigger, menu } = await setup(page);
+    const rulers = page.getByRole('menuitemcheckbox', { name: 'Show rulers' });
+
+    await trigger.click();
+    await expect(page.getByRole('menuitemcheckbox', { name: 'Show grid' })).toBeFocused();
+    await page.keyboard.press('ArrowDown');
+    await expect(rulers).toBeFocused();
+    await page.keyboard.press('Enter');
+    await expect(menu).toBeHidden();
+    await expect(trigger).toBeFocused();
+
+    await trigger.click();
+    await expect(rulers).toHaveAttribute('aria-checked', 'true');
+  });
+
+  test('ラジオの項目は 1 つだけ選ばれる', async ({ page }) => {
+    const { trigger } = await setup(page);
+    const radio = (name: string) => page.getByRole('menuitemradio', { name });
+
+    await trigger.click();
+    await expect(radio('100%')).toHaveAttribute('aria-checked', 'true');
+    await radio('200%').focus();
+    await page.keyboard.press('Space');
+    await expect(radio('200%')).toHaveAttribute('aria-checked', 'true');
+    await expect(radio('100%')).toHaveAttribute('aria-checked', 'false');
+    await expect(page.getByText('Grid: on, zoom: 200%')).toBeVisible();
+  });
+
+  test('項目の間を ↓ で移動でき、グループの名前が付く', async ({ page }) => {
+    const { trigger } = await setup(page);
+
+    await trigger.click();
+    await expect(page.getByRole('menuitemcheckbox', { name: 'Show grid' })).toBeFocused();
+    await page.keyboard.press('ArrowDown');
+    await expect(page.getByRole('menuitemcheckbox', { name: 'Show rulers' })).toBeFocused();
+    await page.keyboard.press('ArrowDown');
+    await expect(page.getByRole('menuitemradio', { name: '50%' })).toBeFocused();
+    await expect(page.getByRole('group', { name: 'Zoom' })).toBeVisible();
+  });
+});

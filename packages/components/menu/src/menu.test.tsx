@@ -101,4 +101,59 @@ describe('Menu', () => {
     await userEvent('.disabled', 'click');
     expect(query(screen, '')?.getAttribute('data-state')).toBe('open');
   });
+
+  it('CheckboxItem は role="menuitemcheckbox" と aria-checked を出力し、クリックで切り替わる', async () => {
+    const { screen, render, userEvent } = await createDOM();
+    await render(
+      <Menu.Root defaultOpen>
+        <Menu.Content>
+          <Menu.CheckboxItem defaultChecked closeOnSelect={false}>
+            <Menu.ItemIndicator>✓</Menu.ItemIndicator>
+            Show grid
+          </Menu.CheckboxItem>
+        </Menu.Content>
+      </Menu.Root>,
+    );
+
+    const item = query(screen, 'checkbox-item');
+    const indicator = query(screen, 'item-indicator');
+    expect(item?.getAttribute('role')).toBe('menuitemcheckbox');
+    expect(item?.getAttribute('aria-checked')).toBe('true');
+    expect(item?.getAttribute('data-state')).toBe('checked');
+    expect(indicator?.hasAttribute('hidden')).toBe(false);
+    expect(indicator?.getAttribute('aria-hidden')).toBe('true');
+
+    await userEvent('[data-leve-menu-checkbox-item]', 'click');
+    expect(item?.getAttribute('aria-checked')).toBe('false');
+    expect(indicator?.hasAttribute('hidden')).toBe(true);
+    expect(query(screen, '')?.getAttribute('data-state')).toBe('open');
+  });
+
+  it('RadioItem は 1 つだけ aria-checked="true" になり、RadioGroup は role="group"', async () => {
+    const { screen, render, userEvent } = await createDOM();
+    await render(
+      <Menu.Root defaultOpen>
+        <Menu.Content>
+          <Menu.RadioGroup defaultValue="100" aria-label="Zoom">
+            <Menu.RadioItem value="100">100%</Menu.RadioItem>
+            <Menu.RadioItem value="200" class="two">
+              200%
+            </Menu.RadioItem>
+          </Menu.RadioGroup>
+        </Menu.Content>
+      </Menu.Root>,
+    );
+
+    expect(query(screen, 'radio-group')?.getAttribute('role')).toBe('group');
+    const [one, two] = screen.querySelectorAll('[data-leve-menu-radio-item]');
+    expect(one.getAttribute('role')).toBe('menuitemradio');
+    expect(one.getAttribute('aria-checked')).toBe('true');
+    expect(two.getAttribute('aria-checked')).toBe('false');
+    expect(two.hasAttribute('value')).toBe(false);
+
+    await userEvent('.two', 'click');
+    expect(one.getAttribute('aria-checked')).toBe('false');
+    expect(two.getAttribute('aria-checked')).toBe('true');
+    expect(query(screen, '')?.getAttribute('data-state')).toBe('closed');
+  });
 });
