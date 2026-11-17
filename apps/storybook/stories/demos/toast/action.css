@@ -1,0 +1,228 @@
+.toast-action {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 280px;
+  font-family: inherit;
+}
+
+.toast-action-files {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.toast-action-file {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 14px;
+  color: light-dark(#0f172a, #ffffff);
+}
+
+.toast-action-empty {
+  margin: 0;
+  font-size: 14px;
+  color: light-dark(#475569, #c9ddf0);
+}
+
+.toast-action-button {
+  padding: 4px 10px;
+  border: 1px solid light-dark(#cbd5e1, #ffffff3d);
+  border-radius: 6px;
+  background: light-dark(#ffffff, #1b2045);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  color: light-dark(#0f172a, #ffffff);
+  cursor: pointer;
+}
+
+.toast-action-button:hover {
+  background: light-dark(#f1f5f9, #ffffff14);
+}
+
+.toast-action-button:focus-visible {
+  outline: 2px solid #009dfd;
+  outline-offset: 2px;
+}
+
+/* The Region sits at the bottom-end corner of the viewport (data-placement="bottom-end") */
+.toast-action-region {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  z-index: 50;
+  width: min(356px, calc(100vw - 32px));
+  font-family: inherit;
+}
+
+.toast-action-region:focus-visible {
+  outline: 2px solid #009dfd;
+  outline-offset: 2px;
+}
+
+.toast-action-list {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/*
+ * The toasts are stacked like cards: index 0 is the newest, in front.
+ * While the pointer is over the Region or focus is in it (data-expanded), they spread out.
+ */
+.toast-action-toast {
+  --toast-y: calc(var(--leve-toast-index) * -12px);
+  --toast-scale: calc(1 - var(--leve-toast-index) * 0.05);
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  z-index: calc(100 - var(--leve-toast-index));
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 2px 12px;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 14px 16px;
+  border: 1px solid light-dark(#cbd5e1, #ffffff3d);
+  border-radius: 6px;
+  background: light-dark(#ffffff, #1b2045);
+  color: light-dark(#0f172a, #ffffff);
+  box-shadow: 0 8px 24px rgb(15 23 42 / 0.18);
+  transform-origin: bottom center;
+  transform: translateX(var(--leve-toast-swipe-move-x, 0px)) translateY(var(--toast-y))
+    scale(var(--toast-scale));
+  /* Show the three newest toasts of the stack */
+  opacity: clamp(0, 3 - var(--leve-toast-index), 1);
+  transition:
+    transform 400ms ease,
+    opacity 400ms ease;
+  animation: toast-action-in 400ms ease;
+  /* Horizontal moves go to the swipe; vertical ones still scroll the page */
+  touch-action: pan-y;
+  user-select: none;
+}
+
+/* Keeps the pointer over the Region in the gap between expanded toasts */
+.toast-action-toast::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  right: 0;
+  left: 0;
+  height: 12px;
+}
+
+/* Behind the front toast, every toast is as tall as the front one */
+.toast-action-toast:not([data-front]):not([data-expanded]) {
+  height: var(--leve-toast-front-height);
+  overflow: hidden;
+}
+
+.toast-action-toast[data-expanded] {
+  --toast-y: calc(-1 * var(--leve-toast-front-offset) - var(--leve-toast-index) * 12px);
+  --toast-scale: 1;
+  opacity: 1;
+}
+
+.toast-action-toast:focus-visible {
+  outline: 2px solid #009dfd;
+  outline-offset: 2px;
+}
+
+.toast-action-toast[data-swipe="move"] {
+  transition: none;
+}
+
+/* Closing: fade out; after a swipe, also slide out the rest of the way */
+.toast-action-toast[data-state="closed"] {
+  opacity: 0;
+  transition:
+    transform 200ms ease,
+    opacity 200ms ease;
+}
+
+.toast-action-toast[data-swipe="end"] {
+  transform: translateX(calc(var(--leve-toast-swipe-end-x) + 100%)) translateY(var(--toast-y));
+}
+
+@keyframes toast-action-in {
+  from {
+    opacity: 0;
+    transform: translateY(100%);
+  }
+}
+
+.toast-action-title {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.toast-action-description {
+  grid-column: 1;
+  font-size: 13px;
+  color: light-dark(#475569, #c9ddf0);
+}
+
+.toast-action-undo {
+  grid-row: 1 / span 2;
+  grid-column: 2;
+  align-self: center;
+  padding: 6px 10px;
+  border: 0;
+  border-radius: 6px;
+  background: #009dfd;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.toast-action-undo:hover {
+  background: #006ce9;
+}
+
+.toast-action-undo:focus-visible {
+  outline: 2px solid #009dfd;
+  outline-offset: 2px;
+}
+
+.toast-action-close {
+  grid-row: 1 / span 2;
+  grid-column: 3;
+  align-self: start;
+  display: inline-flex;
+  padding: 4px;
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  color: light-dark(#475569, #c9ddf0);
+  cursor: pointer;
+}
+
+.toast-action-close:hover {
+  background: light-dark(#f1f5f9, #ffffff14);
+}
+
+.toast-action-close:focus-visible {
+  outline: 2px solid #009dfd;
+  outline-offset: 2px;
+}
+
+.toast-action-icon {
+  width: 16px;
+  height: 16px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .toast-action-toast {
+    transition: none;
+    animation: none;
+  }
+}
