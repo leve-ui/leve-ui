@@ -96,18 +96,28 @@ test.describe('Toast', () => {
     );
     expect(indexes).toEqual(['2', '1', '0']);
 
-    // Stacked: the toasts overlap
-    const stacked = await toasts.nth(0).boundingBox();
-    const front = await newest.boundingBox();
-    expect(Math.abs((stacked?.y ?? 0) - (front?.y ?? 0))).toBeLessThan(40);
+    // Stacked: the toasts overlap (measured after the enter animations)
+    await page.waitForFunction(() =>
+      document.getAnimations().every((animation) => animation.playState !== 'running'),
+    );
+    const boxes = async () =>
+      Promise.all([0, 1, 2].map(async (i) => (await toasts.nth(i).boundingBox()) ?? null));
+    const stacked = await boxes();
+    for (const box of stacked.slice(0, 2)) {
+      expect((box?.y ?? 0) + (box?.height ?? 0)).toBeGreaterThan(stacked[2]?.y ?? 0);
+    }
 
+    // Expanded: older toasts move above the newer ones without overlapping
     await newest.hover();
     await expect(region).toHaveAttribute('data-expanded', '');
     await expect(toasts.nth(0)).toHaveAttribute('data-expanded', '');
     await expect(async () => {
-      const spread = await toasts.nth(0).boundingBox();
-      const frontNow = await newest.boundingBox();
-      expect((frontNow?.y ?? 0) - (spread?.y ?? 0)).toBeGreaterThan((frontNow?.height ?? 0) * 2);
+      const spread = await boxes();
+      for (let i = 0; i < 2; i++) {
+        expect((spread[i]?.y ?? 0) + (spread[i]?.height ?? 0)).toBeLessThanOrEqual(
+          (spread[i + 1]?.y ?? 0) + 1,
+        );
+      }
     }).toPass();
   });
 
