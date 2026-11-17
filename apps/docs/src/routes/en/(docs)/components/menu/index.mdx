@@ -47,6 +47,12 @@ import { Menu } from '@leve-ui/menu'; // or '@leve-ui/core'
         <Menu.ItemIndicator />
       </Menu.RadioItem>
     </Menu.RadioGroup>
+    <Menu.Sub>
+      <Menu.SubTrigger />
+      <Menu.SubContent>
+        <Menu.Item />
+      </Menu.SubContent>
+    </Menu.Sub>
     <Menu.Arrow />
   </Menu.Content>
 </Menu.Root>
@@ -64,10 +70,13 @@ import { Menu } from '@leve-ui/menu'; // or '@leve-ui/core'
 | `Menu.RadioGroup` | `<div>` | A set of RadioItems where one is selected. |
 | `Menu.RadioItem` | `<div>` | An item of a RadioGroup. |
 | `Menu.ItemIndicator` | `<span>` | The check mark of a CheckboxItem or RadioItem, hidden while unchecked. |
+| `Menu.Sub` | `<div>` | Wraps a submenu and holds its open state. |
+| `Menu.SubTrigger` | `<div>` | The item that opens a submenu. |
+| `Menu.SubContent` | `<div>` | The submenu, placed next to its SubTrigger. |
 | `Menu.Separator` | `<div>` | A line between items. |
 | `Menu.Arrow` | `<div>` | Optional. An arrow pointing at the Trigger, drawn with CSS. |
 
-Submenus are coming next. Items cannot be links yet: rendering an item as `<a>` or Qwik City's `<Link>` is planned with `asChild` ([#153](https://github.com/leve-ui/leve-ui/issues/153)).
+Items cannot be links yet: rendering an item as `<a>` or Qwik City's `<Link>` is planned with `asChild` ([#153](https://github.com/leve-ui/leve-ui/issues/153)).
 
 ## Examples
 
@@ -76,6 +85,12 @@ Submenus are coming next. Items cannot be links yet: rendering an item as `<a>` 
 `Menu.CheckboxItem` turns an option on or off, and `Menu.RadioItem` selects one value of a `Menu.RadioGroup`. Both take `bind:` signals like the other controls. Space changes them without closing the menu; a click or Enter changes them and closes it.
 
 <Demo id="menu/checkable" collapsed />
+
+### Submenu
+
+`Menu.Sub` nests a menu. ArrowRight, Enter or Space on the `Menu.SubTrigger` opens it and focuses its first item; ArrowLeft and Escape close only the submenu. Hovering the SubTrigger opens it and keeps focus on the SubTrigger. Selecting an item in the submenu closes the whole menu.
+
+<Demo id="menu/submenu" collapsed />
 
 ## API Reference
 
@@ -168,6 +183,38 @@ The focused item is the highlighted one: arrow keys, typeahead and the pointer m
 
 The indicator has the `hidden` attribute while its item is unchecked.
 
+### Sub
+
+<PropsTable component="menu" part="Sub" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-menu-sub` | Always present |
+| `data-state` | `"open"` \| `"closed"` |
+
+### SubTrigger
+
+<PropsTable component="menu" part="SubTrigger" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-menu-sub-trigger` | Always present |
+| `data-state` | `"open"` \| `"closed"` |
+| `data-disabled` | Present when disabled |
+
+### SubContent
+
+<PropsTable component="menu" part="SubContent" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-menu-sub-content` | Always present |
+| `data-state` | `"open"` \| `"closed"` |
+| `data-side` | The final side after flipping |
+| `data-align` | `"start"` \| `"center"` \| `"end"` |
+
+The submenu exposes the same CSS variables as the Content with the `--leve-menu-sub-` prefix.
+
 ### Group
 
 <PropsTable component="menu" part="Group" />
@@ -209,6 +256,7 @@ Complies with the [Menu Button WAI-ARIA design pattern](https://www.w3.org/WAI/A
 - Items render `role="menuitem"` and `tabindex="-1"`: focus moves between them with the keyboard (roving focus), and the menu is one tab stop.
 - Disabled items render `aria-disabled="true"`. They are announced but cannot be selected, and arrow keys skip them.
 - `Menu.Group` renders `role="group"`, named by its `Menu.GroupLabel`.
+- `Menu.SubTrigger` renders `role="menuitem"` with `aria-haspopup="menu"`, `aria-expanded` and `aria-controls`; `Menu.SubContent` renders `role="menu"`, named by its SubTrigger.
 - `Menu.CheckboxItem` and `Menu.RadioItem` render `role="menuitemcheckbox"` / `role="menuitemradio"` with `aria-checked`. `Menu.RadioGroup` renders `role="group"`; name it with `aria-label`, or place it in a `Menu.Group` with a label. `Menu.ItemIndicator` is hidden from assistive technologies, since `aria-checked` conveys the state.
 
 ### Keyboard Interactions
@@ -223,5 +271,7 @@ Complies with the [Menu Button WAI-ARIA design pattern](https://www.w3.org/WAI/A
 | `Enter` / `Space` | On an item, selects it and closes the menu. |
 | `Space` | On a checkbox or radio item, changes it without closing the menu. |
 | `Enter` | On a checkbox or radio item, changes it and closes the menu. |
-| `Escape` | Closes the menu and returns focus to the Trigger. |
+| `ArrowRight` / `Enter` / `Space` | On a SubTrigger, opens the submenu and focuses its first item. |
+| `ArrowLeft` | In a submenu, closes it and returns focus to its SubTrigger. |
+| `Escape` | Closes the submenu, or the menu, and returns focus to the SubTrigger or the Trigger. |
 | `Tab` | Closes the menu and moves focus on. |

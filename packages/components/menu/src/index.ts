@@ -11,4 +11,7 @@ export type { MenuRadioGroupProps } from './menu-radio-group';
 export type { MenuRadioItemProps } from './menu-radio-item';
 export type { MenuRootProps } from './menu-root';
 export type { MenuSeparatorProps } from './menu-separator';
+export type { MenuSubProps } from './menu-sub';
+export type { MenuSubContentProps } from './menu-sub-content';
+export type { MenuSubTriggerProps } from './menu-sub-trigger';
 export type { MenuTriggerProps } from './menu-trigger';

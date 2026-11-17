@@ -20,7 +20,12 @@ export interface PopoverElementOptions {
    * `moveFocus` のとき、最初にフォーカスする要素。省略時は最初のフォーカス可能な要素（なければ要素自身）。
    * 例: Menu は最初（または最後）の項目を返す。
    */
-  initialFocus?: () => HTMLElement | null | undefined;
+  initialFocus?: (() => HTMLElement | null | undefined) | false;
+  /**
+   * 外側でのポインタ押下で閉じるときに呼ばれます（`closeOnOutsideClick` のとき）。
+   * 例: サブメニューの外側、親メニューの外側を押したら親メニューも閉じる。
+   */
+  onOutsidePointerDown?: (target: EventTarget | null) => void;
   /** Escape で閉じるかどうか */
   closeOnEscape: ReadonlySignal<boolean>;
   /** 外側でのポインタ押下で閉じるかどうか */
@@ -91,6 +96,7 @@ export function openPopoverElement(
     },
     onPointerDownOutside(event) {
       if (!options.closeOnOutsideClick.value) event.preventDefault();
+      else options.onOutsidePointerDown?.(event.originalEvent.target);
     },
     onFocusOutside(event) {
       // Only a popover that took focus closes when focus leaves it
