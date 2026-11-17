@@ -19,14 +19,11 @@ export default defineConfig({
     trace: 'on-first-retry',
   },
   projects: [
+    // Every test runs in the three engines: native <dialog>, popover and focus behave
+    // differently between them (adr/0029). CI runs one job per project.
     { name: 'chromium', use: { ...devices['Desktop Chrome'] } },
-    // Overlays rely on native <dialog> / popover behavior that differs by engine; focus return
-    // is unreliable in WebKit (adr/0029)
-    {
-      name: 'webkit',
-      use: { ...devices['Desktop Safari'] },
-      testMatch: /(dialog|drawer|popover|tooltip|hover-card|menu)\.spec\.ts/,
-    },
+    { name: 'webkit', use: { ...devices['Desktop Safari'] } },
+    { name: 'firefox', use: { ...devices['Desktop Firefox'] } },
   ],
   webServer: {
     command: `pnpm --filter @leve-ui/storybook exec storybook dev -p ${PORT} --ci --no-open`,

@@ -138,8 +138,7 @@ jobs:
         run: pnpm package:check-npm
 
   e2e:
-    # One job per browser engine, run in parallel. WebKit only runs the overlay specs
-    # (testMatch in apps/e2e/playwright.config.ts, adr/0029)
+    # One job per browser engine, run in parallel
     name: E2E (${{ matrix.label }})
     runs-on: ubuntu-latest
     strategy:
@@ -150,6 +149,8 @@ jobs:
             label: Chromium
           - project: webkit
             label: WebKit
+          - project: firefox
+            label: Firefox
     steps:
       - uses: actions/checkout@v7
       - uses: ./.github/actions/setup
