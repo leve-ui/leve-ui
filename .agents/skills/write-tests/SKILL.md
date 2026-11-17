@@ -145,4 +145,4 @@ test.describe('Dialog', () => {
 - Tab でフォーカスが入る・抜ける・無効な要素を飛ばすことを確かめるときは、`gotoStory(page, id, { focusGuards: true })` で開く。ストーリーの前後に `Before` / `After` ボタンが置かれる（`.storybook/preview.tsx` のデコレーター）。**demo にはこうしたテスト用のボタンを書かない**（demo は docs サイトにも載るため）。
 - 外部リソースは `page.route` でモックする（例: `apps/e2e/tests/avatar.spec.ts`）。
 - `<dialog>` や Popover API を使うオーバーレイ（Dialog など）の E2E は、WebKit でも実行する（ブラウザごとに挙動が違い、特に WebKit はクリックでボタンにフォーカスしないため。`adr/0029`）。`apps/e2e/playwright.config.ts` の `webkit` プロジェクトの `testMatch` に spec を足す。
-- 実行: `pnpm e2e`（Storybook が 6106 番ポートで自動起動する。`adr/0008` を参照）
+- 実行: `pnpm e2e`（Storybook が 6106 番ポートで自動起動する。`adr/0008` を参照）。ブラウザを絞るときは `pnpm e2e -- --project=chromium`（CI はブラウザごとに別のジョブで動かす）

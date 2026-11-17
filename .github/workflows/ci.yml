@@ -138,19 +138,29 @@ jobs:
         run: pnpm package:check-npm
 
   e2e:
-    name: E2E
+    # One job per browser engine, run in parallel. WebKit only runs the overlay specs
+    # (testMatch in apps/e2e/playwright.config.ts, adr/0029)
+    name: E2E (${{ matrix.label }})
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - project: chromium
+            label: Chromium
+          - project: webkit
+            label: WebKit
     steps:
       - uses: actions/checkout@v7
       - uses: ./.github/actions/setup
       - name: Install Playwright browsers
-        run: pnpm --filter @leve-ui/e2e exec playwright install --with-deps chromium webkit
-      - run: pnpm e2e
+        run: pnpm --filter @leve-ui/e2e exec playwright install --with-deps ${{ matrix.project }}
+      - run: pnpm e2e -- --project=${{ matrix.project }}
       - name: Upload Playwright report
         if: failure()
         uses: actions/upload-artifact@v7
         with:
-          name: playwright-report
+          name: playwright-report-${{ matrix.project }}
           path: |
             apps/e2e/playwright-report
             apps/e2e/test-results

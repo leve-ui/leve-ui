@@ -38,7 +38,7 @@ pnpm docs           # documentation site
 pnpm build          # build all packages
 pnpm test           # unit tests (Vitest)
 pnpm typecheck      # type checks
-pnpm e2e            # E2E tests (Playwright; starts Storybook on port 6106)
+pnpm e2e            # E2E tests (Playwright; starts Storybook on port 6106). One browser: pnpm e2e -- --project=chromium
 pnpm check:fix      # lint, format, and sort imports (Biome)
 pnpm changeset      # describe your change for the changelog
 pnpm component:new <name> <part,...>   # scaffold a new component package
@@ -54,7 +54,7 @@ pnpm component:new <name> <part,...>   # scaffold a new component package
 6. **Commit** with an English [Conventional Commits](https://www.conventionalcommits.org/) message (see below).
 7. **Open a pull request** against `main`. Fill in the template.
 
-CI runs on every pull request: commit messages and PR title, lint, type checks, unit tests, build, and E2E. For first-time contributors, a maintainer has to approve the workflow run first. Pull requests are merged with **squash merge** once CI passes and a maintainer has reviewed them.
+CI runs on every pull request: commit messages and PR title, lint, type checks, unit tests, build, and E2E (one job per browser: E2E (Chromium) and E2E (WebKit), in parallel). For first-time contributors, a maintainer has to approve the workflow run first. Pull requests are merged with **squash merge** once CI passes and a maintainer has reviewed them.
 
 ### Choosing a Bump Type
 
