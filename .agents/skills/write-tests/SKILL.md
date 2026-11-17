@@ -145,4 +145,4 @@ test.describe('Dialog', () => {
 - Tab でフォーカスが入る・抜ける・無効な要素を飛ばすことを確かめるときは、`gotoStory(page, id, { focusGuards: true })` で開く。ストーリーの前後に `Before` / `After` ボタンが置かれる（`.storybook/preview.tsx` のデコレーター）。**demo にはこうしたテスト用のボタンを書かない**（demo は docs サイトにも載るため）。
 - 外部リソースは `page.route` でモックする（例: `apps/e2e/tests/avatar.spec.ts`）。
 - E2E はすべて Chromium・WebKit・Firefox の 3 つで動く（CI はブラウザごとに別のジョブ。`adr/0029`）。WebKit はクリックでボタンにフォーカスしないので、クリックのあとのフォーカスを確かめるテストでは `focus()` でフォーカスを移す。
-- 実行: `pnpm e2e`（Storybook が 6106 番ポートで自動起動する。`adr/0008` を参照）。ブラウザを絞るときは `pnpm e2e -- --project=chromium`（CI はブラウザごとに別のジョブで動かす）
+- 実行: `pnpm e2e`（Storybook が 6106 番ポートで自動起動する。`adr/0008` を参照）。ブラウザを絞るときは `pnpm e2e -- --project=chromium`（CI はブラウザごとに別のジョブで動かす）。CI はビルド済みの Storybook に対して動かす（`E2E_STATIC=1`。開発用サーバーは最初に開いたストーリーをその場でコンパイルし、最初のテストが時間切れになりやすいため。#161）。手元で同じ条件にするには、`pnpm turbo run build --filter=@leve-ui/storybook...` のあと `E2E_STATIC=1 pnpm e2e`

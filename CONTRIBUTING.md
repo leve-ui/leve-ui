@@ -39,6 +39,7 @@ pnpm build          # build all packages
 pnpm test           # unit tests (Vitest)
 pnpm typecheck      # type checks
 pnpm e2e            # E2E tests (Playwright; starts Storybook on port 6106). One browser: pnpm e2e -- --project=chromium
+                    # E2E_STATIC=1 pnpm e2e tests the static Storybook build instead, like CI (build it first)
 pnpm check:fix      # lint, format, and sort imports (Biome)
 pnpm changeset      # describe your change for the changelog
 pnpm component:new <name> <part,...>   # scaffold a new component package
