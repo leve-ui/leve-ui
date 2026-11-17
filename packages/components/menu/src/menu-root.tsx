@@ -10,7 +10,7 @@ import {
   useSignal,
 } from '@builder.io/qwik';
 import { useControllableState } from '@leve-ui/utils';
-import { type MenuIds, menuContextId } from './menu-context';
+import { type MenuIds, type MenuPoint, menuContextId } from './menu-context';
 
 export type MenuRootProps = PropsOf<'div'> & {
   /** Overrides the element IDs of the parts. */
@@ -37,6 +37,9 @@ export type MenuRootProps = PropsOf<'div'> & {
  * WAI-ARIA APG の Menu Button パターンに準拠します。Content は `popover="manual"` で最前面に出し
  * （`adr/0029`）、Floating UI で Trigger の隣に置きます（`adr/0030`）。項目のフォーカスは
  * ロービングフォーカスで、項目の一覧はキー操作のときに DOM から読みます（`adr/0035`）。
+ *
+ * `Menu.Trigger` の代わりに `Menu.ContextTrigger` を置くと、右クリックで開くコンテキストメニューになります。
+ * 1 つの Root に Trigger と ContextTrigger の両方は置けません。
  */
 export const MenuRoot = component$<MenuRootProps>(
   ({
@@ -54,6 +57,7 @@ export const MenuRoot = component$<MenuRootProps>(
     });
     const initialFocus = useSignal<'first' | 'last'>('first');
     const loop = useComputed$(() => Boolean(_loop));
+    const point = useSignal<MenuPoint | null>(null);
 
     const base = useId();
     const ids: MenuIds = {
@@ -61,7 +65,7 @@ export const MenuRoot = component$<MenuRootProps>(
       content: propIds?.content ?? `${base}-content`,
     };
 
-    useContextProvider(menuContextId, { ids, open, setOpen$, initialFocus, loop });
+    useContextProvider(menuContextId, { ids, open, setOpen$, initialFocus, loop, point });
 
     return (
       <div {...props} data-leve-menu="" data-state={open.value ? 'open' : 'closed'}>

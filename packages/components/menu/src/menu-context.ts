@@ -5,6 +5,14 @@ export interface MenuIds {
   content: string;
 }
 
+/** Where a context menu opens (`Menu.ContextTrigger`), in viewport coordinates */
+export interface MenuPoint {
+  x: number;
+  y: number;
+  /** Opened with Shift+F10 or the ContextMenu key: focus returns to the focused element on close */
+  keyboard: boolean;
+}
+
 export interface MenuContext {
   ids: MenuIds;
   open: ReadonlySignal<boolean>;
@@ -13,6 +21,8 @@ export interface MenuContext {
   initialFocus: Signal<'first' | 'last'>;
   /** Whether arrow keys wrap around */
   loop: ReadonlySignal<boolean>;
+  /** Set by `Menu.ContextTrigger`: the menu opens at this point. `null` places it next to the Trigger. */
+  point: Signal<MenuPoint | null>;
 }
 
 export const menuContextId = createContextId<MenuContext>('leve-ui.menu');

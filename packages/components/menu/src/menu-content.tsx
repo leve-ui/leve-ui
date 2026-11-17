@@ -20,7 +20,7 @@ import { menuContextId } from './menu-context';
 
 export type MenuContentProps = PropsOf<'div'> & {
   /**
-   * The side of the Trigger to place the menu on. It flips when there is no room.
+   * The side of the Trigger (or the pointer of a context menu) to place the menu on. It flips when there is no room.
    * @default 'bottom'
    */
   side?: FloatingSide;
@@ -62,6 +62,8 @@ export type MenuContentProps = PropsOf<'div'> & {
  * - 開くと最初（↑ で開いたときは最後）の有効な項目にフォーカスします。
  * - ↑ / ↓、Home / End、文字キー（タイプアヘッド）で項目を移動します。無効な項目は飛ばします。
  * - Escape で閉じて Trigger にフォーカスを戻します。外側のクリックや Tab でも閉じます。
+ * - `Menu.ContextTrigger` で開いたときは、ポインタの位置（キーボードではフォーカスしていた要素の左下）に置きます。
+ *   Trigger がないため、`aria-label` で名前を付けてください。
  * - Floating UI で Trigger の隣に置き（`adr/0030`）、反転後の `data-side` / `data-align` と CSS 変数
  *   （`--leve-menu-anchor-width` など）を出力します。位置のインラインスタイルは機能上必要なため出力します。
  */
@@ -97,12 +99,25 @@ export const MenuContent = component$<MenuContentProps>(
         const options = track(() => floating.value);
         const element = ref.value;
         if (!element || !open) return;
+        const point = track(() => context.point.value);
         const edge = context.initialFocus.value;
+        const document = element.ownerDocument;
+        // A context menu opens at the pointer (a virtual anchor, as Floating UI accepts). Opened
+        // with the keyboard, focus returns to the element focused before; with the pointer, nowhere.
+        const anchor = point && {
+          getBoundingClientRect: () => new DOMRect(point.x, point.y, 0, 0),
+        };
+        const trigger = point
+          ? point.keyboard
+            ? (document.activeElement as HTMLElement | null)
+            : null
+          : document.getElementById(context.ids.trigger);
         cleanup(
           openPopoverElement(element, {
             open: context.open,
             setOpen$: context.setOpen$,
-            trigger: element.ownerDocument.getElementById(context.ids.trigger),
+            trigger,
+            anchor,
             floating: {
               ...options,
               cssVarPrefix: '--leve-menu',

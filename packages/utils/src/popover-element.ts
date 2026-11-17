@@ -1,6 +1,6 @@
 import type { QRL, ReadonlySignal } from '@builder.io/qwik';
 import { createDismissableLayer } from './dismissable-layer';
-import { type FloatingOptions, startFloating } from './floating';
+import { type FloatingAnchor, type FloatingOptions, startFloating } from './floating';
 import { createFocusScope } from './focus-scope';
 
 /** `openPopoverElement` のオプション。 */
@@ -10,8 +10,8 @@ export interface PopoverElementOptions {
   setOpen$: QRL<(open: boolean) => unknown>;
   /** Trigger の要素。外側の判定から除き（Trigger 自身が開閉する）、フォーカスの戻り先にする */
   trigger: HTMLElement | null;
-  /** 位置の基準。省略時は Trigger */
-  anchor?: Element | null;
+  /** 位置の基準（要素、またはポインタの座標などの仮想要素）。省略時は Trigger */
+  anchor?: FloatingAnchor | null;
   /** 位置決めのオプション（`adr/0030`） */
   floating: ReadonlyFloatingOptions;
   /** 開いたときにフォーカスを中へ移すかどうか（Popover は移す、Tooltip は移さない） */
@@ -124,7 +124,8 @@ export function openPopoverElement(
   function onFocusOut(event: FocusEvent) {
     if (!options.moveFocus || event.relatedTarget) return;
     setTimeout(() => {
-      if (triggerPressed) return;
+      // Already closed: the menu may have been opened again in the meantime (e.g. a context menu)
+      if (triggerPressed || closed) return;
       const active = document.activeElement;
       if (active === null || active === document.body) close();
     }, 0);

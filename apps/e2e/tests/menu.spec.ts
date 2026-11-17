@@ -1,4 +1,4 @@
-import { expect, type Page, test } from '@playwright/test';
+import { expect, type Locator, type Page, test } from '@playwright/test';
 import { gotoStory } from './story';
 
 const setup = async (page: Page) => {
@@ -265,5 +265,141 @@ test.describe('Menu（サブメニュー）', () => {
     await page.mouse.click(5, 5);
     await expect(sub).toBeHidden();
     await expect(page.getByRole('menu', { name: 'File' })).toBeHidden();
+  });
+});
+
+test.describe('Menu（コンテキストメニュー）', () => {
+  const setup = async (page: Page) => {
+    await gotoStory(page, 'components-menu--context');
+    const area = page.locator('[data-leve-menu-context-trigger]');
+    await expect(area).toBeVisible({ timeout: 15_000 });
+    const menu = page.getByRole('menu', { name: 'Page' });
+    const item = (name: string) => page.getByRole('menuitem', { name });
+    const button = page.getByRole('button', { name: 'Or focus me and press Shift+F10' });
+    return { area, menu, item, button };
+  };
+
+  /** Right-clicks the area at (x, y) relative to its top-left corner and returns the page point */
+  const rightClick = async (page: Page, area: Locator, x: number, y: number) => {
+    const box = await area.boundingBox();
+    if (!box) throw new Error('The area is not visible');
+    const point = { x: box.x + x, y: box.y + y };
+    await page.mouse.click(point.x, point.y, { button: 'right' });
+    return point;
+  };
+
+  const expectAt = async (menu: Locator, point: { x: number; y: number }) => {
+    await expect(async () => {
+      const box = await menu.boundingBox();
+      expect(Math.abs((box?.x ?? 0) - point.x)).toBeLessThanOrEqual(2);
+      expect(Math.abs((box?.y ?? 0) - point.y)).toBeLessThanOrEqual(2);
+    }).toPass();
+  };
+
+  test('右クリックでポインタの位置に開き、最初の項目にフォーカスする', async ({ page }) => {
+    const { area, menu, item } = await setup(page);
+
+    const point = await rightClick(page, area, 20, 20);
+    await expect(menu).toBeVisible();
+    await expect(area).toHaveAttribute('data-state', 'open');
+    await expect(item('Back')).toBeFocused();
+    await expectAt(menu, point);
+  });
+
+  test('Escape で閉じる', async ({ page }) => {
+    const { area, menu, item } = await setup(page);
+
+    await rightClick(page, area, 20, 20);
+    await expect(item('Back')).toBeFocused();
+    await page.keyboard.press('Escape');
+    await expect(menu).toBeHidden();
+    await expect(area).toHaveAttribute('data-state', 'closed');
+  });
+
+  test('領域の中のもう一度の右クリックで、その位置に開き直す', async ({ page }) => {
+    const { area, menu, item } = await setup(page);
+
+    await rightClick(page, area, 20, 20);
+    await expect(item('Back')).toBeFocused();
+    // Outside the open menu, which covers the area from (20, 20)
+    const point = await rightClick(page, area, 280, 120);
+    await expect(menu).toBeVisible();
+    await expectAt(menu, point);
+    await expect(item('Back')).toBeFocused();
+  });
+
+  test('外側のクリックで閉じる', async ({ page }) => {
+    const { area, menu } = await setup(page);
+
+    await rightClick(page, area, 20, 20);
+    await expect(menu).toBeVisible();
+    await page.mouse.click(5, 5);
+    await expect(menu).toBeHidden();
+  });
+
+  test('Shift+F10 で、フォーカスしている要素の下に開き、Escape でその要素に戻る', async ({
+    page,
+  }) => {
+    const { menu, item, button } = await setup(page);
+
+    await button.focus();
+    await page.keyboard.press('Shift+F10');
+    await expect(menu).toBeVisible();
+    await expect(item('Back')).toBeFocused();
+    const box = await button.boundingBox();
+    if (!box) throw new Error('The button is not visible');
+    await expectAt(menu, { x: box.x, y: box.y + box.height });
+
+    await page.keyboard.press('Escape');
+    await expect(menu).toBeHidden();
+    await expect(button).toBeFocused();
+  });
+
+  test('↓ で無効な項目を飛ばし、Enter で選ぶと閉じる', async ({ page }) => {
+    const { area, menu, item } = await setup(page);
+
+    await rightClick(page, area, 20, 20);
+    await expect(item('Back')).toBeFocused();
+    await page.keyboard.press('ArrowDown');
+    await expect(item('Reload')).toBeFocused();
+    await page.keyboard.press('Enter');
+    await expect(menu).toBeHidden();
+    await expect(page.getByText('Last action: Reload')).toBeVisible();
+  });
+
+  test('サブメニューを → で開き、項目を選べる', async ({ page }) => {
+    const { area, menu, item } = await setup(page);
+
+    await rightClick(page, area, 20, 20);
+    await expect(item('Back')).toBeFocused();
+    await page.keyboard.press('End');
+    await expect(item('More tools')).toBeFocused();
+    await page.keyboard.press('ArrowRight');
+    await expect(page.getByRole('menu', { name: 'More tools' })).toBeVisible();
+    await expect(item('Save page as…')).toBeFocused();
+    await page.keyboard.press('Enter');
+    await expect(menu).toBeHidden();
+    await expect(page.getByText('Last action: Save page as')).toBeVisible();
+  });
+
+  test('タッチの長押しで、その位置に開く。動かすと取り消す', async ({ page }) => {
+    const { area, menu, item } = await setup(page);
+    const box = await area.boundingBox();
+    if (!box) throw new Error('The area is not visible');
+    const point = { x: box.x + 40, y: box.y + 30 };
+    const touch = { pointerType: 'touch', isPrimary: true, clientX: point.x, clientY: point.y };
+
+    // Moving more than 10px cancels the long press
+    await area.dispatchEvent('pointerdown', touch);
+    await area.dispatchEvent('pointermove', { ...touch, clientX: point.x + 20 });
+    await page.waitForTimeout(1000);
+    await expect(menu).toBeHidden();
+    await area.dispatchEvent('pointerup', touch);
+
+    await area.dispatchEvent('pointerdown', touch);
+    await expect(menu).toBeVisible();
+    await expect(item('Back')).toBeFocused();
+    await expectAt(menu, point);
+    await area.dispatchEvent('pointerup', touch);
   });
 });

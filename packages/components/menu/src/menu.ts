@@ -1,6 +1,7 @@
 export { MenuArrow as Arrow } from './menu-arrow';
 export { MenuCheckboxItem as CheckboxItem } from './menu-checkbox-item';
 export { MenuContent as Content } from './menu-content';
+export { MenuContextTrigger as ContextTrigger } from './menu-context-trigger';
 export { MenuGroup as Group } from './menu-group';
 export { MenuGroupLabel as GroupLabel } from './menu-group-label';
 export { MenuItem as Item } from './menu-item';
