@@ -1,0 +1,84 @@
+---
+title: Context Menu
+description: A menu of actions that opens at the pointer on right click or long press.
+---
+
+# Context Menu
+
+A menu of actions that opens at the pointer on right click or long press.
+
+A context menu is a [Menu](/components/menu/) opened by `Menu.ContextTrigger` instead of `Menu.Trigger`. The items, groups, checkbox and radio items, submenus and keyboard interactions are those of Menu. The menu follows the [Menu WAI-ARIA design pattern](https://www.w3.org/WAI/ARIA/apg/patterns/menubar/).
+
+<Demo id="menu/context" />
+
+## Installation
+
+Install the all-in-one package:
+
+```sh
+pnpm add @leve-ui/core
+```
+
+Or only this component:
+
+```sh
+pnpm add @leve-ui/menu
+```
+
+## Anatomy
+
+```tsx
+import { Menu } from '@leve-ui/menu'; // or '@leve-ui/core'
+
+<Menu.Root>
+  <Menu.ContextTrigger />
+  <Menu.Content aria-label="...">
+    <Menu.Item />
+  </Menu.Content>
+</Menu.Root>
+```
+
+| Part | Element | Description |
+| --- | --- | --- |
+| `Menu.Root` | `<div>` | Wraps the parts and holds the open state. |
+| `Menu.ContextTrigger` | `<div>` | The area that opens the menu. |
+| `Menu.Content` | `<div>` | The menu, a `popover="manual"` element in the top layer. |
+
+The other parts are those of [Menu](/components/menu/#anatomy). Use either `Menu.Trigger` or `Menu.ContextTrigger` in a Root, not both.
+
+## Behavior
+
+- A right click in the area (Control + click on macOS) opens the menu at the pointer instead of the browser's menu. A right click elsewhere in the area while it is open moves it there.
+- `Shift + F10` or the `ContextMenu` key on a focused element in the area opens the menu below that element. The area itself is not focusable, so put the focusable content (a list of files, a canvas with `tabindex="0"`, ...) in it.
+- On touch screens, a long press (700ms, cancelled when the finger moves) opens the menu at the touch point. Add `user-select: none` and `-webkit-touch-callout: none` to the area so the browser does not select text or show its own callout.
+- The menu focuses its first item. Escape or selecting an item closes it; focus returns to the element focused before when it was opened with the keyboard.
+- With `disabled`, the area does not open the menu and the browser's menu is shown.
+
+## API Reference
+
+### ContextTrigger
+
+<PropsTable component="menu" part="ContextTrigger" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-menu-context-trigger` | Always present |
+| `data-state` | `"open"` \| `"closed"` |
+| `data-disabled` | Present when disabled |
+
+The Content is placed at the pointer with `side="bottom"` and `align="start"`, and flips or shifts to stay in the viewport. Its `side`, `align` and offset props work as with a Trigger. See [Menu](/components/menu/#api-reference) for the other parts.
+
+## Accessibility
+
+- `Menu.ContextTrigger` renders no role: the area is your content, and its own semantics are kept.
+- There is no Trigger to name the menu, so give `Menu.Content` an `aria-label` (or `aria-labelledby`).
+- Keyboard users open the menu with `Shift + F10` or the `ContextMenu` key on a focusable element in the area. Make sure the area has one, and offer the same actions elsewhere when you can, since the context menu is hard to discover.
+
+### Keyboard Interactions
+
+| Key | Description |
+| --- | --- |
+| `Shift + F10` / `ContextMenu` | On a focused element in the area, opens the menu and focuses the first item. |
+| `Escape` | Closes the menu and returns focus to the element focused before. |
+
+The keys inside the menu are those of [Menu](/components/menu/#keyboard-interactions).

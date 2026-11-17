@@ -187,4 +187,52 @@ describe('Menu', () => {
     expect(query(screen, '')?.getAttribute('data-state')).toBe('closed');
     expect(query(screen, 'sub')?.getAttribute('data-state')).toBe('closed');
   });
+
+  it('ContextTrigger は data 属性を出力し、contextmenu で開く。Content は aria-label で名前が付く', async () => {
+    const { screen, render, userEvent } = await createDOM();
+    await render(
+      <Menu.Root>
+        <Menu.ContextTrigger class="area" aria-describedby="hint">
+          Right-click here
+        </Menu.ContextTrigger>
+        <Menu.Content aria-label="Page">
+          <Menu.Item>Reload</Menu.Item>
+        </Menu.Content>
+      </Menu.Root>,
+    );
+
+    const area = query(screen, 'context-trigger');
+    const content = query(screen, 'content');
+    expect(area?.tagName).toBe('DIV');
+    expect(area?.hasAttribute('role')).toBe(false);
+    expect(area?.getAttribute('class')).toBe('area');
+    expect(area?.getAttribute('aria-describedby')).toBe('hint');
+    expect(area?.getAttribute('data-state')).toBe('closed');
+    expect(area?.hasAttribute('data-disabled')).toBe(false);
+    expect(content?.getAttribute('aria-label')).toBe('Page');
+    expect(content?.hasAttribute('aria-labelledby')).toBe(false);
+
+    await userEvent('[data-leve-menu-context-trigger]', 'contextmenu');
+    expect(query(screen, '')?.getAttribute('data-state')).toBe('open');
+    expect(area?.getAttribute('data-state')).toBe('open');
+    expect(content?.getAttribute('data-state')).toBe('open');
+  });
+
+  it('無効な ContextTrigger は data-disabled を出力し、contextmenu で開かない', async () => {
+    const { screen, render, userEvent } = await createDOM();
+    await render(
+      <Menu.Root>
+        <Menu.ContextTrigger disabled>Right-click here</Menu.ContextTrigger>
+        <Menu.Content aria-label="Page">
+          <Menu.Item>Reload</Menu.Item>
+        </Menu.Content>
+      </Menu.Root>,
+    );
+
+    const area = query(screen, 'context-trigger');
+    expect(area?.hasAttribute('data-disabled')).toBe(true);
+    expect(area?.hasAttribute('disabled')).toBe(false);
+    await userEvent('[data-leve-menu-context-trigger]', 'contextmenu');
+    expect(query(screen, '')?.getAttribute('data-state')).toBe('closed');
+  });
 });

@@ -1,7 +1,7 @@
 {
   "name": "@leve-ui/menu",
   "version": "0.0.0",
-  "description": "Headless, WAI-ARIA compliant Menu component for Qwik. Bring your own styles.",
+  "description": "Headless, WAI-ARIA compliant Menu and Context Menu components for Qwik. Bring your own styles.",
   "homepage": "https://github.com/leve-ui/leve-ui#readme",
   "bugs": {
     "url": "https://github.com/leve-ui/leve-ui/issues"
@@ -35,7 +35,8 @@
     "headless-ui",
     "accessibility",
     "wai-aria",
-    "menu"
+    "menu",
+    "context-menu"
   ],
   "scripts": {
     "build": "pnpm build:lib && pnpm build:types",

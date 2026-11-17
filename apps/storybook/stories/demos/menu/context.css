@@ -1,0 +1,105 @@
+.menu-context {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  font-family: inherit;
+}
+
+/* The area that opens the menu; the long press must not select text or show the iOS callout */
+.menu-context-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  box-sizing: border-box;
+  width: 320px;
+  height: 160px;
+  border: 2px dashed light-dark(#cbd5e1, #ffffff3d);
+  border-radius: 6px;
+  font-size: 14px;
+  color: light-dark(#475569, #c9ddf0);
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+
+.menu-context-area[data-state="open"] {
+  border-color: #009dfd;
+}
+
+.menu-context-button {
+  padding: 6px 10px;
+  border: 1px solid light-dark(#cbd5e1, #ffffff3d);
+  border-radius: 6px;
+  background: light-dark(#ffffff, #1b2045);
+  font: inherit;
+  font-size: 13px;
+  color: light-dark(#0f172a, #ffffff);
+}
+
+.menu-context-button:focus-visible {
+  outline: 2px solid #009dfd;
+  outline-offset: 2px;
+}
+
+/* The Content is a popover in the top layer; the library places it at the pointer */
+.menu-context-content {
+  box-sizing: border-box;
+  min-width: 180px;
+  padding: 4px;
+  border: 1px solid light-dark(#cbd5e1, #ffffff3d);
+  border-radius: 6px;
+  background: light-dark(#ffffff, #1b2045);
+  color: light-dark(#0f172a, #ffffff);
+  font-family: inherit;
+  box-shadow: 0 8px 24px rgb(15 23 42 / 0.18);
+}
+
+.menu-context-content:focus-visible {
+  outline: none;
+}
+
+.menu-context-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 6px 8px;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: default;
+  outline: none;
+}
+
+/* The focused item: arrow keys, typeahead and the pointer move focus */
+.menu-context-item:focus {
+  background: #009dfd;
+  color: #ffffff;
+}
+
+.menu-context-item[data-disabled] {
+  opacity: 0.5;
+}
+
+/* The SubTrigger stays highlighted while its submenu is open */
+.menu-context-item[data-state="open"] {
+  background: light-dark(#f1f5f9, #ffffff14);
+}
+
+.menu-context-separator {
+  height: 1px;
+  margin: 4px 0;
+  background: light-dark(#e2e8f0, #ffffff1f);
+}
+
+.menu-context-icon {
+  width: 14px;
+  height: 14px;
+}
+
+.menu-context-status {
+  margin: 0;
+  font-size: 14px;
+  color: light-dark(#475569, #c9ddf0);
+}

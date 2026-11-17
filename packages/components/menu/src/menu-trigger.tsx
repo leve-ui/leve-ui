@@ -13,6 +13,7 @@ export const MenuTrigger = component$<MenuTriggerProps>(({ onClick$, onKeyDown$,
 
   const toggle$ = $(() => {
     context.initialFocus.value = 'first';
+    context.point.value = null;
     return context.setOpen$(!context.open.value);
   });
 
@@ -23,6 +24,7 @@ export const MenuTrigger = component$<MenuTriggerProps>(({ onClick$, onKeyDown$,
   const keyDown$ = $((event: KeyboardEvent) => {
     if (event.key !== 'ArrowDown' && event.key !== 'ArrowUp') return;
     context.initialFocus.value = event.key === 'ArrowUp' ? 'last' : 'first';
+    context.point.value = null;
     return context.setOpen$(true);
   });
 

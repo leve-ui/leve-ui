@@ -2,6 +2,9 @@ import type { Meta, StoryObj } from 'storybook-framework-qwik';
 import CheckableDemo from './demos/menu/checkable';
 import checkableSource from './demos/menu/checkable?raw';
 import checkableCss from './demos/menu/checkable.css?raw';
+import ContextDemo from './demos/menu/context';
+import contextSource from './demos/menu/context?raw';
+import contextCss from './demos/menu/context.css?raw';
 import DefaultDemo from './demos/menu/default';
 import defaultSource from './demos/menu/default?raw';
 import defaultCss from './demos/menu/default.css?raw';
@@ -35,5 +38,12 @@ export const Submenu: Story = {
   render: () => <SubmenuDemo />,
   parameters: {
     docs: { source: { code: demoSource(submenuSource, submenuCss, 'submenu.css') } },
+  },
+};
+
+export const Context: Story = {
+  render: () => <ContextDemo />,
+  parameters: {
+    docs: { source: { code: demoSource(contextSource, contextCss, 'context.css') } },
   },
 };
