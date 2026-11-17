@@ -154,9 +154,23 @@ jobs:
     steps:
       - uses: actions/checkout@v7
       - uses: ./.github/actions/setup
+      # Tests run against the static Storybook build: the dev server compiles each story on
+      # its first visit, which made the first test of many spec files time out (#161).
+      # Reuse the Build job's Turborepo cache from earlier runs (restore only).
+      - name: Restore Turborepo cache
+        uses: actions/cache/restore@v6
+        with:
+          path: .turbo/cache
+          key: turbo-${{ runner.os }}-build-${{ github.sha }}
+          restore-keys: |
+            turbo-${{ runner.os }}-build-
+      - name: Build Storybook
+        run: pnpm turbo run build --filter=@leve-ui/storybook...
       - name: Install Playwright browsers
         run: pnpm --filter @leve-ui/e2e exec playwright install --with-deps ${{ matrix.project }}
       - run: pnpm e2e -- --project=${{ matrix.project }}
+        env:
+          E2E_STATIC: 1
       - name: Upload Playwright report
         if: failure()
         uses: actions/upload-artifact@v7
