@@ -9,4 +9,7 @@ export { MenuRadioGroup as RadioGroup } from './menu-radio-group';
 export { MenuRadioItem as RadioItem } from './menu-radio-item';
 export { MenuRoot as Root } from './menu-root';
 export { MenuSeparator as Separator } from './menu-separator';
+export { MenuSub as Sub } from './menu-sub';
+export { MenuSubContent as SubContent } from './menu-sub-content';
+export { MenuSubTrigger as SubTrigger } from './menu-sub-trigger';
 export { MenuTrigger as Trigger } from './menu-trigger';

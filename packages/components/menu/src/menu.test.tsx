@@ -156,4 +156,35 @@ describe('Menu', () => {
     expect(two.getAttribute('aria-checked')).toBe('true');
     expect(query(screen, '')?.getAttribute('data-state')).toBe('closed');
   });
+
+  it('SubTrigger と SubContent の ARIA 属性が関連付けられ、親が閉じるとサブメニューも閉じる', async () => {
+    const { screen, render, userEvent } = await createDOM();
+    await render(
+      <Menu.Root defaultOpen>
+        <Menu.Trigger>File</Menu.Trigger>
+        <Menu.Content>
+          <Menu.Sub defaultOpen>
+            <Menu.SubTrigger>Share</Menu.SubTrigger>
+            <Menu.SubContent>
+              <Menu.Item>Email</Menu.Item>
+            </Menu.SubContent>
+          </Menu.Sub>
+        </Menu.Content>
+      </Menu.Root>,
+    );
+
+    const subTrigger = query(screen, 'sub-trigger');
+    const subContent = query(screen, 'sub-content');
+    expect(subTrigger?.getAttribute('role')).toBe('menuitem');
+    expect(subTrigger?.getAttribute('aria-haspopup')).toBe('menu');
+    expect(subTrigger?.getAttribute('aria-expanded')).toBe('true');
+    expect(subTrigger?.getAttribute('aria-controls')).toBe(subContent?.id);
+    expect(subContent?.getAttribute('role')).toBe('menu');
+    expect(subContent?.getAttribute('aria-labelledby')).toBe(subTrigger?.id);
+    expect(query(screen, 'sub')?.getAttribute('data-state')).toBe('open');
+
+    await userEvent('[data-leve-menu-trigger]', 'click');
+    expect(query(screen, '')?.getAttribute('data-state')).toBe('closed');
+    expect(query(screen, 'sub')?.getAttribute('data-state')).toBe('closed');
+  });
 });

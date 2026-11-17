@@ -5,6 +5,9 @@ import checkableCss from './demos/menu/checkable.css?raw';
 import DefaultDemo from './demos/menu/default';
 import defaultSource from './demos/menu/default?raw';
 import defaultCss from './demos/menu/default.css?raw';
+import SubmenuDemo from './demos/menu/submenu';
+import submenuSource from './demos/menu/submenu?raw';
+import submenuCss from './demos/menu/submenu.css?raw';
 import { demoSource } from './source';
 
 // 各ストーリーは demos/menu/ の component$ を描画し、そのソースを Docs の「Show code」に表示する
@@ -25,5 +28,12 @@ export const Checkable: Story = {
   render: () => <CheckableDemo />,
   parameters: {
     docs: { source: { code: demoSource(checkableSource, checkableCss, 'checkable.css') } },
+  },
+};
+
+export const Submenu: Story = {
+  render: () => <SubmenuDemo />,
+  parameters: {
+    docs: { source: { code: demoSource(submenuSource, submenuCss, 'submenu.css') } },
   },
 };

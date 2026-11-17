@@ -1,0 +1,109 @@
+.menu-submenu {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-family: inherit;
+}
+
+.menu-submenu-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  border: 1px solid light-dark(#cbd5e1, #ffffff3d);
+  border-radius: 6px;
+  background: light-dark(#ffffff, #1b2045);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  color: light-dark(#0f172a, #ffffff);
+  cursor: pointer;
+}
+
+.menu-submenu-trigger:hover,
+.menu-submenu-trigger[data-state="open"] {
+  background: light-dark(#f1f5f9, #ffffff14);
+}
+
+.menu-submenu-chevron {
+  width: 14px;
+  height: 14px;
+}
+
+/* The Content is a popover in the top layer; the library sets its position */
+.menu-submenu-content {
+  box-sizing: border-box;
+  min-width: max(180px, var(--leve-menu-anchor-width));
+  padding: 4px;
+  border: 1px solid light-dark(#cbd5e1, #ffffff3d);
+  border-radius: 6px;
+  background: light-dark(#ffffff, #1b2045);
+  color: light-dark(#0f172a, #ffffff);
+  font-family: inherit;
+  box-shadow: 0 8px 24px rgb(15 23 42 / 0.18);
+}
+
+.menu-submenu-content:focus-visible {
+  outline: none;
+}
+
+.menu-submenu-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 6px 8px;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: default;
+  outline: none;
+}
+
+/* The focused item: arrow keys, typeahead and the pointer move focus */
+.menu-submenu-item:focus {
+  background: #009dfd;
+  color: #ffffff;
+}
+
+.menu-submenu-item[data-disabled] {
+  opacity: 0.5;
+}
+
+.menu-submenu-shortcut {
+  font-size: 12px;
+  opacity: 0.7;
+}
+
+.menu-submenu-label {
+  padding: 6px 8px 2px;
+  font-size: 12px;
+  font-weight: 600;
+  color: light-dark(#475569, #c9ddf0);
+}
+
+.menu-submenu-separator {
+  height: 1px;
+  margin: 4px 0;
+  background: light-dark(#e2e8f0, #ffffff1f);
+}
+
+.menu-submenu-status {
+  margin: 0;
+  font-size: 14px;
+  color: light-dark(#475569, #c9ddf0);
+}
+
+.menu-submenu-trigger:focus-visible {
+  outline: 2px solid #009dfd;
+  outline-offset: 2px;
+}
+
+/* The SubTrigger stays highlighted while its submenu is open */
+.menu-submenu-item[data-state="open"] {
+  background: light-dark(#f1f5f9, #ffffff14);
+}
+
+.menu-submenu-icon {
+  width: 14px;
+  height: 14px;
+}

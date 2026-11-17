@@ -188,3 +188,82 @@ test.describe('Menu（チェックとラジオ）', () => {
     await expect(page.getByRole('group', { name: 'Zoom' })).toBeVisible();
   });
 });
+
+test.describe('Menu（サブメニュー）', () => {
+  const setup = async (page: Page) => {
+    await gotoStory(page, 'components-menu--submenu');
+    const trigger = page.getByRole('button', { name: 'File' });
+    await expect(trigger).toBeVisible({ timeout: 15_000 });
+    const share = page.getByRole('menuitem', { name: 'Share' });
+    const sub = page.getByRole('menu', { name: 'Share' });
+    const item = (name: string) => page.getByRole('menuitem', { name });
+    await trigger.click();
+    await expect(item('New file')).toBeFocused();
+    return { trigger, share, sub, item };
+  };
+
+  test('→ で開いて最初の項目に、← で閉じて SubTrigger に戻る', async ({ page }) => {
+    const { share, sub, item } = await setup(page);
+
+    await page.keyboard.press('ArrowDown');
+    await expect(share).toBeFocused();
+    await expect(share).toHaveAttribute('aria-haspopup', 'menu');
+    await page.keyboard.press('ArrowRight');
+    await expect(sub).toBeVisible();
+    await expect(share).toHaveAttribute('aria-expanded', 'true');
+    await expect(item('Copy link')).toBeFocused();
+
+    await page.keyboard.press('ArrowLeft');
+    await expect(sub).toBeHidden();
+    await expect(share).toBeFocused();
+  });
+
+  test('サブメニューの中で ↓ で移動し、Enter で選ぶとメニュー全体が閉じる', async ({ page }) => {
+    const { trigger, share, sub, item } = await setup(page);
+
+    await page.keyboard.press('ArrowDown');
+    await expect(share).toBeFocused();
+    await page.keyboard.press('Enter');
+    await expect(item('Copy link')).toBeFocused();
+    await page.keyboard.press('ArrowDown');
+    await expect(item('Email')).toBeFocused();
+    await page.keyboard.press('Enter');
+    await expect(sub).toBeHidden();
+    await expect(page.getByRole('menu', { name: 'File' })).toBeHidden();
+    await expect(trigger).toBeFocused();
+    await expect(page.getByText('Last action: Email')).toBeVisible();
+  });
+
+  test('Escape はサブメニューだけを閉じる', async ({ page }) => {
+    const { share, sub, item } = await setup(page);
+
+    await page.keyboard.press('ArrowDown');
+    await expect(share).toBeFocused();
+    await page.keyboard.press('ArrowRight');
+    await expect(item('Copy link')).toBeFocused();
+    await page.keyboard.press('Escape');
+    await expect(sub).toBeHidden();
+    await expect(page.getByRole('menu', { name: 'File' })).toBeVisible();
+    await expect(share).toBeFocused();
+  });
+
+  test('ポインタを載せると開き、別の項目に移ると閉じる', async ({ page }) => {
+    const { share, sub, item } = await setup(page);
+
+    await share.hover();
+    await expect(sub).toBeVisible();
+    await expect(share).toBeFocused();
+    await item('Print').hover();
+    await expect(sub).toBeHidden();
+  });
+
+  test('両方のメニューの外を押すと、メニュー全体が閉じる', async ({ page }) => {
+    const { share, sub } = await setup(page);
+
+    await share.hover();
+    await expect(sub).toBeVisible();
+    await page.mouse.click(5, 5);
+    await expect(sub).toBeHidden();
+    await expect(page.getByRole('menu', { name: 'File' })).toBeHidden();
+  });
+});

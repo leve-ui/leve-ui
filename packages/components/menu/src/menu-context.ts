@@ -40,3 +40,13 @@ export interface MenuRadioGroupContext {
 export const menuRadioGroupContextId = createContextId<MenuRadioGroupContext>(
   'leve-ui.menu-radio-group',
 );
+
+export interface MenuSubContext {
+  ids: { trigger: string; content: string };
+  open: ReadonlySignal<boolean>;
+  setOpen$: QRL<(open: boolean) => Promise<void>>;
+  /** Opened with the keyboard: focus moves to the first item. With the pointer: focus stays. */
+  focusOnOpen: Signal<boolean>;
+}
+
+export const menuSubContextId = createContextId<MenuSubContext>('leve-ui.menu-sub');

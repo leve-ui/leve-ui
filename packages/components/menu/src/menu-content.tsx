@@ -123,6 +123,10 @@ export const MenuContent = component$<MenuContentProps>(
       if (['ArrowUp', 'ArrowDown', 'Home', 'End', ' '].includes(event.key)) event.preventDefault();
     });
     const move$ = $((event: KeyboardEvent, menu: HTMLElement) => {
+      // Tab leaves the menu: close it, submenus included (APG)
+      if (event.key === 'Tab') return context.setOpen$(false);
+      // Keys in a submenu bubble up here; the submenu handles them
+      if ((event.target as Element).closest('[role="menu"]') !== menu) return;
       moveMenuFocus(event, menu, { loop: context.loop.value });
     });
 
