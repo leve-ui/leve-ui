@@ -22,6 +22,7 @@ export * from '@leve-ui/radio-group';
 export * from '@leve-ui/separator';
 export * from '@leve-ui/switch';
 export * from '@leve-ui/tabs';
+export * from '@leve-ui/toast';
 export * from '@leve-ui/toggle';
 export * from '@leve-ui/toggle-group';
 export * from '@leve-ui/toolbar';

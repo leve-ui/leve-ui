@@ -1,0 +1,207 @@
+---
+title: Toast
+description: A short message that appears for a moment, such as "Saved", without interrupting the user.
+---
+
+# Toast
+
+A short message that appears for a moment, such as "Saved", without interrupting the user.
+
+There is no WAI-ARIA APG pattern for toasts. Toasts are read out through a live region, live in a landmark that the keyboard can reach with a hotkey, and stay while the user is reading them.
+
+<Demo id="toast/default" />
+
+## Installation
+
+Install the all-in-one package:
+
+```sh
+pnpm add @leve-ui/core
+```
+
+Or only this component:
+
+```sh
+pnpm add @leve-ui/toast
+```
+
+## Anatomy
+
+```tsx
+import { Toast } from '@leve-ui/toast'; // or '@leve-ui/core'
+
+<Toast.Provider>
+  {/* Your app: call Toast.useToaster().add$() anywhere inside */}
+  <Toast.Region>
+    <Toast.List>
+      {toaster.toasts.value.map((toast) => (
+        <Toast.Root key={toast.id} toast={toast}>
+          <Toast.Title />
+          <Toast.Description />
+          <Toast.Action />
+          <Toast.Close />
+        </Toast.Root>
+      ))}
+    </Toast.List>
+  </Toast.Region>
+</Toast.Provider>
+```
+
+| Part | Element | Description |
+| --- | --- | --- |
+| `Toast.Provider` | None | Holds the toasts and the settings. Wrap your app with it. |
+| `Toast.Region` | `<section>` | The landmark that holds the toasts. The hotkey moves focus to it. |
+| `Toast.List` | `<ol>` | The list of toasts. |
+| `Toast.Root` | `<li>` | One toast. Takes a toast from `useToaster().toasts`. |
+| `Toast.Title` | `<div>` | The title. |
+| `Toast.Description` | `<div>` | Optional. The details. |
+| `Toast.Action` | `<button>` | Optional. An action such as Undo. It closes the toast after its `onClick$`. |
+| `Toast.Close` | `<button>` | Closes the toast. |
+
+## Adding Toasts
+
+`Toast.useToaster()` returns the toasts and the functions that change them. Call it in any component inside the Provider.
+
+```tsx
+const toaster = Toast.useToaster();
+
+const id = await toaster.add$({ title: 'Uploading', duration: Infinity });
+await toaster.update$(id, { title: 'Uploaded', duration: 3000 });
+await toaster.dismiss$(id); // or dismiss$() to close all
+```
+
+| Option | Description |
+| --- | --- |
+| `title` / `description` | The text, also used for the announcement. |
+| `type` | `'foreground'` (default) for results of a user action, announced right away. `'background'` for background tasks, announced after the current speech. |
+| `duration` | How long the toast stays, in ms. `Infinity` keeps it until it is closed. Defaults to the Provider's `duration`. |
+| `data` | Your own data for rendering, typed with `useToaster<T>()`. It must be serializable. |
+
+The toasts are kept in a signal in the Provider's context, not in a module variable: each request on the server has its own toasts, and a toast added on the server shows up on the client.
+
+## Stacking
+
+Each toast outputs CSS variables to stack them like cards and spread them out while the pointer is over the Region or focus is in it (`data-expanded`). The demo above shows one way:
+
+```css
+.toast {
+  position: absolute;
+  bottom: 0;
+  transform: translateY(calc(var(--leve-toast-index) * -12px))
+    scale(calc(1 - var(--leve-toast-index) * 0.05));
+}
+
+.toast[data-expanded] {
+  transform: translateY(calc(-1 * var(--leve-toast-front-offset) - var(--leve-toast-index) * 12px));
+}
+```
+
+## Examples
+
+### Action
+
+A toast with a `Toast.Action` stays until it is closed, so the user has time to reach it. Offer the same action elsewhere on the page too, since the toast goes away.
+
+<Demo id="toast/action" collapsed />
+
+## API Reference
+
+### Provider
+
+<PropsTable component="toast" part="Provider" />
+
+### Region
+
+<PropsTable component="toast" part="Region" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-toast-region` | Always present |
+| `data-placement` | The Provider's `placement` |
+| `data-expanded` | Present while the pointer is over the Region or focus is in it |
+
+The library does not place the Region: use `data-placement` or your own class to position it.
+
+### List
+
+<PropsTable component="toast" part="List" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-toast-list` | Always present |
+| `data-placement` | The Provider's `placement` |
+| `data-expanded` | Present while the pointer is over the Region or focus is in it |
+
+### Root
+
+<PropsTable component="toast" part="Root" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-toast` | Always present |
+| `data-state` | `"open"` \| `"closed"` |
+| `data-type` | `"foreground"` \| `"background"` |
+| `data-placement` | The Provider's `placement` |
+| `data-front` | Present on the newest open toast |
+| `data-expanded` | Present while the pointer is over the Region or focus is in it |
+| `data-swipe` | `"move"` \| `"cancel"` \| `"end"` while or after swiping |
+| `data-swipe-direction` | `"up"` \| `"down"` \| `"left"` \| `"right"` |
+
+| CSS variable | Value |
+| --- | --- |
+| `--leve-toast-index` | The position from the front: `0` is the newest open toast |
+| `--leve-toast-count` | The number of open toasts |
+| `--leve-toast-front-offset` | The total height of the newer toasts, to spread the stack |
+| `--leve-toast-height` | The height of this toast |
+| `--leve-toast-front-height` | The height of the front toast, e.g. to make the toasts behind it as tall |
+| `--leve-toast-swipe-move-x` / `-y` | The distance swiped so far, while `data-swipe="move"` |
+| `--leve-toast-swipe-end-x` / `-y` | The distance swiped, when `data-swipe="end"` |
+
+When closed, the toast gets `data-state="closed"` and is removed after its CSS animations and transitions finish, so you can animate it out.
+
+### Title
+
+<PropsTable component="toast" part="Title" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-toast-title` | Always present |
+
+### Description
+
+<PropsTable component="toast" part="Description" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-toast-description` | Always present |
+
+### Action
+
+<PropsTable component="toast" part="Action" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-toast-action` | Always present |
+
+### Close
+
+<PropsTable component="toast" part="Close" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-toast-close` | Always present |
+
+## Accessibility
+
+- When a toast is added, its title and description are announced through a live region that is always on the page: assertive for `foreground`, polite for `background`. The toast itself is not a live region, since live regions added to the page are not reliably announced.
+- `Toast.Region` is a `<section>` landmark named "Notifications (F8)". Change the name with `label`; `{hotkey}` is replaced with the hotkey.
+- Toasts close on their own only while the user is not on them: the timer pauses while the pointer is over the Region, focus is in it, the window is in the background, or a toast is being swiped. A toast with an Action never closes on its own.
+- Give `Toast.Close` an `aria-label` when it shows only an icon.
+
+### Keyboard Interactions
+
+| Key | Description |
+| --- | --- |
+| `F8` | Moves focus to the Region. Change it with the Provider's `hotkey`. |
+| `Tab` | Moves through the toasts and their buttons. |
+| `Escape` | On a toast, closes it and moves focus to the next toast, or the Region. |

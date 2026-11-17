@@ -56,6 +56,7 @@ export const docsNav: NavSection[] = [
       { title: msg('Separator'), href: '/components/separator/' },
       { title: msg('Switch'), href: '/components/switch/' },
       { title: msg('Tabs'), href: '/components/tabs/' },
+      { title: msg('Toast'), href: '/components/toast/' },
       { title: msg('Toggle'), href: '/components/toggle/' },
       { title: msg('Toggle Group'), href: '/components/toggle-group/' },
       { title: msg('Toolbar'), href: '/components/toolbar/' },
