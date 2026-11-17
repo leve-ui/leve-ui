@@ -38,6 +38,7 @@
     "@leve-ui/fieldset": "workspace:*",
     "@leve-ui/hover-card": "workspace:*",
     "@leve-ui/label": "workspace:*",
+    "@leve-ui/menu": "workspace:*",
     "@leve-ui/meter": "workspace:*",
     "@leve-ui/popover": "workspace:*",
     "@leve-ui/progress": "workspace:*",

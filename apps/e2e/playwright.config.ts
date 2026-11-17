@@ -25,7 +25,7 @@ export default defineConfig({
     {
       name: 'webkit',
       use: { ...devices['Desktop Safari'] },
-      testMatch: /(dialog|drawer|popover|tooltip|hover-card)\.spec\.ts/,
+      testMatch: /(dialog|drawer|popover|tooltip|hover-card|menu)\.spec\.ts/,
     },
   ],
   webServer: {

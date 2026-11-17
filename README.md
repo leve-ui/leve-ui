@@ -90,6 +90,7 @@ Style each part however you like, for example with data attributes:
 | [`@leve-ui/popover`](./packages/components/popover) | A small panel that opens next to a button, such as settings or filters |
 | [`@leve-ui/tooltip`](./packages/components/tooltip) | A short description that appears when a button is hovered or focused |
 | [`@leve-ui/hover-card`](./packages/components/hover-card) | A preview of a link's content, shown when the link is hovered or focused |
+| [`@leve-ui/menu`](./packages/components/menu) | A list of actions that opens from a button |
 
 ## Contributing
 
