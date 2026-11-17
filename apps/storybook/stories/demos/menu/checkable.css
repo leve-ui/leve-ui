@@ -1,0 +1,118 @@
+.menu-checkable {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-family: inherit;
+}
+
+.menu-checkable-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  border: 1px solid light-dark(#cbd5e1, #ffffff3d);
+  border-radius: 6px;
+  background: light-dark(#ffffff, #1b2045);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  color: light-dark(#0f172a, #ffffff);
+  cursor: pointer;
+}
+
+.menu-checkable-trigger:hover,
+.menu-checkable-trigger[data-state="open"] {
+  background: light-dark(#f1f5f9, #ffffff14);
+}
+
+.menu-checkable-chevron {
+  width: 14px;
+  height: 14px;
+}
+
+/* The Content is a popover in the top layer; the library sets its position */
+.menu-checkable-content {
+  box-sizing: border-box;
+  min-width: max(180px, var(--leve-menu-anchor-width));
+  padding: 4px;
+  border: 1px solid light-dark(#cbd5e1, #ffffff3d);
+  border-radius: 6px;
+  background: light-dark(#ffffff, #1b2045);
+  color: light-dark(#0f172a, #ffffff);
+  font-family: inherit;
+  box-shadow: 0 8px 24px rgb(15 23 42 / 0.18);
+}
+
+.menu-checkable-content:focus-visible {
+  outline: none;
+}
+
+.menu-checkable-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 6px 8px;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: default;
+  outline: none;
+}
+
+/* The focused item: arrow keys, typeahead and the pointer move focus */
+.menu-checkable-item:focus {
+  background: #009dfd;
+  color: #ffffff;
+}
+
+.menu-checkable-item[data-disabled] {
+  opacity: 0.5;
+}
+
+.menu-checkable-shortcut {
+  font-size: 12px;
+  opacity: 0.7;
+}
+
+.menu-checkable-label {
+  padding: 6px 8px 2px;
+  font-size: 12px;
+  font-weight: 600;
+  color: light-dark(#475569, #c9ddf0);
+}
+
+.menu-checkable-separator {
+  height: 1px;
+  margin: 4px 0;
+  background: light-dark(#e2e8f0, #ffffff1f);
+}
+
+.menu-checkable-status {
+  margin: 0;
+  font-size: 14px;
+  color: light-dark(#475569, #c9ddf0);
+}
+
+.menu-checkable-trigger:focus-visible {
+  outline: 2px solid #009dfd;
+  outline-offset: 2px;
+}
+
+/* The indicator keeps its space while hidden, so that the labels line up */
+.menu-checkable-item {
+  justify-content: flex-start;
+  gap: 6px;
+  padding-left: 28px;
+  position: relative;
+}
+
+.menu-checkable-indicator {
+  position: absolute;
+  left: 8px;
+  display: inline-flex;
+}
+
+.menu-checkable-icon {
+  width: 14px;
+  height: 14px;
+}

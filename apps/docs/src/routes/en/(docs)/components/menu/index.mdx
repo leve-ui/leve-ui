@@ -39,6 +39,14 @@ import { Menu } from '@leve-ui/menu'; // or '@leve-ui/core'
       <Menu.GroupLabel />
       <Menu.Item />
     </Menu.Group>
+    <Menu.CheckboxItem>
+      <Menu.ItemIndicator />
+    </Menu.CheckboxItem>
+    <Menu.RadioGroup>
+      <Menu.RadioItem>
+        <Menu.ItemIndicator />
+      </Menu.RadioItem>
+    </Menu.RadioGroup>
     <Menu.Arrow />
   </Menu.Content>
 </Menu.Root>
@@ -52,10 +60,22 @@ import { Menu } from '@leve-ui/menu'; // or '@leve-ui/core'
 | `Menu.Item` | `<div>` | An action. |
 | `Menu.Group` | `<div>` | A group of items, named by its GroupLabel. |
 | `Menu.GroupLabel` | `<div>` | The name of a group. Not an item. |
+| `Menu.CheckboxItem` | `<div>` | An item that is turned on or off. |
+| `Menu.RadioGroup` | `<div>` | A set of RadioItems where one is selected. |
+| `Menu.RadioItem` | `<div>` | An item of a RadioGroup. |
+| `Menu.ItemIndicator` | `<span>` | The check mark of a CheckboxItem or RadioItem, hidden while unchecked. |
 | `Menu.Separator` | `<div>` | A line between items. |
 | `Menu.Arrow` | `<div>` | Optional. An arrow pointing at the Trigger, drawn with CSS. |
 
-Checkbox and radio items and submenus are coming next. Items cannot be links yet: rendering an item as `<a>` or Qwik City's `<Link>` is planned with `asChild` ([#153](https://github.com/leve-ui/leve-ui/issues/153)).
+Submenus are coming next. Items cannot be links yet: rendering an item as `<a>` or Qwik City's `<Link>` is planned with `asChild` ([#153](https://github.com/leve-ui/leve-ui/issues/153)).
+
+## Examples
+
+### Checkbox and Radio Items
+
+`Menu.CheckboxItem` turns an option on or off, and `Menu.RadioItem` selects one value of a `Menu.RadioGroup`. Both take `bind:` signals like the other controls. Space changes them without closing the menu; a click or Enter changes them and closes it.
+
+<Demo id="menu/checkable" collapsed />
 
 ## API Reference
 
@@ -109,6 +129,45 @@ The Content gets inline `position`, `top` and `left` while it is open. Set `disp
 
 The focused item is the highlighted one: arrow keys, typeahead and the pointer move focus, so style it with `:focus`.
 
+### CheckboxItem
+
+<PropsTable component="menu" part="CheckboxItem" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-menu-checkbox-item` | Always present |
+| `data-state` | `"checked"` \| `"unchecked"` |
+| `data-disabled` | Present when disabled |
+
+### RadioGroup
+
+<PropsTable component="menu" part="RadioGroup" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-menu-radio-group` | Always present |
+
+### RadioItem
+
+<PropsTable component="menu" part="RadioItem" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-menu-radio-item` | Always present |
+| `data-state` | `"checked"` \| `"unchecked"` |
+| `data-disabled` | Present when disabled |
+
+### ItemIndicator
+
+<PropsTable component="menu" part="ItemIndicator" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-menu-item-indicator` | Always present |
+| `data-state` | `"checked"` \| `"unchecked"` |
+
+The indicator has the `hidden` attribute while its item is unchecked.
+
 ### Group
 
 <PropsTable component="menu" part="Group" />
@@ -150,6 +209,7 @@ Complies with the [Menu Button WAI-ARIA design pattern](https://www.w3.org/WAI/A
 - Items render `role="menuitem"` and `tabindex="-1"`: focus moves between them with the keyboard (roving focus), and the menu is one tab stop.
 - Disabled items render `aria-disabled="true"`. They are announced but cannot be selected, and arrow keys skip them.
 - `Menu.Group` renders `role="group"`, named by its `Menu.GroupLabel`.
+- `Menu.CheckboxItem` and `Menu.RadioItem` render `role="menuitemcheckbox"` / `role="menuitemradio"` with `aria-checked`. `Menu.RadioGroup` renders `role="group"`; name it with `aria-label`, or place it in a `Menu.Group` with a label. `Menu.ItemIndicator` is hidden from assistive technologies, since `aria-checked` conveys the state.
 
 ### Keyboard Interactions
 
@@ -161,5 +221,7 @@ Complies with the [Menu Button WAI-ARIA design pattern](https://www.w3.org/WAI/A
 | `Home` / `End` | Moves focus to the first / last enabled item. |
 | A character | Moves focus to the next item that starts with the typed characters. |
 | `Enter` / `Space` | On an item, selects it and closes the menu. |
+| `Space` | On a checkbox or radio item, changes it without closing the menu. |
+| `Enter` | On a checkbox or radio item, changes it and closes the menu. |
 | `Escape` | Closes the menu and returns focus to the Trigger. |
 | `Tab` | Closes the menu and moves focus on. |

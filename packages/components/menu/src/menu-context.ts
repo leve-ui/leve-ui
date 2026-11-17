@@ -22,3 +22,21 @@ export interface MenuGroupContext {
 }
 
 export const menuGroupContextId = createContextId<MenuGroupContext>('leve-ui.menu-group');
+
+/** Shared by the checkable items, read by `Menu.ItemIndicator`. */
+export interface MenuItemIndicatorContext {
+  checked: ReadonlySignal<boolean>;
+}
+
+export const menuItemIndicatorContextId = createContextId<MenuItemIndicatorContext>(
+  'leve-ui.menu-item-indicator',
+);
+
+export interface MenuRadioGroupContext {
+  value: ReadonlySignal<string | null>;
+  setValue$: QRL<(value: string) => Promise<void>>;
+}
+
+export const menuRadioGroupContextId = createContextId<MenuRadioGroupContext>(
+  'leve-ui.menu-radio-group',
+);

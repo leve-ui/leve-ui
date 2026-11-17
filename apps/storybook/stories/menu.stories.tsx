@@ -1,4 +1,7 @@
 import type { Meta, StoryObj } from 'storybook-framework-qwik';
+import CheckableDemo from './demos/menu/checkable';
+import checkableSource from './demos/menu/checkable?raw';
+import checkableCss from './demos/menu/checkable.css?raw';
 import DefaultDemo from './demos/menu/default';
 import defaultSource from './demos/menu/default?raw';
 import defaultCss from './demos/menu/default.css?raw';
@@ -16,4 +19,11 @@ type Story = StoryObj;
 export const Default: Story = {
   render: () => <DefaultDemo />,
   parameters: { docs: { source: { code: demoSource(defaultSource, defaultCss, 'default.css') } } },
+};
+
+export const Checkable: Story = {
+  render: () => <CheckableDemo />,
+  parameters: {
+    docs: { source: { code: demoSource(checkableSource, checkableCss, 'checkable.css') } },
+  },
 };
