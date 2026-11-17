@@ -13,7 +13,7 @@ Thank you for your interest in contributing! This guide explains how to set up t
 git clone https://github.com/<your-username>/leve-ui.git
 cd leve-ui
 pnpm install                                          # also installs git hooks (lefthook)
-pnpm --filter @leve-ui/e2e exec playwright install chromium webkit   # for E2E tests (overlays also run in WebKit)
+pnpm --filter @leve-ui/e2e exec playwright install chromium webkit firefox   # for E2E tests
 ```
 
 ## Project Structure
@@ -54,7 +54,7 @@ pnpm component:new <name> <part,...>   # scaffold a new component package
 6. **Commit** with an English [Conventional Commits](https://www.conventionalcommits.org/) message (see below).
 7. **Open a pull request** against `main`. Fill in the template.
 
-CI runs on every pull request: commit messages and PR title, lint, type checks, unit tests, build, and E2E (one job per browser: E2E (Chromium) and E2E (WebKit), in parallel). For first-time contributors, a maintainer has to approve the workflow run first. Pull requests are merged with **squash merge** once CI passes and a maintainer has reviewed them.
+CI runs on every pull request: commit messages and PR title, lint, type checks, unit tests, build, and E2E (one job per browser engine, in parallel: E2E (Chromium), E2E (WebKit) and E2E (Firefox)). For first-time contributors, a maintainer has to approve the workflow run first. Pull requests are merged with **squash merge** once CI passes and a maintainer has reviewed them.
 
 ### Choosing a Bump Type
 
@@ -140,7 +140,7 @@ Storybook generates a Docs page for every component, and its "Show code" panel s
 - Write comments in demo files, including CSS comments, in English.
 - Give demos the shared look so they fit both docs themes: accent `#009dfd` (hover `#006ce9`), accent text `light-dark(#006ce9, #4cb8ff)`, surfaces `light-dark(#ffffff, #1b2045)`, subtle surfaces `light-dark(#f1f5f9, #ffffff14)`, tracks `light-dark(#e2e8f0, #ffffff1f)`, borders `light-dark(#cbd5e1, #ffffff3d)`, text `light-dark(#0f172a, #ffffff)`, muted text `light-dark(#475569, #c9ddf0)`, errors `light-dark(#dc2626, #f87171)`, success `light-dark(#16a34a, #4ade80)`, radius `6px` (`4px` for small controls, `9999px` for round ones), focus `outline: 2px solid #009dfd; outline-offset: 2px`, disabled `opacity: 0.5`, and `font-family: inherit`. Write the values in each demo instead of sharing variables or files.
 - Use icons from `@qwikest/icons/lucide` instead of inline SVG, and mark them `aria-hidden="true"`. It is the only external package demos may import.
-- E2E tests of overlays that use `<dialog>` or the Popover API (such as Dialog, Drawer, Popover, Tooltip, Hover Card and Menu) also run in WebKit, since browsers differ there ([ADR 0029](./adr/0029-render-overlays-in-place-in-the-top-layer-with-native-dialog-and-popover.md)). Add the spec to `testMatch` of the `webkit` project in `apps/e2e/playwright.config.ts`.
+- Every E2E test runs in Chromium, WebKit and Firefox, since `<dialog>`, the Popover API and focus behave differently between engines ([ADR 0029](./adr/0029-render-overlays-in-place-in-the-top-layer-with-native-dialog-and-popover.md)). WebKit does not focus a button on click: move focus with `focus()` in tests that check focus after a click.
 - Don't add test-only elements (such as buttons to check Tab order) to demos. E2E tests that need them open the story with `gotoStory(page, id, { focusGuards: true })`, which wraps it in `Before` / `After` buttons.
 - Don't write JSX directly in `render`, and don't hide parts, props, or styles behind helper components, shared constants, or stylesheets other than the demo's own `<story>.css`. They wouldn't show up in "Show code".
 

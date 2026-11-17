@@ -65,7 +65,7 @@ docs(adr): add 0018 and accept 0011
 `main` はブランチ保護されており、直接 push できない（`adr/0018`）。
 
 - 作業は `main` から切ったブランチで行う。ブランチ名は `<type>/<short-description>`（例: `feat/dialog`、`fix/avatar-ssr-state`）。
-- PR を作り、CI（Commit messages / Lint / Typecheck / Unit test / Build / E2E (Chromium) / E2E (WebKit) / Publish readiness）がすべて通ってからマージする。PR の本文は `.github/pull_request_template.md` に沿って書く。
+- PR を作り、CI（Commit messages / Lint / Typecheck / Unit test / Build / E2E (Chromium) / E2E (WebKit) / E2E (Firefox) / Publish readiness）がすべて通ってからマージする。PR の本文は `.github/pull_request_template.md` に沿って書く。
 - マージは squash merge のみ。**PR のタイトルがそのまま `main` のコミットメッセージになる**ため、PR タイトルも commitlint の形式（英語）で書く。CI で検証される。
 - PR の説明文は日本語でもよい。
 
