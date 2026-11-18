@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test';
+import { pressTab } from './keyboard';
 import { gotoStory } from './story';
 
 test.describe('Breadcrumb', () => {
@@ -26,9 +27,9 @@ test.describe('Breadcrumb', () => {
 
     const home = page.getByRole('link', { name: 'Home' });
     await home.focus();
-    await page.keyboard.press('Tab');
+    await pressTab(page);
     await expect(page.getByRole('link', { name: 'Components' })).toBeFocused();
-    await page.keyboard.press('Tab');
+    await pressTab(page);
     await expect(page.getByRole('link', { name: 'Breadcrumb' })).toBeFocused();
   });
 });

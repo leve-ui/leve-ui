@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test';
+import { pressTab } from './keyboard';
 import { gotoStory } from './story';
 
 test.describe('ToggleGroup', () => {
@@ -9,10 +10,10 @@ test.describe('ToggleGroup', () => {
     const left = page.getByRole('button', { name: 'Align left' });
     await expect(left).toBeVisible({ timeout: 15_000 });
 
-    await page.keyboard.press('Tab');
+    await pressTab(page);
     await expect(left).toBeFocused();
 
-    await page.keyboard.press('Tab');
+    await pressTab(page);
     await expect(left).not.toBeFocused();
   });
 

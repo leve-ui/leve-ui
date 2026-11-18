@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test';
+import { pressTab } from './keyboard';
 import { gotoStory } from './story';
 
 test.describe('Checkbox', () => {
@@ -73,10 +74,10 @@ test.describe('Checkbox', () => {
     const submit = page.getByRole('button', { name: 'Submit' });
 
     await submit.focus();
-    await page.keyboard.press('Shift+Tab');
+    await pressTab(page, { shift: true });
     await expect(control).toBeFocused();
 
-    await page.keyboard.press('Tab');
+    await pressTab(page);
     await expect(submit).toBeFocused();
   });
 
@@ -90,7 +91,7 @@ test.describe('Checkbox', () => {
 
     // Tab でフォーカスがスキップされることを確認
     await page.getByRole('button', { name: 'Before' }).focus();
-    await page.keyboard.press('Tab');
+    await pressTab(page);
     await expect(page.getByRole('button', { name: 'After' })).toBeFocused();
   });
 

@@ -142,6 +142,7 @@ test.describe('Dialog', () => {
   - `Components/RadioGroup` の `WithDisabled` → `components-radiogroup--with-disabled`（単語の区切りは入らない）
 - 要素は `getByRole` を優先する。ロールで取れないこと自体が、アクセシビリティの問題を示している場合が多い。
 - フォーカスは `toBeFocused()`、キー入力は `page.keyboard.press('ArrowDown')` などで確認する。
+- **Tab / Shift+Tab は `page.keyboard.press('Tab')` ではなく、`./keyboard` の `pressTab(page)` / `pressTab(page, { shift: true })` で押す。** macOS の WebKit（Safari と同じ）は、既定では Tab でテキスト入力欄の間しか移らず、ボタンやリンクを飛ばすため、そこでは Safari の利用者と同じく Option+Tab を押す（#170）。これでテストは手元の macOS でも CI（Linux）でも同じ意味になる。コンポーネント側で Tab を扱う処理は、Option+Tab も Tab として扱うこと（Ctrl+Tab と Cmd+Tab はブラウザ・OS の切り替えなので扱わない）。
 - Tab でフォーカスが入る・抜ける・無効な要素を飛ばすことを確かめるときは、`gotoStory(page, id, { focusGuards: true })` で開く。ストーリーの前後に `Before` / `After` ボタンが置かれる（`.storybook/preview.tsx` のデコレーター）。**demo にはこうしたテスト用のボタンを書かない**（demo は docs サイトにも載るため）。
 - 外部リソースは `page.route` でモックする（例: `apps/e2e/tests/avatar.spec.ts`）。
 - E2E はすべて Chromium・WebKit・Firefox の 3 つで動く（CI はブラウザごとに別のジョブ。`adr/0029`）。WebKit はクリックでボタンにフォーカスしないので、クリックのあとのフォーカスを確かめるテストでは `focus()` でフォーカスを移す。

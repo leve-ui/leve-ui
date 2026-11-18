@@ -1,4 +1,5 @@
 import { expect, type Page, test } from '@playwright/test';
+import { pressTab } from './keyboard';
 import { distance, gotoDocs, gotoStory } from './story';
 
 const open = async (page: Page, story = 'default', triggerName = 'Dimensions') => {
@@ -64,7 +65,7 @@ test.describe('Popover', () => {
     const close = popover.getByRole('button', { name: 'Close' });
 
     await close.focus();
-    await page.keyboard.press('Tab');
+    await pressTab(page);
     await expect(popover).toBeHidden();
     // Chromium moves focus to the element after the Trigger; WebKit moves it to the body
     if (browserName === 'chromium') {

@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test';
+import { pressTab } from './keyboard';
 import { gotoStory } from './story';
 
 test.describe('Toolbar', () => {
@@ -8,10 +9,10 @@ test.describe('Toolbar', () => {
     await expect(bold).toBeVisible({ timeout: 15_000 });
 
     await page.getByRole('button', { name: 'Before' }).focus();
-    await page.keyboard.press('Tab');
+    await pressTab(page);
     await expect(bold).toBeFocused();
 
-    await page.keyboard.press('Tab');
+    await pressTab(page);
     await expect(page.getByRole('button', { name: 'After' })).toBeFocused();
   });
 
@@ -82,9 +83,9 @@ test.describe('Toolbar', () => {
     }
     await expect(alignCenter).toBeFocused();
 
-    await page.keyboard.press('Tab');
+    await pressTab(page);
     await expect(page.getByRole('button', { name: 'After' })).toBeFocused();
-    await page.keyboard.press('Shift+Tab');
+    await pressTab(page, { shift: true });
     await expect(alignCenter).toBeFocused();
   });
 

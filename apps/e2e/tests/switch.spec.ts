@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test';
+import { pressTab } from './keyboard';
 import { gotoStory } from './story';
 
 test.describe('Switch', () => {
@@ -91,7 +92,7 @@ test.describe('Switch', () => {
     await gotoStory(page, 'components-switch--disabled', { focusGuards: true });
 
     await page.getByRole('button', { name: 'Before' }).focus();
-    await page.keyboard.press('Tab');
+    await pressTab(page);
     await expect(page.getByRole('button', { name: 'After' })).toBeFocused();
   });
 
@@ -99,7 +100,7 @@ test.describe('Switch', () => {
     await gotoStory(page, 'components-switch--form');
 
     await page.getByRole('switch', { name: 'Notifications' }).focus();
-    await page.keyboard.press('Tab');
+    await pressTab(page);
     await expect(page.getByRole('button', { name: 'Save' })).toBeFocused();
   });
 

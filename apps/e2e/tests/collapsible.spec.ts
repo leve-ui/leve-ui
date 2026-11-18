@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test';
+import { pressTab } from './keyboard';
 import { gotoStory } from './story';
 
 test.describe('Collapsible', () => {
@@ -97,7 +98,7 @@ test.describe('Collapsible', () => {
     const trigger = page.getByRole('button', { name: 'Controlled collapsible' });
 
     await external.focus();
-    await page.keyboard.press('Tab');
+    await pressTab(page);
     await expect(trigger).toBeFocused();
   });
 
@@ -110,7 +111,7 @@ test.describe('Collapsible', () => {
     await expect(trigger).toBeDisabled();
     await expect(trigger).toHaveAttribute('data-disabled', '');
 
-    await page.keyboard.press('Tab');
+    await pressTab(page);
     await expect(trigger).not.toBeFocused();
 
     await trigger.click({ force: true });

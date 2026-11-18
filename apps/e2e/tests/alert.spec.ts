@@ -14,7 +14,9 @@ test.describe('Alert', () => {
     await gotoStory(page, 'components-alert--on-submit');
 
     const submit = page.getByRole('button', { name: 'Submit' });
-    await submit.click();
+    // With the keyboard: WebKit on macOS does not focus a button on click
+    await submit.focus();
+    await page.keyboard.press('Enter');
     await expect(page.getByRole('alert')).toContainText('Submission failed');
     await expect(submit).toBeFocused();
   });

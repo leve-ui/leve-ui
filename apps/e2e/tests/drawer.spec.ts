@@ -1,4 +1,5 @@
 import { expect, type Page, test } from '@playwright/test';
+import { pressTab } from './keyboard';
 import { gotoStory } from './story';
 
 const open = async (page: Page, story: string, triggerName: string, name: string) => {
@@ -39,7 +40,7 @@ test.describe('Drawer（非モーダル）', () => {
     const { drawer } = await openDefault(page);
     await expect(drawer.getByRole('button', { name: 'Close' })).toBeFocused();
 
-    await page.keyboard.press('Tab');
+    await pressTab(page);
     await expect
       .poll(() => drawer.evaluate((el) => el.contains(document.activeElement)))
       .toBe(false);
@@ -84,9 +85,9 @@ test.describe('Drawer（モーダル）', () => {
 
     await expect(drawer).toHaveAttribute('aria-modal', 'true');
     await expect(drawer.getByRole('link', { name: 'Home' })).toBeFocused();
-    await page.keyboard.press('Shift+Tab');
+    await pressTab(page, { shift: true });
     await expect(drawer.getByRole('button', { name: 'Close' })).toBeFocused();
-    await page.keyboard.press('Tab');
+    await pressTab(page);
     await expect(drawer.getByRole('link', { name: 'Home' })).toBeFocused();
   });
 

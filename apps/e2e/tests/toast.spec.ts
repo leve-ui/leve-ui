@@ -1,4 +1,5 @@
 import { expect, type Page, test } from '@playwright/test';
+import { pressTab } from './keyboard';
 import { gotoStory } from './story';
 
 const setup = async (page: Page, story = 'default') => {
@@ -71,7 +72,7 @@ test.describe('Toast', () => {
 
     await page.keyboard.press('F8');
     await expect(region).toBeFocused();
-    await page.keyboard.press('Tab');
+    await pressTab(page);
     await expect(toasts.first()).toBeFocused();
 
     await page.keyboard.press('Escape');

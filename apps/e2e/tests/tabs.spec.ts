@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test';
+import { pressTab } from './keyboard';
 import { gotoStory } from './story';
 
 test.describe('Tabs', () => {
@@ -6,7 +7,7 @@ test.describe('Tabs', () => {
     await gotoStory(page, 'components-tabs--controlled');
 
     await page.getByRole('button', { name: 'Select Tab 2' }).focus();
-    await page.keyboard.press('Tab');
+    await pressTab(page);
     const firstTab = page.getByRole('tab', { name: 'First' });
     await expect(firstTab).toBeFocused();
   });
@@ -16,7 +17,7 @@ test.describe('Tabs', () => {
 
     const firstTab = page.getByRole('tab', { name: 'Account' });
     await firstTab.focus();
-    await page.keyboard.press('Tab');
+    await pressTab(page);
     const panel = page.getByRole('tabpanel');
     await expect(panel).toBeFocused();
   });
