@@ -67,4 +67,4 @@ Component-specific specs (which APG pattern a component follows, its parts, and 
 | [0035](0035-read-item-collections-from-the-dom-and-pick-the-focus-model-per-pattern.md) | Read item collections from the DOM and pick the focus model per pattern | Accepted |
 | [0036](0036-represent-dates-as-iso-strings-and-compute-them-with-internationalized-date.md) | Represent dates as ISO strings and compute them with @internationalized/date | Accepted |
 | [0037](0037-add-toasts-through-a-provider-context-and-render-them-with-consumer-markup.md) | Add toasts through a provider context and render them with consumer markup | Accepted |
-| [0038](0038-render-parts-as-another-element-or-component-with-an-as-prop.md) | Render parts as another element or component with an as prop | Proposed |
+| [0038](0038-render-parts-as-another-element-or-component-with-an-as-prop.md) | Render parts as another element or component with an as prop | Accepted |
