@@ -1,0 +1,107 @@
+.combobox-default {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  font-family: inherit;
+}
+
+.combobox-default-root {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 240px;
+}
+
+.combobox-default-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: light-dark(#0f172a, #ffffff);
+}
+
+/* The Control wraps the input and the button; the listbox is placed below it */
+.combobox-default-control {
+  display: flex;
+  align-items: center;
+  border: 1px solid light-dark(#cbd5e1, #ffffff3d);
+  border-radius: 6px;
+  background: light-dark(#ffffff, #1b2045);
+}
+
+.combobox-default-control:focus-within {
+  outline: 2px solid #009dfd;
+  outline-offset: 2px;
+}
+
+.combobox-default-input {
+  flex: 1;
+  min-width: 0;
+  padding: 8px 10px;
+  border: 0;
+  background: transparent;
+  font: inherit;
+  font-size: 14px;
+  color: light-dark(#0f172a, #ffffff);
+  outline: none;
+}
+
+.combobox-default-trigger {
+  display: inline-flex;
+  padding: 8px;
+  border: 0;
+  background: transparent;
+  color: light-dark(#475569, #c9ddf0);
+  cursor: pointer;
+}
+
+.combobox-default-icon {
+  width: 16px;
+  height: 16px;
+}
+
+/* The Content is a popover in the top layer; the library sets its position */
+.combobox-default-content {
+  box-sizing: border-box;
+  width: var(--leve-combobox-anchor-width);
+  max-height: min(240px, var(--leve-combobox-available-height));
+  overflow-y: auto;
+  padding: 4px;
+  border: 1px solid light-dark(#cbd5e1, #ffffff3d);
+  border-radius: 6px;
+  background: light-dark(#ffffff, #1b2045);
+  color: light-dark(#0f172a, #ffffff);
+  font-family: inherit;
+  box-shadow: 0 8px 24px rgb(15 23 42 / 0.18);
+}
+
+.combobox-default-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 8px;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: default;
+}
+
+/* The highlighted item: arrow keys and the pointer move the highlight (focus stays in the input) */
+.combobox-default-item[data-highlighted] {
+  background: #009dfd;
+  color: #ffffff;
+}
+
+.combobox-default-item[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.combobox-default-empty {
+  padding: 6px 8px;
+  font-size: 14px;
+  color: light-dark(#475569, #c9ddf0);
+}
+
+.combobox-default-status {
+  margin: 0;
+  font-size: 14px;
+  color: light-dark(#475569, #c9ddf0);
+}

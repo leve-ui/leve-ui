@@ -5,6 +5,13 @@ export {
   clearAnnouncer,
   destroyAnnouncer,
 } from './announcer';
+export {
+  getAdjacentItem,
+  getCollectionItems,
+  getItemTextValue,
+  isItemDisabled,
+  itemId,
+} from './collection';
 export { type UseControllableStateOptions, useControllableState } from './controllable-state';
 export { dataAttr } from './data-attr';
 export { type DialogElementOptions, openDialogElement } from './dialog-element';
