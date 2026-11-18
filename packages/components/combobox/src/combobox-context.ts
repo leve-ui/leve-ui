@@ -8,6 +8,15 @@ export interface ComboboxIds {
   list: string;
 }
 
+/**
+ * Why the text in the input changed.
+ * - `'input'`: the user typed
+ * - `'select'`: an item was selected, and its text was put in the input
+ * - `'clear'`: Escape or the ClearTrigger cleared it
+ * - `'blur'`: the input lost focus, and its text went back to the selected item
+ */
+export type ComboboxInputValueChangeReason = 'input' | 'select' | 'clear' | 'blur';
+
 /** Which item to highlight when the listbox opens */
 export type ComboboxHighlight = 'first' | 'last' | 'selected' | null;
 
@@ -24,10 +33,11 @@ export interface ComboboxContext {
   required: ReadonlySignal<boolean>;
   loop: ReadonlySignal<boolean>;
   autoHighlight: ReadonlySignal<boolean>;
+  openOnClick: ReadonlySignal<boolean>;
   /** Opens or closes the listbox; opening highlights an item */
   setOpen$: QRL<(open: boolean, highlight?: ComboboxHighlight) => Promise<void>>;
-  /** Changes the text. `fromTyping` is false for changes the input element must be updated with. */
-  setInputValue$: QRL<(value: string, fromTyping?: boolean) => Promise<void>>;
+  /** Changes the text. Changes other than `'input'` are also written into the input element. */
+  setInputValue$: QRL<(value: string, reason: ComboboxInputValueChangeReason) => Promise<void>>;
   /**
    * The last text set by something else than typing (selecting, clearing). The input writes it into
    * the element while it is still the current text, so an older text never overwrites what the user

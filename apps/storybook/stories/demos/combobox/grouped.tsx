@@ -21,7 +21,15 @@ export default component$(() => {
 
   return (
     // autoHighlight: typing highlights the first match, so Enter selects it
-    <Combobox.Root bind:inputValue={query} autoHighlight loop class="combobox-grouped">
+    <Combobox.Root
+      onInputValueChange$={(text, { reason }) => {
+        // Filter only while the user types
+        query.value = reason === 'input' ? text : '';
+      }}
+      autoHighlight
+      loop
+      class="combobox-grouped"
+    >
       <Combobox.Label class="combobox-grouped-label">Time zone</Combobox.Label>
       <Combobox.Control class="combobox-grouped-control">
         <Combobox.Input placeholder="Type a city" class="combobox-grouped-input" />

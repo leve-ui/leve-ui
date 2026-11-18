@@ -177,6 +177,53 @@ test.describe('Combobox', () => {
     await page.mouse.click(5, 5);
     await expect(listbox).toBeHidden();
   });
+
+  test('選択後にもう一度開くと、すべての候補が出る', async ({ page }) => {
+    const { input, option, expectHighlighted } = await setup(page);
+
+    await input.focus();
+    await page.keyboard.type('che');
+    await expect(page.getByRole('option')).toHaveCount(1);
+    await page.keyboard.press('ArrowDown');
+    await expectHighlighted('Cherry');
+    await page.keyboard.press('Enter');
+    await expect(input).toHaveValue('Cherry');
+
+    await page.getByRole('button', { name: 'Show fruits' }).click();
+    await expect(page.getByRole('option')).toHaveCount(8);
+    // The selected option is highlighted
+    await expectHighlighted('Cherry');
+    await expect(option('Cherry')).toHaveAttribute('aria-selected', 'true');
+  });
+
+  test('ClearTrigger で入力と選択を消し、Input にフォーカスを残す', async ({ page }) => {
+    const { input, expectHighlighted } = await setup(page);
+    const clear = page.getByRole('button', { name: 'Clear' });
+    await expect(clear).toBeHidden();
+
+    await input.focus();
+    await page.keyboard.type('gr');
+    await expect(clear).toBeVisible();
+    await expect(page.getByRole('option')).toHaveCount(1);
+    await page.keyboard.press('ArrowDown');
+    await expectHighlighted('Grape');
+    await page.keyboard.press('Enter');
+    await expect(page.getByText('Selected: grape')).toBeVisible();
+
+    await clear.click();
+    await expect(input).toHaveValue('');
+    await expect(input).toBeFocused();
+    await expect(page.getByText('Selected: none')).toBeVisible();
+    await expect(clear).toBeHidden();
+  });
+
+  test('openOnClick のとき、Input のクリックで開く', async ({ page }) => {
+    const { input, listbox } = await setup(page);
+
+    await input.click();
+    await expect(listbox).toBeVisible();
+    await expect(page.getByRole('option')).toHaveCount(8);
+  });
 });
 
 test.describe('Combobox（グループと autoHighlight）', () => {

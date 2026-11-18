@@ -1,3 +1,4 @@
+export { ComboboxClearTrigger as ClearTrigger } from './combobox-clear-trigger';
 export { ComboboxContent as Content } from './combobox-content';
 export { ComboboxControl as Control } from './combobox-control';
 export { ComboboxEmpty as Empty } from './combobox-empty';

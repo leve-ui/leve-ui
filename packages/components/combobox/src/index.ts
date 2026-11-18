@@ -1,6 +1,7 @@
 export * as Combobox from './combobox';
+export type { ComboboxClearTriggerProps } from './combobox-clear-trigger';
 export type { ComboboxContentProps } from './combobox-content';
-export type { ComboboxIds } from './combobox-context';
+export type { ComboboxIds, ComboboxInputValueChangeReason } from './combobox-context';
 export type { ComboboxControlProps } from './combobox-control';
 export type { ComboboxEmptyProps } from './combobox-empty';
 export type { ComboboxGroupProps } from './combobox-group';

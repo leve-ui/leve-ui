@@ -200,4 +200,91 @@ describe('Combobox', () => {
     await userEvent('[data-leve-combobox-trigger]', 'click');
     expect(query(screen, '')?.getAttribute('data-state')).toBe('closed');
   });
+
+  it('ClearTrigger は消すものがない間は hidden で、押すと入力と選択を消す', async () => {
+    const { screen, render, userEvent } = await createDOM();
+    await render(
+      <Combobox.Root defaultValue="apple" defaultInputValue="Apple">
+        <Combobox.Input />
+        <Combobox.ClearTrigger aria-label="Clear">×</Combobox.ClearTrigger>
+        <Combobox.HiddenInput />
+        <Combobox.Content>
+          <Combobox.List>
+            <Combobox.Item value="apple">Apple</Combobox.Item>
+          </Combobox.List>
+        </Combobox.Content>
+      </Combobox.Root>,
+    );
+
+    const clear = query(screen, 'clear-trigger');
+    expect(clear?.getAttribute('type')).toBe('button');
+    expect(clear?.getAttribute('tabindex')).toBe('-1');
+    expect(clear?.getAttribute('aria-label')).toBe('Clear');
+    expect(clear?.getAttribute('aria-controls')).toBe(query(screen, 'input')?.id);
+    expect(clear?.hasAttribute('hidden')).toBe(false);
+    expect(clear?.getAttribute('data-state')).toBe('filled');
+
+    await userEvent('[data-leve-combobox-clear-trigger]', 'click');
+    expect((query(screen, 'input') as HTMLInputElement).value).toBe('');
+    expect((query(screen, 'hidden-input') as HTMLInputElement).value).toBe('');
+    expect(query(screen, 'clear-trigger')?.hasAttribute('hidden')).toBe(true);
+    expect(query(screen, 'clear-trigger')?.getAttribute('data-state')).toBe('empty');
+  });
+
+  it('onInputValueChange$ に変更の理由が渡される', async () => {
+    const Reasons = component$(() => {
+      const log = useSignal<string[]>([]);
+      return (
+        <>
+          <Combobox.Root
+            onInputValueChange$={(value, { reason }) => {
+              log.value = [...log.value, `${reason}:${value}`];
+            }}
+          >
+            <Combobox.Input />
+            <Combobox.ClearTrigger>×</Combobox.ClearTrigger>
+            <Combobox.Trigger>▼</Combobox.Trigger>
+            <Combobox.Content>
+              <Combobox.List>
+                <Combobox.Item value="apple">Apple</Combobox.Item>
+              </Combobox.List>
+            </Combobox.Content>
+          </Combobox.Root>
+          <output>{log.value.join(',')}</output>
+        </>
+      );
+    });
+    const { screen, render, userEvent } = await createDOM();
+    await render(<Reasons />);
+
+    await userEvent('[data-leve-combobox-trigger]', 'click');
+    await userEvent('[data-value="apple"]', 'click');
+    await userEvent('[data-leve-combobox-clear-trigger]', 'click');
+    expect(screen.querySelector('output')?.textContent).toBe('select:Apple,clear:');
+  });
+
+  it('openOnClick のとき Input のクリックで開く。既定では開かない', async () => {
+    const { screen, render, userEvent } = await createDOM();
+    await render(
+      <>
+        <Combobox.Root class="default">
+          <Combobox.Input />
+          <Combobox.Content>
+            <Combobox.List />
+          </Combobox.Content>
+        </Combobox.Root>
+        <Combobox.Root openOnClick class="on-click">
+          <Combobox.Input />
+          <Combobox.Content>
+            <Combobox.List />
+          </Combobox.Content>
+        </Combobox.Root>
+      </>,
+    );
+
+    await userEvent('.default [data-leve-combobox-input]', 'click');
+    expect(screen.querySelector('.default')?.getAttribute('data-state')).toBe('closed');
+    await userEvent('.on-click [data-leve-combobox-input]', 'click');
+    expect(screen.querySelector('.on-click')?.getAttribute('data-state')).toBe('open');
+  });
 });
