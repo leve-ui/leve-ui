@@ -138,7 +138,9 @@ function handleDocumentKeyDown(event: KeyboardEvent) {
   if (event.key !== 'Tab' || event.isComposing) {
     return;
   }
-  if (event.altKey || event.ctrlKey || event.metaKey) {
+  // Ctrl+Tab switches browser tabs and Cmd+Tab switches apps. Option+Tab is kept: it is how Safari
+  // users with the default settings move through every item of a page (#170)
+  if (event.ctrlKey || event.metaKey) {
     return;
   }
 
