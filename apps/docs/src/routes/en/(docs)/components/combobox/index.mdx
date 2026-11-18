@@ -1,0 +1,265 @@
+---
+title: Combobox
+description: A text input with a list of suggestions to pick from, such as a searchable select.
+---
+
+# Combobox
+
+A text input with a list of suggestions to pick from, such as a searchable select.
+
+Combobox follows the [Combobox WAI-ARIA design pattern](https://www.w3.org/WAI/ARIA/apg/patterns/combobox/) with list autocomplete.
+
+<Demo id="combobox/default" />
+
+## Installation
+
+Install the all-in-one package:
+
+```sh
+pnpm add @leve-ui/core
+```
+
+Or only this component:
+
+```sh
+pnpm add @leve-ui/combobox
+```
+
+## Anatomy
+
+```tsx
+import { Combobox } from '@leve-ui/combobox'; // or '@leve-ui/core'
+
+<Combobox.Root>
+  <Combobox.Label />
+  <Combobox.Control>
+    <Combobox.Input />
+    <Combobox.Trigger />
+  </Combobox.Control>
+  <Combobox.HiddenInput />
+  <Combobox.Content>
+    <Combobox.List>
+      <Combobox.Item>
+        <Combobox.ItemText />
+        <Combobox.ItemIndicator />
+      </Combobox.Item>
+      <Combobox.Group>
+        <Combobox.GroupLabel />
+        <Combobox.Item />
+      </Combobox.Group>
+    </Combobox.List>
+    <Combobox.Empty />
+  </Combobox.Content>
+</Combobox.Root>
+```
+
+| Part | Element | Description |
+| --- | --- | --- |
+| `Combobox.Root` | `<div>` | Wraps the parts and holds the value, the text and the open state. |
+| `Combobox.Label` | `<label>` | The label of the input, also the name of the listbox. |
+| `Combobox.Control` | `<div>` | Wraps the input and the trigger. The listbox is placed below it. |
+| `Combobox.Input` | `<input>` | The text input. Focus stays here. |
+| `Combobox.Trigger` | `<button>` | Optional. Opens and closes the listbox. Not in the tab order. |
+| `Combobox.HiddenInput` | `<input>` | Optional. Submits the selected value with a form. |
+| `Combobox.Content` | `<div>` | The popup, a `popover="manual"` element in the top layer. |
+| `Combobox.List` | `<div>` | The listbox. |
+| `Combobox.Item` | `<div>` | An option. |
+| `Combobox.ItemText` | `<span>` | The text put in the input when the option is selected. |
+| `Combobox.ItemIndicator` | `<span>` | The check mark of the selected option, hidden otherwise. |
+| `Combobox.Group` | `<div>` | A group of options, named by its GroupLabel. |
+| `Combobox.GroupLabel` | `<div>` | The name of a group. Not an option. |
+| `Combobox.Empty` | `<div>` | The message when nothing matches. You decide when to render it. |
+
+## Filtering
+
+The combobox does not filter: bind the text with `bind:inputValue` and render the items that match. You can filter in any way, including with a request to a server.
+
+```tsx
+const query = useSignal('');
+const items = useComputed$(() =>
+  FRUITS.filter((fruit) => fruit.label.toLowerCase().includes(query.value.toLowerCase())),
+);
+
+<Combobox.Root bind:inputValue={query}>
+  {/* ... */}
+  {items.value.map((fruit) => <Combobox.Item key={fruit.value} value={fruit.value} />)}
+</Combobox.Root>
+```
+
+When you set `defaultValue` (or `bind:value`), also set the text of that item with `defaultInputValue` (or `bind:inputValue`): the items are not known when the page is rendered on the server.
+
+Typing does not select. When the input loses focus, its text goes back to the selected item, or the value is cleared when the input is empty.
+
+## Examples
+
+### Groups and Auto Highlight
+
+`Combobox.Group` and `Combobox.GroupLabel` group the options. With `autoHighlight`, typing highlights the first match, so Enter selects it. With `loop`, the arrow keys wrap around.
+
+<Demo id="combobox/grouped" collapsed />
+
+## API Reference
+
+### Root
+
+<PropsTable component="combobox" part="Root" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-combobox` | Always present |
+| `data-state` | `"open"` \| `"closed"` |
+| `data-disabled` | Present when disabled |
+
+### Label
+
+<PropsTable component="combobox" part="Label" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-combobox-label` | Always present |
+| `data-disabled` | Present when disabled |
+
+### Control
+
+<PropsTable component="combobox" part="Control" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-combobox-control` | Always present |
+| `data-state` | `"open"` \| `"closed"` |
+| `data-disabled` | Present when disabled |
+
+### Input
+
+<PropsTable component="combobox" part="Input" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-combobox-input` | Always present |
+| `data-state` | `"open"` \| `"closed"` |
+| `data-disabled` | Present when disabled |
+| `data-invalid` | Present when invalid |
+
+### Trigger
+
+<PropsTable component="combobox" part="Trigger" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-combobox-trigger` | Always present |
+| `data-state` | `"open"` \| `"closed"` |
+| `data-disabled` | Present when disabled |
+
+### HiddenInput
+
+<PropsTable component="combobox" part="HiddenInput" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-combobox-hidden-input` | Always present |
+
+It is positioned absolutely, so give the Root `position: relative`.
+
+### Content
+
+<PropsTable component="combobox" part="Content" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-combobox-content` | Always present |
+| `data-state` | `"open"` \| `"closed"` |
+| `data-side` | The final side after flipping |
+| `data-align` | `"start"` \| `"center"` \| `"end"` |
+
+| CSS variable | Value |
+| --- | --- |
+| `--leve-combobox-anchor-width` | The width of the Control, for example to make the listbox as wide |
+| `--leve-combobox-anchor-height` | The height of the Control |
+| `--leve-combobox-available-width` | The width available in the viewport |
+| `--leve-combobox-available-height` | The height available in the viewport, for example for `max-height` |
+
+### List
+
+<PropsTable component="combobox" part="List" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-combobox-list` | Always present |
+
+### Item
+
+<PropsTable component="combobox" part="Item" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-combobox-item` | Always present |
+| `data-value` | The `value` |
+| `data-state` | `"checked"` \| `"unchecked"` |
+| `data-highlighted` | Present on the highlighted option |
+| `data-disabled` | Present when disabled |
+| `data-text-value` | The `textValue`, when set |
+
+Focus stays in the input, so style the highlighted option with `[data-highlighted]`, not `:focus`.
+
+### ItemText
+
+<PropsTable component="combobox" part="ItemText" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-combobox-item-text` | Always present |
+
+### ItemIndicator
+
+<PropsTable component="combobox" part="ItemIndicator" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-combobox-item-indicator` | Always present |
+| `data-state` | `"checked"` \| `"unchecked"` |
+
+### Group
+
+<PropsTable component="combobox" part="Group" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-combobox-group` | Always present |
+
+### GroupLabel
+
+<PropsTable component="combobox" part="GroupLabel" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-combobox-group-label` | Always present |
+
+### Empty
+
+<PropsTable component="combobox" part="Empty" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-combobox-empty` | Always present |
+
+## Accessibility
+
+Complies with the [Combobox WAI-ARIA design pattern](https://www.w3.org/WAI/ARIA/apg/patterns/combobox/).
+
+- `Combobox.Input` renders `role="combobox"`, `aria-autocomplete="list"`, `aria-expanded` and `aria-controls`. Focus stays in the input, and `aria-activedescendant` points to the highlighted option.
+- `Combobox.List` renders `role="listbox"`, named by the Label. Options render `role="option"` with `aria-selected`; disabled ones render `aria-disabled="true"` and are skipped by the arrow keys.
+- `Combobox.Group` renders `role="group"`, named by its GroupLabel. `Combobox.ItemIndicator` is hidden from assistive technologies, since `aria-selected` conveys the state.
+- Inside a [Field](/components/field/), the input takes the Field's id, label, description, error message, `invalid`, `disabled` and `required`.
+- `Combobox.Trigger` is not in the tab order: the keyboard opens the listbox from the input. Give it an `aria-label` when it shows only an icon.
+
+### Keyboard Interactions
+
+| Key | Description |
+| --- | --- |
+| `ArrowDown` | Opens the listbox and highlights the first option, or highlights the next one. |
+| `ArrowUp` | Opens the listbox and highlights the last option, or highlights the previous one. |
+| `Alt + ArrowDown` | Opens the listbox without highlighting. |
+| `Alt + ArrowUp` | Closes the listbox. |
+| `Enter` | Selects the highlighted option, puts its text in the input and closes the listbox. |
+| `Escape` | Closes the listbox. When it is closed, clears the input and the value. |
+| Characters | Type in the input, which opens the listbox. |

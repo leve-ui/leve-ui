@@ -8,6 +8,7 @@ export * from '@leve-ui/avatar';
 export * from '@leve-ui/breadcrumb';
 export * from '@leve-ui/checkbox';
 export * from '@leve-ui/collapsible';
+export * from '@leve-ui/combobox';
 export * from '@leve-ui/dialog';
 export * from '@leve-ui/drawer';
 export * from '@leve-ui/field';

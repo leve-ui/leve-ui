@@ -15,6 +15,7 @@
     "@leve-ui/breadcrumb": "workspace:*",
     "@leve-ui/checkbox": "workspace:*",
     "@leve-ui/collapsible": "workspace:*",
+    "@leve-ui/combobox": "workspace:*",
     "@leve-ui/dialog": "workspace:*",
     "@leve-ui/drawer": "workspace:*",
     "@leve-ui/field": "workspace:*",
