@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test';
+import { pressTab } from './keyboard';
 import { gotoStory } from './story';
 
 test.describe('Fieldset', () => {
@@ -29,7 +30,7 @@ test.describe('Fieldset', () => {
     await gotoStory(page, 'components-fieldset--disabled', { focusGuards: true });
 
     await page.getByRole('button', { name: 'Before' }).focus();
-    await page.keyboard.press('Tab');
+    await pressTab(page);
     await expect(page.getByRole('button', { name: 'After' })).toBeFocused();
   });
 });

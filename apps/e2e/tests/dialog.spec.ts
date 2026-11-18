@@ -1,4 +1,5 @@
 import { expect, type Page, test } from '@playwright/test';
+import { pressTab } from './keyboard';
 import { gotoStory } from './story';
 
 const open = async (page: Page, story = 'default', name = 'Edit profile') => {
@@ -43,7 +44,7 @@ test.describe('Dialog', () => {
     const close = dialog.getByRole('button', { name: 'Close' });
 
     await close.focus();
-    await page.keyboard.press('Tab');
+    await pressTab(page);
     await expect(dialog.getByRole('textbox', { name: 'Name' })).toBeFocused();
   });
 
@@ -51,7 +52,7 @@ test.describe('Dialog', () => {
     const { dialog } = await open(page);
 
     await expect(dialog.getByRole('textbox', { name: 'Name' })).toBeFocused();
-    await page.keyboard.press('Shift+Tab');
+    await pressTab(page, { shift: true });
     await expect(dialog.getByRole('button', { name: 'Close' })).toBeFocused();
   });
 

@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test';
+import { pressTab } from './keyboard';
 import { gotoStory } from './story';
 
 test.describe('Accordion', () => {
@@ -50,13 +51,13 @@ test.describe('Accordion', () => {
     await trigger1.focus();
     await expect(trigger1).toBeFocused();
 
-    await page.keyboard.press('Tab');
+    await pressTab(page);
     await expect(contentLink).toBeFocused();
 
-    await page.keyboard.press('Tab');
+    await pressTab(page);
     await expect(trigger2).toBeFocused();
 
-    await page.keyboard.press('Tab');
+    await pressTab(page);
     await expect(trigger3).toBeFocused();
   });
 

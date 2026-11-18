@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test';
+import { pressTab } from './keyboard';
 import { gotoStory } from './story';
 
 test.describe('RadioGroup', () => {
@@ -7,7 +8,7 @@ test.describe('RadioGroup', () => {
     const before = page.getByRole('button', { name: 'Before' });
     await expect(before).toBeVisible({ timeout: 15_000 });
     await before.focus();
-    await page.keyboard.press('Tab');
+    await pressTab(page);
 
     const firstRadio = page.getByRole('radio', { name: 'Free' });
     await expect(firstRadio).toBeFocused();
@@ -21,11 +22,11 @@ test.describe('RadioGroup', () => {
     await before.focus();
 
     // グループに入ると最初の項目にフォーカス
-    await page.keyboard.press('Tab');
+    await pressTab(page);
     await expect(page.getByRole('radio', { name: 'Free' })).toBeFocused();
 
     // 次の Tab でグループの外へ出る
-    await page.keyboard.press('Tab');
+    await pressTab(page);
     await expect(page.getByRole('button', { name: 'After' })).toBeFocused();
   });
 
@@ -34,7 +35,7 @@ test.describe('RadioGroup', () => {
     const before = page.getByRole('button', { name: 'Before' });
     await expect(before).toBeVisible({ timeout: 15_000 });
     await before.focus();
-    await page.keyboard.press('Tab');
+    await pressTab(page);
 
     const selectedRadio = page.getByRole('radio', { name: 'Starter' });
     await expect(selectedRadio).toBeFocused();

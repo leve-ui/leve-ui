@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test';
+import { pressTab } from './keyboard';
 import { gotoStory } from './story';
 
 test.describe('Toggle', () => {
@@ -54,10 +55,10 @@ test.describe('Toggle', () => {
     const reset = page.getByRole('button', { name: 'Reset' });
 
     await toggle.focus();
-    await page.keyboard.press('Tab');
+    await pressTab(page);
     await expect(reset).toBeFocused();
 
-    await page.keyboard.press('Shift+Tab');
+    await pressTab(page, { shift: true });
     await expect(toggle).toBeFocused();
   });
 

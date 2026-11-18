@@ -1,4 +1,5 @@
 import { expect, type Page, test } from '@playwright/test';
+import { pressTab } from './keyboard';
 import { distance, gotoDocs, gotoStory } from './story';
 
 const setup = async (page: Page) => {
@@ -152,7 +153,7 @@ test.describe('Combobox', () => {
     await page.keyboard.type('xyz');
     await expect(input).toHaveValue('Peachxyz');
     await expect(input).toHaveAttribute('aria-expanded', 'true');
-    await page.keyboard.press('Tab');
+    await pressTab(page);
     await expect(listbox).toBeHidden();
     await expect(input).toHaveValue('Peach');
     await expect(page.getByText('Selected: peach')).toBeVisible();
