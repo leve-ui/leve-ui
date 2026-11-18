@@ -12,6 +12,7 @@ import {
   type FloatingSide,
   getAdjacentItem,
   getCollectionItems,
+  getElementByIdInContainer,
   openPopoverElement,
 } from '@leve-ui/utils';
 import { comboboxContextId, ITEM_SELECTOR } from './combobox-context';
@@ -80,14 +81,13 @@ export const ComboboxContent = component$<ComboboxContentProps>(
         const options = track(() => floating.value);
         const element = ref.value;
         if (!element || !open) return;
-        const document = element.ownerDocument;
-        const control = document.getElementById(context.ids.control);
+        const control = getElementByIdInContainer(element, context.ids.control);
         cleanup(
           openPopoverElement(element, {
             open: context.open,
             setOpen$: context.setOpen$,
             // Pressing the Control (the input or the Trigger) is not outside
-            trigger: control ?? document.getElementById(context.ids.input),
+            trigger: control ?? getElementByIdInContainer(element, context.ids.input),
             floating: { ...options, cssVarPrefix: '--leve-combobox' },
             moveFocus: false,
             // The input handles Escape: it closes, or clears when closed
@@ -104,7 +104,7 @@ export const ComboboxContent = component$<ComboboxContentProps>(
       track(() => context.inputValue.value);
       const open = track(() => context.open.value);
       const highlighted = track(() => context.highlighted.value);
-      const list = ref.value?.ownerDocument.getElementById(context.ids.list);
+      const list = ref.value && getElementByIdInContainer(ref.value, context.ids.list);
       if (!list || !open) return;
       const items = getCollectionItems(list, ITEM_SELECTOR);
       const item = items.find((element) => element.getAttribute('data-value') === highlighted);

@@ -1,5 +1,5 @@
 import { expect, type Locator, type Page, test } from '@playwright/test';
-import { gotoStory } from './story';
+import { distance, gotoDocs, gotoStory } from './story';
 
 const setup = async (page: Page) => {
   await gotoStory(page, 'components-menu--default', { focusGuards: true });
@@ -402,4 +402,22 @@ test.describe('Menu（コンテキストメニュー）', () => {
     await expectAt(menu, point);
     await area.dispatchEvent('pointerup', touch);
   });
+});
+
+test('複数の Qwik コンテナがあるページでも、押した Trigger の隣に開く（#167）', async ({
+  page,
+}) => {
+  await gotoDocs(page, 'menu');
+  // The Docs page renders each story in its own container, so the ids are the same in each
+  const trigger = page.getByRole('button', { name: 'File' });
+  await expect(trigger).toBeVisible({ timeout: 15_000 });
+  await trigger.scrollIntoViewIfNeeded();
+  await trigger.click();
+  // Not by name: aria-labelledby points to the duplicate id, which the browser resolves in the
+  // first container
+  const menu = page.locator('[data-leve-menu-content]').filter({ visible: true });
+  await expect(menu).toHaveCount(1);
+  const [triggerBox, menuBox] = await Promise.all([trigger.boundingBox(), menu.boundingBox()]);
+  if (!triggerBox || !menuBox) throw new Error('Not visible');
+  expect(distance(triggerBox, menuBox)).toBeLessThan(20);
 });

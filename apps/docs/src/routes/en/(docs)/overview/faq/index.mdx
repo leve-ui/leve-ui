@@ -27,6 +27,10 @@ Yes. Every part passes `class`, `style` and other attributes to its element, so 
 
 Yes. Components render on the server and resume without hydration. Ids that connect the parts come from Qwik's `useId()`, so they are the same on the server and the client, and the ARIA references in the server-rendered HTML are correct before any JavaScript runs.
 
+## Can I use leve-ui on a page with several Qwik containers?
+
+Yes. With several Qwik containers on one page (Astro islands, micro-frontends, or several `render()` calls), Qwik's `useId()` gives the same component the same ids in each container. The parts find each other within their own container, so popups open in the right place. But `aria-labelledby` and `aria-controls` are resolved by the browser across the whole page, so give each instance its own ids with the Root's `ids` prop, for example `<Menu.Root ids={{ trigger: 'file-trigger', content: 'file-menu' }}>`.
+
 ## Where do I report a bug?
 
 Open an issue on [GitHub](https://github.com/leve-ui/leve-ui/issues). Please include the component, the version, and the steps to reproduce.

@@ -1,5 +1,5 @@
 import { $, component$, type PropsOf, Slot, useContext } from '@builder.io/qwik';
-import { dataAttr } from '@leve-ui/utils';
+import { dataAttr, getElementByIdInContainer } from '@leve-ui/utils';
 import { comboboxContextId } from './combobox-context';
 
 export type ComboboxTriggerProps = PropsOf<'button'>;
@@ -12,7 +12,7 @@ export const ComboboxTrigger = component$<ComboboxTriggerProps>(({ onClick$, ...
   const context = useContext(comboboxContextId);
 
   const toggle$ = $(async (_event: Event, element: HTMLElement) => {
-    element.ownerDocument.getElementById(context.ids.input)?.focus();
+    getElementByIdInContainer(element, context.ids.input)?.focus();
     await context.setOpen$(!context.open.value, 'selected');
   });
 

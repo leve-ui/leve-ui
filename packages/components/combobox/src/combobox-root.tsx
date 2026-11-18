@@ -14,6 +14,7 @@ import {
   dataAttr,
   getAdjacentItem,
   getCollectionItems,
+  getElementByIdInContainer,
   useControllableState,
   useFieldContext,
   useInheritedDisabled,
@@ -156,7 +157,7 @@ export const ComboboxRoot = component$<ComboboxRootProps>(
       if (next && disabled.value) return;
       if (next && highlight) {
         // The items are in the DOM while the listbox is closed, so the highlight can be set now
-        const list = root.value?.ownerDocument.getElementById(ids.list);
+        const list = root.value && getElementByIdInContainer(root.value, ids.list);
         const items = list ? getCollectionItems(list, ITEM_SELECTOR) : [];
         const item =
           highlight === 'selected'
@@ -171,7 +172,9 @@ export const ComboboxRoot = component$<ComboboxRootProps>(
     const setInputValue$ = $(async (text: string, reason: ComboboxInputValueChangeReason) => {
       // The calls from typing may finish out of order while their code loads: read the element, so
       // the last one to finish never sets an older text
-      const input = root.value?.ownerDocument.getElementById(ids.input) as HTMLInputElement | null;
+      const input = root.value
+        ? getElementByIdInContainer<HTMLInputElement>(root.value, ids.input)
+        : null;
       const typed = reason === 'input';
       const next = typed && input ? input.value : text;
       if (!typed) writtenText.value = { text: next };

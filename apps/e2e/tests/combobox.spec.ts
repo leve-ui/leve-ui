@@ -1,5 +1,5 @@
 import { expect, type Page, test } from '@playwright/test';
-import { gotoStory } from './story';
+import { distance, gotoDocs, gotoStory } from './story';
 
 const setup = async (page: Page) => {
   await gotoStory(page, 'components-combobox--default', { focusGuards: true });
@@ -259,4 +259,20 @@ test.describe('Combobox（グループと autoHighlight）', () => {
     const last = await option('Singapore').getAttribute('id');
     await expect(input).toHaveAttribute('aria-activedescendant', last ?? '');
   });
+});
+
+test('複数の Qwik コンテナがあるページでも、Input の下に開く（#167）', async ({ page }) => {
+  await gotoDocs(page, 'combobox');
+  // The Docs page renders each story in its own container, so the ids are the same in each
+  const input = page.getByRole('combobox', { name: 'Fruit' }).last();
+  await expect(input).toBeVisible({ timeout: 15_000 });
+  await input.scrollIntoViewIfNeeded();
+  await input.focus();
+  await page.keyboard.press('ArrowDown');
+  const listbox = page.locator('[data-leve-combobox-content]').filter({ visible: true });
+  await expect(listbox).toHaveCount(1);
+  const [inputBox, listBox] = await Promise.all([input.boundingBox(), listbox.boundingBox()]);
+  if (!inputBox || !listBox) throw new Error('Not visible');
+  expect(distance(inputBox, listBox)).toBeLessThan(20);
+  await expect(input).toBeFocused();
 });

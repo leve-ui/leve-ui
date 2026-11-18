@@ -1,5 +1,5 @@
 import { $, component$, type PropsOf, Slot, useContext } from '@builder.io/qwik';
-import { dataAttr } from '@leve-ui/utils';
+import { dataAttr, getElementByIdInContainer } from '@leve-ui/utils';
 import { comboboxContextId } from './combobox-context';
 
 export type ComboboxClearTriggerProps = PropsOf<'button'>;
@@ -16,7 +16,7 @@ export const ComboboxClearTrigger = component$<ComboboxClearTriggerProps>(
     const clear$ = $(async (_event: Event, element: HTMLElement) => {
       await context.clear$();
       context.highlighted.value = null;
-      element.ownerDocument.getElementById(context.ids.input)?.focus();
+      getElementByIdInContainer(element, context.ids.input)?.focus();
     });
 
     const empty = context.value.value === null && context.inputValue.value === '';

@@ -1,5 +1,6 @@
 import type { QRL, ReadonlySignal } from '@builder.io/qwik';
 import { createDismissableLayer } from './dismissable-layer';
+import { getElementByIdInContainer } from './dom';
 import { createFocusScope } from './focus-scope';
 import { lockScroll } from './scroll-lock';
 
@@ -47,7 +48,7 @@ export function openDialogElement(
     if (previous instanceof HTMLElement && previous !== document.body && previous.isConnected) {
       return previous;
     }
-    return document.getElementById(options.triggerId);
+    return getElementByIdInContainer(dialog, options.triggerId);
   }
 
   try {
