@@ -7,7 +7,12 @@ import {
   useSignal,
   useVisibleTask$,
 } from '@builder.io/qwik';
-import { type FloatingAlign, type FloatingSide, openPopoverElement } from '@leve-ui/utils';
+import {
+  type FloatingAlign,
+  type FloatingSide,
+  getElementByIdInContainer,
+  openPopoverElement,
+} from '@leve-ui/utils';
 import { popoverContextId } from './popover-context';
 
 export type PopoverContentProps = PropsOf<'div'> & {
@@ -107,7 +112,7 @@ export const PopoverContent = component$<PopoverContentProps>(
           openPopoverElement(element, {
             open: context.open,
             setOpen$: context.setOpen$,
-            trigger: element.ownerDocument.getElementById(context.ids.trigger),
+            trigger: getElementByIdInContainer(element, context.ids.trigger),
             anchor: context.anchor.value,
             floating: {
               ...options,

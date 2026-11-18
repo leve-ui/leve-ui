@@ -22,6 +22,7 @@ export {
   type DismissableLayerOptions,
   type DismissReason,
 } from './dismissable-layer';
+export { getElementByIdInContainer } from './dom';
 export { isBrowser } from './env';
 export {
   type FieldContext,

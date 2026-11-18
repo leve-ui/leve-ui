@@ -13,6 +13,7 @@ import {
   type FloatingAlign,
   type FloatingSide,
   getEdgeMenuItem,
+  getElementByIdInContainer,
   moveMenuFocus,
   openPopoverElement,
 } from '@leve-ui/utils';
@@ -111,7 +112,7 @@ export const MenuContent = component$<MenuContentProps>(
           ? point.keyboard
             ? (document.activeElement as HTMLElement | null)
             : null
-          : document.getElementById(context.ids.trigger);
+          : getElementByIdInContainer(element, context.ids.trigger);
         cleanup(
           openPopoverElement(element, {
             open: context.open,

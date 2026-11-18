@@ -8,7 +8,12 @@ import {
   useSignal,
   useVisibleTask$,
 } from '@builder.io/qwik';
-import { type FloatingAlign, type FloatingSide, openPopoverElement } from '@leve-ui/utils';
+import {
+  type FloatingAlign,
+  type FloatingSide,
+  getElementByIdInContainer,
+  openPopoverElement,
+} from '@leve-ui/utils';
 import { tooltipContextId } from './tooltip-context';
 
 export type TooltipContentProps = PropsOf<'span'> & {
@@ -95,7 +100,7 @@ export const TooltipContent = component$<TooltipContentProps>(
           openPopoverElement(element, {
             open: context.open,
             setOpen$: context.setOpen$,
-            trigger: element.ownerDocument.getElementById(context.ids.trigger),
+            trigger: getElementByIdInContainer(element, context.ids.trigger),
             floating: {
               ...options,
               cssVarPrefix: '--leve-tooltip',

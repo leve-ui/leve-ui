@@ -1,5 +1,5 @@
 import { expect, type Page, test } from '@playwright/test';
-import { gotoStory } from './story';
+import { distance, gotoDocs, gotoStory } from './story';
 
 const open = async (page: Page, story = 'default', triggerName = 'Dimensions') => {
   await gotoStory(page, `components-popover--${story}`, { focusGuards: true });
@@ -90,4 +90,23 @@ test.describe('Popover', () => {
     expect(Math.round(popoverBox.x)).toBe(Math.round(anchorBox.x));
     expect(Math.round(popoverBox.width)).toBe(Math.round(anchorBox.width));
   });
+});
+
+test('複数の Qwik コンテナがあるページでも、押した Trigger の隣に開く（#167）', async ({
+  page,
+}) => {
+  await gotoDocs(page, 'popover');
+  // The Docs page renders each story in its own container, so the ids are the same in each
+  const trigger = page.getByRole('button', { name: 'Dimensions' }).last();
+  await expect(trigger).toBeVisible({ timeout: 15_000 });
+  await trigger.scrollIntoViewIfNeeded();
+  await trigger.click();
+  const popover = page.locator('[data-leve-popover-content]').filter({ visible: true });
+  await expect(popover).toHaveCount(1);
+  const [triggerBox, popoverBox] = await Promise.all([
+    trigger.boundingBox(),
+    popover.boundingBox(),
+  ]);
+  if (!triggerBox || !popoverBox) throw new Error('Not visible');
+  expect(distance(triggerBox, popoverBox)).toBeLessThan(20);
 });

@@ -11,6 +11,7 @@ import {
   dataAttr,
   getAdjacentItem,
   getCollectionItems,
+  getElementByIdInContainer,
   itemId,
   useFieldControl,
 } from '@leve-ui/utils';
@@ -77,7 +78,7 @@ export const ComboboxInput = component$<ComboboxInputProps>(
 
     const keyDown$ = $(async (event: KeyboardEvent, element: HTMLInputElement) => {
       if (event.isComposing) return;
-      const list = element.ownerDocument.getElementById(context.ids.list);
+      const list = getElementByIdInContainer(element, context.ids.list);
       const items = list ? getCollectionItems(list, ITEM_SELECTOR) : [];
       const current =
         items.find((item) => item.getAttribute('data-value') === context.highlighted.value) ?? null;
@@ -117,7 +118,7 @@ export const ComboboxInput = component$<ComboboxInputProps>(
 
     const focusOut$ = $(async (event: FocusEvent, element: HTMLInputElement) => {
       const related = event.relatedTarget as Node | null;
-      const content = element.ownerDocument.getElementById(context.ids.list)?.closest('[popover]');
+      const content = getElementByIdInContainer(element, context.ids.list)?.closest('[popover]');
       if (related && content?.contains(related)) return;
       await context.setOpen$(false);
       // Typing does not select: the input goes back to the selected item, or clears the value

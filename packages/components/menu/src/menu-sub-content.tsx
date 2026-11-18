@@ -13,6 +13,7 @@ import {
   type FloatingAlign,
   type FloatingSide,
   getEdgeMenuItem,
+  getElementByIdInContainer,
   moveMenuFocus,
   openPopoverElement,
 } from '@leve-ui/utils';
@@ -97,12 +98,11 @@ export const MenuSubContent = component$<MenuSubContentProps>(
         const element = ref.value;
         if (!element || !open) return;
         const focusOnOpen = sub.focusOnOpen.value;
-        const document = element.ownerDocument;
         cleanup(
           openPopoverElement(element, {
             open: sub.open,
             setOpen$: sub.setOpen$,
-            trigger: document.getElementById(sub.ids.trigger),
+            trigger: getElementByIdInContainer(element, sub.ids.trigger),
             floating: {
               ...options,
               cssVarPrefix: '--leve-menu-sub',
@@ -112,7 +112,7 @@ export const MenuSubContent = component$<MenuSubContentProps>(
             initialFocus: focusOnOpen ? () => getEdgeMenuItem(element, 'first') : false,
             // Pressing outside both menus closes the whole menu
             onOutsidePointerDown: (target) => {
-              const parent = document.getElementById(context.ids.content);
+              const parent = getElementByIdInContainer(element, context.ids.content);
               if (!(target instanceof Node) || !parent?.contains(target)) context.setOpen$(false);
             },
             closeOnEscape: always,

@@ -17,3 +17,20 @@ export const gotoStory = (
   page.goto(
     `/iframe.html?id=${storyId}&viewMode=story${focusGuards ? '&globals=focusGuards:!true' : ''}`,
   );
+
+/**
+ * ストーリーの Docs ページを開きます。Docs ページはストーリーごとに別の Qwik コンテナで描くため、
+ * `useId()` の id が重複します。複数コンテナでのパーツ同士の参照を確かめるテストで使います（#167）。
+ */
+export const gotoDocs = (page: Page, component: string) =>
+  page.goto(`/iframe.html?id=components-${component}--docs&viewMode=docs`);
+
+/** 開いたポップアップが、Trigger の近く（下または横）にあることを確かめるための距離 */
+export const distance = (
+  a: { x: number; y: number; width: number; height: number },
+  b: { x: number; y: number; width: number; height: number },
+) => {
+  const dx = Math.max(0, a.x - (b.x + b.width), b.x - (a.x + a.width));
+  const dy = Math.max(0, a.y - (b.y + b.height), b.y - (a.y + a.height));
+  return Math.hypot(dx, dy);
+};
