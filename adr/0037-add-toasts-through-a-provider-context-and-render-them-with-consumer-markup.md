@@ -1,6 +1,6 @@
 # 0037. Add toasts through a provider context and render them with consumer markup
 
-- Status: Proposed
+- Status: Accepted
 - Date: 2026-11-17
 - Related: [0009](0009-headless-parts-and-data-attributes.md), [0010](0010-no-child-state-on-parent-attributes.md)
 
