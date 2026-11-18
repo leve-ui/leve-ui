@@ -70,12 +70,18 @@ describe('focus-scope', () => {
         event.initEvent('keydown', true, true);
         Object.defineProperty(event, 'key', { value: key });
         Object.defineProperty(event, 'shiftKey', { value: options.shiftKey ?? false });
+        Object.defineProperty(event, 'altKey', { value: options.altKey ?? false });
+        Object.defineProperty(event, 'ctrlKey', { value: options.ctrlKey ?? false });
+        Object.defineProperty(event, 'metaKey', { value: options.metaKey ?? false });
       }
     } else {
       event = doc.createEvent('Event') as unknown as KeyboardEvent;
       event.initEvent('keydown', true, true);
       Object.defineProperty(event, 'key', { value: key });
       Object.defineProperty(event, 'shiftKey', { value: options.shiftKey ?? false });
+      Object.defineProperty(event, 'altKey', { value: options.altKey ?? false });
+      Object.defineProperty(event, 'ctrlKey', { value: options.ctrlKey ?? false });
+      Object.defineProperty(event, 'metaKey', { value: options.metaKey ?? false });
     }
     if (options.isComposing !== undefined) {
       Object.defineProperty(event, 'isComposing', { value: options.isComposing });
@@ -431,6 +437,39 @@ describe('focus-scope', () => {
 
       expect(event.defaultPrevented).toBe(true);
       expect(doc.activeElement).toBe(btn1);
+    });
+
+    it('Option（Alt）+Tab でも循環する（macOS の Safari の利用者が全項目を移る操作）', () => {
+      const container = doc.createElement('div');
+      const btn1 = doc.createElement('button');
+      const btn2 = doc.createElement('button');
+      container.appendChild(btn1);
+      container.appendChild(btn2);
+      doc.body.appendChild(container);
+
+      createScope(container, { trap: true });
+      btn2.focus();
+
+      const event = dispatchKeyDown(btn2, 'Tab', { altKey: true });
+
+      expect(event.defaultPrevented).toBe(true);
+      expect(doc.activeElement).toBe(btn1);
+    });
+
+    it('Ctrl+Tab と Cmd+Tab（ブラウザ・OS の切り替え）は扱わない', () => {
+      const container = doc.createElement('div');
+      const btn1 = doc.createElement('button');
+      const btn2 = doc.createElement('button');
+      container.appendChild(btn1);
+      container.appendChild(btn2);
+      doc.body.appendChild(container);
+
+      createScope(container, { trap: true });
+      btn2.focus();
+
+      expect(dispatchKeyDown(btn2, 'Tab', { ctrlKey: true }).defaultPrevented).toBe(false);
+      expect(dispatchKeyDown(btn2, 'Tab', { metaKey: true }).defaultPrevented).toBe(false);
+      expect(doc.activeElement).toBe(btn2);
     });
 
     it('最初の要素での Shift+Tab キー押下で最後の要素へ循環し、preventDefault が呼ばれる', () => {
