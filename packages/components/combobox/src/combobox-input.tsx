@@ -29,10 +29,11 @@ export type ComboboxInputProps = Omit<PropsOf<'input'>, 'value' | 'type'> & {
  * - ↓ / ↑ で開いて最初 / 最後の項目を強調し、開いているときは強調を移します。Alt+↓ は強調せずに開き、
  *   Alt+↑ は閉じます。Enter で強調中の項目を選び、その文字列を入力欄に入れて閉じます。
  * - Escape は開いていれば閉じ、閉じていれば入力と選択を消します。
+ * - `openOnClick` のときは、クリックでも開きます。
  * - フォーカスが外れると一覧を閉じ、入力欄を選択中の項目の文字列に戻します（空なら選択を消します）。
  */
 export const ComboboxInput = component$<ComboboxInputProps>(
-  ({ invalid, onInput$, onKeyDown$, onFocusOut$, ...props }) => {
+  ({ invalid, onInput$, onKeyDown$, onFocusOut$, onClick$, ...props }) => {
     const context = useContext(comboboxContextId);
     const control = useFieldControl({
       invalid,
@@ -59,7 +60,7 @@ export const ComboboxInput = component$<ComboboxInputProps>(
     );
 
     const input$ = $(async (_event: Event, element: HTMLInputElement) => {
-      await context.setInputValue$(element.value, true);
+      await context.setInputValue$(element.value, 'input');
       if (!context.open.value) await context.setOpen$(true);
     });
 
@@ -109,6 +110,11 @@ export const ComboboxInput = component$<ComboboxInputProps>(
       }
     });
 
+    const click$ = $(() => {
+      if (context.openOnClick.value && !context.open.value)
+        return context.setOpen$(true, 'selected');
+    });
+
     const focusOut$ = $(async (event: FocusEvent, element: HTMLInputElement) => {
       const related = event.relatedTarget as Node | null;
       const content = element.ownerDocument.getElementById(context.ids.list)?.closest('[popover]');
@@ -116,7 +122,7 @@ export const ComboboxInput = component$<ComboboxInputProps>(
       await context.setOpen$(false);
       // Typing does not select: the input goes back to the selected item, or clears the value
       if (context.inputValue.value === '') return context.clear$();
-      await context.setInputValue$(context.selectedText.value);
+      await context.setInputValue$(context.selectedText.value, 'blur');
     });
 
     const highlighted = context.highlighted.value;
@@ -144,6 +150,7 @@ export const ComboboxInput = component$<ComboboxInputProps>(
         onInput$={[input$, onInput$]}
         onKeyDown$={[preventDefault$, keyDown$, onKeyDown$]}
         onFocusOut$={[focusOut$, onFocusOut$]}
+        onClick$={[click$, onClick$]}
         data-leve-combobox-input=""
         data-state={context.open.value ? 'open' : 'closed'}
         data-disabled={dataAttr(control.value.disabled)}

@@ -21,6 +21,7 @@ import {
 import {
   type ComboboxHighlight,
   type ComboboxIds,
+  type ComboboxInputValueChangeReason,
   comboboxContextId,
   ITEM_SELECTOR,
 } from './combobox-context';
@@ -41,8 +42,14 @@ export type ComboboxRootProps = PropsOf<'div'> & {
   defaultInputValue?: string;
   /** A signal with the text in the input (controlled). Use it to filter the items. */
   'bind:inputValue'?: Signal<string>;
-  /** Called when the text in the input changes by typing, selecting or clearing. */
-  onInputValueChange$?: QRL<(value: string) => void>;
+  /**
+   * Called when the text in the input changes. `reason` tells why: `'input'` when the user typed,
+   * `'select'`, `'clear'` or `'blur'` otherwise. Filter only on `'input'` to show all the items
+   * when the listbox opens again after a selection.
+   */
+  onInputValueChange$?: QRL<
+    (value: string, details: { reason: ComboboxInputValueChangeReason }) => void
+  >;
   /**
    * Whether the listbox is open initially (uncontrolled).
    * @default false
@@ -72,6 +79,11 @@ export type ComboboxRootProps = PropsOf<'div'> & {
    * @default false
    */
   autoHighlight?: boolean;
+  /**
+   * Whether clicking the input opens the listbox.
+   * @default false
+   */
+  openOnClick?: boolean;
 };
 
 /**
@@ -98,6 +110,7 @@ export const ComboboxRoot = component$<ComboboxRootProps>(
     required: _required,
     loop: _loop,
     autoHighlight: _autoHighlight,
+    openOnClick: _openOnClick,
     ...props
   }) => {
     const [value, setValue$] = useControllableState<string | null>({
@@ -105,10 +118,13 @@ export const ComboboxRoot = component$<ComboboxRootProps>(
       defaultValue: defaultValue ?? null,
       onChange$: onValueChange$,
     });
+    const inputValueReason = useSignal<ComboboxInputValueChangeReason>('input');
     const [inputValue, setInputValueState$] = useControllableState<string>({
       value: bindInputValue,
       defaultValue: defaultInputValue ?? '',
-      onChange$: onInputValueChange$,
+      onChange$: $((next: string) =>
+        onInputValueChange$?.(next, { reason: inputValueReason.value }),
+      ),
     });
     const [open, setOpenState$] = useControllableState<boolean>({
       value: bindOpen,
@@ -125,6 +141,7 @@ export const ComboboxRoot = component$<ComboboxRootProps>(
     const required = useComputed$(() => Boolean(_required) || Boolean(field?.required.value));
     const loop = useComputed$(() => Boolean(_loop));
     const autoHighlight = useComputed$(() => Boolean(_autoHighlight));
+    const openOnClick = useComputed$(() => Boolean(_openOnClick));
 
     const base = useId();
     const ids: ComboboxIds = {
@@ -151,24 +168,26 @@ export const ComboboxRoot = component$<ComboboxRootProps>(
       if (open.value !== next) await setOpenState$(next);
     });
     const writtenText = useSignal<{ text: string } | null>(null);
-    const setInputValue$ = $(async (text: string, fromTyping = false) => {
+    const setInputValue$ = $(async (text: string, reason: ComboboxInputValueChangeReason) => {
       // The calls from typing may finish out of order while their code loads: read the element, so
       // the last one to finish never sets an older text
       const input = root.value?.ownerDocument.getElementById(ids.input) as HTMLInputElement | null;
-      const next = fromTyping && input ? input.value : text;
-      if (!fromTyping) writtenText.value = { text: next };
+      const typed = reason === 'input';
+      const next = typed && input ? input.value : text;
+      if (!typed) writtenText.value = { text: next };
+      inputValueReason.value = reason;
       if (inputValue.value !== next) await setInputValueState$(next);
     });
     const select$ = $(async (next: string, text: string) => {
       selectedText.value = text;
       if (value.value !== next) await setValue$(next);
-      await setInputValue$(text);
+      await setInputValue$(text, 'select');
       await setOpen$(false);
     });
     const clear$ = $(async () => {
       selectedText.value = '';
       if (value.value !== null) await setValue$(null);
-      await setInputValue$('');
+      await setInputValue$('', 'clear');
     });
 
     useContextProvider(comboboxContextId, {
@@ -182,6 +201,7 @@ export const ComboboxRoot = component$<ComboboxRootProps>(
       required,
       loop,
       autoHighlight,
+      openOnClick,
       setOpen$,
       setInputValue$,
       writtenText,

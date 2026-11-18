@@ -44,6 +44,7 @@
   outline: none;
 }
 
+.combobox-default-clear,
 .combobox-default-trigger {
   display: inline-flex;
   padding: 8px;
@@ -51,6 +52,16 @@
   background: transparent;
   color: light-dark(#475569, #c9ddf0);
   cursor: pointer;
+}
+
+/* The ClearTrigger has the hidden attribute while there is nothing to clear */
+.combobox-default-clear[hidden] {
+  display: none;
+}
+
+.combobox-default-clear:hover,
+.combobox-default-trigger:hover {
+  color: light-dark(#0f172a, #ffffff);
 }
 
 .combobox-default-icon {
