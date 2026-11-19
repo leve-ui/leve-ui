@@ -54,4 +54,29 @@ test.describe('Hover Card', () => {
     await expect(card).toBeHidden();
     await expect(trigger).toBeFocused();
   });
+
+  test('as にカスタムリンクコンポーネントを渡しても属性とクライアントサイド遷移が機能する', async ({
+    page,
+  }) => {
+    await gotoStory(page, 'components-hovercard--custom-trigger');
+    const trigger = page.getByRole('link', { name: '@ada' });
+    const card = page.locator('[data-leve-hover-card-content]');
+    await expect(trigger).toBeVisible({ timeout: 15_000 });
+
+    await page.evaluate(() => {
+      (window as unknown as { __noReload?: boolean }).__noReload = true;
+    });
+
+    await trigger.focus();
+    await expect(card).toBeVisible();
+    await page.keyboard.press('Escape');
+    await expect(card).toBeHidden();
+    await expect(trigger).toBeFocused();
+
+    await trigger.click();
+    await expect(page.getByText('Navigated to /users/ada')).toBeVisible();
+    expect(
+      await page.evaluate(() => (window as unknown as { __noReload?: boolean }).__noReload),
+    ).toBe(true);
+  });
 });
