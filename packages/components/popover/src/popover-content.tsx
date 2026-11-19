@@ -106,6 +106,7 @@ export const PopoverContent = component$<PopoverContentProps>(
       ({ track, cleanup }) => {
         const open = track(() => context.open.value);
         const options = track(() => floating.value);
+        const hasAnchor = track(() => context.hasAnchor.value);
         const element = ref.value;
         if (!element || !open) return;
         cleanup(
@@ -113,7 +114,7 @@ export const PopoverContent = component$<PopoverContentProps>(
             open: context.open,
             setOpen$: context.setOpen$,
             trigger: getElementByIdInContainer(element, context.ids.trigger),
-            anchor: context.anchor.value,
+            anchor: hasAnchor ? getElementByIdInContainer(element, context.ids.anchor) : null,
             floating: {
               ...options,
               cssVarPrefix: '--leve-popover',
