@@ -32,4 +32,34 @@ test.describe('Breadcrumb', () => {
     await pressTab(page);
     await expect(page.getByRole('link', { name: 'Breadcrumb' })).toBeFocused();
   });
+
+  test('as にカスタムリンクコンポーネントを渡しても属性とクライアントサイド遷移が機能する', async ({
+    page,
+  }) => {
+    await gotoStory(page, 'components-breadcrumb--custom-link');
+
+    await expect(page.locator('[data-leve-breadcrumb-link]')).toHaveCount(3);
+    const componentsLink = page.getByRole('link', { name: 'Components' });
+    const breadcrumbLink = page.getByRole('link', { name: 'Breadcrumb' });
+
+    await expect(breadcrumbLink).toHaveAttribute('aria-current', 'page');
+    await expect(breadcrumbLink).toHaveAttribute('data-current', '');
+    await expect(componentsLink).not.toHaveAttribute('aria-current');
+
+    await page.evaluate(() => {
+      (window as unknown as { __noReload?: boolean }).__noReload = true;
+    });
+
+    await page.getByRole('link', { name: 'Home' }).focus();
+    await pressTab(page);
+    await expect(componentsLink).toBeFocused();
+    await page.keyboard.press('Enter');
+
+    await expect(componentsLink).toHaveAttribute('aria-current', 'page');
+    await expect(componentsLink).toHaveAttribute('data-current', '');
+    await expect(breadcrumbLink).not.toHaveAttribute('aria-current');
+    expect(
+      await page.evaluate(() => (window as unknown as { __noReload?: boolean }).__noReload),
+    ).toBe(true);
+  });
 });
