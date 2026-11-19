@@ -61,9 +61,9 @@ import { Menu } from '@leve-ui/menu'; // or '@leve-ui/core'
 | Part | Element | Description |
 | --- | --- | --- |
 | `Menu.Root` | `<div>` | Wraps the parts and holds the open state. |
-| `Menu.Trigger` | `<button>` | The button that opens the menu. |
+| `Menu.Trigger` | `<button>` | The button that opens the menu. Use `as` to render another element or component. |
 | `Menu.Content` | `<div>` | The menu, a `popover="manual"` element in the top layer. |
-| `Menu.Item` | `<div>` | An action. |
+| `Menu.Item` | `<div>` | An action. Use `as` to render `<a>`, Qwik City's `<Link>`, or another component. |
 | `Menu.Group` | `<div>` | A group of items, named by its GroupLabel. |
 | `Menu.GroupLabel` | `<div>` | The name of a group. Not an item. |
 | `Menu.CheckboxItem` | `<div>` | An item that is turned on or off. |
@@ -76,9 +76,15 @@ import { Menu } from '@leve-ui/menu'; // or '@leve-ui/core'
 | `Menu.Separator` | `<div>` | A line between items. |
 | `Menu.Arrow` | `<div>` | Optional. An arrow pointing at the Trigger, drawn with CSS. |
 
-Items cannot be links yet: rendering an item as `<a>` or Qwik City's `<Link>` is planned with `asChild` ([#153](https://github.com/leve-ui/leve-ui/issues/153)).
+Use `as` on `Menu.Item` or `Menu.Trigger` to render another element or component. A component passed to `as` must spread the props it receives onto a single element, including `id`, `aria-*`, `data-*`, and `on*$` event handlers.
 
 ## Examples
+
+### Link Items
+
+Pass `<a>` or a router link component such as Qwik City's `<Link>` to `as` on `Menu.Item` so items navigate while keeping `role="menuitem"`, keyboard navigation, and menu closing.
+
+<Demo id="menu/links" collapsed />
 
 ### Checkbox and Radio Items
 

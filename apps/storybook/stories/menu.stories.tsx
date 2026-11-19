@@ -8,6 +8,9 @@ import contextCss from './demos/menu/context.css?raw';
 import DefaultDemo from './demos/menu/default';
 import defaultSource from './demos/menu/default?raw';
 import defaultCss from './demos/menu/default.css?raw';
+import LinksDemo from './demos/menu/links';
+import linksSource from './demos/menu/links?raw';
+import linksCss from './demos/menu/links.css?raw';
 import SubmenuDemo from './demos/menu/submenu';
 import submenuSource from './demos/menu/submenu?raw';
 import submenuCss from './demos/menu/submenu.css?raw';
@@ -45,5 +48,12 @@ export const Context: Story = {
   render: () => <ContextDemo />,
   parameters: {
     docs: { source: { code: demoSource(contextSource, contextCss, 'context.css') } },
+  },
+};
+
+export const Links: Story = {
+  render: () => <LinksDemo />,
+  parameters: {
+    docs: { source: { code: demoSource(linksSource, linksCss, 'links.css') } },
   },
 };
