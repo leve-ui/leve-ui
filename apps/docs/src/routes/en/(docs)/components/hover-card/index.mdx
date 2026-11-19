@@ -41,17 +41,25 @@ import { HoverCard } from '@leve-ui/hover-card'; // or '@leve-ui/core'
 | Part | Element | Description |
 | --- | --- | --- |
 | `HoverCard.Root` | `<span>` | Wraps the parts and holds the open state. An inline element, so it fits in text. |
-| `HoverCard.Trigger` | `<a>` | The link that shows the card. |
+| `HoverCard.Trigger` | `<a>` | The link that shows the card. Use `as` to render another element or a router link component. |
 | `HoverCard.Content` | `<span>` | The card, a `popover="manual"` element in the top layer. A `<span>` so that it can be placed in a paragraph: use only inline elements inside it. |
 | `HoverCard.Arrow` | `<span>` | Optional. An arrow pointing at the Trigger, drawn with CSS. |
 
-`HoverCard.Trigger` renders an `<a>` for now. Rendering Qwik City's `<Link>` or another element is planned with `asChild` ([#153](https://github.com/leve-ui/leve-ui/issues/153)).
+Use `as` to render `HoverCard.Trigger` as a router link component such as Qwik City's `<Link>` or another element. A component passed to `as` must spread the props it receives onto a single element, including `id`, `aria-*`, `data-*`, and `on*$` event handlers.
 
 | Use | When |
 | --- | --- |
 | [Tooltip](/components/tooltip/) | A short text that describes a button. |
 | Hover Card | A rich preview of a link, which may contain links. |
 | [Popover](/components/popover/) | A panel that the user opens on purpose and works in, with the keyboard too. |
+
+## Examples
+
+### Custom Trigger
+
+Pass a router link component such as Qwik City's `<Link>` to `as` on `HoverCard.Trigger` for client-side navigation while keeping the hover card behavior.
+
+<Demo id="hover-card/custom-trigger" collapsed />
 
 ## API Reference
 
