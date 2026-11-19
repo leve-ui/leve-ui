@@ -1,0 +1,44 @@
+.breadcrumb-custom-link {
+  font-family: inherit;
+}
+
+.breadcrumb-custom-link-list {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.breadcrumb-custom-link-link {
+  font-size: 14px;
+  color: light-dark(#475569, #c9ddf0);
+  text-decoration: none;
+}
+
+.breadcrumb-custom-link-link:hover {
+  color: light-dark(#0f172a, #ffffff);
+}
+
+.breadcrumb-custom-link-link:focus-visible {
+  outline: 2px solid #009dfd;
+  outline-offset: 2px;
+}
+
+/* The link for the current page (aria-current="page") */
+.breadcrumb-custom-link-link[aria-current="page"] {
+  font-weight: 500;
+  color: light-dark(#0f172a, #ffffff);
+}
+
+.breadcrumb-custom-link-separator {
+  display: flex;
+  align-items: center;
+}
+
+.breadcrumb-custom-link-separator-icon {
+  width: 14px;
+  height: 14px;
+  color: light-dark(#475569, #c9ddf0);
+}

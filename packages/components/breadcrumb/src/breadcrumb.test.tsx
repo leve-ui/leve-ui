@@ -1,4 +1,4 @@
-import { component$ } from '@builder.io/qwik';
+import { $, component$, type PropsOf, Slot, useSignal } from '@builder.io/qwik';
 import { createDOM } from '@builder.io/qwik/testing';
 import { describe, expect, it } from 'vitest';
 import { Breadcrumb } from './index';
@@ -93,5 +93,92 @@ describe('Breadcrumb', () => {
     const link = screen.querySelector('[data-leve-breadcrumb-link]');
     expect(link?.getAttribute('class')).toBe('link');
     expect(link?.getAttribute('href')).toBe('/');
+  });
+
+  it('as に要素名を渡すとその要素で描画され、属性と props が維持される', async () => {
+    const { screen, render } = await createDOM();
+    await render(
+      <Breadcrumb.Root>
+        <Breadcrumb.List>
+          <Breadcrumb.Item>
+            <Breadcrumb.Link as="span" current class="custom-span">
+              Docs
+            </Breadcrumb.Link>
+          </Breadcrumb.Item>
+        </Breadcrumb.List>
+      </Breadcrumb.Root>,
+    );
+
+    const link = screen.querySelector('[data-leve-breadcrumb-link]');
+    expect(link?.tagName).toBe('SPAN');
+    expect(link?.getAttribute('aria-current')).toBe('page');
+    expect(link?.getAttribute('data-current')).toBe('');
+    expect(link?.getAttribute('class')).toBe('custom-span');
+  });
+
+  it('as に Qwik コンポーネントを渡すと属性・固有 prop が渡り、onClick$ が両方発火する', async () => {
+    type CustomLinkProps = PropsOf<'a'> & {
+      prefetch?: boolean;
+    };
+
+    const CustomLink = component$<CustomLinkProps>(({ prefetch, onClick$, ...props }) => {
+      const internalClicks = useSignal(0);
+
+      return (
+        <a
+          {...props}
+          data-prefetch={prefetch ? 'true' : undefined}
+          data-internal-clicks={internalClicks.value}
+          onClick$={[
+            $(() => {
+              internalClicks.value += 1;
+            }),
+            onClick$,
+          ]}
+        >
+          <Slot />
+        </a>
+      );
+    });
+
+    const Parent = component$(() => {
+      const linkClicks = useSignal(0);
+
+      return (
+        <Breadcrumb.Root>
+          <Breadcrumb.List>
+            <Breadcrumb.Item>
+              <Breadcrumb.Link
+                as={CustomLink}
+                href="/docs"
+                prefetch
+                current
+                onClick$={() => {
+                  linkClicks.value += 1;
+                }}
+              >
+                Docs ({linkClicks.value})
+              </Breadcrumb.Link>
+            </Breadcrumb.Item>
+          </Breadcrumb.List>
+        </Breadcrumb.Root>
+      );
+    });
+
+    const { screen, render, userEvent } = await createDOM();
+    await render(<Parent />);
+
+    const link = screen.querySelector('[data-leve-breadcrumb-link]');
+    expect(link?.tagName).toBe('A');
+    expect(link?.getAttribute('href')).toBe('/docs');
+    expect(link?.getAttribute('aria-current')).toBe('page');
+    expect(link?.getAttribute('data-current')).toBe('');
+    expect(link?.getAttribute('data-prefetch')).toBe('true');
+    expect(link?.getAttribute('data-internal-clicks')).toBe('0');
+    expect(link?.textContent).toBe('Docs (0)');
+
+    await userEvent('[data-leve-breadcrumb-link]', 'click');
+    expect(link?.getAttribute('data-internal-clicks')).toBe('1');
+    expect(link?.textContent).toBe('Docs (1)');
   });
 });

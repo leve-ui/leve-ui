@@ -48,8 +48,27 @@ import { Breadcrumb } from '@leve-ui/breadcrumb'; // or '@leve-ui/core'
 | `Breadcrumb.Root` | `<nav>` | The navigation landmark. |
 | `Breadcrumb.List` | `<ol>` | The ordered list of items. |
 | `Breadcrumb.Item` | `<li>` | One item. Put a Link inside. |
-| `Breadcrumb.Link` | `<a>` | The link to a page. Use `current` for the current page. |
+| `Breadcrumb.Link` | `<a>` | The link to a page. Use `current` for the current page, and `as` to render another element or a router link component. |
 | `Breadcrumb.Separator` | `<li>` | A decorative separator between items, such as `/` or an icon. Hidden from assistive technologies. |
+
+## Examples
+
+### Custom Link Component
+
+Pass a router link component such as Qwik City's `<Link>` to `as` for client-side navigation and prefetching while keeping `Breadcrumb.Link`'s attributes:
+
+```tsx
+import { Link } from '@builder.io/qwik-city';
+import { Breadcrumb } from '@leve-ui/breadcrumb';
+
+<Breadcrumb.Link as={Link} href="/components/">
+  Components
+</Breadcrumb.Link>
+```
+
+A component passed to `as` must spread the props it receives onto a single element, including `id`, `aria-*`, `data-*`, and `on*$` event handlers.
+
+<Demo id="breadcrumb/custom-link" collapsed />
 
 ## API Reference
 

@@ -94,7 +94,10 @@ export default component$(() => {
               {current && (
                 <>
                   <Breadcrumb.Item>
-                    <Breadcrumb.Link href={localizeHref(current.section.items[0].href, locale)}>
+                    <Breadcrumb.Link
+                      as={Link}
+                      href={localizeHref(current.section.items[0].href, locale)}
+                    >
                       {t(locale, current.section.title)}
                     </Breadcrumb.Link>
                   </Breadcrumb.Item>
@@ -104,7 +107,7 @@ export default component$(() => {
                 </>
               )}
               <Breadcrumb.Item>
-                <Breadcrumb.Link href={loc.url.pathname} current>
+                <Breadcrumb.Link as={Link} href={loc.url.pathname} current>
                   {title}
                 </Breadcrumb.Link>
               </Breadcrumb.Item>
