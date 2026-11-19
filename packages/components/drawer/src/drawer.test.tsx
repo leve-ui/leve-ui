@@ -1,4 +1,4 @@
-import { component$, useSignal } from '@builder.io/qwik';
+import { $, component$, type PropsOf, Slot, useSignal } from '@builder.io/qwik';
 import { createDOM } from '@builder.io/qwik/testing';
 import { describe, expect, it } from 'vitest';
 import { Drawer } from './index';
@@ -239,5 +239,63 @@ describe('Drawer', () => {
 
     expect(query(screen, 'trigger')?.getAttribute('aria-haspopup')).toBe('dialog');
     expect(query(screen, 'content')?.getAttribute('aria-modal')).toBe('true');
+  });
+
+  it('Trigger / Close に as で Qwik コンポーネントを渡すと属性とハンドラが合成される', async () => {
+    type CustomButtonProps = PropsOf<'button'> & {
+      variant?: string;
+    };
+
+    const CustomButton = component$<CustomButtonProps>(({ variant, onClick$, ...props }) => {
+      const internalClicks = useSignal(0);
+
+      return (
+        <button
+          type="button"
+          {...props}
+          data-variant={variant}
+          data-internal-clicks={internalClicks.value}
+          onClick$={[
+            $(() => {
+              internalClicks.value += 1;
+            }),
+            onClick$,
+          ]}
+        >
+          <Slot />
+        </button>
+      );
+    });
+
+    const { screen, render, userEvent } = await createDOM();
+    await render(
+      <Drawer.Root>
+        <Drawer.Trigger as={CustomButton} variant="primary">
+          Open
+        </Drawer.Trigger>
+        <Drawer.Content>
+          <Drawer.Close as={CustomButton} variant="secondary">
+            Close
+          </Drawer.Close>
+        </Drawer.Content>
+      </Drawer.Root>,
+    );
+
+    const trigger = query(screen, 'trigger');
+    const content = query(screen, 'content');
+    const close = query(screen, 'close');
+    expect(trigger?.getAttribute('data-variant')).toBe('primary');
+    expect(trigger?.getAttribute('aria-haspopup')).toBe('dialog');
+    expect(trigger?.getAttribute('aria-controls')).toBe(content?.id);
+    expect(close?.getAttribute('data-variant')).toBe('secondary');
+
+    await userEvent('[data-leve-drawer-trigger]', 'click');
+    expect(query(screen, '')?.getAttribute('data-state')).toBe('open');
+    expect(trigger?.getAttribute('aria-expanded')).toBe('true');
+    expect(trigger?.getAttribute('data-internal-clicks')).toBe('1');
+
+    await userEvent('[data-leve-drawer-close]', 'click');
+    expect(query(screen, '')?.getAttribute('data-state')).toBe('closed');
+    expect(close?.getAttribute('data-internal-clicks')).toBe('1');
   });
 });

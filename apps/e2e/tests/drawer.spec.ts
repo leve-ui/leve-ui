@@ -107,4 +107,12 @@ test.describe('Drawer（モーダル）', () => {
     await expect(drawer).toBeHidden();
     await expect(page.locator('html')).not.toHaveAttribute('data-leve-scroll-locked');
   });
+
+  test('Close で閉じ、Trigger にフォーカスが戻る', async ({ page }) => {
+    const { trigger, drawer } = await openModal(page);
+
+    await drawer.getByRole('button', { name: 'Close' }).click();
+    await expect(drawer).toBeHidden();
+    await expect(trigger).toBeFocused();
+  });
 });
