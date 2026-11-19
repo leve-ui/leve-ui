@@ -91,14 +91,16 @@ export const MenuItem = component$<MenuItemProps>(
       if (item.ownerDocument.activeElement !== item) item.focus();
     });
 
+    const isHostElement = typeof Component === 'string';
+
     return (
       <Element
         {...props}
         role="menuitem"
         tabIndex={-1}
         aria-disabled={disabled ? 'true' : undefined}
-        onClick$={[preventDefault$, select$, onClick$]}
-        onKeyDown$={[preventDefault$, keyDown$, onKeyDown$]}
+        onClick$={[isHostElement ? preventDefault$ : undefined, select$, onClick$]}
+        onKeyDown$={[isHostElement ? preventDefault$ : undefined, keyDown$, onKeyDown$]}
         onPointerMove$={[pointerMove$, onPointerMove$]}
         data-leve-menu-item=""
         data-disabled={dataAttr(disabled)}

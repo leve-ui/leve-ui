@@ -47,6 +47,8 @@ export const MenuTrigger = component$<MenuTriggerProps>(
       return context.setOpen$(true);
     });
 
+    const isHostElement = typeof Component === 'string';
+
     return (
       <Element
         {...props}
@@ -56,7 +58,7 @@ export const MenuTrigger = component$<MenuTriggerProps>(
         aria-expanded={context.open.value ? 'true' : 'false'}
         aria-controls={context.ids.content}
         onClick$={[toggle$, onClick$]}
-        onKeyDown$={[preventScroll$, keyDown$, onKeyDown$]}
+        onKeyDown$={[isHostElement ? preventScroll$ : undefined, keyDown$, onKeyDown$]}
         data-leve-menu-trigger=""
         data-state={context.open.value ? 'open' : 'closed'}
       >
