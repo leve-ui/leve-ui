@@ -69,4 +69,22 @@ test.describe('Tooltip', () => {
     await expect(tooltip).toBeHidden();
     await page.mouse.up();
   });
+
+  test('as にカスタムリンクコンポーネントを渡しても属性とキーボード操作が機能する', async ({
+    page,
+  }) => {
+    await gotoStory(page, 'components-tooltip--custom-trigger');
+    const trigger = page.getByRole('link', { name: 'Undo' });
+    const tooltip = page.getByRole('tooltip');
+    await expect(trigger).toBeVisible({ timeout: 15_000 });
+
+    await trigger.focus();
+    await expect(trigger).toBeFocused();
+    await expect(tooltip).toBeVisible();
+    await expect(trigger).toHaveAccessibleDescription('Undo the last change (Ctrl+Z)');
+
+    await page.keyboard.press('Escape');
+    await expect(tooltip).toBeHidden();
+    await expect(trigger).toBeFocused();
+  });
 });

@@ -1,16 +1,33 @@
-import { $, component$, type PropsOf, Slot, useContext } from '@builder.io/qwik';
+import { $, type Component, component$, type PropsOf, Slot, useContext } from '@builder.io/qwik';
 import { tooltipContextId } from './tooltip-context';
 
-export type TooltipTriggerProps = PropsOf<'button'>;
+export type TooltipTriggerProps = PropsOf<'button'> & {
+  /**
+   * The element or component to render instead of `<button>`. A component must spread the props it receives onto one element.
+   * @default 'button'
+   */
+  // biome-ignore lint/suspicious/noExplicitAny: Component props are contravariant, so only any accepts every component (adr/0038)
+  as?: keyof HTMLElementTagNameMap | Component<any>;
+  [key: string]: unknown;
+};
 
 /**
- * ツールチップで説明される要素です。`<button type="button">` を描画し、`aria-describedby` で
- * Content を指します。今はボタンだけを描画します。リンクなどほかの要素に付ける方法（asChild）は
- * #153 で検討しています。
+ * ツールチップで説明される要素です。既定では `<button type="button">` を描画し、
+ * `aria-describedby` で Content を指します。`as` でリンクなどほかの要素やコンポーネントに差し替えられます。
  */
 export const TooltipTrigger = component$<TooltipTriggerProps>(
-  ({ onPointerEnter$, onPointerLeave$, onPointerDown$, onFocus$, onBlur$, ...props }) => {
+  ({
+    as: Component = 'button',
+    type,
+    onPointerEnter$,
+    onPointerLeave$,
+    onPointerDown$,
+    onFocus$,
+    onBlur$,
+    ...props
+  }) => {
     const context = useContext(tooltipContextId);
+    const Element = Component as 'button';
 
     const enter$ = $((event: PointerEvent) => {
       // Touch has no hover; a tap would show it and leave it open
@@ -27,8 +44,8 @@ export const TooltipTrigger = component$<TooltipTriggerProps>(
     const blur$ = $(() => context.hide$(true));
 
     return (
-      <button
-        type="button"
+      <Element
+        type={Component === 'button' ? (type ?? 'button') : type}
         {...props}
         id={context.ids.trigger}
         aria-describedby={context.ids.content}
@@ -41,7 +58,7 @@ export const TooltipTrigger = component$<TooltipTriggerProps>(
         data-state={context.open.value ? 'open' : 'closed'}
       >
         <Slot />
-      </button>
+      </Element>
     );
   },
 );
