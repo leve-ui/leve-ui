@@ -1,15 +1,32 @@
-import { $, component$, type PropsOf, Slot, useContext } from '@builder.io/qwik';
+import { $, type Component, component$, type PropsOf, Slot, useContext } from '@builder.io/qwik';
 import { hoverCardContextId } from './hover-card-context';
 
-export type HoverCardTriggerProps = PropsOf<'a'>;
+export type HoverCardTriggerProps = PropsOf<'a'> & {
+  /**
+   * The element or component to render instead of `<a>`. A component must spread the props it receives onto one element.
+   * @default 'a'
+   */
+  // biome-ignore lint/suspicious/noExplicitAny: Component props are contravariant, so only any accepts every component (adr/0038)
+  as?: keyof HTMLElementTagNameMap | Component<any>;
+  [key: string]: unknown;
+};
 
 /**
- * ホバーカードを開くリンクです。`<a>` を描画します（`href` を渡してください）。
- * ほかの要素や Qwik City の `<Link>` にする方法（asChild）は #153 で検討しています。
+ * ホバーカードを開くリンクです。既定では `<a>` を描画します（`href` を渡してください）。
+ * `as` で Qwik City の `<Link>` などほかの要素やコンポーネントに差し替えられます。
  */
 export const HoverCardTrigger = component$<HoverCardTriggerProps>(
-  ({ onPointerEnter$, onPointerLeave$, onPointerDown$, onFocus$, onBlur$, ...props }) => {
+  ({
+    as: Component = 'a',
+    onPointerEnter$,
+    onPointerLeave$,
+    onPointerDown$,
+    onFocus$,
+    onBlur$,
+    ...props
+  }) => {
     const context = useContext(hoverCardContextId);
+    const Element = Component as 'a';
 
     const enter$ = $((event: PointerEvent) => {
       // Touch has no hover; a tap would show it and leave it open
@@ -32,7 +49,7 @@ export const HoverCardTrigger = component$<HoverCardTriggerProps>(
     });
 
     return (
-      <a
+      <Element
         {...props}
         id={context.ids.trigger}
         onPointerEnter$={[enter$, onPointerEnter$]}
@@ -44,7 +61,7 @@ export const HoverCardTrigger = component$<HoverCardTriggerProps>(
         data-state={context.open.value ? 'open' : 'closed'}
       >
         <Slot />
-      </a>
+      </Element>
     );
   },
 );
