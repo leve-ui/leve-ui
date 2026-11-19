@@ -41,13 +41,21 @@ import { Tooltip } from '@leve-ui/tooltip'; // or '@leve-ui/core'
 | Part | Element | Description |
 | --- | --- | --- |
 | `Tooltip.Root` | `<span>` | Wraps the parts and holds the open state. An inline element, so it fits in a row of buttons or in text. |
-| `Tooltip.Trigger` | `<button>` | The button that the tooltip describes. |
+| `Tooltip.Trigger` | `<button>` | The element that the tooltip describes. Use `as` to render another element or component. |
 | `Tooltip.Content` | `<span>` | The tooltip, a `popover="manual"` element in the top layer. A `<span>` so that it can be placed in a paragraph. |
 | `Tooltip.Arrow` | `<span>` | Optional. An arrow pointing at the Trigger, drawn with CSS. |
 
-`Tooltip.Trigger` renders a `<button>` for now. Attaching a tooltip to another element, such as a link, is planned with `asChild` ([#153](https://github.com/leve-ui/leve-ui/issues/153)).
+Use `as` to attach a tooltip to another element or component such as a link. A component passed to `as` must spread the props it receives onto a single element, including `id`, `aria-*`, `data-*`, and `on*$` event handlers.
 
 Tooltips are for short, plain text. Do not put links or buttons in them: use [Popover](/components/popover/) for interactive content.
+
+## Examples
+
+### Custom Trigger
+
+Pass an element name or a component (such as Qwik City's `<Link>`) to `as` on `Tooltip.Trigger`.
+
+<Demo id="tooltip/custom-trigger" collapsed />
 
 ## API Reference
 
