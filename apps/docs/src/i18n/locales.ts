@@ -10,6 +10,23 @@ export type Locale = (typeof LOCALES)[number];
 
 export const SOURCE_LOCALE: Locale = 'en';
 
+export const LOCALE_STORAGE_KEY = 'leve-ui-locale';
+
+/**
+ * Picks the best matching locale from an ordered list of language tags
+ * (such as `navigator.languages`), falling back to `SOURCE_LOCALE`.
+ */
+export function matchLocale(languages: readonly string[]): Locale {
+  for (const lang of languages) {
+    const normalized = lang.trim().toLowerCase();
+    if (!normalized) continue;
+    if (isLocale(normalized)) return normalized;
+    const base = normalized.split('-')[0] ?? '';
+    if (isLocale(base)) return base;
+  }
+  return SOURCE_LOCALE;
+}
+
 /** Shown in the language switcher, in each language itself. */
 export const LOCALE_NAMES: Record<Locale, string> = {
   en: 'English',

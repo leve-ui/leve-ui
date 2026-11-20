@@ -3,7 +3,7 @@ import { Link, useLocation } from '@builder.io/qwik-city';
 import { Drawer, Menu } from '@leve-ui/core';
 import { css, cx } from 'styled-system/css';
 import { normalizePath } from '../../docs-nav';
-import { LOCALE_NAMES, LOCALES, localizeHref } from '../../i18n/locales';
+import { LOCALE_NAMES, LOCALE_STORAGE_KEY, LOCALES, localizeHref } from '../../i18n/locales';
 import { t } from '../../i18n/translate';
 import { useLocale } from '../../i18n/use-locale';
 import { DocsNavList } from '../docs/sidebar';
@@ -182,6 +182,7 @@ const LanguageSwitcher = component$(() => {
             key={l}
             lang={l}
             onSelect$={() => {
+              localStorage.setItem(LOCALE_STORAGE_KEY, l);
               if (l === locale) return;
               const path = normalizePath(loc.url.pathname);
               window.location.assign(localizeHref(path, l) + loc.url.hash);
