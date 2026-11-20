@@ -69,6 +69,7 @@ export default component$(() => {
   const locale = useLocale();
   const { headings } = useContent();
   const current = findNavItem(loc.url.pathname);
+  const isGallery = current?.item.href === '/components/';
   const { prev, next } = getPrevNext(loc.url.pathname);
   const title = current ? t(locale, current.item.title) : head.title;
 
@@ -88,7 +89,7 @@ export default component$(() => {
           px: { base: '4', sm: '6', lg: '16' },
         })}
       >
-        <article class={css({ flex: '1', minW: 0, maxW: '776px' })}>
+        <article class={css({ flex: '1', minW: 0, maxW: isGallery ? '1080px' : '776px' })}>
           <Breadcrumb.Root aria-label={t(locale, 'Breadcrumb')} class={breadcrumbStyles}>
             <Breadcrumb.List>
               {current && (
@@ -157,7 +158,7 @@ export default component$(() => {
           )}
         </article>
 
-        <TableOfContents headings={headings ?? []} />
+        {!isGallery && <TableOfContents headings={headings ?? []} />}
       </div>
     </div>
   );

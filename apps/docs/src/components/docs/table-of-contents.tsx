@@ -32,29 +32,31 @@ export const TableOfContents = component$<{ headings: ContentHeading[] }>(({ hea
 
   // biome-ignore lint/correctness/noQwikUseVisibleTask: observing scroll position needs the DOM; there is no event to hook into instead
   useVisibleTask$(({ track, cleanup }) => {
-    const ids = track(() => headings.map((h) => h.id).join(' '));
+    const ids = track(() => items.map((h) => h.id).join(' '));
     const elements = ids
       .split(' ')
+      .filter(Boolean)
       .map((id) => document.getElementById(id))
       .filter((el): el is HTMLElement => el !== null);
     if (elements.length === 0) return;
 
-    const visible = new Set<string>();
-    const observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (entry.isIntersecting) visible.add(entry.target.id);
-          else visible.delete(entry.target.id);
+    function updateActive() {
+      // Sticky header height (64px) + breathing room
+      const offset = 112;
+      let current = elements[0].id;
+      for (const el of elements) {
+        if (el.getBoundingClientRect().top <= offset) {
+          current = el.id;
+        } else {
+          break;
         }
-        // The first visible heading in document order wins
-        const first = elements.find((el) => visible.has(el.id));
-        if (first) active.value = first.id;
-      },
-      // Treat the top part of the viewport (below the sticky header) as "being read"
-      { rootMargin: '-64px 0px -60% 0px' },
-    );
-    for (const el of elements) observer.observe(el);
-    cleanup(() => observer.disconnect());
+      }
+      active.value = current;
+    }
+
+    updateActive();
+    window.addEventListener('scroll', updateActive, { passive: true });
+    cleanup(() => window.removeEventListener('scroll', updateActive));
   });
 
   if (items.length === 0)

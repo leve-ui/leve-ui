@@ -1,6 +1,7 @@
-import { component$, Slot } from '@builder.io/qwik';
+import { component$, Slot, useContextProvider, useSignal } from '@builder.io/qwik';
 import type { RequestHandler } from '@builder.io/qwik-city';
 import { css } from 'styled-system/css';
+import { packageManagerContextId } from '../components/docs/install';
 import { Footer } from '../components/footer/footer';
 import { Header } from '../components/header/header';
 
@@ -12,6 +13,9 @@ export const onGet: RequestHandler = async ({ cacheControl }) => {
 };
 
 export default component$(() => {
+  const packageManager = useSignal('pnpm');
+  useContextProvider(packageManagerContextId, packageManager);
+
   return (
     <div
       class={css({
