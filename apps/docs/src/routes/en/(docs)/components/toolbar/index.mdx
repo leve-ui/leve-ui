@@ -40,9 +40,11 @@ import { Toolbar } from '@leve-ui/toolbar'; // or '@leve-ui/core'
 | Part | Element | Description |
 | --- | --- | --- |
 | `Toolbar.Root` | `<div>` | The toolbar. Moves focus between its items. |
-| `Toolbar.Button` | `<button>` | A button in the toolbar. |
-| `Toolbar.Link` | `<a>` | A link in the toolbar. |
+| `Toolbar.Button` | `<button>` | A button in the toolbar. Use `as` to render another element or component. |
+| `Toolbar.Link` | `<a>` | A link in the toolbar. Use `as` to render another element or a router link component. |
 | `Toolbar.Separator` | `<div>` | A line between groups of items. |
+
+A component passed to `as` on `Toolbar.Button` or `Toolbar.Link` must spread the props it receives onto a single element, including `id`, `tabIndex`, `aria-*`, `data-*`, and `on*$` event handlers.
 
 [Toggle](/components/toggle/) and [Toggle Group](/components/toggle-group/) items placed inside a Toolbar become toolbar items automatically: arrow keys move across all of them, and the Toggle Group stops handling arrow keys itself.
 

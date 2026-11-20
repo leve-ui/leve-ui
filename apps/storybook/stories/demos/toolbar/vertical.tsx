@@ -1,15 +1,22 @@
-import { component$, useStyles$ } from '@builder.io/qwik';
+import { component$, type PropsOf, Slot, useStyles$ } from '@builder.io/qwik';
 import { Toggle } from '@leve-ui/toggle';
 import { Toolbar } from '@leve-ui/toolbar';
 import { LuGrid3X3, LuRedo2, LuUndo2 } from '@qwikest/icons/lucide';
 import styles from './vertical.css?inline';
+
+// Custom button component passed via `as` must spread received props onto one element
+const IconButton = component$<PropsOf<'button'>>(({ type = 'button', ...props }) => (
+  <button type={type} {...props}>
+    <Slot />
+  </button>
+));
 
 export default component$(() => {
   useStyles$(styles);
 
   return (
     <Toolbar.Root orientation="vertical" aria-label="Canvas" class="toolbar-vertical">
-      <Toolbar.Button aria-label="Undo" class="toolbar-vertical-item">
+      <Toolbar.Button as={IconButton} aria-label="Undo" class="toolbar-vertical-item">
         <LuUndo2 class="toolbar-vertical-icon" aria-hidden="true" />
       </Toolbar.Button>
       <Toolbar.Button aria-label="Redo" disabled class="toolbar-vertical-item">

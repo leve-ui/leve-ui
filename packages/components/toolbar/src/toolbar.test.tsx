@@ -1,3 +1,4 @@
+import { $, component$, type PropsOf, Slot, useSignal } from '@builder.io/qwik';
 import { createDOM } from '@builder.io/qwik/testing';
 import { Toggle } from '@leve-ui/toggle';
 import { ToggleGroup } from '@leve-ui/toggle-group';
@@ -127,5 +128,151 @@ describe('Toolbar', () => {
     expect(screen.querySelector('[data-leve-toolbar-button]')?.className).toBe('button');
     expect(screen.querySelector('[data-leve-toolbar-separator]')?.className).toBe('separator');
     expect(screen.querySelector('[data-leve-toolbar-link]')?.getAttribute('href')).toBe('#help');
+  });
+
+  it('Button に as で要素名や Qwik コンポーネントを渡すと属性とハンドラが合成される', async () => {
+    type CustomButtonProps = PropsOf<'button'> & {
+      variant?: string;
+    };
+
+    const CustomButton = component$<CustomButtonProps>(({ variant, onClick$, ...props }) => {
+      const internalClicks = useSignal(0);
+
+      return (
+        <button
+          type="button"
+          {...props}
+          data-variant={variant}
+          data-internal-clicks={internalClicks.value}
+          onClick$={[
+            $(() => {
+              internalClicks.value += 1;
+            }),
+            onClick$,
+          ]}
+        >
+          <Slot />
+        </button>
+      );
+    });
+
+    const Parent = component$(() => {
+      const clicks = useSignal(0);
+
+      return (
+        <Toolbar.Root aria-label="Actions">
+          <Toolbar.Button as="a" href="#export" class="anchor-btn">
+            Export
+          </Toolbar.Button>
+          <Toolbar.Button
+            as={CustomButton}
+            variant="ghost"
+            class="custom-btn"
+            onClick$={() => {
+              clicks.value += 1;
+            }}
+          >
+            Save ({clicks.value})
+          </Toolbar.Button>
+        </Toolbar.Root>
+      );
+    });
+
+    const { screen, render, userEvent } = await createDOM();
+    await render(<Parent />);
+
+    const anchorBtn = screen.querySelector('.anchor-btn');
+    const customBtn = screen.querySelector('.custom-btn');
+
+    expect(anchorBtn?.tagName).toBe('A');
+    expect(anchorBtn?.hasAttribute('type')).toBe(false);
+    expect(anchorBtn?.getAttribute('href')).toBe('#export');
+    expect(anchorBtn?.hasAttribute('data-leve-toolbar-button')).toBe(true);
+    expect(anchorBtn?.hasAttribute('data-leve-toolbar-item')).toBe(true);
+    expect(anchorBtn?.getAttribute('tabindex')).toBe('0');
+
+    expect(customBtn?.tagName).toBe('BUTTON');
+    expect(customBtn?.getAttribute('data-variant')).toBe('ghost');
+    expect(customBtn?.hasAttribute('data-leve-toolbar-button')).toBe(true);
+    expect(customBtn?.hasAttribute('data-leve-toolbar-item')).toBe(true);
+    expect(customBtn?.getAttribute('tabindex')).toBe('-1');
+
+    await userEvent('.custom-btn', 'focus');
+    await new Promise((resolve) => setTimeout(resolve, 20));
+    expect(anchorBtn?.getAttribute('tabindex')).toBe('-1');
+    expect(customBtn?.getAttribute('tabindex')).toBe('0');
+
+    await userEvent('.custom-btn', 'click');
+    expect(customBtn?.getAttribute('data-internal-clicks')).toBe('1');
+    expect(customBtn?.textContent).toBe('Save (1)');
+  });
+
+  it('Link に as で Qwik コンポーネントを渡すと属性・タブストップ・ハンドラが維持される', async () => {
+    type CustomLinkProps = PropsOf<'a'> & {
+      prefetch?: boolean;
+    };
+
+    const CustomLink = component$<CustomLinkProps>(({ prefetch, onClick$, ...props }) => {
+      const internalClicks = useSignal(0);
+
+      return (
+        <a
+          {...props}
+          data-prefetch={prefetch ? 'true' : undefined}
+          data-internal-clicks={internalClicks.value}
+          onClick$={[
+            $(() => {
+              internalClicks.value += 1;
+            }),
+            onClick$,
+          ]}
+        >
+          <Slot />
+        </a>
+      );
+    });
+
+    const Parent = component$(() => {
+      const clicks = useSignal(0);
+
+      return (
+        <Toolbar.Root aria-label="Links">
+          <Toolbar.Button class="first-btn">Cut</Toolbar.Button>
+          <Toolbar.Link
+            as={CustomLink}
+            href="/docs"
+            prefetch
+            class="custom-link"
+            onClick$={() => {
+              clicks.value += 1;
+            }}
+          >
+            Docs ({clicks.value})
+          </Toolbar.Link>
+        </Toolbar.Root>
+      );
+    });
+
+    const { screen, render, userEvent } = await createDOM();
+    await render(<Parent />);
+
+    const firstBtn = screen.querySelector('.first-btn');
+    const customLink = screen.querySelector('.custom-link');
+
+    expect(customLink?.tagName).toBe('A');
+    expect(customLink?.getAttribute('href')).toBe('/docs');
+    expect(customLink?.getAttribute('data-prefetch')).toBe('true');
+    expect(customLink?.hasAttribute('data-leve-toolbar-link')).toBe(true);
+    expect(customLink?.hasAttribute('data-leve-toolbar-item')).toBe(true);
+    expect(customLink?.getAttribute('tabindex')).toBe('-1');
+
+    await userEvent('.custom-link', 'focus');
+    await new Promise((resolve) => setTimeout(resolve, 20));
+    expect(firstBtn?.getAttribute('tabindex')).toBe('-1');
+    expect(customLink?.getAttribute('tabindex')).toBe('0');
+
+    await userEvent('.custom-link', 'click');
+    expect(customLink?.getAttribute('data-internal-clicks')).toBe('1');
+    expect(customLink?.textContent).toBe('Docs (1)');
   });
 });
