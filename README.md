@@ -15,7 +15,8 @@
 
 <p align="center">
   <a href="https://leve-ui.dev">Documentation</a> ·
-  <a href="https://storybook.leve-ui.dev">Storybook</a>
+  <a href="https://storybook.leve-ui.dev">Storybook</a> ·
+  <a href="https://x.com/leve_ui">X (@leve_ui)</a>
 </p>
 
 ## Features

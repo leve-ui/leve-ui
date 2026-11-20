@@ -37,3 +37,4 @@ export {
   LuX,
   LuZap,
 } from '@qwikest/icons/lucide';
+export { XIcon } from './x-icon';
