@@ -130,28 +130,37 @@ const LanguageSwitcher = component$(() => {
     <Menu.Root>
       <Menu.Trigger
         aria-label={t(locale, 'Language')}
-        class={css({
-          display: 'inline-flex',
-          alignItems: 'center',
-          gap: '1',
-          px: '2.5',
-          py: '1.5',
-          borderRadius: 'md',
-          bg: 'transparent',
-          border: 'none',
-          color: 'fg-muted',
-          fontFamily: 'inherit',
-          fontSize: '13px',
-          fontWeight: '500',
-          cursor: 'pointer',
-          transition: 'color 0.15s ease, background-color 0.15s ease',
-          _hover: { color: 'fg-default', bg: 'bg-muted' },
-          ...focusRing,
-        })}
+        class={cx(
+          mobileIconStyles,
+          css({
+            display: 'inline-flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: { base: '0', md: '1' },
+            w: { base: '8', md: 'auto' },
+            h: { base: '8', md: 'auto' },
+            px: { base: '0', md: '2.5' },
+            py: { base: '0', md: '1.5' },
+            borderRadius: 'md',
+            bg: 'transparent',
+            border: 'none',
+            color: 'fg-muted',
+            fontFamily: 'inherit',
+            fontSize: '13px',
+            fontWeight: '500',
+            cursor: 'pointer',
+            transition: 'color 0.15s ease, background-color 0.15s ease',
+            _hover: { color: 'fg-default', bg: 'bg-muted' },
+            ...focusRing,
+          }),
+        )}
       >
-        <LuLanguages aria-hidden="true" class={css({ w: '4', h: '4' })} />
-        <span>{locale.toUpperCase()}</span>
-        <LuChevronDown aria-hidden="true" class={css({ w: '3.5', h: '3.5' })} />
+        <LuLanguages aria-hidden="true" />
+        <span class={css({ display: { base: 'none', md: 'inline' } })}>{locale.toUpperCase()}</span>
+        <LuChevronDown
+          aria-hidden="true"
+          class={css({ display: { base: 'none', md: 'block' }, w: '3.5!', h: '3.5!' })}
+        />
       </Menu.Trigger>
       <Menu.Content
         side="bottom"
@@ -334,7 +343,7 @@ export const Header = component$(() => {
           })}
         />
 
-        <div class={css({ display: 'flex', alignItems: 'center', gap: '1' })}>
+        <div class={css({ display: 'flex', alignItems: 'center', gap: { base: '1', md: '0.5' } })}>
           <a
             href={GITHUB_URL}
             target="_blank"

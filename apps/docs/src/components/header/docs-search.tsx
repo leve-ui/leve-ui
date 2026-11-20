@@ -263,7 +263,7 @@ export const DocsSearch = component$(() => {
             outlineColor: 'accent-default',
             outlineOffset: '2px',
           },
-          '& svg': { w: '18px', h: '18px' },
+          '& svg': { w: { base: '5', md: '18px' }, h: { base: '5', md: '18px' } },
         })}
       >
         <LuSearch aria-hidden="true" />

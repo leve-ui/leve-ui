@@ -3,6 +3,7 @@ import type { DocumentHead } from '@builder.io/qwik-city';
 import { Link } from '@builder.io/qwik-city';
 import { Switch } from '@leve-ui/core';
 import { css } from 'styled-system/css';
+import corePkg from '../../../../../packages/core/package.json';
 import {
   LuAccessibility,
   LuArrowRight,
@@ -20,6 +21,8 @@ import { msg, t } from '../../i18n/translate';
 import { useLocale } from '../../i18n/use-locale';
 
 const GITHUB_URL = 'https://github.com/leve-ui/leve-ui';
+const CORE_VERSION = corePkg.version;
+const COMPONENT_COUNT = Object.keys(corePkg.dependencies).length;
 
 const componentItems =
   docsNav
@@ -146,7 +149,9 @@ export default component$(() => {
               aria-hidden="true"
             />
             <span class={css({ fontSize: '13px', fontWeight: '500', color: 'fg-muted' })}>
-              {t(locale, 'v0.1.0 — 26 components, pre-1.0')}
+              {t(locale, 'v{version} — {count} components, pre-1.0')
+                .replace('{version}', CORE_VERSION)
+                .replace('{count}', String(COMPONENT_COUNT))}
             </span>
           </div>
 
