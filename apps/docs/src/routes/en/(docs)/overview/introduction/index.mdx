@@ -11,10 +11,11 @@ Components handle the parts that are hard to get right — roles and ARIA attrib
 
 ## Why leve-ui
 
-- **Accessible.** Every component follows the [WAI-ARIA Authoring Practices Guide](https://www.w3.org/WAI/ARIA/apg/patterns/) (APG), including keyboard interaction and focus management. Native HTML elements are used wherever they fit.
+- **Accessible.** Every component follows the [WAI-ARIA Authoring Practices Guide](https://www.w3.org/WAI/ARIA/apg/patterns/) (APG), including keyboard interaction and focus management, verified with E2E tests. Native HTML elements are used wherever they fit.
 - **Unstyled.** Components ship no CSS. Each DOM element is a separate part that you style with classes or with the `data-*` attributes the library outputs.
 - **Install only what you use.** Every component is its own package. `@leve-ui/core` bundles all of them for convenience.
-- **Built for Qwik.** Components are written with `component$`, render on the server, and resume without hydration.
+- **Built for Qwik and Web standards.** Components are written with `component$`, render on the server, resume without hydration, and render overlays in place using the browser's native top layer (`<dialog>` and the Popover API).
+- **Works with native forms.** Form controls integrate with [Field](/components/field/) for automatic label, description, and error wiring, and participate in native `<form>` submission.
 
 ## How components are built
 
@@ -34,6 +35,10 @@ Every part accepts the attributes of the element it renders, such as `class`, `s
 ## Status
 
 leve-ui is in the 0.x series. Breaking changes can happen in minor releases (0.1 → 0.2) until 1.0; they are listed in each package's changelog and on [GitHub Releases](https://github.com/leve-ui/leve-ui/releases). leve-ui supports Qwik 1.x.
+
+## Inspirations
+
+The component API design — composable parts, `data-state` styling hooks, and polymorphic `as` props — draws inspiration from [Ark UI](https://ark-ui.com/), [Base UI](https://base-ui.com/), and [Radix UI](https://www.radix-ui.com/), built from the ground up for Qwik's resumability and native web platform features.
 
 ## Next steps
 

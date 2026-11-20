@@ -7,9 +7,13 @@
 
 // Lucide アイコン（@qwikest/icons/lucide）
 export {
+  LuAccessibility,
   LuArrowRight,
+  LuArrowUpRight,
   LuBookOpen,
+  LuBoxes,
   LuCheck,
+  LuChevronDown,
   LuChevronLeft,
   LuChevronRight,
   LuCode2,
@@ -21,6 +25,7 @@ export {
   LuMenu,
   LuMoon,
   LuPackage,
+  LuPaintbrush,
   LuPalette,
   LuSearch,
   LuShieldCheck,
@@ -30,4 +35,5 @@ export {
   LuTerminal,
   LuWorkflow,
   LuX,
+  LuZap,
 } from '@qwikest/icons/lucide';
