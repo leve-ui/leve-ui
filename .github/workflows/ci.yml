@@ -166,8 +166,27 @@ jobs:
             turbo-${{ runner.os }}-build-
       - name: Build Storybook
         run: pnpm turbo run build --filter=@leve-ui/storybook...
+      - name: Get Playwright version
+        id: playwright-version
+        run: echo "version=$(node -p "require('./apps/e2e/node_modules/@playwright/test/package.json').version")" >> "$GITHUB_OUTPUT"
+      - name: Restore Playwright browsers
+        id: playwright-cache
+        uses: actions/cache/restore@v6
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ matrix.project }}-${{ steps.playwright-version.outputs.version }}
       - name: Install Playwright browsers
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
         run: pnpm --filter @leve-ui/e2e exec playwright install --with-deps ${{ matrix.project }}
+      - name: Save Playwright browsers
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v6
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ matrix.project }}-${{ steps.playwright-version.outputs.version }}
+      - name: Install Playwright OS dependencies
+        if: steps.playwright-cache.outputs.cache-hit == 'true'
+        run: pnpm --filter @leve-ui/e2e exec playwright install-deps ${{ matrix.project }}
       - run: pnpm e2e -- --project=${{ matrix.project }}
         env:
           E2E_STATIC: 1
