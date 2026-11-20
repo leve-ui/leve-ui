@@ -18,12 +18,14 @@ import {
   LuPackage,
   LuSun,
   LuX,
+  XIcon,
 } from '../icons';
 import { DocsSearch } from './docs-search';
 
 const GITHUB_URL = 'https://github.com/leve-ui/leve-ui';
 const NPM_URL = 'https://www.npmjs.com/package/@leve-ui/core';
 const STORYBOOK_URL = 'https://storybook.leve-ui.dev';
+const X_URL = 'https://x.com/leve_ui';
 
 const focusRing = {
   _focusVisible: { outline: '2px solid', outlineColor: 'accent-default', outlineOffset: '2px' },
@@ -359,6 +361,15 @@ export const Header = component$(() => {
             class={cx(iconButtonStyles, css({ display: { base: 'none', md: 'inline-flex' } }))}
           >
             <LuBookOpen aria-hidden="true" />
+          </a>
+          <a
+            href={X_URL}
+            target="_blank"
+            rel="noreferrer"
+            aria-label="X (@leve_ui)"
+            class={cx(iconButtonStyles, css({ display: { base: 'none', md: 'inline-flex' } }))}
+          >
+            <XIcon aria-hidden="true" />
           </a>
           <ThemeToggle class={mobileIconStyles} />
         </div>
