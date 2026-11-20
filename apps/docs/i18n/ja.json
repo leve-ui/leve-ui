@@ -14,39 +14,6 @@
       "src/routes/en/(docs)/components/drawer/index.mdx"
     ]
   },
-  "0057ef8d80a3a636": {
-    "source": "Install the all-in-one package:",
-    "translation": "オールインワンパッケージをインストールする場合:",
-    "where": [
-      "src/routes/en/(docs)/components/accordion/index.mdx",
-      "src/routes/en/(docs)/components/alert/index.mdx",
-      "src/routes/en/(docs)/components/avatar/index.mdx",
-      "src/routes/en/(docs)/components/breadcrumb/index.mdx",
-      "src/routes/en/(docs)/components/checkbox/index.mdx",
-      "src/routes/en/(docs)/components/collapsible/index.mdx",
-      "src/routes/en/(docs)/components/combobox/index.mdx",
-      "src/routes/en/(docs)/components/context-menu/index.mdx",
-      "src/routes/en/(docs)/components/dialog/index.mdx",
-      "src/routes/en/(docs)/components/drawer/index.mdx",
-      "src/routes/en/(docs)/components/field/index.mdx",
-      "src/routes/en/(docs)/components/fieldset/index.mdx",
-      "src/routes/en/(docs)/components/hover-card/index.mdx",
-      "src/routes/en/(docs)/components/label/index.mdx",
-      "src/routes/en/(docs)/components/menu/index.mdx",
-      "src/routes/en/(docs)/components/meter/index.mdx",
-      "src/routes/en/(docs)/components/popover/index.mdx",
-      "src/routes/en/(docs)/components/progress/index.mdx",
-      "src/routes/en/(docs)/components/radio-group/index.mdx",
-      "src/routes/en/(docs)/components/separator/index.mdx",
-      "src/routes/en/(docs)/components/switch/index.mdx",
-      "src/routes/en/(docs)/components/tabs/index.mdx",
-      "src/routes/en/(docs)/components/toast/index.mdx",
-      "src/routes/en/(docs)/components/toggle-group/index.mdx",
-      "src/routes/en/(docs)/components/toggle/index.mdx",
-      "src/routes/en/(docs)/components/toolbar/index.mdx",
-      "src/routes/en/(docs)/components/tooltip/index.mdx"
-    ]
-  },
   "00ca7aab37b6c78b": {
     "source": "<x0/> on the Root makes the input required.",
     "translation": "Rootの<x0/>は入力欄を必須にします。",
@@ -80,8 +47,7 @@
     "source": "A stack of headings that each show or hide a section of content.",
     "translation": "コンテンツの各セクションの表示・非表示を切り替える見出しの積み重ね。",
     "where": [
-      "src/routes/en/(docs)/components/accordion/index.mdx",
-      "src/routes/en/(docs)/components/index.mdx"
+      "src/routes/en/(docs)/components/accordion/index.mdx"
     ]
   },
   "02470868fa6fb810": {
@@ -123,7 +89,6 @@
     "source": "A short message that appears for a moment, such as \"Saved\", without interrupting the user.",
     "translation": "ユーザーの操作を妨げることなく、「保存しました」などの短いメッセージを一時的に表示します。",
     "where": [
-      "src/routes/en/(docs)/components/index.mdx",
       "src/routes/en/(docs)/components/toast/index.mdx"
     ]
   },
@@ -184,6 +149,13 @@
       "src/routes/en/(docs)/components/progress/index.mdx"
     ]
   },
+  "057b5de48d7b90f1": {
+    "source": "Minimal",
+    "translation": "ミニマル",
+    "where": [
+      "src/routes/en/index.tsx"
+    ]
+  },
   "057c0a4e87c67438": {
     "source": "Groups the form controls.",
     "translation": "フォームコントロールをグループ化します。",
@@ -225,13 +197,6 @@
       "src/routes/en/(docs)/components/popover/index.mdx"
     ]
   },
-  "06ad3c3d436be459": {
-    "source": "Components that are not displayed on top of other content. Released: Accordion, Alert, Avatar, Breadcrumb, Checkbox, Collapsible, Field, Fieldset, Label, Meter, Progress, Radio Group, Separator, Switch, Tabs, Toggle and Toggle Group.",
-    "translation": "他のコンテンツの上に表示されないコンポーネント。リリース済み: Accordion、Alert、Avatar、Breadcrumb、Checkbox、Collapsible、Field、Fieldset、Label、Meter、Progress、Radio Group、Separator、Switch、Tabs、Toggle、Toggle Group。",
-    "where": [
-      "src/routes/en/(docs)/overview/roadmap/index.mdx"
-    ]
-  },
   "06afb01462763d24": {
     "source": "when you write to the bound signal yourself, and",
     "translation": "バインドされたシグナル自身に手動で書き込んだとき",
@@ -269,6 +234,13 @@
       "props: Tooltip.Content alignOffset"
     ]
   },
+  "087de11becaa1614": {
+    "source": "Package manager",
+    "translation": "パッケージマネージャー",
+    "where": [
+      "src/components/docs/install.tsx"
+    ]
+  },
   "09ab9843b1ba377d": {
     "source": "<x0/> controls the selected value with a signal. The buttons outside the group change it, and setting it to <x1/> clears the selection.",
     "translation": "<x0/>はシグナルで選択された値を制御します。グループ外のボタンで値を変更でき、<x1/>を設定すると選択がクリアされます。",
@@ -281,13 +253,6 @@
     "translation": "<x0/>は、ボタンからではなく、右クリック、<x1/>、または長押しによってポインターの位置にメニューを開きます。<x2>Context Menu</x2>を参照してください。",
     "where": [
       "src/routes/en/(docs)/components/menu/index.mdx"
-    ]
-  },
-  "0a1734d6b3436125": {
-    "source": "<x0>Combobox</x0>",
-    "translation": "<x0>Combobox</x0>",
-    "where": [
-      "src/routes/en/(docs)/components/index.mdx"
     ]
   },
   "0a92e19dcf195490": {
@@ -623,13 +588,6 @@
       "src/routes/en/(docs)/components/collapsible/index.mdx"
     ]
   },
-  "11441994c65d83f4": {
-    "source": "<x0>Field</x0>",
-    "translation": "<x0>Field</x0>",
-    "where": [
-      "src/routes/en/(docs)/components/index.mdx"
-    ]
-  },
   "12610309c86c70d2": {
     "source": "Complies with the <x0>Accordion WAI-ARIA design pattern</x0>.",
     "translation": "<x0>Accordion WAI-ARIAデザインパターン</x0>に準拠しています。",
@@ -713,6 +671,20 @@
     "translation": "<x0/>は<x1/>を描画し、その<x2/>によって名前が付けられます。",
     "where": [
       "src/routes/en/(docs)/components/menu/index.mdx"
+    ]
+  },
+  "14d28c5f848fecbd": {
+    "source": "Install @leve-ui/core, or only the components you use.",
+    "translation": "@leve-ui/coreをインストールするか、使用するコンポーネントのみをインストールします。",
+    "where": [
+      "src/routes/en/index.tsx"
+    ]
+  },
+  "14f34284b05437cd": {
+    "source": "Slider",
+    "translation": "Slider",
+    "where": [
+      "src/routes/en/index.tsx"
     ]
   },
   "151b9d8818d6c78f": {
@@ -1080,13 +1052,6 @@
       "src/routes/en/(docs)/overview/styling/index.mdx"
     ]
   },
-  "1fc924efbacb0681": {
-    "source": "<x0>Collapsible</x0>",
-    "translation": "<x0>Collapsible</x0>",
-    "where": [
-      "src/routes/en/(docs)/components/index.mdx"
-    ]
-  },
   "1ff57a29d7c9d11b": {
     "source": "Next",
     "translation": "次へ",
@@ -1144,25 +1109,11 @@
       "src/routes/en/(docs)/components/menu/index.mdx"
     ]
   },
-  "2216d0ccff989564": {
-    "source": "<x0>Context Menu</x0>",
-    "translation": "<x0>Context Menu</x0>",
-    "where": [
-      "src/routes/en/(docs)/components/index.mdx"
-    ]
-  },
   "226aa2014469cefa": {
     "source": "When the image fails to load, the fallback (here, initials) stays visible.",
     "translation": "画像の読み込みに失敗した場合、フォールバック（ここではイニシャル）が表示されたままになります。",
     "where": [
       "src/routes/en/(docs)/components/avatar/index.mdx"
-    ]
-  },
-  "22809ebfacd09f4c": {
-    "source": "<x0>Hover Card</x0>",
-    "translation": "<x0>Hover Card</x0>",
-    "where": [
-      "src/routes/en/(docs)/components/index.mdx"
     ]
   },
   "22877001200eed0a": {
@@ -1199,11 +1150,39 @@
       "src/routes/en/(docs)/components/tooltip/index.mdx"
     ]
   },
+  "23802ed840216b81": {
+    "source": "ONE COMPONENT, ANY LOOK",
+    "translation": "1つのコンポーネント、自由な見た目",
+    "where": [
+      "src/routes/en/index.tsx"
+    ]
+  },
+  "238ea51c819bce2a": {
+    "source": "WAI-ARIA first",
+    "translation": "WAI-ARIAファースト",
+    "where": [
+      "src/routes/en/index.tsx"
+    ]
+  },
   "23b7d54dea38f915": {
     "source": "The text put in the input when the item is selected, when it differs from the ItemText.",
     "translation": "項目が選択されたときにinputに入力されるテキスト（ItemTextと異なる場合）。",
     "where": [
       "props: Combobox.Item textValue"
+    ]
+  },
+  "23e5a749962f914c": {
+    "source": "Same markup. Your styles.",
+    "translation": "同じマークアップ。自由なスタイル。",
+    "where": [
+      "src/routes/en/index.tsx"
+    ]
+  },
+  "2425bf03253e833c": {
+    "source": "<x0>Built for Qwik and Web standards.</x0> Components are written with <x1/>, render on the server, resume without hydration, and render overlays in place using the browser's native top layer (<x2/> and the Popover API).",
+    "translation": "<x0>QwikとWeb標準向けに構築。</x0>コンポーネントは<x1/>で記述され、サーバー上でレンダリングされ、ハイドレーションなしでレジュームし、ブラウザネイティブのトップレイヤー（<x2/>およびPopover API）を使用してオーバーレイを適切な場所にレンダリングします。",
+    "where": [
+      "src/routes/en/(docs)/overview/introduction/index.mdx"
     ]
   },
   "242af3981322292e": {
@@ -1246,13 +1225,6 @@
     "translation": "<x1/>に<x0/>を指定するとその項目が無効化されます。Rootに<x2/>を指定するとすべての項目が無効化されます。",
     "where": [
       "src/routes/en/(docs)/components/accordion/index.mdx"
-    ]
-  },
-  "253d18e3bce3f471": {
-    "source": "Components displayed on top of other content: Dialog, Drawer, Popover, Tooltip, Hover Card, Menu, Context Menu, Toast and Combobox.",
-    "translation": "他のコンテンツの上に表示されるコンポーネント: Dialog、Drawer、Popover、Tooltip、Hover Card、Menu、Context Menu、Toast、Combobox。",
-    "where": [
-      "src/routes/en/(docs)/overview/roadmap/index.mdx"
     ]
   },
   "254be5788898e48d": {
@@ -1346,13 +1318,6 @@
       "src/routes/en/(docs)/components/alert/index.mdx"
     ]
   },
-  "292a25cf0e542a00": {
-    "source": "<x0>Tabs</x0>",
-    "translation": "<x0>Tabs</x0>",
-    "where": [
-      "src/routes/en/(docs)/components/index.mdx"
-    ]
-  },
   "293f373c4fc954cb": {
     "source": "There is no WAI-ARIA APG pattern for form fields. Field uses the native <x0/>, <x1/> and <x2/> elements, and connects them with <x3/>, <x4/> and <x5/>.",
     "translation": "フォームフィールド用のWAI-ARIA APGパターンはありません。Fieldはネイティブの<x0/>、<x1/>、<x2/>要素を使用し、それらを<x3/>、<x4/>、<x5/>で関連付けます。",
@@ -1379,6 +1344,13 @@
     "translation": "Switch、Checkbox、Radio Groupは、内部パーツをスタイル設定できるように<x0/>（または<x1/>を持つ要素）から構築されています。これらの要素は単体ではネイティブフォームに参加しません。フォーム送信や<x3/>に値を含めるには、<x2/>パートを追加します:",
     "where": [
       "src/routes/en/(docs)/overview/forms/index.mdx"
+    ]
+  },
+  "2a78025de6aae5e7": {
+    "source": "Select",
+    "translation": "Select",
+    "where": [
+      "src/routes/en/index.tsx"
     ]
   },
   "2abf16f53ad6cb19": {
@@ -1443,7 +1415,6 @@
     "source": "A small panel that opens next to a button, such as settings or filters.",
     "translation": "設定やフィルターなど、ボタンの隣に開く小さなパネル。",
     "where": [
-      "src/routes/en/(docs)/components/index.mdx",
       "src/routes/en/(docs)/components/popover/index.mdx"
     ]
   },
@@ -1539,13 +1510,6 @@
       "src/routes/en/(docs)/components/context-menu/index.mdx"
     ]
   },
-  "2f2bb974bba88b94": {
-    "source": "<x0>Separator</x0>",
-    "translation": "<x0>Separator</x0>",
-    "where": [
-      "src/routes/en/(docs)/components/index.mdx"
-    ]
-  },
   "2fbd1b0f1531c2f0": {
     "source": "<x0/> replaces the percentage with a human-readable text, here with <x1/>. It is shown by <x2/> and used as <x3/>.",
     "translation": "<x0/>はパーセンテージを人間が読めるテキストに置き換えます（ここでは<x1/>とともに使用）。<x2/>によって表示され、<x3/>として使用されます。",
@@ -1609,20 +1573,6 @@
       "src/routes/en/(docs)/components/checkbox/index.mdx",
       "src/routes/en/(docs)/components/combobox/index.mdx",
       "src/routes/en/(docs)/components/switch/index.mdx"
-    ]
-  },
-  "3392fd3c92d47989": {
-    "source": "<x0>Fieldset</x0>",
-    "translation": "<x0>Fieldset</x0>",
-    "where": [
-      "src/routes/en/(docs)/components/index.mdx"
-    ]
-  },
-  "33a09c09f30ea3e9": {
-    "source": "<x0>Progress</x0>",
-    "translation": "<x0>Progress</x0>",
-    "where": [
-      "src/routes/en/(docs)/components/index.mdx"
     ]
   },
   "33ba4b8a7464d691": {
@@ -1904,22 +1854,13 @@
     "source": "A line that separates content.",
     "translation": "コンテンツを区切る線です。",
     "where": [
-      "src/routes/en/(docs)/components/index.mdx",
       "src/routes/en/(docs)/components/separator/index.mdx"
-    ]
-  },
-  "3ad296cca09be3f8": {
-    "source": "<x0>Switch</x0>",
-    "translation": "<x0>Switch</x0>",
-    "where": [
-      "src/routes/en/(docs)/components/index.mdx"
     ]
   },
   "3b1a9c30cb4324a1": {
     "source": "A short description that appears when a button is hovered or focused.",
     "translation": "ボタンがホバーまたはフォーカスされたときに表示される短い説明文。",
     "where": [
-      "src/routes/en/(docs)/components/index.mdx",
       "src/routes/en/(docs)/components/tooltip/index.mdx"
     ]
   },
@@ -1927,7 +1868,6 @@
     "source": "A button that is pressed or not pressed.",
     "translation": "押された状態または押されていない状態を持つボタンです。",
     "where": [
-      "src/routes/en/(docs)/components/index.mdx",
       "src/routes/en/(docs)/components/toggle/index.mdx"
     ]
   },
@@ -2002,13 +1942,6 @@
       "src/components/header/header.tsx"
     ]
   },
-  "3df1de47138804d1": {
-    "source": "<x0>Breadcrumb</x0>",
-    "translation": "<x0>Breadcrumb</x0>",
-    "where": [
-      "src/routes/en/(docs)/components/index.mdx"
-    ]
-  },
   "3e03998480d243a8": {
     "source": "API stability",
     "translation": "APIの安定性",
@@ -2019,13 +1952,6 @@
   "3e623b1b6eeb33bc": {
     "source": "All components in leve-ui. Each one is included in <x0/> and is also published as its own package, <x1/>.",
     "translation": "leve-uiの全コンポーネント。各コンポーネントは<x0/>に含まれており、独自のパッケージ<x1/>としても公開されています。",
-    "where": [
-      "src/routes/en/(docs)/components/index.mdx"
-    ]
-  },
-  "3ea651dec60d204d": {
-    "source": "<x0>Meter</x0>",
-    "translation": "<x0>Meter</x0>",
     "where": [
       "src/routes/en/(docs)/components/index.mdx"
     ]
@@ -2058,20 +1984,6 @@
       "src/routes/en/(docs)/components/checkbox/index.mdx"
     ]
   },
-  "3f5bd143d60ad797": {
-    "source": "<x0>Toggle Group</x0>",
-    "translation": "<x0>Toggle Group</x0>",
-    "where": [
-      "src/routes/en/(docs)/components/index.mdx"
-    ]
-  },
-  "3f8d260796b6ebb7": {
-    "source": "<x0>Alert</x0>",
-    "translation": "<x0>Alert</x0>",
-    "where": [
-      "src/routes/en/(docs)/components/index.mdx"
-    ]
-  },
   "3fd4a5a882c2b138": {
     "source": "Closes the toast.",
     "translation": "トーストを閉じます。",
@@ -2083,7 +1995,6 @@
     "source": "A set of options where only one can be selected.",
     "translation": "1つだけ選択できる選択肢のセットです。",
     "where": [
-      "src/routes/en/(docs)/components/index.mdx",
       "src/routes/en/(docs)/components/radio-group/index.mdx"
     ]
   },
@@ -2326,6 +2237,13 @@
     "translation": "Provider",
     "where": [
       "src/routes/en/(docs)/components/toast/index.mdx"
+    ]
+  },
+  "4757aa9c08d2d70c": {
+    "source": "Built for Qwik",
+    "translation": "Qwik向けに構築",
+    "where": [
+      "src/routes/en/index.tsx"
     ]
   },
   "478c7cfc4d9147c0": {
@@ -2733,7 +2651,6 @@
       "src/routes/en/(docs)/components/field/index.mdx",
       "src/routes/en/(docs)/components/fieldset/index.mdx",
       "src/routes/en/(docs)/components/hover-card/index.mdx",
-      "src/routes/en/(docs)/components/index.mdx",
       "src/routes/en/(docs)/components/label/index.mdx",
       "src/routes/en/(docs)/components/menu/index.mdx",
       "src/routes/en/(docs)/components/meter/index.mdx",
@@ -2812,6 +2729,13 @@
     "translation": "選択された値は<x0/>で非制御、または<x1/>で制御されます。ユーザーが値を選択すると<x2/>が呼び出されます。<x3/>は<x4/>と<x5/>のみを変更します。どちらの向きでも4つの矢印キーすべてで選択を移動できます。",
     "where": [
       "src/routes/en/(docs)/components/radio-group/index.mdx"
+    ]
+  },
+  "55656b5e434f4c06": {
+    "source": "Close search",
+    "translation": "検索を閉じる",
+    "where": [
+      "src/components/header/docs-search.tsx"
     ]
   },
   "55681eaef1fb36dd": {
@@ -2928,6 +2852,13 @@
       "src/routes/en/(docs)/components/menu/index.mdx"
     ]
   },
+  "5881505d972fa2e3": {
+    "source": "Segmented toggle",
+    "translation": "セグメントトグル",
+    "where": [
+      "src/routes/en/index.tsx"
+    ]
+  },
   "589e874c35638f21": {
     "source": "Fieldset has no keyboard interaction of its own.",
     "translation": "Fieldset自体にはキーボード操作はありません。",
@@ -2962,6 +2893,13 @@
     "translation": "無効化されたアイテム",
     "where": [
       "src/routes/en/(docs)/components/radio-group/index.mdx"
+    ]
+  },
+  "5939de776bc45cd5": {
+    "source": "Components that are not displayed on top of other content. Implemented: Accordion, Alert, Avatar, Breadcrumb, Checkbox, Collapsible, Field, Fieldset, Label, Meter, Progress, Radio Group, Separator, Switch, Tabs, Toggle, Toggle Group and Toolbar.",
+    "translation": "他のコンテンツの上に重ねて表示されないコンポーネント。実装済み: Accordion、Alert、Avatar、Breadcrumb、Checkbox、Collapsible、Field、Fieldset、Label、Meter、Progress、Radio Group、Separator、Switch、Tabs、Toggle、Toggle Group、Toolbar。",
+    "where": [
+      "src/routes/en/(docs)/overview/roadmap/index.mdx"
     ]
   },
   "597d0213239bcf36": {
@@ -3006,6 +2944,13 @@
       "src/routes/en/(docs)/overview/forms/index.mdx"
     ]
   },
+  "59de121db1b8145e": {
+    "source": "Package",
+    "translation": "パッケージ",
+    "where": [
+      "src/components/docs/install.tsx"
+    ]
+  },
   "59e676430023fc54": {
     "source": "The toasts are kept in a signal in the Provider's context, not in a module variable: each request on the server has its own toasts, and a toast added on the server shows up on the client.",
     "translation": "トーストはモジュール変数ではなくProviderのコンテキスト内のシグナルで保持されます。サーバー上の各リクエストが独自のトーストを持ち、サーバーで追加されたトーストがクライアントに表示されます。",
@@ -3034,6 +2979,13 @@
       "src/routes/en/(docs)/components/accordion/index.mdx"
     ]
   },
+  "5a8e64c1deda8004": {
+    "source": "The component API design — composable parts, <x0/> styling hooks, and polymorphic <x1/> props — draws inspiration from <x2>Ark UI</x2>, <x3>Base UI</x3>, and <x4>Radix UI</x4>, built from the ground up for Qwik's resumability and native web platform features.",
+    "translation": "合成可能なパーツ、<x0/>スタイリングフック、ポリモーフィックな<x1/> propsといったコンポーネントのAPI設計は、<x2>Ark UI</x2>、<x3>Base UI</x3>、<x4>Radix UI</x4>からインスピレーションを得ており、Qwikの再開可能性（resumability）とネイティブWebプラットフォーム機能のためにゼロから構築されています。",
+    "where": [
+      "src/routes/en/(docs)/overview/introduction/index.mdx"
+    ]
+  },
   "5abbf5c43ecca234": {
     "source": "Hides the card. Focus stays on the link.",
     "translation": "カードを非表示にします。フォーカスはリンクにとどまります。",
@@ -3060,13 +3012,6 @@
     "translation": "ポップオーバーの外側をクリックするか、Tabでフォーカスを外に出すとポップオーバーが閉じ、フォーカスはユーザーが移動した場所にとどまります。",
     "where": [
       "src/routes/en/(docs)/components/popover/index.mdx"
-    ]
-  },
-  "5cf4756e74343e7d": {
-    "source": "<x0>Accessible.</x0> Every component follows the <x1>WAI-ARIA Authoring Practices Guide</x1> (APG), including keyboard interaction and focus management. Native HTML elements are used wherever they fit.",
-    "translation": "<x0>アクセシブル。</x0>キーボード操作やフォーカス管理を含め、すべてのコンポーネントが<x1>WAI-ARIA Authoring Practices Guide</x1>（APG）に準拠しています。適合する箇所にはネイティブHTML要素が使用されます。",
-    "where": [
-      "src/routes/en/(docs)/overview/introduction/index.mdx"
     ]
   },
   "5d1e9bb92c2913ac": {
@@ -3101,7 +3046,6 @@
     "source": "The progress of a task, determinate or indeterminate.",
     "translation": "タスクの進行状況（確定または不確定）です。",
     "where": [
-      "src/routes/en/(docs)/components/index.mdx",
       "src/routes/en/(docs)/components/progress/index.mdx"
     ]
   },
@@ -3126,6 +3070,13 @@
       "src/routes/en/(docs)/components/label/index.mdx"
     ]
   },
+  "5ef639cb5c847fbd": {
+    "source": "v<x0/> — <x1/> components, pre-1.0",
+    "translation": "v<x0/> — <x1/>個のコンポーネント、pre-1.0",
+    "where": [
+      "src/routes/en/index.tsx"
+    ]
+  },
   "5f0d75f08d5a8dc2": {
     "source": "Present when the Field is invalid",
     "translation": "Fieldが無効な場合に存在",
@@ -3140,6 +3091,13 @@
     "translation": "複数行のコントロール。",
     "where": [
       "src/routes/en/(docs)/components/field/index.mdx"
+    ]
+  },
+  "5f59a48917661077": {
+    "source": "<x0>Works with native forms.</x0> Form controls integrate with <x1>Field</x1> for automatic label, description, and error wiring, and participate in native <x2/> submission.",
+    "translation": "<x0>ネイティブフォームに対応。</x0>フォームコントロールは<x1>Field</x1>と統合してラベル、説明、エラーの自動関連付けを行い、ネイティブな<x2/>の送信に参加します。",
+    "where": [
+      "src/routes/en/(docs)/overview/introduction/index.mdx"
     ]
   },
   "5f66d7d7817c7399": {
@@ -3245,6 +3203,13 @@
     "translation": "トーストをスワイプして閉じる方向。デフォルトは配置位置の最も近い端です。",
     "where": [
       "props: Toast.Provider swipeDirection"
+    ]
+  },
+  "6321e5a7fd0928ee": {
+    "source": "Roles, states, keyboard and focus follow the APG. Verified with E2E tests.",
+    "translation": "ロール、状態、キーボード、フォーカスはAPGに準拠。E2Eテストで検証済み。",
+    "where": [
+      "src/routes/en/index.tsx"
     ]
   },
   "63487592aa1ff25f": {
@@ -3483,8 +3448,7 @@
     "source": "A message that draws attention without interrupting the user.",
     "translation": "ユーザーの邪魔をせずに注意を引くメッセージ。",
     "where": [
-      "src/routes/en/(docs)/components/alert/index.mdx",
-      "src/routes/en/(docs)/components/index.mdx"
+      "src/routes/en/(docs)/components/alert/index.mdx"
     ]
   },
   "6949205c89bb839c": {
@@ -3551,6 +3515,13 @@
     "translation": "<x0/>は行内のアイテムを区切ります。",
     "where": [
       "src/routes/en/(docs)/components/separator/index.mdx"
+    ]
+  },
+  "6aaec85c8d717b4a": {
+    "source": "26 components, more on the way",
+    "translation": "26のコンポーネント、さらに追加予定",
+    "where": [
+      "src/routes/en/index.tsx"
     ]
   },
   "6ad2b0ef9f47a790": {
@@ -3648,7 +3619,6 @@
     "source": "A label for a form control.",
     "translation": "フォームコントロールのラベルです。",
     "where": [
-      "src/routes/en/(docs)/components/index.mdx",
       "src/routes/en/(docs)/components/label/index.mdx"
     ]
   },
@@ -3751,6 +3721,13 @@
     "translation": "有効な最初の項目にフォーカスを移動して選択します。",
     "where": [
       "src/routes/en/(docs)/components/radio-group/index.mdx"
+    ]
+  },
+  "71e608ed02726dab": {
+    "source": "<x0>Accessible.</x0> Every component follows the <x1>WAI-ARIA Authoring Practices Guide</x1> (APG), including keyboard interaction and focus management, verified with E2E tests. Native HTML elements are used wherever they fit.",
+    "translation": "<x0>アクセシブル。</x0>すべてのコンポーネントは、キーボード操作やフォーカス管理を含め、<x1>WAI-ARIA Authoring Practices Guide</x1>（APG）に準拠しており、E2Eテストで検証されています。適切な場所にはネイティブのHTML要素が使用されています。",
+    "where": [
+      "src/routes/en/(docs)/overview/introduction/index.mdx"
     ]
   },
   "71feaf91b9f18e5e": {
@@ -3958,6 +3935,13 @@
       "src/routes/en/(docs)/components/tooltip/index.mdx"
     ]
   },
+  "788011833a5a0f22": {
+    "source": "Notifications",
+    "translation": "通知",
+    "where": [
+      "src/routes/en/index.tsx"
+    ]
+  },
   "788d9a675f766375": {
     "source": "There is no WAI-ARIA APG pattern for progress bars. Progress renders a <x0/> with the <x2><x1/> role</x2>. Use <x3>Meter</x3> for a value that goes up and down within a range, such as disk usage.",
     "translation": "プログレスバー用のWAI-ARIA APGパターンはありません。Progressは<x2><x1/>ロール</x2>を持つ<x0/>を描画します。ディスク使用量など、範囲内で上下する値には<x3>Meter</x3>を使用してください。",
@@ -4097,6 +4081,13 @@
       "src/routes/en/(docs)/components/toggle/index.mdx",
       "src/routes/en/(docs)/components/toolbar/index.mdx",
       "src/routes/en/(docs)/components/tooltip/index.mdx"
+    ]
+  },
+  "7d7e360586090927": {
+    "source": "No results found",
+    "translation": "結果が見つかりませんでした",
+    "where": [
+      "src/components/header/docs-search.tsx"
     ]
   },
   "7d85ce1828cd4bf2": {
@@ -4269,13 +4260,6 @@
       "props: Combobox.Content side"
     ]
   },
-  "82f342744cc6f53f": {
-    "source": "<x0>Drawer</x0>",
-    "translation": "<x0>Drawer</x0>",
-    "where": [
-      "src/routes/en/(docs)/components/index.mdx"
-    ]
-  },
   "831d0f72d242b7d1": {
     "source": "Getting started",
     "translation": "はじめに",
@@ -4298,11 +4282,11 @@
       "src/routes/en/(docs)/components/radio-group/index.mdx"
     ]
   },
-  "8449a206110c6b85": {
-    "source": "<x0>Radio Group</x0>",
-    "translation": "<x0>Radio Group</x0>",
+  "844c086de4c01873": {
+    "source": "See the roadmap",
+    "translation": "ロードマップを見る",
     "where": [
-      "src/routes/en/(docs)/components/index.mdx"
+      "src/routes/en/index.tsx"
     ]
   },
   "847e452fcab7d6e2": {
@@ -4705,6 +4689,13 @@
       "src/routes/en/(docs)/components/alert/index.mdx"
     ]
   },
+  "8fa9438d35714cc9": {
+    "source": "Brutalist",
+    "translation": "ブルータリスト",
+    "where": [
+      "src/routes/en/index.tsx"
+    ]
+  },
   "9001f6eb9a64beeb": {
     "source": "Whether the drawer is open initially (uncontrolled). The drawer opens when the page resumes, since it is shown from the client.",
     "translation": "ドロワーを初期状態で開いておくかどうか（非制御）。クライアント側から表示されるため、ページがレジュームしたときにドロワーが開きます。",
@@ -4772,6 +4763,7 @@
     "source": "Roadmap",
     "translation": "ロードマップ",
     "where": [
+      "src/components/header/header.tsx",
       "src/docs-nav.ts",
       "src/routes/en/(docs)/overview/roadmap/index.mdx"
     ]
@@ -4797,6 +4789,40 @@
     "translation": "その他のパーツは<x0>Menu</x0>と同じです。Root内では<x1/>または<x2/>のいずれか一方のみを使用し、両方は使用しないでください。",
     "where": [
       "src/routes/en/(docs)/components/context-menu/index.mdx"
+    ]
+  },
+  "9291477bda675705": {
+    "source": "Install the individual package, or use <x0/> to get every component at once:",
+    "translation": "個別のパッケージをインストールするか、<x0/>を使用してすべてのコンポーネントを一度に取得します。",
+    "where": [
+      "src/routes/en/(docs)/components/accordion/index.mdx",
+      "src/routes/en/(docs)/components/alert/index.mdx",
+      "src/routes/en/(docs)/components/avatar/index.mdx",
+      "src/routes/en/(docs)/components/breadcrumb/index.mdx",
+      "src/routes/en/(docs)/components/checkbox/index.mdx",
+      "src/routes/en/(docs)/components/collapsible/index.mdx",
+      "src/routes/en/(docs)/components/combobox/index.mdx",
+      "src/routes/en/(docs)/components/context-menu/index.mdx",
+      "src/routes/en/(docs)/components/dialog/index.mdx",
+      "src/routes/en/(docs)/components/drawer/index.mdx",
+      "src/routes/en/(docs)/components/field/index.mdx",
+      "src/routes/en/(docs)/components/fieldset/index.mdx",
+      "src/routes/en/(docs)/components/hover-card/index.mdx",
+      "src/routes/en/(docs)/components/label/index.mdx",
+      "src/routes/en/(docs)/components/menu/index.mdx",
+      "src/routes/en/(docs)/components/meter/index.mdx",
+      "src/routes/en/(docs)/components/popover/index.mdx",
+      "src/routes/en/(docs)/components/progress/index.mdx",
+      "src/routes/en/(docs)/components/radio-group/index.mdx",
+      "src/routes/en/(docs)/components/separator/index.mdx",
+      "src/routes/en/(docs)/components/switch/index.mdx",
+      "src/routes/en/(docs)/components/tabs/index.mdx",
+      "src/routes/en/(docs)/components/toast/index.mdx",
+      "src/routes/en/(docs)/components/toggle-group/index.mdx",
+      "src/routes/en/(docs)/components/toggle/index.mdx",
+      "src/routes/en/(docs)/components/toolbar/index.mdx",
+      "src/routes/en/(docs)/components/tooltip/index.mdx",
+      "src/routes/en/(docs)/overview/getting-started/index.mdx"
     ]
   },
   "93072eb4dd96e591": {
@@ -4925,12 +4951,18 @@
       "src/routes/en/(docs)/components/avatar/index.mdx"
     ]
   },
+  "983f311018642b0a": {
+    "source": "Get Started",
+    "translation": "はじめる",
+    "where": [
+      "src/routes/en/index.tsx"
+    ]
+  },
   "987f3c265722e84f": {
     "source": "<x0>Dialog</x0>",
     "translation": "<x0>Dialog</x0>",
     "where": [
-      "src/routes/en/(docs)/components/drawer/index.mdx",
-      "src/routes/en/(docs)/components/index.mdx"
+      "src/routes/en/(docs)/components/drawer/index.mdx"
     ]
   },
   "98934d1067fe3eca": {
@@ -5054,8 +5086,7 @@
     "source": "A text input with a list of suggestions to pick from, such as a searchable select.",
     "translation": "検索可能なセレクトなど、候補リストから選択できるテキスト入力です。",
     "where": [
-      "src/routes/en/(docs)/components/combobox/index.mdx",
-      "src/routes/en/(docs)/components/index.mdx"
+      "src/routes/en/(docs)/components/combobox/index.mdx"
     ]
   },
   "9b8d43554c0d6c65": {
@@ -5069,8 +5100,7 @@
     "source": "Connects a label, description and error message to a form control.",
     "translation": "ラベル、説明、エラーメッセージをフォームコントロールに関連付けます。",
     "where": [
-      "src/routes/en/(docs)/components/field/index.mdx",
-      "src/routes/en/(docs)/components/index.mdx"
+      "src/routes/en/(docs)/components/field/index.mdx"
     ]
   },
   "9c37245cfdda3f49": {
@@ -5173,13 +5203,6 @@
       "src/routes/en/(docs)/overview/getting-started/index.mdx"
     ]
   },
-  "9ee2d2d2feec744d": {
-    "source": "<x0>Toolbar</x0>",
-    "translation": "<x0>Toolbar</x0>",
-    "where": [
-      "src/routes/en/(docs)/components/index.mdx"
-    ]
-  },
   "9ef7091d627a301b": {
     "source": "leve-ui home",
     "translation": "leve-uiホーム",
@@ -5279,8 +5302,7 @@
     "source": "A panel that slides in from an edge of the screen, such as a detail panel.",
     "translation": "詳細パネルのように、画面の端からスライドして表示されるパネル。",
     "where": [
-      "src/routes/en/(docs)/components/drawer/index.mdx",
-      "src/routes/en/(docs)/components/index.mdx"
+      "src/routes/en/(docs)/components/drawer/index.mdx"
     ]
   },
   "a0fffb05b8b11404": {
@@ -5426,20 +5448,6 @@
       "src/components/header/header.tsx"
     ]
   },
-  "a52d41916971df6d": {
-    "source": "<x0>Label</x0>",
-    "translation": "<x0>Label</x0>",
-    "where": [
-      "src/routes/en/(docs)/components/index.mdx"
-    ]
-  },
-  "a562747ac8af59d1": {
-    "source": "Planned: Toolbar.",
-    "translation": "予定: Toolbar。",
-    "where": [
-      "src/routes/en/(docs)/overview/roadmap/index.mdx"
-    ]
-  },
   "a5660f5c99f8a532": {
     "source": "The <x0/> value",
     "translation": "<x0/>の値",
@@ -5501,8 +5509,7 @@
     "source": "<x0>Popover</x0>",
     "translation": "<x0>Popover</x0>",
     "where": [
-      "src/routes/en/(docs)/components/hover-card/index.mdx",
-      "src/routes/en/(docs)/components/index.mdx"
+      "src/routes/en/(docs)/components/hover-card/index.mdx"
     ]
   },
   "a6a32dbc5618ea39": {
@@ -5660,11 +5667,17 @@
       "src/routes/en/(docs)/overview/roadmap/index.mdx"
     ]
   },
+  "acf4433a2a7a9f84": {
+    "source": "Inspirations",
+    "translation": "インスピレーション",
+    "where": [
+      "src/routes/en/(docs)/overview/introduction/index.mdx"
+    ]
+  },
   "ad7518ad784dbd49": {
     "source": "A control that turns an option on or off.",
     "translation": "オプションのオン・オフを切り替えるコントロールです。",
     "where": [
-      "src/routes/en/(docs)/components/index.mdx",
       "src/routes/en/(docs)/components/switch/index.mdx"
     ]
   },
@@ -5694,13 +5707,6 @@
     "translation": "アイテムを無効にします。サブメニューを開くことができなくなり、矢印キーでスキップされます。",
     "where": [
       "props: Menu.SubTrigger disabled"
-    ]
-  },
-  "ae6c8f4bac8fe667": {
-    "source": "<x0>Toast</x0>",
-    "translation": "<x0>Toast</x0>",
-    "where": [
-      "src/routes/en/(docs)/components/index.mdx"
     ]
   },
   "aeb9a51948c06cb0": {
@@ -5736,6 +5742,13 @@
     "translation": "<x0>スタイルなし。</x0>コンポーネントはCSSを提供しません。各DOM要素は独立したパーツとなっており、クラスまたはライブラリが出力する<x1/>属性でスタイルを適用できます。",
     "where": [
       "src/routes/en/(docs)/overview/introduction/index.mdx"
+    ]
+  },
+  "b060734b69a5a115": {
+    "source": "Headless UI for Qwik",
+    "translation": "Qwik向けヘッドレスUI",
+    "where": [
+      "src/routes/en/index.tsx"
     ]
   },
   "b07f3926a4c3669e": {
@@ -5911,13 +5924,6 @@
       "src/routes/en/(docs)/overview/accessibility/index.mdx"
     ]
   },
-  "b5bf739898ed81dd": {
-    "source": "<x0>Built for Qwik.</x0> Components are written with <x1/>, render on the server, and resume without hydration.",
-    "translation": "<x0>Qwik向けに構築。</x0>コンポーネントは<x1/>で作成されており、サーバーで描画され、ハイドレーションなしで再開（resume）します。",
-    "where": [
-      "src/routes/en/(docs)/overview/introduction/index.mdx"
-    ]
-  },
   "b605350bc0020952": {
     "source": "Introduction",
     "translation": "導入",
@@ -5944,8 +5950,7 @@
     "source": "A menu of actions that opens at the pointer on right click or long press.",
     "translation": "右クリックまたは長押しでポインターの位置に開くアクションメニューです。",
     "where": [
-      "src/routes/en/(docs)/components/context-menu/index.mdx",
-      "src/routes/en/(docs)/components/index.mdx"
+      "src/routes/en/(docs)/components/context-menu/index.mdx"
     ]
   },
   "b6419e1aa40059df": {
@@ -5987,8 +5992,7 @@
     "source": "A control that is checked, unchecked, or mixed.",
     "translation": "チェックされている、チェックされていない、または不確定なコントロール。",
     "where": [
-      "src/routes/en/(docs)/components/checkbox/index.mdx",
-      "src/routes/en/(docs)/components/index.mdx"
+      "src/routes/en/(docs)/components/checkbox/index.mdx"
     ]
   },
   "b7df0b84786060b1": {
@@ -6124,8 +6128,7 @@
     "source": "A button that shows or hides a section of content.",
     "translation": "コンテンツのセクションを表示または非表示にするボタン。",
     "where": [
-      "src/routes/en/(docs)/components/collapsible/index.mdx",
-      "src/routes/en/(docs)/components/index.mdx"
+      "src/routes/en/(docs)/components/collapsible/index.mdx"
     ]
   },
   "bb9a52057944ea1a": {
@@ -6146,8 +6149,7 @@
     "source": "The path to the current page in the site hierarchy.",
     "translation": "サイト階層内の現在のページへのパス。",
     "where": [
-      "src/routes/en/(docs)/components/breadcrumb/index.mdx",
-      "src/routes/en/(docs)/components/index.mdx"
+      "src/routes/en/(docs)/components/breadcrumb/index.mdx"
     ]
   },
   "bdaca0b0caf65cd7": {
@@ -6339,26 +6341,11 @@
       "src/routes/en/(docs)/components/meter/index.mdx"
     ]
   },
-  "c2aeaadea876e360": {
-    "source": "<x0>Avatar</x0>",
-    "translation": "<x0>Avatar</x0>",
-    "where": [
-      "src/routes/en/(docs)/components/index.mdx"
-    ]
-  },
   "c2b3d8cba36648f3": {
     "source": "A set of toggle buttons, single or multiple selection.",
     "translation": "単一または複数選択可能なトグルボタンのセットです。",
     "where": [
-      "src/routes/en/(docs)/components/index.mdx",
       "src/routes/en/(docs)/components/toggle-group/index.mdx"
-    ]
-  },
-  "c2e1bee8a3681ed1": {
-    "source": "<x0>Menu</x0>",
-    "translation": "<x0>Menu</x0>",
-    "where": [
-      "src/routes/en/(docs)/components/index.mdx"
     ]
   },
   "c2e36fded91dd07b": {
@@ -6620,8 +6607,14 @@
     "source": "A list of actions that opens from a button.",
     "translation": "ボタンから開くアクションのリスト。",
     "where": [
-      "src/routes/en/(docs)/components/index.mdx",
       "src/routes/en/(docs)/components/menu/index.mdx"
+    ]
+  },
+  "c92131c337ead5bd": {
+    "source": "Inputs, collections and date pickers are next on the roadmap.",
+    "translation": "入力、コレクション、日付ピッカーがロードマップの次に予定されています。",
+    "where": [
+      "src/routes/en/index.tsx"
     ]
   },
   "c9eab29c97b914ff": {
@@ -6673,6 +6666,13 @@
     "translation": "個別パッケージを使用すると、使用しないコンポーネントを依存関係から除外できます。これは、leve-uiを別のコンポーネントライブラリと組み合わせる際に便利です。",
     "where": [
       "src/routes/en/(docs)/overview/getting-started/index.mdx"
+    ]
+  },
+  "cb6559b28f5f5d52": {
+    "source": "Components displayed on top of other content. Implemented: Dialog, Drawer, Popover, Tooltip, Hover Card, Menu, Context Menu, Toast and Combobox.",
+    "translation": "他のコンテンツの上に重ねて表示されるコンポーネント。実装済み: Dialog、Drawer、Popover、Tooltip、Hover Card、Menu、Context Menu、Toast、Combobox。",
+    "where": [
+      "src/routes/en/(docs)/overview/roadmap/index.mdx"
     ]
   },
   "cb74ec8f4dbc348f": {
@@ -6774,13 +6774,6 @@
       "src/routes/en/(docs)/components/breadcrumb/index.mdx"
     ]
   },
-  "ce54f0e22dbb39de": {
-    "source": "Component",
-    "translation": "コンポーネント",
-    "where": [
-      "src/routes/en/(docs)/components/index.mdx"
-    ]
-  },
   "cef7f5408003b129": {
     "source": "Moves focus to the next enabled item and selects it. Wraps to the first item when <x0/> is <x1/>.",
     "translation": "フォーカスを次の有効なアイテムに移動して選択します。<x0/>が<x1/>の場合、最初のアイテムに折り返します。",
@@ -6793,6 +6786,13 @@
     "translation": "いいえ。<x0/>のように各コンポーネントが個別のパッケージになっているため、使用するコンポーネントのみをインストールできます。単一の依存関係を希望する場合は、<x1/>がすべてのコンポーネントを再エクスポートしています。どちらも同じAPIを公開しています。<x2>はじめに</x2>を参照してください。",
     "where": [
       "src/routes/en/(docs)/overview/faq/index.mdx"
+    ]
+  },
+  "cf0ee3547a4e51a5": {
+    "source": "Soon",
+    "translation": "近日公開",
+    "where": [
+      "src/routes/en/index.tsx"
     ]
   },
   "cf1c0654012be52b": {
@@ -7024,12 +7024,18 @@
       "src/docs-nav.ts"
     ]
   },
+  "d52bc67e36d17c8e": {
+    "source": "Install only what you use",
+    "translation": "使うものだけをインストール",
+    "where": [
+      "src/routes/en/index.tsx"
+    ]
+  },
   "d535fe6561189ca4": {
     "source": "Groups related form controls under a legend.",
     "translation": "関連するフォームコントロールをlegendの下にグループ化します。",
     "where": [
-      "src/routes/en/(docs)/components/fieldset/index.mdx",
-      "src/routes/en/(docs)/components/index.mdx"
+      "src/routes/en/(docs)/components/fieldset/index.mdx"
     ]
   },
   "d5698f5438e17f30": {
@@ -7092,11 +7098,26 @@
       "src/components/header/header.tsx"
     ]
   },
+  "d71a0c697cce8711": {
+    "source": "Segmented",
+    "translation": "セグメント",
+    "where": [
+      "src/routes/en/index.tsx"
+    ]
+  },
   "d745ac74dc538f37": {
     "source": "<x0/> renders <x1/> and <x2/>, so it is not read and not counted as a list item.",
     "translation": "<x0/>は<x1/>および<x2/>をレンダリングするため、読み上げられず、リストアイテムとしてもカウントされません。",
     "where": [
       "src/routes/en/(docs)/components/breadcrumb/index.mdx"
+    ]
+  },
+  "d8222d32399e064b": {
+    "source": "Copy install command",
+    "translation": "インストールコマンドをコピー",
+    "where": [
+      "src/components/docs/install.tsx",
+      "src/routes/en/index.tsx"
     ]
   },
   "d86914143eec5e29": {
@@ -7150,13 +7171,6 @@
       "src/routes/en/(docs)/components/toggle/index.mdx"
     ]
   },
-  "d9cd22525b2fdba0": {
-    "source": "<x0>Toggle</x0>",
-    "translation": "<x0>Toggle</x0>",
-    "where": [
-      "src/routes/en/(docs)/components/index.mdx"
-    ]
-  },
   "d9e0b6d5e147e35c": {
     "source": "The text used by typeahead, when the item's text content is not suitable.",
     "translation": "アイテムのテキストコンテンツが適切でない場合に、先行入力（typeahead）で使用されるテキスト。",
@@ -7171,8 +7185,7 @@
     "source": "<x0>Tooltip</x0>",
     "translation": "<x0>Tooltip</x0>",
     "where": [
-      "src/routes/en/(docs)/components/hover-card/index.mdx",
-      "src/routes/en/(docs)/components/index.mdx"
+      "src/routes/en/(docs)/components/hover-card/index.mdx"
     ]
   },
   "d9f7aff55ea5b1e4": {
@@ -7224,13 +7237,6 @@
       "src/routes/en/(docs)/overview/accessibility/index.mdx"
     ]
   },
-  "db2b40bdc5f70045": {
-    "source": "A value within a known range, such as disk usage.",
-    "translation": "ディスク使用量など、既知の範囲内の値です。",
-    "where": [
-      "src/routes/en/(docs)/components/index.mdx"
-    ]
-  },
   "db424cbd19d1e4f3": {
     "source": "In a horizontal toolbar, moves focus to the next / previous item. Wraps around when <x0/> is <x1/>.",
     "translation": "水平ツールバーにおいて、次または前のアイテムにフォーカスを移動します。<x0/>が<x1/>の場合は最初または最後へ循環します。",
@@ -7260,6 +7266,13 @@
       "src/routes/en/(docs)/components/combobox/index.mdx"
     ]
   },
+  "dc100396ee4e8b83": {
+    "source": "Unstyled",
+    "translation": "スタイルなし",
+    "where": [
+      "src/routes/en/index.tsx"
+    ]
+  },
   "dc2d15dddfd06239": {
     "source": "Other leve-ui form controls, such as <x0>Checkbox</x0>, also read the Field and can be used instead of <x1/>.",
     "translation": "<x0>Checkbox</x0>などの他のleve-uiフォームコントロールもFieldの情報を読み取り、<x1/>の代わりに使用できます。",
@@ -7271,8 +7284,7 @@
     "source": "A modal window that asks the user for input or a decision.",
     "translation": "ユーザーに入力や決定を求めるモーダルウィンドウです。",
     "where": [
-      "src/routes/en/(docs)/components/dialog/index.mdx",
-      "src/routes/en/(docs)/components/index.mdx"
+      "src/routes/en/(docs)/components/dialog/index.mdx"
     ]
   },
   "dc937b59892604f5": {
@@ -7302,7 +7314,6 @@
     "source": "Layered panels of content, one shown at a time.",
     "translation": "一度に1つずつ表示される、コンテンツのレイヤー化されたパネルです。",
     "where": [
-      "src/routes/en/(docs)/components/index.mdx",
       "src/routes/en/(docs)/components/tabs/index.mdx"
     ]
   },
@@ -7318,13 +7329,6 @@
     "translation": "<x0/>を指定すると、複数の項目を同時に開くことができます。",
     "where": [
       "src/routes/en/(docs)/components/accordion/index.mdx"
-    ]
-  },
-  "de85829638dcc31b": {
-    "source": "Install the components you need, one package per component:",
-    "translation": "必要なコンポーネントをコンポーネントごとに1つのパッケージとしてインストールします:",
-    "where": [
-      "src/routes/en/(docs)/overview/getting-started/index.mdx"
     ]
   },
   "de989e915554d7a9": {
@@ -7388,8 +7392,7 @@
     "source": "A preview of a link's content, shown when the link is hovered or focused.",
     "translation": "リンクがホバーまたはフォーカスされたときに表示される、リンク先コンテンツのプレビュー。",
     "where": [
-      "src/routes/en/(docs)/components/hover-card/index.mdx",
-      "src/routes/en/(docs)/components/index.mdx"
+      "src/routes/en/(docs)/components/hover-card/index.mdx"
     ]
   },
   "e08e5f4d68faf6c3": {
@@ -7418,6 +7421,13 @@
     "translation": "スクリーンリーダーによって読み上げられるライブリージョン（<x0/>）であるかどうか。最初からページ上にある通知の場合は<x1/>に設定し、通常のコンテンツとして読み上げられるようにします。",
     "where": [
       "props: Alert.Root live"
+    ]
+  },
+  "e0edddf3287377ed": {
+    "source": "Resumable, SSR-safe ids, native top-layer overlays, and bind: signals.",
+    "translation": "レジューム可能、SSRセーフなID、ネイティブなトップレイヤーオーバーレイ、bind:シグナル。",
+    "where": [
+      "src/routes/en/index.tsx"
     ]
   },
   "e15ac681b6e14825": {
@@ -7513,7 +7523,7 @@
     "source": "Search docs",
     "translation": "ドキュメントを検索",
     "where": [
-      "src/components/header/header.tsx"
+      "src/components/header/docs-search.tsx"
     ]
   },
   "e32b8be3596a9053": {
@@ -7698,6 +7708,13 @@
       "src/routes/en/(docs)/components/combobox/index.mdx"
     ]
   },
+  "e96b7c96c4c225f2": {
+    "source": "Date Picker",
+    "translation": "Date Picker",
+    "where": [
+      "src/routes/en/index.tsx"
+    ]
+  },
   "e96ca4c0ea062a6c": {
     "source": "Classes and other attributes",
     "translation": "クラスとその他の属性",
@@ -7710,6 +7727,13 @@
     "translation": "leve-uiが処理すること",
     "where": [
       "src/routes/en/(docs)/overview/accessibility/index.mdx"
+    ]
+  },
+  "e978b00de465a271": {
+    "source": "Search results",
+    "translation": "検索結果",
+    "where": [
+      "src/components/header/docs-search.tsx"
     ]
   },
   "e9859c554e00bb85": {
@@ -7758,7 +7782,6 @@
     "source": "A row of controls, such as buttons and toggles, with one tab stop.",
     "translation": "ボタンやトグルなどのコントロールが並び、タブストップが1つの行。",
     "where": [
-      "src/routes/en/(docs)/components/index.mdx",
       "src/routes/en/(docs)/components/toolbar/index.mdx"
     ]
   },
@@ -8069,13 +8092,6 @@
       "src/routes/en/(docs)/components/drawer/index.mdx"
     ]
   },
-  "f0d76ec6ae180852": {
-    "source": "Or install all components at once:",
-    "translation": "または、すべてのコンポーネントを一度にインストールします:",
-    "where": [
-      "src/routes/en/(docs)/overview/getting-started/index.mdx"
-    ]
-  },
   "f1008d134f89ab85": {
     "source": "Moves focus to the previous focusable element in the dialog. From the first one, moves to the last.",
     "translation": "ダイアログ内の前のフォーカス可能な要素にフォーカスを移動します。最初の要素からは、最後の要素に移動します。",
@@ -8123,39 +8139,6 @@
     "translation": "どちらも同じAPIを公開します。唯一の違いはインポートパスです:",
     "where": [
       "src/routes/en/(docs)/overview/getting-started/index.mdx"
-    ]
-  },
-  "f29726f16fd0bbf8": {
-    "source": "Or only this component:",
-    "translation": "このコンポーネントのみをインストールする場合:",
-    "where": [
-      "src/routes/en/(docs)/components/accordion/index.mdx",
-      "src/routes/en/(docs)/components/alert/index.mdx",
-      "src/routes/en/(docs)/components/avatar/index.mdx",
-      "src/routes/en/(docs)/components/breadcrumb/index.mdx",
-      "src/routes/en/(docs)/components/checkbox/index.mdx",
-      "src/routes/en/(docs)/components/collapsible/index.mdx",
-      "src/routes/en/(docs)/components/combobox/index.mdx",
-      "src/routes/en/(docs)/components/context-menu/index.mdx",
-      "src/routes/en/(docs)/components/dialog/index.mdx",
-      "src/routes/en/(docs)/components/drawer/index.mdx",
-      "src/routes/en/(docs)/components/field/index.mdx",
-      "src/routes/en/(docs)/components/fieldset/index.mdx",
-      "src/routes/en/(docs)/components/hover-card/index.mdx",
-      "src/routes/en/(docs)/components/label/index.mdx",
-      "src/routes/en/(docs)/components/menu/index.mdx",
-      "src/routes/en/(docs)/components/meter/index.mdx",
-      "src/routes/en/(docs)/components/popover/index.mdx",
-      "src/routes/en/(docs)/components/progress/index.mdx",
-      "src/routes/en/(docs)/components/radio-group/index.mdx",
-      "src/routes/en/(docs)/components/separator/index.mdx",
-      "src/routes/en/(docs)/components/switch/index.mdx",
-      "src/routes/en/(docs)/components/tabs/index.mdx",
-      "src/routes/en/(docs)/components/toast/index.mdx",
-      "src/routes/en/(docs)/components/toggle-group/index.mdx",
-      "src/routes/en/(docs)/components/toggle/index.mdx",
-      "src/routes/en/(docs)/components/toolbar/index.mdx",
-      "src/routes/en/(docs)/components/tooltip/index.mdx"
     ]
   },
   "f30649fee03d6524": {
@@ -8375,13 +8358,6 @@
       "src/routes/en/(docs)/overview/roadmap/index.mdx"
     ]
   },
-  "f8e5676c7032ad52": {
-    "source": "An image that represents a user, with a fallback.",
-    "translation": "フォールバック表示を備えた、ユーザーを表す画像です。",
-    "where": [
-      "src/routes/en/(docs)/components/index.mdx"
-    ]
-  },
   "f92e31367ab8156d": {
     "source": "IDs of the parts can only be overridden with <x0/> on the Root; <x1/> on the parts is ignored inside a Field. Set <x2/> when you render a <x3/>, so that the control is described by it (<x4>ADR 0024</x4>).",
     "translation": "パーツのIDはRootの<x0/>でのみ上書きできます。Field内ではパーツの<x1/>は無視されます。<x3/>をレンダリングする場合は、コントロールがそれによって説明されるように<x2/>を設定してください（<x4>ADR 0024</x4>）。",
@@ -8494,13 +8470,6 @@
       "src/routes/en/(docs)/components/combobox/index.mdx"
     ]
   },
-  "fc4c0cd90ab1299f": {
-    "source": "<x0>Checkbox</x0>",
-    "translation": "<x0>Checkbox</x0>",
-    "where": [
-      "src/routes/en/(docs)/components/index.mdx"
-    ]
-  },
   "fcae6f08bc0872c0": {
     "source": "The padding from the viewport edges when avoiding collisions, in px.",
     "translation": "衝突を防ぐ際のビューポート端からのパディング（px）。",
@@ -8574,13 +8543,6 @@
     "translation": "<x0/>が呼び出されるタイミング",
     "where": [
       "src/routes/en/(docs)/overview/controlled-uncontrolled/index.mdx"
-    ]
-  },
-  "ffc257e17ad68fe2": {
-    "source": "<x0>Accordion</x0>",
-    "translation": "<x0>Accordion</x0>",
-    "where": [
-      "src/routes/en/(docs)/components/index.mdx"
     ]
   },
   "ffc7a0f7ef7b5a21": {
