@@ -1,6 +1,6 @@
 {
   "name": "@leve-ui/accordion",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Headless, WAI-ARIA compliant Accordion component for Qwik. Bring your own styles.",
   "homepage": "https://github.com/leve-ui/leve-ui#readme",
   "bugs": {
