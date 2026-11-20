@@ -11,6 +11,7 @@
 }
 
 .tabs-manual-trigger {
+  display: inline-block;
   margin-bottom: -1px;
   padding: 8px 12px;
   background: none;
@@ -20,6 +21,7 @@
   font-size: 14px;
   font-weight: 500;
   color: light-dark(#475569, #c9ddf0);
+  text-decoration: none;
   cursor: pointer;
 }
 

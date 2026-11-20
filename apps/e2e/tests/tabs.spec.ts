@@ -171,6 +171,27 @@ test.describe('Tabs', () => {
     await expect(page.getByRole('tabpanel')).toHaveText(/Panel 2/);
   });
 
+  test('as にカスタムリンクコンポーネントを渡してもクリックとキーボードで選択できページ遷移しない', async ({
+    page,
+  }) => {
+    await gotoStory(page, 'components-tabs--manual');
+
+    const thirdTab = page.getByRole('tab', { name: 'Third' });
+    await expect(thirdTab).toBeVisible({ timeout: 15_000 });
+
+    await page.evaluate(() => {
+      (window as unknown as { __noReload?: boolean }).__noReload = true;
+    });
+
+    await thirdTab.click();
+    await expect(thirdTab).toHaveAttribute('aria-selected', 'true');
+    await expect(thirdTab).toHaveAttribute('data-visited', 'true');
+    await expect(page.getByRole('tabpanel')).toHaveText(/Panel 3/);
+    expect(
+      await page.evaluate(() => (window as unknown as { __noReload?: boolean }).__noReload),
+    ).toBe(true);
+  });
+
   test('クリックで選択しパネルが切り替わる', async ({ page }) => {
     await gotoStory(page, 'components-tabs--default');
 
