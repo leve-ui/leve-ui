@@ -24,7 +24,7 @@ export type TextSegment = {
 export type Occurrence = { text: string; where: string };
 
 const PROTECTED = /`[^`]+`|\{\w+\}/g;
-const CALL = /\b(?:t\(\s*locale\s*,|msg\()\s*(['"])((?:\\.|(?!\1).)*)\1\s*\)/g;
+const CALL = /\b(?:t\(\s*locale\s*,|msg\()\s*(['"])((?:\\.|(?!\1).)*)\1\s*,?\s*\)/g;
 
 /** Splits plain text into a segment with placeholders. */
 export function textSegment(source: string): TextSegment {

@@ -23,13 +23,14 @@ describe('uiStrings', () => {
     mkdirSync(join(src, 'components'));
     writeFileSync(
       join(src, 'components/a.tsx'),
-      "t(locale, 'On this page'); msg(\"It's here\"); t(locale, item.title); // msg('...')",
+      "t(locale, 'On this page'); msg(\"It's here\"); t(\n  locale,\n  'Trailing comma',\n); t(locale, item.title); // msg('...')",
     );
     mkdirSync(join(src, 'routes/ja'), { recursive: true });
     writeFileSync(join(src, 'routes/ja/b.tsx'), "t(locale, 'Generated')");
     assert.deepEqual(uiStrings(src), [
       { text: 'On this page', where: 'src/components/a.tsx' },
       { text: "It's here", where: 'src/components/a.tsx' },
+      { text: 'Trailing comma', where: 'src/components/a.tsx' },
     ]);
   });
 });
