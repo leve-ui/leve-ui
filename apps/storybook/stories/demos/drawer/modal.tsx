@@ -1,7 +1,14 @@
-import { component$, useStyles$ } from '@builder.io/qwik';
+import { component$, type PropsOf, Slot, useStyles$ } from '@builder.io/qwik';
 import { Drawer } from '@leve-ui/drawer';
 import { LuMenu, LuX } from '@qwikest/icons/lucide';
 import styles from './modal.css?inline';
+
+// Custom button component passed via `as` must spread received props onto one element
+const IconButton = component$<PropsOf<'button'>>(({ type = 'button', ...props }) => (
+  <button type={type} {...props}>
+    <Slot />
+  </button>
+));
 
 export default component$(() => {
   useStyles$(styles);
@@ -9,7 +16,7 @@ export default component$(() => {
   // modal blocks the page like a Dialog, for example for navigation on small screens
   return (
     <Drawer.Root modal side="left" class="drawer-modal">
-      <Drawer.Trigger class="drawer-modal-trigger" aria-label="Open navigation">
+      <Drawer.Trigger as={IconButton} class="drawer-modal-trigger" aria-label="Open navigation">
         <LuMenu class="drawer-modal-icon" aria-hidden="true" />
       </Drawer.Trigger>
       <Drawer.Content class="drawer-modal-content">
@@ -28,7 +35,7 @@ export default component$(() => {
             Settings
           </a>
         </nav>
-        <Drawer.Close class="drawer-modal-close" aria-label="Close">
+        <Drawer.Close as={IconButton} class="drawer-modal-close" aria-label="Close">
           <LuX class="drawer-modal-icon" aria-hidden="true" />
         </Drawer.Close>
       </Drawer.Content>
