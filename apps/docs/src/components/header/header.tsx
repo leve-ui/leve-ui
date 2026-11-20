@@ -1,17 +1,29 @@
 import { $, component$, useSignal } from '@builder.io/qwik';
 import { Link, useLocation } from '@builder.io/qwik-city';
-import { Drawer } from '@leve-ui/drawer';
+import { Drawer, Menu } from '@leve-ui/core';
 import { css, cx } from 'styled-system/css';
 import { normalizePath } from '../../docs-nav';
-import { isLocale, LOCALE_NAMES, LOCALES, localizeHref } from '../../i18n/locales';
+import { LOCALE_NAMES, LOCALES, localizeHref } from '../../i18n/locales';
 import { t } from '../../i18n/translate';
 import { useLocale } from '../../i18n/use-locale';
 import { DocsNavList } from '../docs/sidebar';
-import { LuBookOpen, LuGithub, LuMenu, LuMoon, LuPackage, LuSearch, LuSun, LuX } from '../icons';
+import {
+  LuBookOpen,
+  LuCheck,
+  LuChevronDown,
+  LuGithub,
+  LuLanguages,
+  LuMenu,
+  LuMoon,
+  LuPackage,
+  LuSun,
+  LuX,
+} from '../icons';
+import { DocsSearch } from './docs-search';
 
 const GITHUB_URL = 'https://github.com/leve-ui/leve-ui';
 const NPM_URL = 'https://www.npmjs.com/package/@leve-ui/core';
-const STORYBOOK_URL = 'https://leve-ui-storybook.pages.dev';
+const STORYBOOK_URL = 'https://storybook.leve-ui.dev';
 
 const focusRing = {
   _focusVisible: { outline: '2px solid', outlineColor: 'accent-default', outlineOffset: '2px' },
@@ -113,35 +125,81 @@ const LanguageSwitcher = component$(() => {
   const locale = useLocale();
 
   return (
-    // TODO(leve-ui): replace with Menu (#39)
-    <select
-      aria-label={t(locale, 'Language')}
-      onChange$={(_, el) => {
-        if (!isLocale(el.value)) return;
-        const path = normalizePath(loc.url.pathname);
-        window.location.assign(localizeHref(path, el.value) + loc.url.hash);
-      }}
-      class={css({
-        h: '8',
-        ps: '2',
-        pe: '1',
-        bg: 'transparent',
-        color: 'fg-muted',
-        border: '1px solid {colors.border-default}',
-        borderRadius: 'md',
-        fontFamily: 'inherit',
-        fontSize: '13px',
-        cursor: 'pointer',
-        _hover: { color: 'fg-default' },
-        ...focusRing,
-      })}
-    >
-      {LOCALES.map((l) => (
-        <option key={l} value={l} lang={l} selected={l === locale}>
-          {LOCALE_NAMES[l]}
-        </option>
-      ))}
-    </select>
+    <Menu.Root>
+      <Menu.Trigger
+        aria-label={t(locale, 'Language')}
+        class={css({
+          display: 'inline-flex',
+          alignItems: 'center',
+          gap: '1',
+          px: '2.5',
+          py: '1.5',
+          borderRadius: 'md',
+          bg: 'transparent',
+          border: 'none',
+          color: 'fg-muted',
+          fontFamily: 'inherit',
+          fontSize: '13px',
+          fontWeight: '500',
+          cursor: 'pointer',
+          transition: 'color 0.15s ease, background-color 0.15s ease',
+          _hover: { color: 'fg-default', bg: 'bg-muted' },
+          ...focusRing,
+        })}
+      >
+        <LuLanguages aria-hidden="true" class={css({ w: '4', h: '4' })} />
+        <span>{locale.toUpperCase()}</span>
+        <LuChevronDown aria-hidden="true" class={css({ w: '3.5', h: '3.5' })} />
+      </Menu.Trigger>
+      <Menu.Content
+        side="bottom"
+        align="end"
+        sideOffset={4}
+        class={css({
+          m: 0,
+          minW: '140px',
+          bg: 'bg-canvas',
+          color: 'fg-default',
+          border: '1px solid {colors.border-default}',
+          borderRadius: 'lg',
+          p: '1',
+          boxShadow: '0 10px 25px -5px rgb(15 23 42 / 0.14)',
+        })}
+      >
+        {LOCALES.map((l) => (
+          <Menu.Item
+            key={l}
+            lang={l}
+            onSelect$={() => {
+              if (l === locale) return;
+              const path = normalizePath(loc.url.pathname);
+              window.location.assign(localizeHref(path, l) + loc.url.hash);
+            }}
+            class={css({
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              gap: '2',
+              px: '2.5',
+              py: '1.5',
+              borderRadius: 'md',
+              fontSize: '13px',
+              fontWeight: l === locale ? '600' : '400',
+              color: l === locale ? 'accent-text' : 'fg-default',
+              cursor: 'pointer',
+              outline: 'none',
+              '&[data-highlighted]': {
+                bg: 'bg-muted',
+              },
+              '& svg': { w: '3.5', h: '3.5' },
+            })}
+          >
+            <span>{LOCALE_NAMES[l]}</span>
+            {l === locale && <LuCheck aria-hidden="true" />}
+          </Menu.Item>
+        ))}
+      </Menu.Content>
+    </Menu.Root>
   );
 });
 
@@ -208,6 +266,7 @@ export const Header = component$(() => {
   const loc = useLocation();
   const locale = useLocale();
   const path = normalizePath(loc.url.pathname);
+  const isRoadmap = path.startsWith('/overview/roadmap/');
 
   return (
     <header
@@ -237,7 +296,7 @@ export const Header = component$(() => {
           <Link
             href={localizeHref('/overview/introduction/', locale)}
             class={navLinkStyles}
-            aria-current={path.startsWith('/overview/') ? 'page' : 'false'}
+            aria-current={path.startsWith('/overview/') && !isRoadmap ? 'page' : 'false'}
           >
             {t(locale, 'Docs')}
           </Link>
@@ -248,63 +307,38 @@ export const Header = component$(() => {
           >
             {t(locale, 'Components')}
           </Link>
+          <Link
+            href={localizeHref('/overview/roadmap/', locale)}
+            class={navLinkStyles}
+            aria-current={isRoadmap ? 'page' : 'false'}
+          >
+            {t(locale, 'Roadmap')}
+          </Link>
         </nav>
       </div>
 
       <div class={css({ display: 'flex', alignItems: 'center', gap: { base: '1', md: '4' } })}>
-        {/* Decorative until search is implemented */}
-        {/* TODO(leve-ui): replace with Combobox (#52) */}
-        <div
-          class={css({
-            // From lg only: on tablets, the nav labels of other languages need the room
-            display: { base: 'none', lg: 'flex' },
-            alignItems: 'center',
-            gap: '2',
-            w: '240px',
-            h: '9',
-            px: '3',
-            bg: 'bg-subtle',
-            border: '1px solid {colors.border-default}',
-            borderRadius: 'lg',
-            _focusWithin: { borderColor: 'accent-default' },
-          })}
-        >
-          <LuSearch aria-hidden="true" class={css({ w: '4', h: '4', color: 'fg-subtle' })} />
-          <input
-            type="search"
-            placeholder={t(locale, 'Search docs')}
-            aria-label={t(locale, 'Search docs')}
-            class={css({
-              flex: '1',
-              minW: 0,
-              bg: 'transparent',
-              border: 'none',
-              outline: 'none',
-              fontFamily: 'inherit',
-              fontSize: '14px',
-              color: 'fg-default',
-              _placeholder: { color: 'fg-subtle' },
-            })}
-          />
-        </div>
+        <DocsSearch />
+
+        <LanguageSwitcher />
 
         <div
           aria-hidden="true"
           class={css({
-            display: { base: 'none', lg: 'block' },
+            display: { base: 'none', md: 'block' },
             w: '1px',
             h: '5',
             bg: 'border-default',
           })}
         />
 
-        <div class={css({ display: { base: 'none', md: 'flex' }, alignItems: 'center', gap: '1' })}>
+        <div class={css({ display: 'flex', alignItems: 'center', gap: '1' })}>
           <a
             href={GITHUB_URL}
             target="_blank"
             rel="noreferrer"
             aria-label={t(locale, 'GitHub repository')}
-            class={iconButtonStyles}
+            class={cx(iconButtonStyles, css({ display: { base: 'none', md: 'inline-flex' } }))}
           >
             <LuGithub aria-hidden="true" />
           </a>
@@ -313,7 +347,7 @@ export const Header = component$(() => {
             target="_blank"
             rel="noreferrer"
             aria-label={t(locale, 'npm package')}
-            class={iconButtonStyles}
+            class={cx(iconButtonStyles, css({ display: { base: 'none', md: 'inline-flex' } }))}
           >
             <LuPackage aria-hidden="true" />
           </a>
@@ -322,13 +356,12 @@ export const Header = component$(() => {
             target="_blank"
             rel="noreferrer"
             aria-label="Storybook"
-            class={iconButtonStyles}
+            class={cx(iconButtonStyles, css({ display: { base: 'none', md: 'inline-flex' } }))}
           >
             <LuBookOpen aria-hidden="true" />
           </a>
+          <ThemeToggle class={mobileIconStyles} />
         </div>
-        <LanguageSwitcher />
-        <ThemeToggle class={mobileIconStyles} />
       </div>
     </header>
   );

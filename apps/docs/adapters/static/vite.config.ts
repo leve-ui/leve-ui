@@ -16,7 +16,7 @@ export default extendConfig(baseConfig, () => ({
   plugins: [
     staticAdapter({
       // Used for canonical URLs and the sitemap. Change it when a custom domain is attached.
-      origin: process.env.DOCS_ORIGIN ?? 'https://leve-ui-docs.pages.dev',
+      origin: process.env.DOCS_ORIGIN ?? 'https://leve-ui.dev',
     }),
   ],
 }));

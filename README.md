@@ -14,16 +14,16 @@
 </p>
 
 <p align="center">
-  <a href="https://leve-ui-docs.pages.dev">Documentation</a> ·
-  <a href="https://leve-ui-storybook.pages.dev">Storybook</a>
+  <a href="https://leve-ui.dev">Documentation</a> ·
+  <a href="https://storybook.leve-ui.dev">Storybook</a>
 </p>
 
 ## Features
 
-- **Accessible** — Every component follows the [WAI-ARIA Authoring Practices Guide](https://www.w3.org/WAI/ARIA/apg/patterns/), including keyboard interaction and focus management.
+- **Accessible** — Every component follows the [WAI-ARIA Authoring Practices Guide](https://www.w3.org/WAI/ARIA/apg/patterns/), including keyboard interaction and focus management, verified by E2E tests.
 - **Unstyled** — Components ship no CSS. Each DOM element is a separate part you can style with classes or `data-*` attributes.
 - **Install only what you use** — Every component is its own package, so your project only gets the components you install.
-- **Built for Qwik** — Resumable, SSR-friendly, and written with `component$`.
+- **Built for Qwik & Web Standards** — Resumable, SSR-friendly, written with `component$`, and renders overlays in the browser's native top layer (`<dialog>` and the Popover API).
 
 ## Installation
 
@@ -93,6 +93,10 @@ Style each part however you like, for example with data attributes:
 | [`@leve-ui/menu`](./packages/components/menu) | A list of actions that opens from a button, or at the pointer as a context menu |
 | [`@leve-ui/toast`](./packages/components/toast) | Short messages added from code, stacked and announced |
 | [`@leve-ui/combobox`](./packages/components/combobox) | A text input with a list of suggestions to pick from |
+
+## Inspirations
+
+The component API design — composable parts, `data-state` styling hooks, and polymorphic `as` props — is inspired by [Ark UI](https://ark-ui.com/), [Base UI](https://base-ui.com/), and [Radix UI](https://www.radix-ui.com/), built from the ground up for Qwik's resumability and native web platform features.
 
 ## Contributing
 
