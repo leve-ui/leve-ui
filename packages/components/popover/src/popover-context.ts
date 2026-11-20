@@ -2,6 +2,7 @@ import { createContextId, type QRL, type ReadonlySignal, type Signal } from '@bu
 
 export interface PopoverIds {
   trigger: string;
+  anchor: string;
   content: string;
   title: string;
   description: string;
@@ -11,8 +12,7 @@ export interface PopoverContext {
   ids: PopoverIds;
   open: ReadonlySignal<boolean>;
   setOpen$: QRL<(open: boolean) => Promise<void>>;
-  /** The element set by `Popover.Anchor`, used instead of the Trigger for positioning */
-  anchor: Signal<Element | undefined>;
+  hasAnchor: Signal<boolean>;
 }
 
 export const popoverContextId = createContextId<PopoverContext>('leve-ui.popover');

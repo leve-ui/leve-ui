@@ -45,13 +45,15 @@ import { Popover } from '@leve-ui/popover'; // or '@leve-ui/core'
 | Part | Element | Description |
 | --- | --- | --- |
 | `Popover.Root` | `<div>` | Wraps the parts and holds the open state. |
-| `Popover.Trigger` | `<button>` | The button that opens and closes the popover. |
-| `Popover.Anchor` | `<div>` | Optional. The element to place the popover next to, instead of the Trigger. |
+| `Popover.Trigger` | `<button>` | The button that opens and closes the popover. Use `as` to render another element or component. |
+| `Popover.Anchor` | `<div>` | Optional. The element to place the popover next to, instead of the Trigger. Use `as` to render another element or component. |
 | `Popover.Content` | `<div>` | The panel, a `popover="manual"` element in the top layer. |
 | `Popover.Arrow` | `<div>` | Optional. An arrow pointing at the Trigger, drawn with CSS. |
 | `Popover.Title` | `<h2>` | The title that names the popover. |
 | `Popover.Description` | `<p>` | The description of the popover. |
-| `Popover.Close` | `<button>` | A button that closes the popover. |
+| `Popover.Close` | `<button>` | A button that closes the popover. Use `as` to render another element or component. |
+
+A component passed to `as` on `Popover.Trigger`, `Popover.Anchor`, or `Popover.Close` must spread the props it receives onto a single element, including `id`, `aria-*`, `data-*`, and `on*$` event handlers.
 
 `Popover.Content` is rendered where you place it and shown in the top layer, so `overflow: hidden` and `z-index` of its ancestors do not clip it. It is positioned next to the Trigger with [Floating UI](https://floating-ui.com/): set `side`, `align` and the offsets on the Content, and it flips and shifts to stay in the viewport.
 
