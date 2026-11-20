@@ -1,33 +1,37 @@
-import {
-  component$,
-  type PropsOf,
-  type Signal,
-  Slot,
-  useComputed$,
-  useSignal,
-} from '@builder.io/qwik';
+import { type Component, component$, type PropsOf, Slot, useComputed$ } from '@builder.io/qwik';
 import { useToolbarItem } from '@leve-ui/utils';
 
-export type ToolbarLinkProps = PropsOf<'a'>;
+export type ToolbarLinkProps = PropsOf<'a'> & {
+  /**
+   * The element or component to render instead of `<a>`. A component must spread the props it receives onto one element.
+   * @default 'a'
+   */
+  // biome-ignore lint/suspicious/noExplicitAny: Component props are contravariant, so only any accepts every component (adr/0038)
+  as?: keyof HTMLElementTagNameMap | Component<any>;
+  [key: string]: unknown;
+};
 
-/** ツールバーのリンクです。ネイティブの `<a>` を使います。 */
-export const ToolbarLink = component$<ToolbarLinkProps>(({ onFocus$, ...props }) => {
-  const disabled = useComputed$(() => false);
-  const internalRef = useSignal<Element>();
-  // A ref passed by the consumer is used as it is
-  const ref = (props.ref as Signal<Element | undefined> | undefined) ?? internalRef;
-  const item = useToolbarItem(disabled, ref);
+/**
+ * ツールバーのリンクです。既定ではネイティブの `<a>` を使います。
+ * `as` で Qwik City の `<Link>` などのコンポーネントに差し替えられます。
+ */
+export const ToolbarLink = component$<ToolbarLinkProps>(
+  ({ as: Component = 'a', onFocus$, ...props }) => {
+    const disabled = useComputed$(() => false);
+    const item = useToolbarItem(disabled);
+    const tabIndex = useComputed$(() => item.tabIndex.value);
+    const Element = Component as 'a';
 
-  return (
-    <a
-      {...props}
-      ref={ref}
-      tabIndex={item.tabIndex.value}
-      onFocus$={[item.onFocus$, onFocus$]}
-      data-leve-toolbar-link=""
-      data-leve-toolbar-item={item.itemId}
-    >
-      <Slot />
-    </a>
-  );
-});
+    return (
+      <Element
+        {...props}
+        tabIndex={tabIndex.value}
+        onFocus$={[item.onFocus$, onFocus$]}
+        data-leve-toolbar-link=""
+        data-leve-toolbar-item={item.itemId}
+      >
+        <Slot />
+      </Element>
+    );
+  },
+);

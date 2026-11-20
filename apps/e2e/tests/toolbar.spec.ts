@@ -107,4 +107,31 @@ test.describe('Toolbar', () => {
     await page.keyboard.press('ArrowUp');
     await expect(undo).toBeFocused();
   });
+
+  test('as にカスタムリンクコンポーネントを渡しても矢印移動とクリックハンドラが機能する', async ({
+    page,
+  }) => {
+    await gotoStory(page, 'components-toolbar--default');
+    const link = page.getByRole('link', { name: 'Edited 5 minutes ago' });
+    const share = page.getByRole('button', { name: 'Share' });
+    const alignRight = page.getByRole('button', { name: 'Align right' });
+    await expect(link).toBeVisible({ timeout: 15_000 });
+
+    await page.evaluate(() => {
+      (window as unknown as { __noReload?: boolean }).__noReload = true;
+    });
+
+    await alignRight.focus();
+    await page.keyboard.press('ArrowRight');
+    await expect(link).toBeFocused();
+
+    await page.keyboard.press('ArrowRight');
+    await expect(share).toBeFocused();
+
+    await link.click();
+    await expect(link).toHaveAttribute('data-visited', 'true');
+    expect(
+      await page.evaluate(() => (window as unknown as { __noReload?: boolean }).__noReload),
+    ).toBe(true);
+  });
 });

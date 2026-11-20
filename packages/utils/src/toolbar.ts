@@ -53,21 +53,37 @@ export interface ToolbarItemState {
   onFocus$: QRL<() => void>;
 }
 
+// Items may register out of DOM order (client rendering, items added later); sort them
+// by the DOM of this toolbar only (adr/0035). Exported so Qwik can extract the useTask$ QRL.
+export function sortToolbarItems(
+  el: Element | null | undefined,
+  items: ToolbarItemRegistration[],
+): void {
+  const root = el?.closest('[data-leve-toolbar]');
+  if (root && items.length > 1) {
+    const order = Array.from(root.querySelectorAll('[data-leve-toolbar-item]'))
+      .filter((node) => node.closest('[data-leve-toolbar]') === root)
+      .map((node) => node.getAttribute('data-leve-toolbar-item'));
+    const rank = new Map(order.map((value, index) => [value, index]));
+    items.sort((a, b) => (rank.get(a.id) ?? order.length) - (rank.get(b.id) ?? order.length));
+  }
+}
+
 /**
  * Toolbar の中のコントロールを、ツールバーのロービングタブインデックスに加えます。
  *
  * - Toolbar の中では項目を登録し、タブストップの項目だけ `tabIndex` を `0`、ほかを `-1` にします。
  *   タブストップは最後にフォーカスされた項目、なければ最初の有効な項目です。
- * - 要素には `data-leve-toolbar-item={item.itemId}` と `ref` を付けてください。Toolbar はキー操作でこの属性の
+ * - 要素には `data-leve-toolbar-item={item.itemId}` を付けてください。Toolbar はキー操作でこの属性の
  *   要素を探し、登録を DOM の順に並べ替えるためにも使います。
  * - Toolbar の外では何もせず、`tabIndex` は `undefined` です。
  *
  * @param disabled コントロールが無効かどうか（無効な項目はタブストップにならない）
- * @param ref コントロールの要素の ref
+ * @param ref コントロールの要素の ref（省略時は `data-leve-toolbar-item` から要素を探します）
  */
 export const useToolbarItem = (
   disabled: ReadonlySignal<boolean>,
-  ref: Signal<Element | undefined>,
+  ref?: Signal<Element | undefined>,
 ): ToolbarItemState => {
   const toolbar = useContext(toolbarContextId, null);
   const id = useId();
@@ -75,22 +91,18 @@ export const useToolbarItem = (
   useTask$(({ track, cleanup }) => {
     if (!toolbar) return;
     const isDisabled = track(() => disabled.value);
-    const element = track(() => ref.value);
+    const element = track(() => ref?.value);
     const existing = toolbar.items.find((item) => item.id === id);
     if (existing) existing.disabled = isDisabled;
     else toolbar.items.push({ id, disabled: isDisabled });
 
-    // Items may register out of DOM order (client rendering, items added later); sort them
-    // by the DOM of this toolbar only (adr/0035)
-    const root = element?.closest('[data-leve-toolbar]');
-    if (root && toolbar.items.length > 1) {
-      const order = Array.from(root.querySelectorAll('[data-leve-toolbar-item]'))
-        .filter((el) => el.closest('[data-leve-toolbar]') === root)
-        .map((el) => el.getAttribute('data-leve-toolbar-item'));
-      const rank = new Map(order.map((value, index) => [value, index]));
-      toolbar.items.sort(
-        (a, b) => (rank.get(a.id) ?? order.length) - (rank.get(b.id) ?? order.length),
-      );
+    if (element) {
+      sortToolbarItems(element, toolbar.items);
+    } else if (!getPlatform().isServer) {
+      queueMicrotask(() => {
+        if (typeof document === 'undefined') return;
+        sortToolbarItems(document.querySelector(`[data-leve-toolbar-item="${id}"]`), toolbar.items);
+      });
     }
 
     if (!getPlatform().isServer) {

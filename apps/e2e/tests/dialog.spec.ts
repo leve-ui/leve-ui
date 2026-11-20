@@ -76,13 +76,20 @@ test.describe('Dialog', () => {
   test('closeOnOutsideClick={false} では背景のクリックで閉じず、Escape では閉じる', async ({
     page,
   }) => {
-    const { dialog } = await open(page, 'persistent', 'Delete project?');
+    const { trigger, dialog } = await open(page, 'persistent', 'Delete project?');
 
     await page.mouse.click(5, 5);
     await expect(dialog).toBeVisible();
 
     await page.keyboard.press('Escape');
     await expect(dialog).toBeHidden();
+    await expect(trigger).toBeFocused();
+
+    await trigger.click();
+    await expect(dialog).toBeVisible();
+    await dialog.getByRole('button', { name: 'Cancel' }).click();
+    await expect(dialog).toBeHidden();
+    await expect(trigger).toBeFocused();
   });
 
   test('bind:open で、コードから閉じられる', async ({ page }) => {

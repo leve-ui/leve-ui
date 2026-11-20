@@ -1,4 +1,4 @@
-import { component$, useStyles$ } from '@builder.io/qwik';
+import { $, component$, type PropsOf, Slot, sync$, useSignal, useStyles$ } from '@builder.io/qwik';
 import { ToggleGroup } from '@leve-ui/toggle-group';
 import { Toolbar } from '@leve-ui/toolbar';
 import {
@@ -10,6 +10,27 @@ import {
   LuUnderline,
 } from '@qwikest/icons/lucide';
 import styles from './default.css?inline';
+
+// Example of a router link component (such as Qwik City's <Link>) that spreads received props onto <a>
+const ClientLink = component$<PropsOf<'a'>>(({ onClick$, ...props }) => {
+  const visited = useSignal(false);
+  const preventDefault$ = sync$((event: MouseEvent) => {
+    event.preventDefault();
+  });
+  const handleClick$ = $(() => {
+    visited.value = true;
+  });
+
+  return (
+    <a
+      {...props}
+      data-visited={visited.value ? 'true' : undefined}
+      onClick$={[preventDefault$, handleClick$, onClick$]}
+    >
+      <Slot />
+    </a>
+  );
+});
 
 export default component$(() => {
   useStyles$(styles);
@@ -45,7 +66,7 @@ export default component$(() => {
         </ToggleGroup.Item>
       </ToggleGroup.Root>
       <Toolbar.Separator class="toolbar-default-separator" />
-      <Toolbar.Link href="#history" class="toolbar-default-link">
+      <Toolbar.Link as={ClientLink} href="/history" class="toolbar-default-link">
         Edited 5 minutes ago
       </Toolbar.Link>
       <Toolbar.Button class="toolbar-default-button">Share</Toolbar.Button>

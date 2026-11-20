@@ -123,9 +123,19 @@ export const MenuSubContent = component$<MenuSubContentProps>(
       { strategy: 'document-ready' },
     );
 
-    // Arrow keys, Home / End and Space would scroll the page
+    // Arrow keys, Home / End and Space would scroll the page; Enter on <a> or keys on disabled items are handled by the item
     const preventScroll$ = sync$((event: KeyboardEvent) => {
-      if (['ArrowUp', 'ArrowDown', 'Home', 'End', ' '].includes(event.key)) event.preventDefault();
+      if (['ArrowUp', 'ArrowDown', 'Home', 'End', ' '].includes(event.key)) {
+        event.preventDefault();
+        return;
+      }
+      const item = (event.target as Element | null)?.closest?.('[data-leve-menu-item]');
+      if (
+        item &&
+        (item.hasAttribute('data-disabled') || (event.key === 'Enter' && item.tagName === 'A'))
+      ) {
+        event.preventDefault();
+      }
     });
     const move$ = $((event: KeyboardEvent, menu: HTMLElement) => {
       // Keys in a nested submenu bubble up here; that submenu handles them
