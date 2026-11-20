@@ -2091,6 +2091,13 @@
       "src/routes/en/(docs)/components/accordion/index.mdx"
     ]
   },
+  "4427b50bb2d561a0": {
+    "source": "leve-ui renders the semantics and behavior. You decide how it looks with plain CSS, Panda, Tailwind or anything else.",
+    "translation": "leve-uiはセマンティクスと動作をレンダリングします。プレーンなCSS、Panda、Tailwindなどを使って、見た目を自由に決定できます。",
+    "where": [
+      "src/routes/en/index.tsx"
+    ]
+  },
   "4482aff625c05a53": {
     "source": "The keys inside the menu are those of <x0>Menu</x0>.",
     "translation": "メニュー内のキー操作は<x0>Menu</x0>と同じです。",
@@ -2158,6 +2165,13 @@
     "translation": "RadioItem",
     "where": [
       "src/routes/en/(docs)/components/menu/index.mdx"
+    ]
+  },
+  "44fa62434e599afd": {
+    "source": "Accessible, unstyled components that follow the WAI-ARIA Authoring Practices. Bring your own CSS — every part is yours to style.",
+    "translation": "WAI-ARIA Authoring Practicesに準拠した、アクセシブルでスタイルのないコンポーネントです。独自のCSSを使用でき、すべてのpartを自由にスタイリングできます。",
+    "where": [
+      "src/routes/en/index.tsx"
     ]
   },
   "451aa51a0fb5068d": {
@@ -6087,6 +6101,13 @@
     "translation": "クリック、Enter、またはSpaceでアイテムが選択されたときに呼び出されます。",
     "where": [
       "props: Menu.Item onSelect$"
+    ]
+  },
+  "b9c025b9c8bb0a52": {
+    "source": "No class or style output. Style parts through data-state and data-leve-* attributes.",
+    "translation": "classやstyleは出力されません。data-stateやdata-leve-*属性を使用してpartをスタイリングします。",
+    "where": [
+      "src/routes/en/index.tsx"
     ]
   },
   "ba5caa4285a84d88": {
