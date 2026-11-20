@@ -14,8 +14,8 @@
 </p>
 
 <p align="center">
-  <a href="https://leve-ui-docs.pages.dev">Documentation</a> ·
-  <a href="https://leve-ui-storybook.pages.dev">Storybook</a>
+  <a href="https://leve-ui.dev">Documentation</a> ·
+  <a href="https://storybook.leve-ui.dev">Storybook</a>
 </p>
 
 ## Features

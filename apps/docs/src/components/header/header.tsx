@@ -23,7 +23,7 @@ import { DocsSearch } from './docs-search';
 
 const GITHUB_URL = 'https://github.com/leve-ui/leve-ui';
 const NPM_URL = 'https://www.npmjs.com/package/@leve-ui/core';
-const STORYBOOK_URL = 'https://leve-ui-storybook.pages.dev';
+const STORYBOOK_URL = 'https://storybook.leve-ui.dev';
 
 const focusRing = {
   _focusVisible: { outline: '2px solid', outlineColor: 'accent-default', outlineOffset: '2px' },

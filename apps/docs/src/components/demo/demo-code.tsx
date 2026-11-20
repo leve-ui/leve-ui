@@ -8,7 +8,7 @@ import { useLocale } from '../../i18n/use-locale';
 import { LuCheck, LuChevronRight, LuCopy, LuExternalLink } from '../icons';
 import { loadDemoSource } from './demo-highlighted';
 
-const STORYBOOK_URL = 'https://leve-ui-storybook.pages.dev';
+const STORYBOOK_URL = 'https://storybook.leve-ui.dev';
 
 /** `radio-group/with-field` → the Storybook story `components-radiogroup--with-field` */
 function storybookUrl(id: string) {
