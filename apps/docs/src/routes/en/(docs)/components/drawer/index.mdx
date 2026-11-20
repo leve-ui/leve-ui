@@ -52,11 +52,13 @@ import { Drawer } from '@leve-ui/drawer'; // or '@leve-ui/core'
 | Part | Element | Description |
 | --- | --- | --- |
 | `Drawer.Root` | `<div>` | Wraps the parts and holds the open state, `modal` and `side`. |
-| `Drawer.Trigger` | `<button>` | The button that opens and closes the drawer. |
+| `Drawer.Trigger` | `<button>` | The button that opens and closes the drawer. Use `as` to render another element or component. |
 | `Drawer.Content` | `<dialog>` | The panel. |
 | `Drawer.Title` | `<h2>` | The title that names the drawer. |
 | `Drawer.Description` | `<p>` | The description of the drawer. |
-| `Drawer.Close` | `<button>` | A button that closes the drawer. |
+| `Drawer.Close` | `<button>` | A button that closes the drawer. Use `as` to render another element or component. |
+
+A component passed to `as` on `Drawer.Trigger` or `Drawer.Close` must spread the props it receives onto a single element, including `id`, `aria-*`, `data-*`, and `on*$` event handlers.
 
 `Drawer.Content` is a native `<dialog>`, rendered where you place it and shown above the page in the top layer. A non-modal drawer is a `popover="manual"` element shown with `showPopover()`; a modal drawer is opened with `showModal()`. `side` only sets `data-side`: place the panel and its animation with CSS, as in the demos. A modal drawer has a backdrop, styled with `::backdrop` like Dialog.
 

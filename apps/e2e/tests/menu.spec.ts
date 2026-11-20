@@ -402,6 +402,41 @@ test.describe('Menu（コンテキストメニュー）', () => {
     await expectAt(menu, point);
     await area.dispatchEvent('pointerup', touch);
   });
+
+  test('as にリンクコンポーネントを渡してもキーボード操作とクライアントサイド遷移が機能する', async ({
+    page,
+  }) => {
+    await gotoStory(page, 'components-menu--links');
+    const trigger = page.getByRole('button', { name: 'Navigation' });
+    const menu = page.getByRole('menu', { name: 'Navigation' });
+    const item = (name: string) => page.getByRole('menuitem', { name });
+    await expect(trigger).toBeVisible({ timeout: 15_000 });
+
+    await page.evaluate(() => {
+      (window as unknown as { __noReload?: boolean }).__noReload = true;
+    });
+
+    await trigger.click();
+    await expect(menu).toBeVisible();
+    await expect(item('Documentation')).toBeFocused();
+
+    await page.keyboard.press('ArrowDown');
+    await expect(item('Components')).toBeFocused();
+    await page.keyboard.press('Enter');
+    await expect(menu).toBeHidden();
+    await expect(trigger).toBeFocused();
+    await expect(page.getByText('Navigated to: /components')).toBeVisible();
+
+    await page.keyboard.press('Enter');
+    await expect(menu).toBeVisible();
+    await expect(item('Documentation')).toBeFocused();
+    await page.keyboard.press('Space');
+    await expect(menu).toBeHidden();
+    await expect(page.getByText('Navigated to: /docs')).toBeVisible();
+    expect(
+      await page.evaluate(() => (window as unknown as { __noReload?: boolean }).__noReload),
+    ).toBe(true);
+  });
 });
 
 test('複数の Qwik コンテナがあるページでも、押した Trigger の隣に開く（#167）', async ({

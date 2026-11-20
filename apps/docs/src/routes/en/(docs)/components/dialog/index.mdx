@@ -43,11 +43,13 @@ import { Dialog } from '@leve-ui/dialog'; // or '@leve-ui/core'
 | Part | Element | Description |
 | --- | --- | --- |
 | `Dialog.Root` | `<div>` | Wraps the parts and holds the open state. |
-| `Dialog.Trigger` | `<button>` | The button that opens the dialog. |
+| `Dialog.Trigger` | `<button>` | The button that opens the dialog. Use `as` to render another element or component. |
 | `Dialog.Content` | `<dialog>` | The dialog, opened with `showModal()`. |
 | `Dialog.Title` | `<h2>` | The title that names the dialog. |
 | `Dialog.Description` | `<p>` | The description of the dialog. |
-| `Dialog.Close` | `<button>` | A button that closes the dialog. |
+| `Dialog.Close` | `<button>` | A button that closes the dialog. Use `as` to render another element or component. |
+
+A component passed to `as` on `Dialog.Trigger` or `Dialog.Close` must spread the props it receives onto a single element, including `id`, `aria-*`, `data-*`, and `on*$` event handlers.
 
 `Dialog.Content` is a native `<dialog>`. It is rendered where you place it, and the browser shows it above the page in the top layer, so `overflow: hidden` and `z-index` of its ancestors do not clip it. There is no Overlay part: style the backdrop with the `::backdrop` pseudo-element of the Content.
 

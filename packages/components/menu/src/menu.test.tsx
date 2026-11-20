@@ -1,4 +1,4 @@
-import { component$ } from '@builder.io/qwik';
+import { $, component$, type PropsOf, Slot, useSignal } from '@builder.io/qwik';
 import { createDOM } from '@builder.io/qwik/testing';
 import { describe, expect, it } from 'vitest';
 import { Menu } from './index';
@@ -233,6 +233,131 @@ describe('Menu', () => {
     expect(area?.hasAttribute('data-disabled')).toBe(true);
     expect(area?.hasAttribute('disabled')).toBe(false);
     await userEvent('[data-leve-menu-context-trigger]', 'contextmenu');
+    expect(query(screen, '')?.getAttribute('data-state')).toBe('closed');
+  });
+
+  it('Trigger に as で Qwik コンポーネントを渡すと属性とハンドラが合成される', async () => {
+    type CustomButtonProps = PropsOf<'button'> & {
+      variant?: string;
+    };
+
+    const CustomButton = component$<CustomButtonProps>(({ variant, onClick$, ...props }) => {
+      const internalClicks = useSignal(0);
+
+      return (
+        <button
+          type="button"
+          {...props}
+          data-variant={variant}
+          data-internal-clicks={internalClicks.value}
+          onClick$={[
+            $(() => {
+              internalClicks.value += 1;
+            }),
+            onClick$,
+          ]}
+        >
+          <Slot />
+        </button>
+      );
+    });
+
+    const { screen, render, userEvent } = await createDOM();
+    await render(
+      <Menu.Root>
+        <Menu.Trigger as={CustomButton} variant="ghost">
+          Actions
+        </Menu.Trigger>
+        <Menu.Content>
+          <Menu.Item>New file</Menu.Item>
+        </Menu.Content>
+      </Menu.Root>,
+    );
+
+    const trigger = query(screen, 'trigger');
+    const content = query(screen, 'content');
+    expect(trigger?.tagName).toBe('BUTTON');
+    expect(trigger?.getAttribute('data-variant')).toBe('ghost');
+    expect(trigger?.getAttribute('aria-haspopup')).toBe('menu');
+    expect(trigger?.getAttribute('aria-expanded')).toBe('false');
+    expect(trigger?.getAttribute('aria-controls')).toBe(content?.id);
+
+    await userEvent('[data-leve-menu-trigger]', 'click');
+    expect(trigger?.getAttribute('aria-expanded')).toBe('true');
+    expect(trigger?.getAttribute('data-internal-clicks')).toBe('1');
+    expect(query(screen, '')?.getAttribute('data-state')).toBe('open');
+  });
+
+  it('Item に as で要素名や Qwik コンポーネントを渡すと属性が維持され、クリックで閉じてハンドラが合成される', async () => {
+    type CustomLinkProps = PropsOf<'a'> & {
+      prefetch?: boolean;
+    };
+
+    const CustomLink = component$<CustomLinkProps>(({ prefetch, onClick$, ...props }) => {
+      const internalClicks = useSignal(0);
+
+      return (
+        <a
+          {...props}
+          data-prefetch={prefetch ? 'true' : undefined}
+          data-internal-clicks={internalClicks.value}
+          onClick$={[
+            $(() => {
+              internalClicks.value += 1;
+            }),
+            onClick$,
+          ]}
+        >
+          <Slot />
+        </a>
+      );
+    });
+
+    const Parent = component$(() => {
+      const linkClicks = useSignal(0);
+
+      return (
+        <Menu.Root defaultOpen>
+          <Menu.Trigger>Links</Menu.Trigger>
+          <Menu.Content>
+            <Menu.Item as="a" href="#docs" class="plain-link">
+              Docs
+            </Menu.Item>
+            <Menu.Item
+              as={CustomLink}
+              href="/components"
+              prefetch
+              class="custom-link"
+              onClick$={() => {
+                linkClicks.value += 1;
+              }}
+            >
+              Components ({linkClicks.value})
+            </Menu.Item>
+          </Menu.Content>
+        </Menu.Root>
+      );
+    });
+
+    const { screen, render, userEvent } = await createDOM();
+    await render(<Parent />);
+
+    const plain = screen.querySelector('.plain-link');
+    const custom = screen.querySelector('.custom-link');
+    expect(plain?.tagName).toBe('A');
+    expect(plain?.getAttribute('role')).toBe('menuitem');
+    expect(plain?.getAttribute('tabindex')).toBe('-1');
+    expect(plain?.getAttribute('href')).toBe('#docs');
+
+    expect(custom?.tagName).toBe('A');
+    expect(custom?.getAttribute('role')).toBe('menuitem');
+    expect(custom?.getAttribute('tabindex')).toBe('-1');
+    expect(custom?.getAttribute('href')).toBe('/components');
+    expect(custom?.getAttribute('data-prefetch')).toBe('true');
+
+    await userEvent('.custom-link', 'click');
+    expect(custom?.getAttribute('data-internal-clicks')).toBe('1');
+    expect(custom?.textContent).toBe('Components (1)');
     expect(query(screen, '')?.getAttribute('data-state')).toBe('closed');
   });
 });

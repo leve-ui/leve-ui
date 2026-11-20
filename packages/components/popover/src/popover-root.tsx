@@ -39,17 +39,17 @@ export const PopoverRoot = component$<PopoverRootProps>(
       defaultValue: defaultOpen ?? false,
       onChange$: onOpenChange$,
     });
-    const anchor = useSignal<Element>();
-
+    const hasAnchor = useSignal(false);
     const base = useId();
     const ids: PopoverIds = {
       trigger: propIds?.trigger ?? `${base}-trigger`,
+      anchor: propIds?.anchor ?? `${base}-anchor`,
       content: propIds?.content ?? `${base}-content`,
       title: propIds?.title ?? `${base}-title`,
       description: propIds?.description ?? `${base}-description`,
     };
 
-    useContextProvider(popoverContextId, { ids, open, setOpen$, anchor });
+    useContextProvider(popoverContextId, { ids, open, setOpen$, hasAnchor });
 
     return (
       <div {...props} data-leve-popover="" data-state={open.value ? 'open' : 'closed'}>

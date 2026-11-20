@@ -1,7 +1,20 @@
-import { component$, useStyles$ } from '@builder.io/qwik';
+import { component$, type PropsOf, Slot, useStyles$ } from '@builder.io/qwik';
 import { Popover } from '@leve-ui/popover';
 import { LuSlidersHorizontal } from '@qwikest/icons/lucide';
 import styles from './anchor.css?inline';
+
+// Custom components passed to `as` must spread all received props onto one element
+const FieldWrapper = component$<PropsOf<'div'>>((props) => (
+  <div {...props}>
+    <Slot />
+  </div>
+));
+
+const IconButton = component$<PropsOf<'button'>>(({ type = 'button', ...props }) => (
+  <button type={type} {...props}>
+    <Slot />
+  </button>
+));
 
 export default component$(() => {
   useStyles$(styles);
@@ -9,9 +22,9 @@ export default component$(() => {
   return (
     <Popover.Root class="popover-anchor">
       {/* The Content is placed below the whole field, not only below the button */}
-      <Popover.Anchor class="popover-anchor-field">
+      <Popover.Anchor as={FieldWrapper} class="popover-anchor-field">
         <input class="popover-anchor-input" aria-label="Search" placeholder="Search" />
-        <Popover.Trigger class="popover-anchor-trigger" aria-label="Filters">
+        <Popover.Trigger as={IconButton} class="popover-anchor-trigger" aria-label="Filters">
           <LuSlidersHorizontal class="popover-anchor-icon" aria-hidden="true" />
         </Popover.Trigger>
       </Popover.Anchor>
