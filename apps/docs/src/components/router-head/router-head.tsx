@@ -15,6 +15,11 @@ export const RouterHead = component$(() => {
     locale,
     href: new URL(localizeHref(path, locale), loc.url.origin).href,
   }));
+  const title = head.title || 'leve-ui — Headless UI for Qwik';
+  const description =
+    head.meta.find((m) => m.name === 'description')?.content ??
+    'Accessible, unstyled UI components for Qwik that follow the WAI-ARIA Authoring Practices. Bring your own styles.';
+  const ogImage = new URL('/og-image.png', loc.url.origin).href;
 
   return (
     <>
@@ -31,6 +36,21 @@ export const RouterHead = component$(() => {
       />
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+      <meta property="og:type" content="website" />
+      <meta property="og:site_name" content="leve-ui" />
+      <meta property="og:title" content={title} />
+      <meta property="og:description" content={description} />
+      <meta property="og:url" content={loc.url.href} />
+      <meta property="og:image" content={ogImage} />
+      <meta property="og:image:width" content="1200" />
+      <meta property="og:image:height" content="630" />
+
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:site" content="@leve_ui" />
+      <meta name="twitter:title" content={title} />
+      <meta name="twitter:description" content={description} />
+      <meta name="twitter:image" content={ogImage} />
 
       {head.meta.map(({ httpEquiv, ...m }) => (
         // DocumentMeta names it httpEquiv, but the attribute is http-equiv
