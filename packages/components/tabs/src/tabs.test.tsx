@@ -1,4 +1,4 @@
-import { component$, useSignal } from '@builder.io/qwik';
+import { $, component$, type PropsOf, Slot, useSignal } from '@builder.io/qwik';
 import { createDOM } from '@builder.io/qwik/testing';
 import { describe, expect, it } from 'vitest';
 import { Tabs } from './index';
@@ -614,5 +614,133 @@ describe('Tabs', () => {
     expect(triggers[1]?.getAttribute('aria-selected')).toBe('false');
     expect(triggers[2]?.getAttribute('tabindex')).toBe('-1');
     expect(triggers[2]?.getAttribute('aria-selected')).toBe('false');
+  });
+
+  it('Trigger に as="a" を渡すと type を出力せず、aria 属性・aria-disabled・矢印キー自動選択が動く', async () => {
+    const { screen, render, userEvent } = await createDOM();
+    await render(
+      <Tabs.Root defaultValue="t1">
+        <Tabs.List aria-label="Link tabs">
+          <Tabs.Trigger as="a" href="#t1" value="t1" class="tab-a">
+            Tab 1
+          </Tabs.Trigger>
+          <Tabs.Trigger as="a" href="#t2" value="t2" disabled class="tab-disabled-a">
+            Tab 2
+          </Tabs.Trigger>
+          <Tabs.Trigger as="a" href="#t3" value="t3" class="tab-c">
+            Tab 3
+          </Tabs.Trigger>
+        </Tabs.List>
+        <Tabs.Content value="t1">Panel 1</Tabs.Content>
+        <Tabs.Content value="t2">Panel 2</Tabs.Content>
+        <Tabs.Content value="t3">Panel 3</Tabs.Content>
+      </Tabs.Root>,
+    );
+
+    const tab1 = screen.querySelector('.tab-a');
+    const tab2 = screen.querySelector('.tab-disabled-a');
+    const tab3 = screen.querySelector('.tab-c');
+
+    expect(tab1?.tagName).toBe('A');
+    expect(tab1?.hasAttribute('type')).toBe(false);
+    expect(tab1?.getAttribute('role')).toBe('tab');
+    expect(tab1?.getAttribute('href')).toBe('#t1');
+    expect(tab1?.getAttribute('aria-selected')).toBe('true');
+    expect(tab1?.getAttribute('tabindex')).toBe('0');
+
+    expect(tab2?.tagName).toBe('A');
+    expect(tab2?.hasAttribute('disabled')).toBe(false);
+    expect(tab2?.getAttribute('aria-disabled')).toBe('true');
+    expect(tab2?.hasAttribute('data-disabled')).toBe(true);
+    expect(tab2?.getAttribute('tabindex')).toBe('-1');
+
+    await userEvent('.tab-disabled-a', 'click');
+    expect(tab1?.getAttribute('aria-selected')).toBe('true');
+
+    await userEvent('.tab-a', 'keydown', { key: 'ArrowRight', target: tab1 });
+    await new Promise((resolve) => setTimeout(resolve, 20));
+    expect(tab3?.getAttribute('aria-selected')).toBe('true');
+    expect(tab3?.getAttribute('data-state')).toBe('active');
+    expect(tab1?.getAttribute('aria-selected')).toBe('false');
+  });
+
+  it('Trigger に as で Qwik コンポーネントを渡すと属性とハンドラが合成され、選択状態が追従する', async () => {
+    type CustomTabProps = PropsOf<'a'> & {
+      prefetch?: boolean;
+    };
+
+    const CustomTab = component$<CustomTabProps>(({ prefetch, onClick$, ...props }) => {
+      const internalClicks = useSignal(0);
+
+      return (
+        <a
+          {...props}
+          data-prefetch={prefetch ? 'true' : undefined}
+          data-internal-clicks={internalClicks.value}
+          onClick$={[
+            $(() => {
+              internalClicks.value += 1;
+            }),
+            onClick$,
+          ]}
+        >
+          <Slot />
+        </a>
+      );
+    });
+
+    const Parent = component$(() => {
+      const clicks = useSignal(0);
+
+      return (
+        <Tabs.Root defaultValue="first">
+          <Tabs.List aria-label="Custom tabs">
+            <Tabs.Trigger as={CustomTab} href="/first" value="first" prefetch class="custom-first">
+              First
+            </Tabs.Trigger>
+            <Tabs.Trigger
+              as={CustomTab}
+              href="/second"
+              value="second"
+              prefetch
+              class="custom-second"
+              onClick$={() => {
+                clicks.value += 1;
+              }}
+            >
+              Second ({clicks.value})
+            </Tabs.Trigger>
+          </Tabs.List>
+          <Tabs.Content value="first">Panel 1</Tabs.Content>
+          <Tabs.Content value="second">Panel 2</Tabs.Content>
+        </Tabs.Root>
+      );
+    });
+
+    const { screen, render, userEvent } = await createDOM();
+    await render(<Parent />);
+
+    const first = screen.querySelector('.custom-first');
+    const second = screen.querySelector('.custom-second');
+    expect(first?.tagName).toBe('A');
+    expect(first?.getAttribute('role')).toBe('tab');
+    expect(first?.getAttribute('data-prefetch')).toBe('true');
+    expect(first?.getAttribute('aria-selected')).toBe('true');
+    expect(first?.getAttribute('tabindex')).toBe('0');
+
+    expect(second?.tagName).toBe('A');
+    expect(second?.getAttribute('aria-selected')).toBe('false');
+    expect(second?.getAttribute('tabindex')).toBe('-1');
+
+    await userEvent('.custom-second', 'click');
+    await new Promise((resolve) => setTimeout(resolve, 20));
+    expect(second?.getAttribute('data-internal-clicks')).toBe('1');
+    expect(second?.textContent).toBe('Second (1)');
+    expect(second?.getAttribute('aria-selected')).toBe('true');
+    expect(second?.getAttribute('data-state')).toBe('active');
+    expect(second?.getAttribute('tabindex')).toBe('0');
+    expect(first?.getAttribute('aria-selected')).toBe('false');
+    expect(first?.getAttribute('data-state')).toBe('inactive');
+    expect(first?.getAttribute('tabindex')).toBe('-1');
   });
 });

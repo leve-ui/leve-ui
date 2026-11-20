@@ -42,8 +42,10 @@ import { Tabs } from '@leve-ui/tabs'; // or '@leve-ui/core'
 | --- | --- | --- |
 | `Tabs.Root` | `<div>` | Wraps the parts and holds the selected value. |
 | `Tabs.List` | `<div>` | The list of tabs, with `role="tablist"`. |
-| `Tabs.Trigger` | `<button>` | One tab, with `role="tab"`. Selects the Content with the same `value`. |
+| `Tabs.Trigger` | `<button>` | One tab, with `role="tab"`. Selects the Content with the same `value`. Use `as` to render another element or component. |
 | `Tabs.Content` | `<div>` | The panel of a tab, with `role="tabpanel"`. Always rendered, and hidden while its tab is not selected. |
+
+A component passed to `as` on `Tabs.Trigger` must spread the props it receives onto a single element, including `id`, `aria-*`, `data-*`, and `on*$` event handlers.
 
 ## Examples
 
