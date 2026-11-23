@@ -21,6 +21,33 @@ env:
   TURBO_TELEMETRY_DISABLED: 1
 
 jobs:
+  changes:
+    name: Detect changes
+    runs-on: ubuntu-latest
+    outputs:
+      e2e: ${{ steps.filter.outputs.e2e }}
+    steps:
+      - uses: actions/checkout@v7
+        if: github.event_name == 'pull_request'
+        with:
+          fetch-depth: 0
+      - id: filter
+        run: |
+          if [ "${{ github.event_name }}" != "pull_request" ]; then
+            echo "e2e=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          changed=$(git diff --name-only "${{ github.event.pull_request.base.sha }}" "${{ github.event.pull_request.head.sha }}")
+          echo "Changed files:"
+          echo "$changed"
+
+          if echo "$changed" | grep -qE '^(packages/|apps/storybook/|apps/e2e/|tooling/|\.github/workflows/ci\.yml|\.github/actions/setup/|package\.json$|pnpm-lock\.yaml$|pnpm-workspace\.yaml$|turbo\.json$|\.node-version$)'; then
+            echo "e2e=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "e2e=false" >> "$GITHUB_OUTPUT"
+          fi
+
   commitlint:
     name: Commit messages
     if: github.event_name == 'pull_request'
@@ -140,6 +167,8 @@ jobs:
   e2e:
     # One job per browser engine, run in parallel
     name: E2E (${{ matrix.label }})
+    needs: changes
+    if: needs.changes.outputs.e2e == 'true'
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
