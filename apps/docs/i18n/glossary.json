@@ -1,0 +1,27 @@
+{
+  "keepInEnglish": [
+    "leve-ui",
+    "Qwik",
+    "Qwik City",
+    "component names (e.g. Accordion, Radio Group, Toggle Group)",
+    "part names (e.g. Root, Trigger, Content, HiddenInput)",
+    "prop names, HTML elements and attributes, data-* attributes, CSS properties",
+    "key names (e.g. Enter, ArrowDown)",
+    "WAI-ARIA, APG, and other product names"
+  ],
+  "locales": {
+    "ja": {
+      "name": "Japanese",
+      "style": [
+        "Use the polite です／ます style of Japanese technical documentation.",
+        "Use full-width 、 and 。.",
+        "Headings, table headers and navigation labels are short noun phrases without 。.",
+        "Do not put spaces between Japanese and English words or placeholders unless the source needs them."
+      ],
+      "terms": {
+        "part / parts (component parts)": "パーツ (never パート or part)",
+        "prop / props": "prop / props (keep in English)"
+      }
+    }
+  }
+}
