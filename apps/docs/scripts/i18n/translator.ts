@@ -50,7 +50,7 @@ export type GeminiOptions = {
   model?: string;
 };
 
-export const DEFAULT_GEMINI_MODEL = 'gemini-3.8-flash';
+export const DEFAULT_GEMINI_MODEL = 'gemini-4-hydrogen';
 
 /** Gemini on Vertex AI, authenticated with Application Default Credentials. */
 export function geminiTranslator({
