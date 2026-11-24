@@ -147,10 +147,7 @@
   "064f6ac1a7897842": {
     "source": "Popover",
     "translation": "Popover",
-    "where": [
-      "src/docs-nav.ts",
-      "src/routes/en/(docs)/components/popover/index.mdx"
-    ]
+    "where": ["src/docs-nav.ts", "src/routes/en/(docs)/components/popover/index.mdx"]
   },
   "06afb01462763d24": {
     "source": "when you write to the bound signal yourself, and",
@@ -595,10 +592,7 @@
   "163f836567066c7e": {
     "source": "Toggle Group",
     "translation": "Toggle Group",
-    "where": [
-      "src/docs-nav.ts",
-      "src/routes/en/(docs)/components/toggle-group/index.mdx"
-    ]
+    "where": ["src/docs-nav.ts", "src/routes/en/(docs)/components/toggle-group/index.mdx"]
   },
   "165e1e3e110c2a29": {
     "source": "<x0>M1: Standalone</x0>",
@@ -819,10 +813,7 @@
   "20f12289f9b81897": {
     "source": "Tooltip",
     "translation": "Tooltip",
-    "where": [
-      "src/docs-nav.ts",
-      "src/routes/en/(docs)/components/tooltip/index.mdx"
-    ]
+    "where": ["src/docs-nav.ts", "src/routes/en/(docs)/components/tooltip/index.mdx"]
   },
   "211a0f7f56b58462": {
     "source": "A state is only exposed on the part that owns it (and on parts rendered after it), because Qwik renders a parent's attributes on the server before its children. For example, <x0/> has no <x1/>; the loading status is on <x2/> and <x3/>. Use <x4/> to style a parent by a child's state:",
@@ -852,18 +843,12 @@
   "22877001200eed0a": {
     "source": "Disables this item.",
     "translation": "このアイテムを無効化します。",
-    "where": [
-      "props: Accordion.Item disabled",
-      "props: ToggleGroup.Item disabled"
-    ]
+    "where": ["props: Accordion.Item disabled", "props: ToggleGroup.Item disabled"]
   },
   "2293b30e539a6842": {
     "source": "Meter",
     "translation": "Meter",
-    "where": [
-      "src/docs-nav.ts",
-      "src/routes/en/(docs)/components/meter/index.mdx"
-    ]
+    "where": ["src/docs-nav.ts", "src/routes/en/(docs)/components/meter/index.mdx"]
   },
   "22b8c9af5a577c4b": {
     "source": "Inside a Field, the IDs come from the Field and <x0/> is ignored (<x1>ADR 0024</x1>).",
@@ -1227,10 +1212,7 @@
   "34b86033459d0ea5": {
     "source": "Toast",
     "translation": "Toast",
-    "where": [
-      "src/docs-nav.ts",
-      "src/routes/en/(docs)/components/toast/index.mdx"
-    ]
+    "where": ["src/docs-nav.ts", "src/routes/en/(docs)/components/toast/index.mdx"]
   },
   "34ca0e76608842ff": {
     "source": "Group",
@@ -1378,10 +1360,7 @@
   "39921a740bf2b678": {
     "source": "Switch",
     "translation": "Switch",
-    "where": [
-      "src/docs-nav.ts",
-      "src/routes/en/(docs)/components/switch/index.mdx"
-    ]
+    "where": ["src/docs-nav.ts", "src/routes/en/(docs)/components/switch/index.mdx"]
   },
   "39c33dc2375ffc56": {
     "source": "Milestones",
@@ -1449,10 +1428,7 @@
   "3d03a1dea561d0db": {
     "source": "Toggle",
     "translation": "Toggle",
-    "where": [
-      "src/docs-nav.ts",
-      "src/routes/en/(docs)/components/toggle/index.mdx"
-    ]
+    "where": ["src/docs-nav.ts", "src/routes/en/(docs)/components/toggle/index.mdx"]
   },
   "3d199e2b071bd4d9": {
     "source": "Whether the item cannot be selected. Arrow keys skip it.",
@@ -1565,10 +1541,7 @@
   "432253a761e00d61": {
     "source": "The padding between the arrow and the corners of the menu, in px.",
     "translation": "矢印とメニューの角の間のパディング（px単位）。",
-    "where": [
-      "props: Menu.Content arrowPadding",
-      "props: Menu.SubContent arrowPadding"
-    ]
+    "where": ["props: Menu.Content arrowPadding", "props: Menu.SubContent arrowPadding"]
   },
   "43483fac661e06fb": {
     "source": "Whether to flip and shift the listbox to keep it in the viewport.",
@@ -1603,18 +1576,12 @@
   "44a57b22e03d9a66": {
     "source": "Alert",
     "translation": "Alert",
-    "where": [
-      "src/docs-nav.ts",
-      "src/routes/en/(docs)/components/alert/index.mdx"
-    ]
+    "where": ["src/docs-nav.ts", "src/routes/en/(docs)/components/alert/index.mdx"]
   },
   "44ad7ec8c3548395": {
     "source": "Whether a click or Enter closes the menu. Space never closes it (APG).",
     "translation": "クリックまたはEnterでメニューを閉じるかどうか。Spaceでは閉じません（APG）。",
-    "where": [
-      "props: Menu.CheckboxItem closeOnSelect",
-      "props: Menu.RadioItem closeOnSelect"
-    ]
+    "where": ["props: Menu.CheckboxItem closeOnSelect", "props: Menu.RadioItem closeOnSelect"]
   },
   "44cb005ee2e65d9c": {
     "source": "Root",
@@ -1661,10 +1628,7 @@
   "451aa51a0fb5068d": {
     "source": "Toolbar",
     "translation": "Toolbar",
-    "where": [
-      "src/docs-nav.ts",
-      "src/routes/en/(docs)/components/toolbar/index.mdx"
-    ]
+    "where": ["src/docs-nav.ts", "src/routes/en/(docs)/components/toolbar/index.mdx"]
   },
   "4549117b5aa07ce4": {
     "source": "Moves focus to the selected tab. When focus is on a tab, moves focus to the selected panel.",
@@ -1694,10 +1658,7 @@
   "4664827f8e890192": {
     "source": "Progress",
     "translation": "Progress",
-    "where": [
-      "src/docs-nav.ts",
-      "src/routes/en/(docs)/components/progress/index.mdx"
-    ]
+    "where": ["src/docs-nav.ts", "src/routes/en/(docs)/components/progress/index.mdx"]
   },
   "467065a16a2e9fc8": {
     "source": "Textarea",
@@ -1843,10 +1804,7 @@
   "4ae7f716fb2a4c62": {
     "source": "The value selected initially (uncontrolled).",
     "translation": "初期選択される値（非制御）。",
-    "where": [
-      "props: Menu.RadioGroup defaultValue",
-      "props: RadioGroup.Root defaultValue"
-    ]
+    "where": ["props: Menu.RadioGroup defaultValue", "props: RadioGroup.Root defaultValue"]
   },
   "4af11fcb0e20cde3": {
     "source": "Moves focus into the group (to the tab stop item), or out of the group.",
@@ -1992,10 +1950,7 @@
   "505554929de39d80": {
     "source": "GitHub repository",
     "translation": "GitHubリポジトリ",
-    "where": [
-      "src/components/footer/footer.tsx",
-      "src/components/header/header.tsx"
-    ]
+    "where": ["src/components/footer/footer.tsx", "src/components/header/header.tsx"]
   },
   "50ab6d3ffc06d955": {
     "source": "<x0/> and <x1/> group the options. With <x2/>, typing highlights the first match, so Enter selects it. With <x3/>, the arrow keys wrap around.",
@@ -2163,10 +2118,7 @@
   "57ab8bbc23602900": {
     "source": "A signal with the selected value (controlled).",
     "translation": "選択された値を保持するシグナル（制御）。",
-    "where": [
-      "props: Menu.RadioGroup bind:value",
-      "props: RadioGroup.Root bind:value"
-    ]
+    "where": ["props: Menu.RadioGroup bind:value", "props: RadioGroup.Root bind:value"]
   },
   "57bd389fda45461c": {
     "source": "<x0/> is optional. Without it, the control works the same but does not submit a value.",
@@ -2594,10 +2546,7 @@
   "68344d566701b2c9": {
     "source": "Accordion",
     "translation": "Accordion",
-    "where": [
-      "src/docs-nav.ts",
-      "src/routes/en/(docs)/components/accordion/index.mdx"
-    ]
+    "where": ["src/docs-nav.ts", "src/routes/en/(docs)/components/accordion/index.mdx"]
   },
   "687c02a44503e553": {
     "source": "The width of the Trigger, for example to make the menu at least as wide",
@@ -2661,10 +2610,7 @@
   "69b51517d04bcfed": {
     "source": "Dialog",
     "translation": "Dialog",
-    "where": [
-      "src/docs-nav.ts",
-      "src/routes/en/(docs)/components/dialog/index.mdx"
-    ]
+    "where": ["src/docs-nav.ts", "src/routes/en/(docs)/components/dialog/index.mdx"]
   },
   "69f878fb718ca5a5": {
     "source": "Complies with the <x0>Tooltip WAI-ARIA design pattern</x0>.",
@@ -3022,18 +2968,12 @@
   "7a1f166e96698e3d": {
     "source": "A signal with the checked state (controlled).",
     "translation": "チェック状態を保持するシグナル（制御）。",
-    "where": [
-      "props: Checkbox.Root bind:checked",
-      "props: Menu.CheckboxItem bind:checked"
-    ]
+    "where": ["props: Checkbox.Root bind:checked", "props: Menu.CheckboxItem bind:checked"]
   },
   "7af023c43013b9a5": {
     "source": "Docs",
     "translation": "ドキュメント",
-    "where": [
-      "src/components/docs/sidebar.tsx",
-      "src/components/header/header.tsx"
-    ]
+    "where": ["src/components/docs/sidebar.tsx", "src/components/header/header.tsx"]
   },
   "7af7704a2ef7f8cf": {
     "source": "The Label's <x0/> comes from the Root. To change it, pass <x1/> to the Root (an <x2/> on the Label is also used, but then pass the same ID to the Root's <x3/>). Inside a Field, the Field's label ID is used.",
@@ -3362,10 +3302,7 @@
   "858451263b1b9b41": {
     "source": "Forms",
     "translation": "フォーム",
-    "where": [
-      "src/docs-nav.ts",
-      "src/routes/en/(docs)/overview/forms/index.mdx"
-    ]
+    "where": ["src/docs-nav.ts", "src/routes/en/(docs)/overview/forms/index.mdx"]
   },
   "85a2295a1298c22b": {
     "source": "Custom Trigger",
@@ -3573,10 +3510,7 @@
   "8e5ea509893e6dfd": {
     "source": "Tabs",
     "translation": "Tabs",
-    "where": [
-      "src/docs-nav.ts",
-      "src/routes/en/(docs)/components/tabs/index.mdx"
-    ]
+    "where": ["src/docs-nav.ts", "src/routes/en/(docs)/components/tabs/index.mdx"]
   },
   "8e917d9915782f13": {
     "source": "Wraps the parts and holds the value, the text and the open state.",
@@ -3670,10 +3604,7 @@
   "92409c652256a4d9": {
     "source": "Styling",
     "translation": "スタイリング",
-    "where": [
-      "src/docs-nav.ts",
-      "src/routes/en/(docs)/overview/styling/index.mdx"
-    ]
+    "where": ["src/docs-nav.ts", "src/routes/en/(docs)/overview/styling/index.mdx"]
   },
   "924cf4bb7e891c3d": {
     "source": "The Root is named by <x0/> through <x1/>. If you pass <x2/> or <x3/> to the Root, that is used instead.",
@@ -3879,10 +3810,7 @@
   "99af6606ff9d6cd5": {
     "source": "Menu",
     "translation": "Menu",
-    "where": [
-      "src/docs-nav.ts",
-      "src/routes/en/(docs)/components/menu/index.mdx"
-    ]
+    "where": ["src/docs-nav.ts", "src/routes/en/(docs)/components/menu/index.mdx"]
   },
   "99fd1214a0dd7551": {
     "source": "Pass an element name or a component (such as Qwik City's <x0/>) to <x1/> on <x2/>.",
@@ -3980,10 +3908,7 @@
   "9dfea0471f2cff3a": {
     "source": "Called when the user selects a value.",
     "translation": "ユーザーが値を選択したときに呼び出されます。",
-    "where": [
-      "props: Menu.RadioGroup onValueChange$",
-      "props: RadioGroup.Root onValueChange$"
-    ]
+    "where": ["props: Menu.RadioGroup onValueChange$", "props: RadioGroup.Root onValueChange$"]
   },
   "9e0d28f63092decd": {
     "source": "<x0>Field</x0>, <x1>Fieldset</x1>, <x2>Checkbox</x2>, <x3>Switch</x3> and <x4>Radio Group</x4>: the API of each component.",
@@ -4018,10 +3943,7 @@
   "9f21621b55883562": {
     "source": "Combobox",
     "translation": "Combobox",
-    "where": [
-      "src/docs-nav.ts",
-      "src/routes/en/(docs)/components/combobox/index.mdx"
-    ]
+    "where": ["src/docs-nav.ts", "src/routes/en/(docs)/components/combobox/index.mdx"]
   },
   "9f2929e6e3517114": {
     "source": "The side of the Trigger to place the card on. It flips when there is no room.",
@@ -4154,10 +4076,7 @@
   "a38846caaa7225bf": {
     "source": "Radio Group",
     "translation": "Radio Group",
-    "where": [
-      "src/docs-nav.ts",
-      "src/routes/en/(docs)/components/radio-group/index.mdx"
-    ]
+    "where": ["src/docs-nav.ts", "src/routes/en/(docs)/components/radio-group/index.mdx"]
   },
   "a3f4d2c246703a67": {
     "source": "<x0/> references <x1/>",
@@ -4263,10 +4182,7 @@
   "a6cd188705fa94ff": {
     "source": "Controlled & Uncontrolled",
     "translation": "Controlled & Uncontrolled",
-    "where": [
-      "src/docs-nav.ts",
-      "src/routes/en/(docs)/overview/controlled-uncontrolled/index.mdx"
-    ]
+    "where": ["src/docs-nav.ts", "src/routes/en/(docs)/overview/controlled-uncontrolled/index.mdx"]
   },
   "a6d0126b8464b728": {
     "source": "How it is tested",
@@ -4511,10 +4427,7 @@
   "b36548cadb5783fc": {
     "source": "Drawer",
     "translation": "Drawer",
-    "where": [
-      "src/docs-nav.ts",
-      "src/routes/en/(docs)/components/drawer/index.mdx"
-    ]
+    "where": ["src/docs-nav.ts", "src/routes/en/(docs)/components/drawer/index.mdx"]
   },
   "b3d1e2f6e1e99181": {
     "source": "Vertical only. Moves focus to the next / previous enabled tab, and selects it in automatic mode. Wraps around when <x0/> is <x1/>.",
@@ -4559,10 +4472,7 @@
   "b605350bc0020952": {
     "source": "Introduction",
     "translation": "導入",
-    "where": [
-      "src/docs-nav.ts",
-      "src/routes/en/(docs)/overview/introduction/index.mdx"
-    ]
+    "where": ["src/docs-nav.ts", "src/routes/en/(docs)/overview/introduction/index.mdx"]
   },
   "b617a8b639955232": {
     "source": "The Content gets inline <x0/>, <x1/> and <x2/> while it is open. Set <x3/> only on <x4/>, since on the Content itself it would override the browser's <x5/> of the closed popover.",
@@ -5015,10 +4925,7 @@
   "c693e69e3d3a74a9": {
     "source": "Disables all items.",
     "translation": "すべてのアイテムを無効化します。",
-    "where": [
-      "props: Accordion.Root disabled",
-      "props: ToggleGroup.Root disabled"
-    ]
+    "where": ["props: Accordion.Root disabled", "props: ToggleGroup.Root disabled"]
   },
   "c6c094bc0054f9cb": {
     "source": "Empty",
@@ -5106,10 +5013,7 @@
   "ca8e826d9c2ec401": {
     "source": "Avatar",
     "translation": "Avatar",
-    "where": [
-      "src/docs-nav.ts",
-      "src/routes/en/(docs)/components/avatar/index.mdx"
-    ]
+    "where": ["src/docs-nav.ts", "src/routes/en/(docs)/components/avatar/index.mdx"]
   },
   "cb2aeb3a83022f7c": {
     "source": "Whether typing highlights the first item, so Enter selects it.",
@@ -5306,10 +5210,7 @@
   "d103a1380b8c77c3": {
     "source": "Checkbox",
     "translation": "Checkbox",
-    "where": [
-      "src/docs-nav.ts",
-      "src/routes/en/(docs)/components/checkbox/index.mdx"
-    ]
+    "where": ["src/docs-nav.ts", "src/routes/en/(docs)/components/checkbox/index.mdx"]
   },
   "d16f9d878393ba86": {
     "source": "Each <x0/> renders <x1/> and <x2/> pointing to its Trigger. It has <x3/>, so the panel itself can receive focus.",
@@ -5826,10 +5727,7 @@
   "e4fe1db500f5eeb3": {
     "source": "Hover Card",
     "translation": "Hover Card",
-    "where": [
-      "src/docs-nav.ts",
-      "src/routes/en/(docs)/components/hover-card/index.mdx"
-    ]
+    "where": ["src/docs-nav.ts", "src/routes/en/(docs)/components/hover-card/index.mdx"]
   },
   "e50a6d68b7111526": {
     "source": "Use <x0/> to react to changes without owning the state:",
@@ -6358,10 +6256,7 @@
   "f5ea1972dbc7c5f3": {
     "source": "Whether to flip and shift the menu to keep it in the viewport.",
     "translation": "メニューをビューポート内に収めるために反転およびシフトするかどうか。",
-    "where": [
-      "props: Menu.Content avoidCollisions",
-      "props: Menu.SubContent avoidCollisions"
-    ]
+    "where": ["props: Menu.Content avoidCollisions", "props: Menu.SubContent avoidCollisions"]
   },
   "f5ed950072788f9d": {
     "source": "An MCP server and agent skills, to help coding agents use leve-ui, are planned.",

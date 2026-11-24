@@ -8,6 +8,7 @@
  * When the English text changes, its hash changes, so a stale translation is
  * never used.
  */
+import { execFileSync } from 'node:child_process';
 import { existsSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join, relative, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -19,6 +20,7 @@ export type MemoryEntry = { source: string; translation: string; where?: string[
 export type Memory = Record<string, MemoryEntry>;
 
 const docsRoot = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
+const repoRoot = resolve(docsRoot, '../..');
 export const SRC_DIR = join(docsRoot, 'src');
 export const ROUTES_DIR = join(SRC_DIR, 'routes');
 export const SOURCE_DIR = join(ROUTES_DIR, SOURCE_LOCALE);
@@ -34,8 +36,8 @@ export function readMemory(locale: string): Memory {
 }
 
 /**
- * Writes the memory sorted by key, so that diffs stay small. This is the only
- * formatter of the memory: Biome ignores i18n/, since it would format it differently.
+ * Writes the memory sorted by key and formats it with Biome, so that diffs stay
+ * small and match manual edits.
  */
 export function writeMemory(locale: string, memory: Memory) {
   const sorted = Object.fromEntries(
@@ -44,7 +46,9 @@ export function writeMemory(locale: string, memory: Memory) {
       // Same key order in every entry
       .map(([hash, { source, translation, where }]) => [hash, { source, translation, where }]),
   );
-  writeFileSync(memoryPath(locale), `${JSON.stringify(sorted, null, 2)}\n`);
+  const path = memoryPath(locale);
+  writeFileSync(path, `${JSON.stringify(sorted, null, 2)}\n`);
+  execFileSync('pnpm', ['exec', 'biome', 'format', '--write', path], { cwd: repoRoot });
 }
 
 /** Looks up the translation of a segment text. */
