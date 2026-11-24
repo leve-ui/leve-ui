@@ -6,6 +6,7 @@ import { partytownVite } from '@qwik.dev/partytown/utils';
 import rehypeShiki from '@shikijs/rehype';
 import { defineConfig, mergeConfig } from 'vite';
 import tsconfigPaths from 'vite-tsconfig-paths';
+import { rehypeEnglishHeadingIds } from './vite/english-heading-ids';
 import { highlightPlugin, SHIKI_THEMES } from './vite/highlight';
 
 const r = (path: string) => fileURLToPath(new URL(path, import.meta.url));
@@ -30,7 +31,10 @@ export default defineConfig(() =>
         },
         mdx: {
           providerImportSource: r('./src/components/mdx/provider.ts'),
-          rehypePlugins: [[rehypeShiki, { themes: SHIKI_THEMES, defaultColor: false }]],
+          rehypePlugins: [
+            rehypeEnglishHeadingIds,
+            [rehypeShiki, { themes: SHIKI_THEMES, defaultColor: false }],
+          ],
         },
       }),
       qwikVite(),
