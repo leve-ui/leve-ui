@@ -165,10 +165,11 @@ jobs:
         run: pnpm package:check-npm
 
   e2e:
-    # One job per browser engine, run in parallel
+    # One job per browser engine, run in parallel.
+    # Always expand the matrix so required check names (E2E (Chromium), etc.) are reported;
+    # steps are skipped when no relevant files changed.
     name: E2E (${{ matrix.label }})
     needs: changes
-    if: needs.changes.outputs.e2e == 'true'
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -182,11 +183,14 @@ jobs:
             label: Firefox
     steps:
       - uses: actions/checkout@v7
+        if: needs.changes.outputs.e2e == 'true'
       - uses: ./.github/actions/setup
+        if: needs.changes.outputs.e2e == 'true'
       # Tests run against the static Storybook build: the dev server compiles each story on
       # its first visit, which made the first test of many spec files time out (#161).
       # Reuse the Build job's Turborepo cache from earlier runs (restore only).
       - name: Restore Turborepo cache
+        if: needs.changes.outputs.e2e == 'true'
         uses: actions/cache/restore@v6
         with:
           path: .turbo/cache
@@ -194,33 +198,37 @@ jobs:
           restore-keys: |
             turbo-${{ runner.os }}-build-
       - name: Build Storybook
+        if: needs.changes.outputs.e2e == 'true'
         run: pnpm turbo run build --filter=@leve-ui/storybook...
       - name: Get Playwright version
+        if: needs.changes.outputs.e2e == 'true'
         id: playwright-version
         run: echo "version=$(node -p "require('./apps/e2e/node_modules/@playwright/test/package.json').version")" >> "$GITHUB_OUTPUT"
       - name: Restore Playwright browsers
+        if: needs.changes.outputs.e2e == 'true'
         id: playwright-cache
         uses: actions/cache/restore@v6
         with:
           path: ~/.cache/ms-playwright
           key: playwright-${{ runner.os }}-${{ matrix.project }}-${{ steps.playwright-version.outputs.version }}
       - name: Install Playwright browsers
-        if: steps.playwright-cache.outputs.cache-hit != 'true'
+        if: needs.changes.outputs.e2e == 'true' && steps.playwright-cache.outputs.cache-hit != 'true'
         run: pnpm --filter @leve-ui/e2e exec playwright install --with-deps ${{ matrix.project }}
       - name: Save Playwright browsers
-        if: steps.playwright-cache.outputs.cache-hit != 'true'
+        if: needs.changes.outputs.e2e == 'true' && steps.playwright-cache.outputs.cache-hit != 'true'
         uses: actions/cache/save@v6
         with:
           path: ~/.cache/ms-playwright
           key: playwright-${{ runner.os }}-${{ matrix.project }}-${{ steps.playwright-version.outputs.version }}
       - name: Install Playwright OS dependencies
-        if: steps.playwright-cache.outputs.cache-hit == 'true'
+        if: needs.changes.outputs.e2e == 'true' && steps.playwright-cache.outputs.cache-hit == 'true'
         run: pnpm --filter @leve-ui/e2e exec playwright install-deps ${{ matrix.project }}
-      - run: pnpm e2e -- --project=${{ matrix.project }}
+      - if: needs.changes.outputs.e2e == 'true'
+        run: pnpm e2e -- --project=${{ matrix.project }}
         env:
           E2E_STATIC: 1
       - name: Upload Playwright report
-        if: failure()
+        if: needs.changes.outputs.e2e == 'true' && failure()
         uses: actions/upload-artifact@v7
         with:
           name: playwright-report-${{ matrix.project }}
