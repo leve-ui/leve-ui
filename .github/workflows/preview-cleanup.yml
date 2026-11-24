@@ -1,0 +1,80 @@
+name: Cleanup previews
+
+on:
+  schedule:
+    # Run daily at 03:00 JST (18:00 UTC)
+    - cron: "0 18 * * *"
+  workflow_dispatch:
+
+concurrency:
+  group: preview-cleanup
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  cleanup:
+    name: Delete stale Cloudflare Pages previews
+    if: github.repository == 'leve-ui/leve-ui'
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: read
+    steps:
+      - name: List open PR branches
+        id: open_prs
+        uses: actions/github-script@v8
+        with:
+          script: |
+            const prs = await github.paginate(github.rest.pulls.list, {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+              per_page: 100,
+            });
+            const branches = prs.map((pr) => pr.head.ref);
+            core.setOutput('branches', JSON.stringify(branches));
+
+      - name: Delete stale preview deployments
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          OPEN_BRANCHES: ${{ steps.open_prs.outputs.branches }}
+        run: |
+          set -euo pipefail
+
+          AUTH_HEADER="Authorization: Bearer $CLOUDFLARE_API_TOKEN"
+          ids_file=$(mktemp)
+          trap 'rm -f "$ids_file"' EXIT
+
+          for PROJECT_NAME in leve-ui-docs leve-ui-storybook; do
+            BASE="https://api.cloudflare.com/client/v4/accounts/$CLOUDFLARE_ACCOUNT_ID/pages/projects/$PROJECT_NAME/deployments"
+            page=1
+            : > "$ids_file"
+
+            while :; do
+              response=$(curl -fsS -H "$AUTH_HEADER" "$BASE?env=preview&page=$page&per_page=25")
+              count=$(echo "$response" | jq '.result | length')
+              if [ "$count" -eq 0 ]; then
+                break
+              fi
+
+              echo "$response" | jq -r --argjson open "$OPEN_BRANCHES" '
+                .result[]
+                | (.deployment_trigger.metadata.branch // "") as $branch
+                | select($branch != "" and $branch != "main" and (($open | index($branch)) == null))
+                | .id
+              ' >> "$ids_file"
+              page=$((page + 1))
+            done
+
+            deleted=0
+            while IFS= read -r id; do
+              if [ -n "$id" ]; then
+                curl -fsS -X DELETE -H "$AUTH_HEADER" "$BASE/$id?force=true" > /dev/null
+                deleted=$((deleted + 1))
+              fi
+            done < "$ids_file"
+
+            echo "[$PROJECT_NAME] Deleted $deleted stale preview deployment(s)."
+          done
