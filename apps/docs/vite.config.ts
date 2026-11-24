@@ -1,4 +1,5 @@
 import { fileURLToPath } from 'node:url';
+import { partytownVite } from '@builder.io/partytown/utils';
 import { qwikVite } from '@builder.io/qwik/optimizer';
 import { qwikCity } from '@builder.io/qwik-city/vite';
 import { sourceResolveConfig } from '@leve-ui/vite-config';
@@ -33,6 +34,7 @@ export default defineConfig(() =>
         },
       }),
       qwikVite(),
+      partytownVite({ dest: r('dist/~partytown') }),
       tsconfigPaths({ root: '.' }),
     ],
     optimizeDeps: {
