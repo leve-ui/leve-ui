@@ -7,7 +7,8 @@
 import { mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join, relative, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { LOCALES } from '../src/i18n/locales.ts';
+import { LOCALES, SOURCE_LOCALE } from '../src/i18n/locales.ts';
+import { slugify, stripMarkdown } from './slug.ts';
 
 export type SearchSection = {
   id: string;
@@ -57,30 +58,10 @@ function parseFrontmatter(raw: string): { title: string; description: string; bo
   return { title, description, body };
 }
 
-function slugify(text: string, counts: Map<string, number>): string {
-  const base = text
-    .toLowerCase()
-    .trim()
-    .replace(/[`*_~()[\]{}.,:;!?'"/\\<>@#$%^&+=|]/g, '')
-    .replace(/\s+/g, '-');
-  const count = counts.get(base) ?? 0;
-  counts.set(base, count + 1);
-  return count === 0 ? base : `${base}-${count}`;
-}
-
-function stripMarkdown(line: string): string {
-  return line
-    .replace(/!\[([^\]]*)\]\([^)]*\)/g, '$1')
-    .replace(/\[([^\]]+)\]\([^)]*\)/g, '$1')
-    .replace(/`([^`]+)`/g, '$1')
-    .replace(/[*_~]{1,3}([^*_~]+)[*_~]{1,3}/g, '$1')
-    .replace(/<[^>]+>/g, ' ')
-    .replace(/\|/g, ' ')
-    .replace(/\s+/g, ' ')
-    .trim();
-}
-
-function extractSections(body: string): { intro: string; sections: SearchSection[] } {
+function extractSections(
+  body: string,
+  englishSectionIds?: string[],
+): { intro: string; sections: SearchSection[] } {
   const lines = body.split(/\r?\n/);
   const slugCounts = new Map<string, number>();
   const introLines: string[] = [];
@@ -107,8 +88,9 @@ function extractSections(body: string): { intro: string; sections: SearchSection
         });
       }
       const title = stripMarkdown(heading[2]);
+      const id = englishSectionIds?.[sections.length] ?? slugify(title, slugCounts);
       current = {
-        id: slugify(title, slugCounts),
+        id,
         title,
         lines: [],
       };
@@ -143,7 +125,10 @@ function extractSections(body: string): { intro: string; sections: SearchSection
   };
 }
 
-function buildIndexForLocale(locale: string): SearchPage[] {
+function buildIndexForLocale(
+  locale: string,
+  englishIdsByHref?: Map<string, string[]>,
+): SearchPage[] {
   const docsDir = join(ROUTES_DIR, locale, '(docs)');
   const files = walkMdx(docsDir).sort();
   const pages: SearchPage[] = [];
@@ -156,7 +141,7 @@ function buildIndexForLocale(locale: string): SearchPage[] {
     const section = rel.startsWith('components') ? 'Components' : 'Overview';
     const raw = readFileSync(file, 'utf8');
     const { title, description, body } = parseFrontmatter(raw);
-    const { intro, sections } = extractSections(body);
+    const { intro, sections } = extractSections(body, englishIdsByHref?.get(href));
 
     pages.push({
       href,
@@ -172,8 +157,14 @@ function buildIndexForLocale(locale: string): SearchPage[] {
 }
 
 mkdirSync(PUBLIC_DIR, { recursive: true });
+const sourcePages = buildIndexForLocale(SOURCE_LOCALE);
+const englishIdsByHref = new Map(
+  sourcePages.map((page) => [page.href, page.sections.map((s) => s.id)]),
+);
+
 for (const locale of LOCALES) {
-  const pages = buildIndexForLocale(locale);
+  const pages =
+    locale === SOURCE_LOCALE ? sourcePages : buildIndexForLocale(locale, englishIdsByHref);
   const outPath = join(PUBLIC_DIR, `search-index-${locale}.json`);
   writeFileSync(outPath, JSON.stringify(pages));
   console.log(`search: wrote ${pages.length} pages to ${relative(DOCS_ROOT, outPath)}`);
