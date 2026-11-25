@@ -11,6 +11,7 @@ export interface SwitchContext {
   disabled: ReadonlySignal<boolean>; // Root disabled || Field disabled
   required: ReadonlySignal<boolean>; // Root required || Field required
   toggle$: QRL<() => void>; // no-op when disabled
+  reset$: QRL<() => Promise<void>>;
 }
 
 export const switchContextId = createContextId<SwitchContext>('leve-ui.switch');

@@ -1,8 +1,11 @@
-import { component$, type PropsOf, useContext } from '@builder.io/qwik';
-import { dataAttr } from '@leve-ui/utils';
+import { $, component$, type PropsOf, useContext, useSignal } from '@builder.io/qwik';
+import { dataAttr, useFormReset } from '@leve-ui/utils';
 import { switchContextId } from './switch-context';
 
-export type SwitchHiddenInputProps = PropsOf<'input'>;
+export type SwitchHiddenInputProps = PropsOf<'input'> & {
+  /** The `id` of the form element to associate the input with. */
+  form?: string;
+};
 
 /**
  * フォーム送信用の隠しチェックボックス要素です。
@@ -15,10 +18,22 @@ export type SwitchHiddenInputProps = PropsOf<'input'>;
  */
 export const SwitchHiddenInput = component$<SwitchHiddenInputProps>((props) => {
   const context = useContext(switchContextId);
+  const inputRef = useSignal<HTMLInputElement>();
+
+  useFormReset(
+    inputRef,
+    $(async () => {
+      await context.reset$();
+      if (inputRef.value) {
+        inputRef.value.checked = context.checked.value;
+      }
+    }),
+  );
 
   return (
     <input
       {...props}
+      ref={inputRef}
       type="checkbox"
       checked={context.checked.value}
       required={context.required.value}

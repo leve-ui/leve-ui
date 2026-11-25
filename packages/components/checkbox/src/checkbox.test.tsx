@@ -573,4 +573,187 @@ describe('Checkbox', () => {
     expect(label?.getAttribute('for')).toBe('field-control-id');
     expect(control?.getAttribute('id')).toBe('field-control-id');
   });
+
+  describe('form reset', () => {
+    async function dispatchReset(
+      form: HTMLFormElement,
+      screen: HTMLElement,
+      userEvent: Awaited<ReturnType<typeof createDOM>>['userEvent'],
+    ) {
+      const event = form.ownerDocument.createEvent('Event');
+      event.initEvent('reset', true, true);
+      form.dispatchEvent(event);
+      await new Promise<void>((resolve) => setTimeout(resolve, 25));
+      await userEvent(screen, 'noop');
+    }
+
+    it('form reset で非制御チェックボックスが defaultChecked=false に戻り onCheckedChange$ が呼ばれる', async () => {
+      const Parent = component$(() => {
+        const log = useSignal<CheckboxCheckedState[]>([]);
+        return (
+          <div>
+            <form id="checkbox-reset-form">
+              <Checkbox.Root onCheckedChange$={(val) => (log.value = [...log.value, val])}>
+                <Checkbox.Control>
+                  <Checkbox.Indicator>✓</Checkbox.Indicator>
+                </Checkbox.Control>
+                <Checkbox.HiddenInput name="agree" />
+              </Checkbox.Root>
+            </form>
+            <output id="log">{log.value.map(String).join(',')}</output>
+          </div>
+        );
+      });
+
+      const { screen, render, userEvent } = await createDOM();
+      await render(<Parent />);
+
+      const control = screen.querySelector('[data-leve-checkbox-control]');
+      const hiddenInput = screen.querySelector(
+        '[data-leve-checkbox-hidden-input]',
+      ) as HTMLInputElement;
+      const form = screen.querySelector('#checkbox-reset-form') as HTMLFormElement;
+
+      await userEvent('[data-leve-checkbox-control]', 'click');
+      expect(control?.getAttribute('aria-checked')).toBe('true');
+      expect(hiddenInput.checked).toBe(true);
+
+      await dispatchReset(form, screen, userEvent);
+
+      expect(control?.getAttribute('aria-checked')).toBe('false');
+      expect(control?.getAttribute('data-state')).toBe('unchecked');
+      expect(hiddenInput.checked).toBe(false);
+      expect(hiddenInput.indeterminate).toBe(false);
+      expect(screen.querySelector('#log')?.textContent).toBe('true,false');
+    });
+
+    it('form reset で defaultChecked=true / "indeterminate" に戻る', async () => {
+      const { screen: screenTrue, render: renderTrue, userEvent: userTrue } = await createDOM();
+      await renderTrue(
+        <form id="checkbox-true-form">
+          <Checkbox.Root defaultChecked={true}>
+            <Checkbox.Control>
+              <Checkbox.Indicator>✓</Checkbox.Indicator>
+            </Checkbox.Control>
+            <Checkbox.HiddenInput name="agree" />
+          </Checkbox.Root>
+        </form>,
+      );
+
+      const controlTrue = screenTrue.querySelector('[data-leve-checkbox-control]');
+      const hiddenTrue = screenTrue.querySelector(
+        '[data-leve-checkbox-hidden-input]',
+      ) as HTMLInputElement;
+      const formTrue = screenTrue.querySelector('#checkbox-true-form') as HTMLFormElement;
+
+      await userTrue('[data-leve-checkbox-control]', 'click');
+      expect(controlTrue?.getAttribute('aria-checked')).toBe('false');
+
+      await dispatchReset(formTrue, screenTrue, userTrue);
+
+      expect(controlTrue?.getAttribute('aria-checked')).toBe('true');
+      expect(hiddenTrue.checked).toBe(true);
+      expect(hiddenTrue.indeterminate).toBe(false);
+
+      const { screen: screenIndet, render: renderIndet, userEvent: userIndet } = await createDOM();
+      await renderIndet(
+        <form id="checkbox-indet-form">
+          <Checkbox.Root defaultChecked="indeterminate">
+            <Checkbox.Control>
+              <Checkbox.Indicator>-</Checkbox.Indicator>
+            </Checkbox.Control>
+            <Checkbox.HiddenInput name="select-all" />
+          </Checkbox.Root>
+        </form>,
+      );
+
+      const controlIndet = screenIndet.querySelector('[data-leve-checkbox-control]');
+      const hiddenIndet = screenIndet.querySelector(
+        '[data-leve-checkbox-hidden-input]',
+      ) as HTMLInputElement;
+      const formIndet = screenIndet.querySelector('#checkbox-indet-form') as HTMLFormElement;
+
+      await userIndet('[data-leve-checkbox-control]', 'click');
+      expect(controlIndet?.getAttribute('aria-checked')).toBe('true');
+      expect(hiddenIndet.indeterminate).toBe(false);
+
+      await dispatchReset(formIndet, screenIndet, userIndet);
+
+      expect(controlIndet?.getAttribute('aria-checked')).toBe('mixed');
+      expect(controlIndet?.getAttribute('data-state')).toBe('indeterminate');
+      expect(hiddenIndet.checked).toBe(false);
+      expect(hiddenIndet.indeterminate).toBe(true);
+    });
+
+    it('制御モード（bind:checked）では form reset しても状態が変わらず HiddenInput が同期される', async () => {
+      const Parent = component$(() => {
+        const checked = useSignal<CheckboxCheckedState>(true);
+        const log = useSignal<CheckboxCheckedState[]>([]);
+        return (
+          <div>
+            <form id="checkbox-controlled-form">
+              <Checkbox.Root
+                bind:checked={checked}
+                onCheckedChange$={(val) => (log.value = [...log.value, val])}
+              >
+                <Checkbox.Control>
+                  <Checkbox.Indicator>✓</Checkbox.Indicator>
+                </Checkbox.Control>
+                <Checkbox.HiddenInput name="agree" />
+              </Checkbox.Root>
+            </form>
+            <output id="log">{log.value.map(String).join(',')}</output>
+          </div>
+        );
+      });
+
+      const { screen, render, userEvent } = await createDOM();
+      await render(<Parent />);
+
+      const control = screen.querySelector('[data-leve-checkbox-control]');
+      const hiddenInput = screen.querySelector(
+        '[data-leve-checkbox-hidden-input]',
+      ) as HTMLInputElement;
+      const form = screen.querySelector('#checkbox-controlled-form') as HTMLFormElement;
+
+      hiddenInput.checked = false;
+      await dispatchReset(form, screen, userEvent);
+
+      expect(control?.getAttribute('aria-checked')).toBe('true');
+      expect(hiddenInput.checked).toBe(true);
+      expect(screen.querySelector('#log')?.textContent).toBe('');
+    });
+
+    it('form 属性で外部 form と関連付けた場合や preventDefault() が正しく扱われる', async () => {
+      const { screen, render, userEvent } = await createDOM();
+      await render(
+        <div>
+          <form id="external-checkbox-form" />
+          <Checkbox.Root>
+            <Checkbox.Control>
+              <Checkbox.Indicator>✓</Checkbox.Indicator>
+            </Checkbox.Control>
+            <Checkbox.HiddenInput name="ext" form="external-checkbox-form" />
+          </Checkbox.Root>
+        </div>,
+      );
+
+      const control = screen.querySelector('[data-leve-checkbox-control]');
+      const form = screen.querySelector('#external-checkbox-form') as HTMLFormElement;
+
+      await userEvent('[data-leve-checkbox-control]', 'click');
+      expect(control?.getAttribute('aria-checked')).toBe('true');
+
+      let shouldPrevent = true;
+      form.addEventListener('reset', (event) => {
+        if (shouldPrevent) event.preventDefault();
+      });
+      await dispatchReset(form, screen, userEvent);
+      expect(control?.getAttribute('aria-checked')).toBe('true');
+
+      shouldPrevent = false;
+      await dispatchReset(form, screen, userEvent);
+      expect(control?.getAttribute('aria-checked')).toBe('false');
+    });
+  });
 });

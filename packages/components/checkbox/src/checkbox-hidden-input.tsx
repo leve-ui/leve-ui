@@ -1,8 +1,18 @@
-import { component$, type PropsOf, useContext, useSignal, useVisibleTask$ } from '@builder.io/qwik';
-import { dataAttr } from '@leve-ui/utils';
+import {
+  $,
+  component$,
+  type PropsOf,
+  useContext,
+  useSignal,
+  useVisibleTask$,
+} from '@builder.io/qwik';
+import { dataAttr, useFormReset } from '@leve-ui/utils';
 import { checkboxContextId, getCheckboxDataState } from './checkbox-context';
 
-export type CheckboxHiddenInputProps = PropsOf<'input'>;
+export type CheckboxHiddenInputProps = PropsOf<'input'> & {
+  /** The `id` of the form element to associate the input with. */
+  form?: string;
+};
 
 /**
  * フォーム送信用の隠しチェックボックス要素です。
@@ -16,6 +26,17 @@ export type CheckboxHiddenInputProps = PropsOf<'input'>;
 export const CheckboxHiddenInput = component$<CheckboxHiddenInputProps>((props) => {
   const context = useContext(checkboxContextId);
   const inputRef = useSignal<HTMLInputElement>();
+
+  useFormReset(
+    inputRef,
+    $(async () => {
+      await context.reset$();
+      if (inputRef.value) {
+        inputRef.value.checked = context.checked.value === true;
+        inputRef.value.indeterminate = context.checked.value === 'indeterminate';
+      }
+    }),
+  );
 
   // HTMLInputElement.indeterminate は HTML 属性ではなく DOM プロパティでのみ設定可能なため、
   // クライアントで DOM 要素のプロパティを直接同期する必要があります。

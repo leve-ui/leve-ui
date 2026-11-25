@@ -14,6 +14,7 @@ export interface RadioGroupContext {
   ids: RadioGroupIds;
   value: ReadonlySignal<string | null>;
   select$: QRL<(value: string) => void>;
+  reset$: QRL<() => Promise<void>>;
   disabled: ReadonlySignal<boolean>;
   required: ReadonlySignal<boolean>;
   orientation: ReadonlySignal<'horizontal' | 'vertical'>;

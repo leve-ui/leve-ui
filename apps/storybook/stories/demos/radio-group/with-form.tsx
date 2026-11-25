@@ -31,9 +31,14 @@ export default component$(() => {
           </RadioGroup.Item>
           <RadioGroup.HiddenInput name="subscription" />
         </RadioGroup.Root>
-        <button type="submit" class="radio-group-with-form-form-button">
-          Submit
-        </button>
+        <div class="radio-group-with-form-actions">
+          <button type="submit" class="radio-group-with-form-form-button">
+            Submit
+          </button>
+          <button type="reset" class="radio-group-with-form-form-reset">
+            Reset
+          </button>
+        </div>
       </form>
       {submittedValue.value !== null && (
         <p class="radio-group-with-form-submitted" data-testid="submitted-value">

@@ -13,6 +13,7 @@ export interface CheckboxContext {
   disabled: ReadonlySignal<boolean>; // Root disabled || Field disabled
   required: ReadonlySignal<boolean>; // Root required || Field required
   toggle$: QRL<() => void>; // no-op when disabled
+  reset$: QRL<() => Promise<void>>;
 }
 
 export const checkboxContextId = createContextId<CheckboxContext>('leve-ui.checkbox');

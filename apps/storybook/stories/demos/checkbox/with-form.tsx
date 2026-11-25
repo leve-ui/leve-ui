@@ -13,20 +13,29 @@ export default component$(() => {
   });
 
   return (
-    <form class="checkbox-with-form-form" preventdefault:submit onSubmit$={handleSubmit$}>
-      <Checkbox.Root class="checkbox-with-form-root">
-        <Checkbox.Control class="checkbox-with-form-control">
-          <Checkbox.Indicator class="checkbox-with-form-indicator">
-            <LuCheck class="checkbox-with-form-icon" aria-hidden="true" />
-          </Checkbox.Indicator>
-        </Checkbox.Control>
-        <Checkbox.Label class="checkbox-with-form-label">Agree to marketing emails</Checkbox.Label>
-        <Checkbox.HiddenInput name="marketing" value="subscribed" />
-      </Checkbox.Root>
-      <button type="submit" class="checkbox-with-form-submit">
-        Submit
-      </button>
+    <div class="checkbox-with-form-wrapper">
+      <form class="checkbox-with-form-form" preventdefault:submit onSubmit$={handleSubmit$}>
+        <Checkbox.Root class="checkbox-with-form-root">
+          <Checkbox.Control class="checkbox-with-form-control">
+            <Checkbox.Indicator class="checkbox-with-form-indicator">
+              <LuCheck class="checkbox-with-form-icon" aria-hidden="true" />
+            </Checkbox.Indicator>
+          </Checkbox.Control>
+          <Checkbox.Label class="checkbox-with-form-label">
+            Agree to marketing emails
+          </Checkbox.Label>
+          <Checkbox.HiddenInput name="marketing" value="subscribed" />
+        </Checkbox.Root>
+        <div class="checkbox-with-form-actions">
+          <button type="submit" class="checkbox-with-form-submit">
+            Submit
+          </button>
+          <button type="reset" class="checkbox-with-form-reset">
+            Reset
+          </button>
+        </div>
+      </form>
       <output class="checkbox-with-form-output">{submittedData.value}</output>
-    </form>
+    </div>
   );
 });

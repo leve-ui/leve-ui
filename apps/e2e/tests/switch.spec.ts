@@ -120,6 +120,27 @@ test.describe('Switch', () => {
     await expect(output).toHaveText('{"notifications":"on"}');
   });
 
+  test('フォームの Reset でスイッチが初期状態に戻る', async ({ page }) => {
+    await gotoStory(page, 'components-switch--form');
+    const control = page.getByRole('switch', { name: 'Notifications' });
+    const hiddenInput = page.locator('[data-leve-switch-hidden-input]');
+    const reset = page.getByRole('button', { name: 'Reset' });
+    const save = page.getByRole('button', { name: 'Save' });
+    const output = page.locator('output');
+
+    await control.click();
+    await expect(control).toBeChecked();
+    await expect(hiddenInput).toBeChecked();
+
+    await reset.click();
+    await expect(control).not.toBeChecked();
+    await expect(control).toHaveAttribute('data-state', 'unchecked');
+    await expect(hiddenInput).not.toBeChecked();
+
+    await save.click();
+    await expect(output).toHaveText('{}');
+  });
+
   test('Field の Label がアクセシブルネームになり、Description が説明になる', async ({ page }) => {
     await gotoStory(page, 'components-switch--with-field');
 

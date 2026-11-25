@@ -12,18 +12,25 @@ export default component$(() => {
   });
 
   return (
-    <form class="switch-form-form" preventdefault:submit onSubmit$={handleSubmit$}>
-      <Switch.Root class="switch-form-root">
-        <Switch.Label class="switch-form-label">Notifications</Switch.Label>
-        <Switch.Control class="switch-form-control">
-          <Switch.Thumb class="switch-form-thumb" />
-        </Switch.Control>
-        <Switch.HiddenInput name="notifications" />
-      </Switch.Root>
-      <button type="submit" class="switch-form-submit">
-        Save
-      </button>
+    <div class="switch-form-wrapper">
+      <form class="switch-form-form" preventdefault:submit onSubmit$={handleSubmit$}>
+        <Switch.Root class="switch-form-root">
+          <Switch.Label class="switch-form-label">Notifications</Switch.Label>
+          <Switch.Control class="switch-form-control">
+            <Switch.Thumb class="switch-form-thumb" />
+          </Switch.Control>
+          <Switch.HiddenInput name="notifications" />
+        </Switch.Root>
+        <div class="switch-form-actions">
+          <button type="submit" class="switch-form-submit">
+            Save
+          </button>
+          <button type="reset" class="switch-form-reset">
+            Reset
+          </button>
+        </div>
+      </form>
       <output class="switch-form-output">{submittedData.value}</output>
-    </form>
+    </div>
   );
 });

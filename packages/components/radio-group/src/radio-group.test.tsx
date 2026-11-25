@@ -731,4 +731,166 @@ describe('RadioGroup', () => {
     expect(sizeLabel.id).toBe('size-label');
     expect(size.getAttribute('aria-labelledby')).toBe('size-label');
   });
+
+  describe('form reset', () => {
+    async function dispatchReset(
+      form: HTMLFormElement,
+      screen: HTMLElement,
+      userEvent: Awaited<ReturnType<typeof createDOM>>['userEvent'],
+    ) {
+      const event = form.ownerDocument.createEvent('Event');
+      event.initEvent('reset', true, true);
+      form.dispatchEvent(event);
+      await new Promise<void>((resolve) => setTimeout(resolve, 25));
+      await userEvent(screen, 'noop');
+    }
+
+    it('form reset で非制御ラジオグループが defaultValue に戻り onValueChange$ が呼ばれる', async () => {
+      const Parent = component$(() => {
+        const log = useSignal<string[]>([]);
+        return (
+          <div>
+            <form id="rg-reset-form">
+              <RadioGroup.Root
+                defaultValue="monthly"
+                onValueChange$={(val) => (log.value = [...log.value, val])}
+              >
+                <RadioGroup.Item value="monthly">Monthly</RadioGroup.Item>
+                <RadioGroup.Item value="yearly">Yearly</RadioGroup.Item>
+                <RadioGroup.HiddenInput name="plan" />
+              </RadioGroup.Root>
+            </form>
+            <output id="log">{log.value.join(',')}</output>
+          </div>
+        );
+      });
+
+      const { screen, render, userEvent } = await createDOM();
+      await render(<Parent />);
+
+      const [monthly, yearly] = screen.querySelectorAll('[data-leve-radio-group-item]');
+      const hiddenInput = screen.querySelector(
+        '[data-leve-radio-group-hidden-input]',
+      ) as HTMLInputElement;
+      const form = screen.querySelector('#rg-reset-form') as HTMLFormElement;
+
+      await userEvent('[data-leve-radio-group-item][value="yearly"]', 'click');
+      expect(yearly.getAttribute('aria-checked')).toBe('true');
+      expect(monthly.getAttribute('aria-checked')).toBe('false');
+      expect(hiddenInput.value).toBe('yearly');
+      expect(hiddenInput.checked).toBe(true);
+
+      await dispatchReset(form, screen, userEvent);
+
+      expect(monthly.getAttribute('aria-checked')).toBe('true');
+      expect(monthly.getAttribute('data-state')).toBe('checked');
+      expect(yearly.getAttribute('aria-checked')).toBe('false');
+      expect(hiddenInput.value).toBe('monthly');
+      expect(hiddenInput.checked).toBe(true);
+      expect(screen.querySelector('#log')?.textContent).toBe('yearly,monthly');
+    });
+
+    it('defaultValue がない非制御ラジオグループは form reset で未選択（null）に戻る', async () => {
+      const { screen, render, userEvent } = await createDOM();
+      await render(
+        <form id="rg-null-form">
+          <RadioGroup.Root>
+            <RadioGroup.Item value="a">A</RadioGroup.Item>
+            <RadioGroup.Item value="b">B</RadioGroup.Item>
+            <RadioGroup.HiddenInput name="choice" />
+          </RadioGroup.Root>
+        </form>,
+      );
+
+      const [itemA, itemB] = screen.querySelectorAll('[data-leve-radio-group-item]');
+      const hiddenInput = screen.querySelector(
+        '[data-leve-radio-group-hidden-input]',
+      ) as HTMLInputElement;
+      const form = screen.querySelector('#rg-null-form') as HTMLFormElement;
+
+      await userEvent('[data-leve-radio-group-item][value="b"]', 'click');
+      expect(itemB.getAttribute('aria-checked')).toBe('true');
+      expect(hiddenInput.checked).toBe(true);
+      expect(hiddenInput.value).toBe('b');
+
+      await dispatchReset(form, screen, userEvent);
+
+      expect(itemA.getAttribute('aria-checked')).toBe('false');
+      expect(itemB.getAttribute('aria-checked')).toBe('false');
+      expect(hiddenInput.checked).toBe(false);
+      expect(hiddenInput.value).toBe('');
+    });
+
+    it('制御モード（bind:value）では form reset しても選択が変わらず HiddenInput が同期される', async () => {
+      const Parent = component$(() => {
+        const value = useSignal<string | null>('yearly');
+        const log = useSignal<string[]>([]);
+        return (
+          <div>
+            <form id="rg-controlled-form">
+              <RadioGroup.Root
+                bind:value={value}
+                defaultValue="monthly"
+                onValueChange$={(val) => (log.value = [...log.value, val])}
+              >
+                <RadioGroup.Item value="monthly">Monthly</RadioGroup.Item>
+                <RadioGroup.Item value="yearly">Yearly</RadioGroup.Item>
+                <RadioGroup.HiddenInput name="plan" />
+              </RadioGroup.Root>
+            </form>
+            <output id="log">{log.value.join(',')}</output>
+          </div>
+        );
+      });
+
+      const { screen, render, userEvent } = await createDOM();
+      await render(<Parent />);
+
+      const [, yearly] = screen.querySelectorAll('[data-leve-radio-group-item]');
+      const hiddenInput = screen.querySelector(
+        '[data-leve-radio-group-hidden-input]',
+      ) as HTMLInputElement;
+      const form = screen.querySelector('#rg-controlled-form') as HTMLFormElement;
+
+      hiddenInput.value = '';
+      hiddenInput.checked = false;
+      await dispatchReset(form, screen, userEvent);
+
+      expect(yearly.getAttribute('aria-checked')).toBe('true');
+      expect(hiddenInput.value).toBe('yearly');
+      expect(hiddenInput.checked).toBe(true);
+      expect(screen.querySelector('#log')?.textContent).toBe('');
+    });
+
+    it('form 属性で外部 form と関連付けた場合や preventDefault() が正しく扱われる', async () => {
+      const { screen, render, userEvent } = await createDOM();
+      await render(
+        <div>
+          <form id="external-rg-form" />
+          <RadioGroup.Root defaultValue="a">
+            <RadioGroup.Item value="a">A</RadioGroup.Item>
+            <RadioGroup.Item value="b">B</RadioGroup.Item>
+            <RadioGroup.HiddenInput name="ext" form="external-rg-form" />
+          </RadioGroup.Root>
+        </div>,
+      );
+
+      const [itemA, itemB] = screen.querySelectorAll('[data-leve-radio-group-item]');
+      const form = screen.querySelector('#external-rg-form') as HTMLFormElement;
+
+      await userEvent('[data-leve-radio-group-item][value="b"]', 'click');
+      expect(itemB.getAttribute('aria-checked')).toBe('true');
+
+      let shouldPrevent = true;
+      form.addEventListener('reset', (event) => {
+        if (shouldPrevent) event.preventDefault();
+      });
+      await dispatchReset(form, screen, userEvent);
+      expect(itemB.getAttribute('aria-checked')).toBe('true');
+
+      shouldPrevent = false;
+      await dispatchReset(form, screen, userEvent);
+      expect(itemA.getAttribute('aria-checked')).toBe('true');
+    });
+  });
 });

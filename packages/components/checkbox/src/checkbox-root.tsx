@@ -65,7 +65,7 @@ export const CheckboxRoot = component$<CheckboxRootProps>(
     required: rootRequired,
     ...props
   }) => {
-    const [checked, setChecked$] = useControllableState<CheckboxCheckedState>({
+    const [checked, setChecked$, reset$] = useControllableState<CheckboxCheckedState>({
       value: bindChecked,
       defaultValue: defaultChecked ?? false,
       onChange$: onCheckedChange$,
@@ -97,6 +97,7 @@ export const CheckboxRoot = component$<CheckboxRootProps>(
       disabled: disabledSignal,
       required: requiredSignal,
       toggle$,
+      reset$,
     });
 
     const state = getCheckboxDataState(checked.value);

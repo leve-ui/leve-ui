@@ -17,22 +17,33 @@ export interface UseControllableStateOptions<T> {
  * - `onChange$` は、返り値の setter で値が実際に変わったとき（＝ユーザー操作によるとき）だけ呼びます。
  *   親が bind した Signal を直接書き換えた場合は呼びません。
  *
+ * - 3 番目の要素 `reset$` を呼ぶと、非制御モードのときだけ初期値（`defaultValue`）へ戻します。
+ *   制御モードのときは何もしません。
+ *
  * 状態は Signal として保持するため、SSR の初期値はそのままシリアライズされます。
  * 制御と非制御をマウント後に切り替えることはサポートしません。
  *
  * @example
- * const [open, setOpen$] = useControllableState({
+ * const [open, setOpen$, reset$] = useControllableState({
  *   value: props['bind:open'],
  *   defaultValue: props.defaultOpen ?? false,
  *   onChange$: props.onOpenChange$,
  * });
- * // 読む: open.value / 変える: setOpen$(!open.value)
+ * // 読む: open.value / 変える: setOpen$(!open.value) / 戻す: reset$()
  */
 export const useControllableState = <T>({
   value,
   defaultValue,
   onChange$,
-}: UseControllableStateOptions<T>): [ReadonlySignal<T>, QRL<(next: T) => Promise<void>>] => {
+}: UseControllableStateOptions<T>): [
+  ReadonlySignal<T>,
+  QRL<(next: T) => Promise<void>>,
+  QRL<() => Promise<void>>,
+] => {
+  const isControlled = value !== undefined;
+  const initialValue = useSignal<T>(
+    Array.isArray(defaultValue) ? ([...defaultValue] as T) : defaultValue,
+  );
   const internal = useSignal<T>(defaultValue);
   const state = value ?? internal;
 
@@ -42,5 +53,21 @@ export const useControllableState = <T>({
     await onChange$?.(next);
   });
 
-  return [state, setValue$];
+  const reset$ = $(async () => {
+    if (isControlled) return;
+    const target = Array.isArray(initialValue.value)
+      ? ([...initialValue.value] as T)
+      : initialValue.value;
+    if (
+      Array.isArray(state.value) &&
+      Array.isArray(target) &&
+      state.value.length === target.length &&
+      state.value.every((item, index) => Object.is(item, target[index]))
+    ) {
+      return;
+    }
+    await setValue$(target);
+  });
+
+  return [state, setValue$, reset$];
 };
