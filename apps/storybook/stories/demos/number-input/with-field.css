@@ -1,0 +1,94 @@
+.number-input-with-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-family: inherit;
+}
+
+.number-input-with-field-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: light-dark(#0f172a, #ffffff);
+}
+
+.number-input-with-field-required {
+  margin-left: 2px;
+  color: light-dark(#dc2626, #f87171);
+}
+
+.number-input-with-field-control {
+  display: inline-flex;
+  align-items: center;
+}
+
+.number-input-with-field-input {
+  width: 72px;
+  height: 36px;
+  padding: 0 8px;
+  border-top: 1px solid light-dark(#cbd5e1, #ffffff3d);
+  border-bottom: 1px solid light-dark(#cbd5e1, #ffffff3d);
+  border-left: none;
+  border-right: none;
+  background: light-dark(#ffffff, #1b2045);
+  color: light-dark(#0f172a, #ffffff);
+  font-family: inherit;
+  font-size: 14px;
+  text-align: center;
+}
+
+.number-input-with-field-input[data-invalid] {
+  border-color: light-dark(#dc2626, #f87171);
+}
+
+.number-input-with-field-input:focus-visible {
+  outline: 2px solid #009dfd;
+  outline-offset: -1px;
+  z-index: 1;
+}
+
+.number-input-with-field-trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 1px solid light-dark(#cbd5e1, #ffffff3d);
+  background: light-dark(#ffffff, #1b2045);
+  color: light-dark(#0f172a, #ffffff);
+  cursor: pointer;
+}
+
+.number-input-with-field-trigger[data-leve-number-input-decrement-trigger] {
+  border-radius: 6px 0 0 6px;
+}
+
+.number-input-with-field-trigger[data-leve-number-input-increment-trigger] {
+  border-radius: 0 6px 6px 0;
+}
+
+.number-input-with-field-trigger:hover:not(:disabled) {
+  background: light-dark(#f1f5f9, #ffffff14);
+}
+
+.number-input-with-field-trigger[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.number-input-with-field-icon {
+  width: 16px;
+  height: 16px;
+}
+
+.number-input-with-field-description {
+  margin: 0;
+  font-size: 13px;
+  color: light-dark(#475569, #c9ddf0);
+}
+
+.number-input-with-field-error {
+  margin: 0;
+  font-size: 13px;
+  color: light-dark(#dc2626, #f87171);
+}

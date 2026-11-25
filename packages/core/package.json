@@ -63,6 +63,7 @@
     "@leve-ui/label": "workspace:*",
     "@leve-ui/menu": "workspace:*",
     "@leve-ui/meter": "workspace:*",
+    "@leve-ui/number-input": "workspace:*",
     "@leve-ui/password-input": "workspace:*",
     "@leve-ui/popover": "workspace:*",
     "@leve-ui/progress": "workspace:*",

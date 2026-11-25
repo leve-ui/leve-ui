@@ -1,0 +1,116 @@
+.number-input-with-form-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-family: inherit;
+}
+
+.number-input-with-form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.number-input-with-form-control {
+  display: inline-flex;
+  align-items: center;
+}
+
+.number-input-with-form-input {
+  width: 72px;
+  height: 36px;
+  padding: 0 8px;
+  border-top: 1px solid light-dark(#cbd5e1, #ffffff3d);
+  border-bottom: 1px solid light-dark(#cbd5e1, #ffffff3d);
+  border-left: none;
+  border-right: none;
+  background: light-dark(#ffffff, #1b2045);
+  color: light-dark(#0f172a, #ffffff);
+  font-family: inherit;
+  font-size: 14px;
+  text-align: center;
+}
+
+.number-input-with-form-input:focus-visible {
+  outline: 2px solid #009dfd;
+  outline-offset: -1px;
+  z-index: 1;
+}
+
+.number-input-with-form-trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 1px solid light-dark(#cbd5e1, #ffffff3d);
+  background: light-dark(#ffffff, #1b2045);
+  color: light-dark(#0f172a, #ffffff);
+  cursor: pointer;
+}
+
+.number-input-with-form-trigger[data-leve-number-input-decrement-trigger] {
+  border-radius: 6px 0 0 6px;
+}
+
+.number-input-with-form-trigger[data-leve-number-input-increment-trigger] {
+  border-radius: 0 6px 6px 0;
+}
+
+.number-input-with-form-trigger:hover:not(:disabled) {
+  background: light-dark(#f1f5f9, #ffffff14);
+}
+
+.number-input-with-form-trigger[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.number-input-with-form-icon {
+  width: 16px;
+  height: 16px;
+}
+
+.number-input-with-form-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.number-input-with-form-button {
+  height: 32px;
+  padding: 0 12px;
+  border: none;
+  border-radius: 6px;
+  background: #009dfd;
+  color: #ffffff;
+  font-family: inherit;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.number-input-with-form-button:hover {
+  background: #006ce9;
+}
+
+.number-input-with-form-button-secondary {
+  height: 32px;
+  padding: 0 12px;
+  border: 1px solid light-dark(#cbd5e1, #ffffff3d);
+  border-radius: 6px;
+  background: light-dark(#ffffff, #1b2045);
+  color: light-dark(#0f172a, #ffffff);
+  font-family: inherit;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.number-input-with-form-button-secondary:hover {
+  background: light-dark(#f1f5f9, #ffffff14);
+}
+
+.number-input-with-form-output {
+  font-size: 13px;
+  color: light-dark(#475569, #c9ddf0);
+}

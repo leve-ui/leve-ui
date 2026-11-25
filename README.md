@@ -96,6 +96,7 @@ Style each part however you like, for example with data attributes:
 | [`@leve-ui/combobox`](./packages/components/combobox) | A text input with a list of suggestions to pick from |
 | [`@leve-ui/password-input`](./packages/components/password-input) | Password field with a visibility toggle button. |
 | [`@leve-ui/clipboard`](./packages/components/clipboard) | Copy-to-clipboard button with live region announcement and optional read-only input. |
+| [`@leve-ui/number-input`](./packages/components/number-input) | Numeric text field with increment/decrement triggers and locale-aware formatting |
 
 ## Inspirations
 
