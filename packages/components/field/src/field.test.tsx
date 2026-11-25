@@ -388,4 +388,106 @@ describe('Field', () => {
     const input = screen.querySelector('input') as HTMLInputElement;
     expect(input?.checked).toBe(true);
   });
+
+  it('readOnly が Input/Textarea のネイティブ属性となり、全パーツに data-readonly が出力される', async () => {
+    const { screen, render } = await createDOM();
+    await render(
+      <Field.Root readOnly invalid>
+        <Field.Label>Label</Field.Label>
+        <Field.Input />
+        <Field.Textarea />
+        <Field.Description>Desc</Field.Description>
+        <Field.ErrorMessage>Error</Field.ErrorMessage>
+      </Field.Root>,
+    );
+
+    const root = screen.querySelector('[data-leve-field]');
+    const label = screen.querySelector('[data-leve-field-label]');
+    const input = screen.querySelector('[data-leve-field-input]') as HTMLInputElement | null;
+    const textarea = screen.querySelector(
+      '[data-leve-field-textarea]',
+    ) as HTMLTextAreaElement | null;
+    const description = screen.querySelector('[data-leve-field-description]');
+    const errorMessage = screen.querySelector('[data-leve-field-error-message]');
+
+    expect(input?.hasAttribute('readonly')).toBe(true);
+    expect(input?.readOnly).toBe(true);
+    expect(textarea?.hasAttribute('readonly')).toBe(true);
+    expect(textarea?.readOnly).toBe(true);
+    expect(root?.hasAttribute('readOnly')).toBe(false);
+    expect(root?.hasAttribute('readonly')).toBe(false);
+
+    for (const el of [root, label, input, textarea, description, errorMessage]) {
+      expect(el?.getAttribute('data-readonly')).toBe('');
+    }
+  });
+
+  it('Field の外で Input / Textarea に readOnly を渡すと readonly と data-readonly が付く', async () => {
+    const { screen, render } = await createDOM();
+    await render(
+      <>
+        <Field.Input readOnly />
+        <Field.Textarea readOnly />
+        <Field.Input />
+        <Field.Textarea />
+      </>,
+    );
+
+    const [readonlyInput, editableInput] = screen.querySelectorAll('[data-leve-field-input]');
+    const [readonlyTextarea, editableTextarea] = screen.querySelectorAll(
+      '[data-leve-field-textarea]',
+    );
+
+    for (const el of [readonlyInput, readonlyTextarea]) {
+      expect(el?.hasAttribute('readonly')).toBe(true);
+      expect(el?.getAttribute('data-readonly')).toBe('');
+    }
+    for (const el of [editableInput, editableTextarea]) {
+      expect(el?.hasAttribute('readonly')).toBe(false);
+      expect(el?.hasAttribute('data-readonly')).toBe(false);
+    }
+  });
+
+  it('Root の readOnly を束ねた Signal をトグルすると Input の readonly と data-readonly が更新される', async () => {
+    const Wrapper = component$(() => {
+      const readOnly = useSignal(false);
+      return (
+        <div>
+          <button
+            type="button"
+            id="toggle-readonly"
+            onClick$={() => {
+              readOnly.value = !readOnly.value;
+            }}
+          >
+            Toggle
+          </button>
+          <Field.Root readOnly={readOnly.value}>
+            <Field.Label>Email</Field.Label>
+            <Field.Input />
+          </Field.Root>
+        </div>
+      );
+    });
+
+    const { screen, render, userEvent } = await createDOM();
+    await render(<Wrapper />);
+
+    const root = screen.querySelector('[data-leve-field]');
+    const input = screen.querySelector('[data-leve-field-input]') as HTMLInputElement | null;
+    expect(input?.readOnly).toBe(false);
+    expect(root?.hasAttribute('data-readonly')).toBe(false);
+
+    await userEvent('#toggle-readonly', 'click');
+
+    expect(input?.readOnly).toBe(true);
+    expect(input?.getAttribute('data-readonly')).toBe('');
+    expect(root?.getAttribute('data-readonly')).toBe('');
+
+    await userEvent('#toggle-readonly', 'click');
+
+    expect(input?.readOnly).toBe(false);
+    expect(input?.hasAttribute('data-readonly')).toBe(false);
+    expect(root?.hasAttribute('data-readonly')).toBe(false);
+  });
 });

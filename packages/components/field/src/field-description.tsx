@@ -21,6 +21,7 @@ export const FieldDescription = component$<FieldDescriptionProps>((props) => {
       data-invalid={dataAttr(field?.invalid.value)}
       data-disabled={dataAttr(field?.disabled.value)}
       data-required={dataAttr(field?.required.value)}
+      data-readonly={dataAttr(field?.readOnly.value)}
     >
       <Slot />
     </div>

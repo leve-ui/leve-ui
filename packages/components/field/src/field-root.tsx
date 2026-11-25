@@ -20,6 +20,11 @@ export type FieldRootProps = PropsOf<'div'> & {
    */
   required?: boolean;
   /**
+   * Marks the control as read-only.
+   * @default false
+   */
+  readOnly?: boolean;
+  /**
    * Set to `true` when a `Field.Description` is rendered, so that the control is
    * described by it (`aria-describedby`).
    * @default false
@@ -35,12 +40,13 @@ export type FieldRootProps = PropsOf<'div'> & {
  * 各パーツの要素 ID を上書きする場合は `ids` プロパティを使用します。
  */
 export const FieldRoot = component$<FieldRootProps>(
-  ({ ids, invalid, disabled, required, hasDescription, ...props }) => {
+  ({ ids, invalid, disabled, required, readOnly, hasDescription, ...props }) => {
     const invalidSignal = useComputed$(() => !!invalid);
     // A disabled Fieldset disables the Field too
     const fieldset = useFieldsetContext();
     const disabledSignal = useComputed$(() => !!disabled || !!fieldset?.disabled.value);
     const requiredSignal = useComputed$(() => !!required);
+    const readOnlySignal = useComputed$(() => !!readOnly);
     const hasDescriptionSignal = useComputed$(() => !!hasDescription);
 
     const context = useFieldProvider({
@@ -48,6 +54,7 @@ export const FieldRoot = component$<FieldRootProps>(
       invalid: invalidSignal,
       disabled: disabledSignal,
       required: requiredSignal,
+      readOnly: readOnlySignal,
       hasDescription: hasDescriptionSignal,
     });
 
@@ -58,6 +65,7 @@ export const FieldRoot = component$<FieldRootProps>(
         data-invalid={dataAttr(context.invalid.value)}
         data-disabled={dataAttr(context.disabled.value)}
         data-required={dataAttr(context.required.value)}
+        data-readonly={dataAttr(context.readOnly.value)}
       >
         <Slot />
       </div>

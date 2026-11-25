@@ -33,10 +33,12 @@ export const FieldInput = component$<FieldInputProps>(
       'aria-invalid': control.value.invalid ? ('true' as const) : undefined,
       disabled: control.value.disabled,
       required: control.value.required,
+      readOnly: control.value.readOnly,
       'data-leve-field-input': '',
       'data-invalid': dataAttr(control.value.invalid),
       'data-disabled': dataAttr(control.value.disabled),
       'data-required': dataAttr(control.value.required),
+      'data-readonly': dataAttr(control.value.readOnly),
     };
 
     if (bindChecked !== undefined) {

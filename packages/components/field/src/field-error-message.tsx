@@ -30,6 +30,7 @@ export const FieldErrorMessage = component$<FieldErrorMessageProps>((props) => {
       data-invalid={dataAttr(field?.invalid.value)}
       data-disabled={dataAttr(field?.disabled.value)}
       data-required={dataAttr(field?.required.value)}
+      data-readonly={dataAttr(field?.readOnly.value)}
     >
       <Slot />
     </div>

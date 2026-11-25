@@ -8,6 +8,9 @@ import disabledCss from './demos/field/disabled.css?raw';
 import InvalidDemo from './demos/field/invalid';
 import invalidSource from './demos/field/invalid?raw';
 import invalidCss from './demos/field/invalid.css?raw';
+import ReadOnlyDemo from './demos/field/read-only';
+import readOnlySource from './demos/field/read-only?raw';
+import readOnlyCss from './demos/field/read-only.css?raw';
 import RequiredDemo from './demos/field/required';
 import requiredSource from './demos/field/required?raw';
 import requiredCss from './demos/field/required.css?raw';
@@ -52,5 +55,12 @@ export const Textarea: Story = {
   render: () => <TextareaDemo />,
   parameters: {
     docs: { source: { code: demoSource(textareaSource, textareaCss, 'textarea.css') } },
+  },
+};
+
+export const ReadOnly: Story = {
+  render: () => <ReadOnlyDemo />,
+  parameters: {
+    docs: { source: { code: demoSource(readOnlySource, readOnlyCss, 'read-only.css') } },
   },
 };
