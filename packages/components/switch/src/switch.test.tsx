@@ -507,4 +507,160 @@ describe('Switch', () => {
     expect(control?.getAttribute('id')).toBeTruthy();
     expect(label?.getAttribute('for')).toBe(control?.getAttribute('id'));
   });
+
+  describe('form reset', () => {
+    async function dispatchReset(
+      form: HTMLFormElement,
+      screen: HTMLElement,
+      userEvent: Awaited<ReturnType<typeof createDOM>>['userEvent'],
+    ) {
+      const event = form.ownerDocument.createEvent('Event');
+      event.initEvent('reset', true, true);
+      form.dispatchEvent(event);
+      await new Promise<void>((resolve) => setTimeout(resolve, 25));
+      await userEvent(screen, 'noop');
+    }
+
+    it('form reset で非制御スイッチが defaultChecked=false に戻り onCheckedChange$ が呼ばれる', async () => {
+      const Parent = component$(() => {
+        const log = useSignal<boolean[]>([]);
+        return (
+          <div>
+            <form id="switch-reset-form">
+              <Switch.Root onCheckedChange$={(checked) => (log.value = [...log.value, checked])}>
+                <Switch.Control>
+                  <Switch.Thumb />
+                </Switch.Control>
+                <Switch.HiddenInput name="notifications" />
+              </Switch.Root>
+            </form>
+            <output id="log">{log.value.join(',')}</output>
+          </div>
+        );
+      });
+
+      const { screen, render, userEvent } = await createDOM();
+      await render(<Parent />);
+
+      const control = screen.querySelector('[data-leve-switch-control]');
+      const hiddenInput = screen.querySelector(
+        '[data-leve-switch-hidden-input]',
+      ) as HTMLInputElement;
+      const form = screen.querySelector('#switch-reset-form') as HTMLFormElement;
+
+      await userEvent('[data-leve-switch-control]', 'click');
+      expect(control?.getAttribute('aria-checked')).toBe('true');
+      expect(control?.getAttribute('data-state')).toBe('checked');
+      expect(hiddenInput.checked).toBe(true);
+
+      await dispatchReset(form, screen, userEvent);
+
+      expect(control?.getAttribute('aria-checked')).toBe('false');
+      expect(control?.getAttribute('data-state')).toBe('unchecked');
+      expect(hiddenInput.checked).toBe(false);
+      expect(screen.querySelector('#log')?.textContent).toBe('true,false');
+    });
+
+    it('form reset で defaultChecked=true の非制御スイッチが true に戻り、HiddenInput も同期される', async () => {
+      const { screen, render, userEvent } = await createDOM();
+      await render(
+        <form id="switch-default-true-form">
+          <Switch.Root defaultChecked>
+            <Switch.Control>
+              <Switch.Thumb />
+            </Switch.Control>
+            <Switch.HiddenInput name="notifications" />
+          </Switch.Root>
+        </form>,
+      );
+
+      const control = screen.querySelector('[data-leve-switch-control]');
+      const hiddenInput = screen.querySelector(
+        '[data-leve-switch-hidden-input]',
+      ) as HTMLInputElement;
+      const form = screen.querySelector('#switch-default-true-form') as HTMLFormElement;
+
+      await userEvent('[data-leve-switch-control]', 'click');
+      expect(control?.getAttribute('aria-checked')).toBe('false');
+      expect(hiddenInput.checked).toBe(false);
+
+      await dispatchReset(form, screen, userEvent);
+
+      expect(control?.getAttribute('aria-checked')).toBe('true');
+      expect(control?.getAttribute('data-state')).toBe('checked');
+      expect(hiddenInput.checked).toBe(true);
+    });
+
+    it('制御モード（bind:checked）では form reset しても状態が変わらず HiddenInput が維持される', async () => {
+      const Parent = component$(() => {
+        const checked = useSignal(true);
+        const log = useSignal<boolean[]>([]);
+        return (
+          <div>
+            <form id="switch-controlled-form">
+              <Switch.Root
+                bind:checked={checked}
+                onCheckedChange$={(val) => (log.value = [...log.value, val])}
+              >
+                <Switch.Control>
+                  <Switch.Thumb />
+                </Switch.Control>
+                <Switch.HiddenInput name="notifications" />
+              </Switch.Root>
+            </form>
+            <output id="log">{log.value.join(',')}</output>
+          </div>
+        );
+      });
+
+      const { screen, render, userEvent } = await createDOM();
+      await render(<Parent />);
+
+      const control = screen.querySelector('[data-leve-switch-control]');
+      const hiddenInput = screen.querySelector(
+        '[data-leve-switch-hidden-input]',
+      ) as HTMLInputElement;
+      const form = screen.querySelector('#switch-controlled-form') as HTMLFormElement;
+
+      // Simulate browser resetting hiddenInput DOM property before reset$ runs
+      hiddenInput.checked = false;
+      await dispatchReset(form, screen, userEvent);
+
+      expect(control?.getAttribute('aria-checked')).toBe('true');
+      expect(hiddenInput.checked).toBe(true);
+      expect(screen.querySelector('#log')?.textContent).toBe('');
+    });
+
+    it('form 属性で外部 form と関連付けた場合や preventDefault() が正しく扱われる', async () => {
+      const { screen, render, userEvent } = await createDOM();
+      await render(
+        <div>
+          <form id="external-switch-form" />
+          <Switch.Root>
+            <Switch.Control>
+              <Switch.Thumb />
+            </Switch.Control>
+            <Switch.HiddenInput name="ext" form="external-switch-form" />
+          </Switch.Root>
+        </div>,
+      );
+
+      const control = screen.querySelector('[data-leve-switch-control]');
+      const form = screen.querySelector('#external-switch-form') as HTMLFormElement;
+
+      await userEvent('[data-leve-switch-control]', 'click');
+      expect(control?.getAttribute('aria-checked')).toBe('true');
+
+      let shouldPrevent = true;
+      form.addEventListener('reset', (event) => {
+        if (shouldPrevent) event.preventDefault();
+      });
+      await dispatchReset(form, screen, userEvent);
+      expect(control?.getAttribute('aria-checked')).toBe('true');
+
+      shouldPrevent = false;
+      await dispatchReset(form, screen, userEvent);
+      expect(control?.getAttribute('aria-checked')).toBe('false');
+    });
+  });
 });

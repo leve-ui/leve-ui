@@ -1,9 +1,16 @@
-.switch-form-form {
+.switch-form-wrapper {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: 12px;
   font-family: inherit;
+}
+
+.switch-form-form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
 }
 
 .switch-form-root {
@@ -63,6 +70,11 @@
   transform: translateX(16px);
 }
 
+.switch-form-actions {
+  display: flex;
+  gap: 8px;
+}
+
 .switch-form-submit {
   height: 32px;
   padding: 0 12px;
@@ -81,6 +93,28 @@
 }
 
 .switch-form-submit:focus-visible {
+  outline: 2px solid #009dfd;
+  outline-offset: 2px;
+}
+
+.switch-form-reset {
+  height: 32px;
+  padding: 0 12px;
+  border: 1px solid light-dark(#cbd5e1, #ffffff3d);
+  border-radius: 6px;
+  background: light-dark(#ffffff, #1b2045);
+  color: light-dark(#0f172a, #ffffff);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.switch-form-reset:hover {
+  background: light-dark(#f1f5f9, #ffffff14);
+}
+
+.switch-form-reset:focus-visible {
   outline: 2px solid #009dfd;
   outline-offset: 2px;
 }

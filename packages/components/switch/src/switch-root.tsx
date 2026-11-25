@@ -60,7 +60,7 @@ export const SwitchRoot = component$<SwitchRootProps>(
     required: rootRequired,
     ...props
   }) => {
-    const [checked, setChecked$] = useControllableState({
+    const [checked, setChecked$, reset$] = useControllableState({
       value: bindChecked,
       defaultValue: defaultChecked ?? false,
       onChange$: onCheckedChange$,
@@ -91,6 +91,7 @@ export const SwitchRoot = component$<SwitchRootProps>(
       disabled: disabledSignal,
       required: requiredSignal,
       toggle$,
+      reset$,
     });
 
     return (

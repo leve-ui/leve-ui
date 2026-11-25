@@ -86,7 +86,7 @@ export const RadioGroupRoot = component$<RadioGroupRootProps>((props) => {
       })
     : undefined;
 
-  const [value, setValue$] = useControllableState<string | null>({
+  const [value, setValue$, reset$] = useControllableState<string | null>({
     value: bindValue,
     defaultValue: defaultValue ?? null,
     onChange$: handleValueChange$,
@@ -118,6 +118,7 @@ export const RadioGroupRoot = component$<RadioGroupRootProps>((props) => {
     ids,
     value,
     select$,
+    reset$,
     disabled: disabledSignal,
     required: requiredSignal,
     orientation: orientationSignal,

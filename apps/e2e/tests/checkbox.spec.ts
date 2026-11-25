@@ -118,4 +118,25 @@ test.describe('Checkbox', () => {
     await submit.click();
     await expect(output).toHaveText('{}');
   });
+
+  test('フォームの Reset でチェックボックスが初期状態に戻る', async ({ page }) => {
+    await gotoStory(page, 'components-checkbox--with-form');
+    const control = page.getByRole('checkbox', { name: 'Agree to marketing emails' });
+    const hiddenInput = page.locator('[data-leve-checkbox-hidden-input]');
+    const reset = page.getByRole('button', { name: 'Reset' });
+    const submit = page.getByRole('button', { name: 'Submit' });
+    const output = page.locator('output');
+
+    await control.click();
+    await expect(control).toBeChecked();
+    await expect(hiddenInput).toBeChecked();
+
+    await reset.click();
+    await expect(control).not.toBeChecked();
+    await expect(control).toHaveAttribute('data-state', 'unchecked');
+    await expect(hiddenInput).not.toBeChecked();
+
+    await submit.click();
+    await expect(output).toHaveText('{}');
+  });
 });

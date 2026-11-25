@@ -55,12 +55,24 @@
   cursor: pointer;
 }
 
-.checkbox-with-form-form {
+.checkbox-with-form-wrapper {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: 12px;
   font-family: inherit;
+}
+
+.checkbox-with-form-form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.checkbox-with-form-actions {
+  display: flex;
+  gap: 8px;
 }
 
 .checkbox-with-form-submit {
@@ -81,6 +93,28 @@
 }
 
 .checkbox-with-form-submit:focus-visible {
+  outline: 2px solid #009dfd;
+  outline-offset: 2px;
+}
+
+.checkbox-with-form-reset {
+  height: 32px;
+  padding: 0 12px;
+  border: 1px solid light-dark(#cbd5e1, #ffffff3d);
+  border-radius: 6px;
+  background: light-dark(#ffffff, #1b2045);
+  color: light-dark(#0f172a, #ffffff);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.checkbox-with-form-reset:hover {
+  background: light-dark(#f1f5f9, #ffffff14);
+}
+
+.checkbox-with-form-reset:focus-visible {
   outline: 2px solid #009dfd;
   outline-offset: 2px;
 }

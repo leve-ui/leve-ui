@@ -1,5 +1,5 @@
-import { component$, type PropsOf, useContext } from '@builder.io/qwik';
-import { dataAttr } from '@leve-ui/utils';
+import { $, component$, type PropsOf, useContext, useSignal } from '@builder.io/qwik';
+import { dataAttr, useFormReset } from '@leve-ui/utils';
 import { radioGroupContextId } from './radio-group-context';
 
 export type RadioGroupHiddenInputProps = PropsOf<'input'> & {
@@ -18,11 +18,25 @@ export type RadioGroupHiddenInputProps = PropsOf<'input'> & {
  */
 export const RadioGroupHiddenInput = component$<RadioGroupHiddenInputProps>((props) => {
   const context = useContext(radioGroupContextId);
+  const inputRef = useSignal<HTMLInputElement>();
+
+  useFormReset(
+    inputRef,
+    $(async () => {
+      await context.reset$();
+      if (inputRef.value) {
+        inputRef.value.value = context.value.value ?? '';
+        inputRef.value.checked = context.value.value !== null;
+      }
+    }),
+  );
+
   const isChecked = context.value.value !== null;
 
   return (
     <input
       {...props}
+      ref={inputRef}
       type="radio"
       value={context.value.value ?? ''}
       checked={isChecked}

@@ -201,4 +201,46 @@ test.describe('RadioGroup', () => {
     await submit.click();
     await expect(page.getByTestId('submitted-value')).toHaveText('Submitted: yearly');
   });
+
+  test('フォームの Reset で選択が初期値に戻り、HiddenInput も同期される', async ({ page }) => {
+    await gotoStory(page, 'components-radiogroup--with-form');
+    const submit = page.getByRole('button', { name: 'Submit' });
+    const reset = page.getByRole('button', { name: 'Reset' });
+    await expect(submit).toBeVisible({ timeout: 15_000 });
+    const monthly = page.getByRole('radio', { name: /Monthly/ });
+    const yearly = page.getByRole('radio', { name: /Yearly/ });
+    const hiddenInput = page.locator('[data-leve-radio-group-hidden-input]');
+
+    await yearly.click();
+    await expect(yearly).toBeChecked();
+    await expect(hiddenInput).toHaveValue('yearly');
+
+    await reset.click();
+    await expect(monthly).toBeChecked();
+    await expect(yearly).not.toBeChecked();
+    await expect(hiddenInput).toHaveValue('monthly');
+    await expect(hiddenInput).toBeChecked();
+
+    await submit.click();
+    await expect(page.getByTestId('submitted-value')).toHaveText('Submitted: monthly');
+  });
+
+  test('初期選択のまま Reset しても HiddenInput がチェック済みのまま維持される', async ({
+    page,
+  }) => {
+    await gotoStory(page, 'components-radiogroup--with-form');
+    const submit = page.getByRole('button', { name: 'Submit' });
+    const reset = page.getByRole('button', { name: 'Reset' });
+    await expect(submit).toBeVisible({ timeout: 15_000 });
+    const monthly = page.getByRole('radio', { name: /Monthly/ });
+    const hiddenInput = page.locator('[data-leve-radio-group-hidden-input]');
+
+    await reset.click();
+    await expect(monthly).toBeChecked();
+    await expect(hiddenInput).toHaveValue('monthly');
+    await expect(hiddenInput).toBeChecked();
+
+    await submit.click();
+    await expect(page.getByTestId('submitted-value')).toHaveText('Submitted: monthly');
+  });
 });

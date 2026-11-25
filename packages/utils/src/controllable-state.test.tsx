@@ -176,4 +176,149 @@ describe('useControllableState', () => {
       expect(ssrInner(html)).toBe('7');
     });
   });
+
+  describe('reset$', () => {
+    const ResetCounter = component$<CounterProps>((props) => {
+      const [value, setValue$, reset$] = useControllableState({
+        value: props['bind:value'],
+        defaultValue: props.defaultValue ?? 0,
+        onChange$: props.onValueChange$,
+      });
+
+      return (
+        <>
+          <output id="inner">{value.value}</output>
+          <button type="button" id="increment" onClick$={() => setValue$(value.value + 1)}>
+            +1
+          </button>
+          <button type="button" id="reset" onClick$={() => reset$()}>
+            reset
+          </button>
+        </>
+      );
+    });
+
+    const ResetTags = component$<{
+      'bind:value'?: Signal<string[]>;
+      defaultValue?: string[];
+      onValueChange$?: QRL<(value: string[]) => void>;
+    }>((props) => {
+      const [value, setValue$, reset$] = useControllableState<string[]>({
+        value: props['bind:value'],
+        defaultValue: props.defaultValue ?? [],
+        onChange$: props.onValueChange$,
+      });
+
+      return (
+        <>
+          <output id="tags">{value.value.join(',')}</output>
+          <button type="button" id="add-tag" onClick$={() => setValue$([...value.value, 'extra'])}>
+            add
+          </button>
+          <button type="button" id="reset" onClick$={() => reset$()}>
+            reset
+          </button>
+        </>
+      );
+    });
+
+    it('非制御（プリミティブ）のとき reset$ で defaultValue に戻り、onChange$ が呼ばれる', async () => {
+      const Parent = component$(() => {
+        const log = useSignal<number[]>([]);
+        return (
+          <>
+            <ResetCounter
+              defaultValue={5}
+              onValueChange$={(v) => (log.value = [...log.value, v])}
+            />
+            <output id="log">{log.value.join(',')}</output>
+          </>
+        );
+      });
+      const { screen, render, userEvent } = await createDOM();
+      await render(<Parent />);
+
+      await userEvent('#increment', 'click');
+      expect(text(screen, '#inner')).toBe('6');
+
+      await userEvent('#reset', 'click');
+      expect(text(screen, '#inner')).toBe('5');
+      expect(text(screen, '#log')).toBe('6,5');
+    });
+
+    it('非制御（プリミティブ）で値が変わっていないとき reset$ は onChange$ を呼ばない', async () => {
+      const Parent = component$(() => {
+        const log = useSignal<number[]>([]);
+        return (
+          <>
+            <ResetCounter
+              defaultValue={5}
+              onValueChange$={(v) => (log.value = [...log.value, v])}
+            />
+            <output id="log">{log.value.join(',')}</output>
+          </>
+        );
+      });
+      const { screen, render, userEvent } = await createDOM();
+      await render(<Parent />);
+
+      await userEvent('#reset', 'click');
+      expect(text(screen, '#inner')).toBe('5');
+      expect(text(screen, '#log')).toBe('');
+    });
+
+    it('非制御（配列）のとき reset$ で初期配列のコピーに戻り、未変更なら onChange$ を呼ばない', async () => {
+      const Parent = component$(() => {
+        const changes = useSignal(0);
+        return (
+          <>
+            <ResetTags defaultValue={['a']} onValueChange$={() => (changes.value += 1)} />
+            <output id="changes">{changes.value}</output>
+          </>
+        );
+      });
+      const { screen, render, userEvent } = await createDOM();
+      await render(<Parent />);
+
+      expect(text(screen, '#tags')).toBe('a');
+      await userEvent('#reset', 'click');
+      expect(text(screen, '#changes')).toBe('0');
+
+      await userEvent('#add-tag', 'click');
+      expect(text(screen, '#tags')).toBe('a,extra');
+      expect(text(screen, '#changes')).toBe('1');
+
+      await userEvent('#reset', 'click');
+      expect(text(screen, '#tags')).toBe('a');
+      expect(text(screen, '#changes')).toBe('2');
+
+      await userEvent('#reset', 'click');
+      expect(text(screen, '#changes')).toBe('2');
+    });
+
+    it('制御モードのとき reset$ は何もせず、bind した Signal も onChange$ も変えない', async () => {
+      const Parent = component$(() => {
+        const value = useSignal(20);
+        const log = useSignal<number[]>([]);
+        return (
+          <>
+            <ResetCounter
+              bind:value={value}
+              defaultValue={5}
+              onValueChange$={(v) => (log.value = [...log.value, v])}
+            />
+            <output id="outer">{value.value}</output>
+            <output id="log">{log.value.join(',')}</output>
+          </>
+        );
+      });
+      const { screen, render, userEvent } = await createDOM();
+      await render(<Parent />);
+
+      await userEvent('#reset', 'click');
+      expect(text(screen, '#inner')).toBe('20');
+      expect(text(screen, '#outer')).toBe('20');
+      expect(text(screen, '#log')).toBe('');
+    });
+  });
 });
