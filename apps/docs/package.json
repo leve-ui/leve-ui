@@ -39,6 +39,7 @@
     "@leve-ui/editable": "workspace:*",
     "@leve-ui/field": "workspace:*",
     "@leve-ui/fieldset": "workspace:*",
+    "@leve-ui/file-upload": "workspace:*",
     "@leve-ui/hover-card": "workspace:*",
     "@leve-ui/label": "workspace:*",
     "@leve-ui/menu": "workspace:*",
