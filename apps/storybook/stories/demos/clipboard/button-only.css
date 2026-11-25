@@ -1,0 +1,58 @@
+.clipboard-button-only {
+  display: inline-flex;
+  font-family: inherit;
+}
+
+.clipboard-button-only-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.875rem;
+  border: 1px solid light-dark(#cbd5e1, #ffffff3d);
+  border-radius: 6px;
+  background: light-dark(#ffffff, #1b2045);
+  color: light-dark(#0f172a, #ffffff);
+  font-family: inherit;
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+
+.clipboard-button-only-trigger:hover {
+  background: light-dark(#f1f5f9, #ffffff14);
+}
+
+.clipboard-button-only-trigger:focus-visible {
+  outline: 2px solid #009dfd;
+  outline-offset: 2px;
+}
+
+.clipboard-button-only-trigger[data-state="copied"] {
+  border-color: #009dfd;
+  background: #009dfd;
+  color: #ffffff;
+}
+
+.clipboard-button-only-indicator {
+  display: inline-flex;
+  align-items: center;
+}
+
+.clipboard-button-only-icon {
+  width: 1rem;
+  height: 1rem;
+}
+
+.clipboard-button-only-icon-copied,
+.clipboard-button-only-label-copied {
+  display: none;
+}
+
+.clipboard-button-only-trigger[data-state="copied"] .clipboard-button-only-icon-idle,
+.clipboard-button-only-trigger[data-state="copied"] .clipboard-button-only-label-idle {
+  display: none;
+}
+
+.clipboard-button-only-trigger[data-state="copied"] .clipboard-button-only-icon-copied,
+.clipboard-button-only-trigger[data-state="copied"] .clipboard-button-only-label-copied {
+  display: inline-block;
+}

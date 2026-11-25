@@ -31,6 +31,7 @@
     "@leve-ui/avatar": "workspace:*",
     "@leve-ui/breadcrumb": "workspace:*",
     "@leve-ui/checkbox": "workspace:*",
+    "@leve-ui/clipboard": "workspace:*",
     "@leve-ui/collapsible": "workspace:*",
     "@leve-ui/core": "workspace:*",
     "@leve-ui/dialog": "workspace:*",
