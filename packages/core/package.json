@@ -72,6 +72,7 @@
     "@leve-ui/radio-group": "workspace:*",
     "@leve-ui/rating-group": "workspace:*",
     "@leve-ui/separator": "workspace:*",
+    "@leve-ui/slider": "workspace:*",
     "@leve-ui/switch": "workspace:*",
     "@leve-ui/tabs": "workspace:*",
     "@leve-ui/toast": "workspace:*",

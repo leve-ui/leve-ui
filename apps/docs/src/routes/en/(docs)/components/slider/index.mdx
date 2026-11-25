@@ -1,0 +1,174 @@
+---
+title: Slider
+description: An input where the user selects a value or range from within a given range.
+---
+
+# Slider
+
+An input where the user selects a value or range from within a given range.
+
+Follows the [WAI-ARIA APG Slider pattern](https://www.w3.org/WAI/ARIA/apg/patterns/slider/) and [Multi-Thumb Slider pattern](https://www.w3.org/WAI/ARIA/apg/patterns/slider-multithumb/).
+
+<Demo id="slider/default" />
+
+## Installation
+
+Install the individual package, or use `@leve-ui/core` to get every component at once:
+
+<Install package="@leve-ui/slider" />
+
+## Anatomy
+
+```tsx
+import { Slider } from '@leve-ui/slider'; // or '@leve-ui/core'
+
+<Slider.Root>
+  <Slider.Track>
+    <Slider.Range />
+    <Slider.Thumb />
+  </Slider.Track>
+  <Slider.HiddenInput />
+</Slider.Root>
+```
+
+| Part | Element | Description |
+| --- | --- | --- |
+| `Slider.Root` | `<div>` | Root container holding state, range bounds, and Field integration. |
+| `Slider.Track` | `<div>` | Interactive track area that jumps the nearest thumb on pointerdown. |
+| `Slider.Range` | `<div>` | Visual range highlight exposing `--leve-slider-range-start` and `--leve-slider-range-size`. |
+| `Slider.Thumb` | `<span>` | Draggable, focusable thumb with `role="slider"` and `--leve-slider-thumb-percent`. |
+| `Slider.HiddenInput` | `<input>` | Visually hidden number input for native `<form>` submission and reset. |
+
+## Examples
+
+### Controlled
+
+Use `bind:value` to control the value signal and `onValueCommit$` to react when a drag or keyboard change is committed.
+
+<Demo id="slider/controlled" collapsed />
+
+### Range
+
+Pass multiple values and render multiple `Slider.Thumb` parts with `index`. Use `minStepsBetweenThumbs` to prevent thumbs from crossing or getting too close.
+
+<Demo id="slider/range" collapsed />
+
+### Vertical
+
+Set `orientation="vertical"` for a vertical slider.
+
+<Demo id="slider/vertical" collapsed />
+
+### Step
+
+Configure `step` and `largeStep` (for `PageUp` and `PageDown`), including fractional increments.
+
+<Demo id="slider/step" collapsed />
+
+### Disabled
+
+Set `disabled` to prevent interaction and remove thumbs from the tab order.
+
+<Demo id="slider/disabled" collapsed />
+
+### Read-Only
+
+Set `readOnly` to keep thumbs focusable while preventing value changes.
+
+<Demo id="slider/read-only" collapsed />
+
+### With Field
+
+Inside `Field.Root`, the first thumb automatically receives `aria-labelledby`, `aria-describedby`, `disabled`, `readOnly`, `required`, and `invalid`.
+
+<Demo id="slider/with-field" collapsed />
+
+### With Form
+
+Include `Slider.HiddenInput` to participate in native `<form>` submission and reset.
+
+<Demo id="slider/with-form" collapsed />
+
+## API Reference
+
+### Root
+
+<PropsTable component="slider" part="Root" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-slider` | Always present |
+| `data-orientation` | `"horizontal"` \| `"vertical"` |
+| `data-state` | `"idle"` \| `"dragging"` |
+| `data-disabled` | Present when disabled |
+| `data-readonly` | Present when read-only |
+| `data-invalid` | Present when invalid |
+
+### Track
+
+<PropsTable component="slider" part="Track" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-slider-track` | Always present |
+| `data-orientation` | `"horizontal"` \| `"vertical"` |
+| `data-disabled` | Present when disabled |
+| `data-readonly` | Present when read-only |
+
+### Range
+
+<PropsTable component="slider" part="Range" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-slider-range` | Always present |
+| `data-orientation` | `"horizontal"` \| `"vertical"` |
+| `data-disabled` | Present when disabled |
+| `data-readonly` | Present when read-only |
+
+| CSS variable | Value |
+| --- | --- |
+| `--leve-slider-range-start` | Start offset percentage (`0%` for single-thumb, first thumb percentage for multi-thumb) |
+| `--leve-slider-range-size` | Size percentage from start to end thumb |
+
+### Thumb
+
+<PropsTable component="slider" part="Thumb" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-slider-thumb` | Always present |
+| `data-index` | Zero-based thumb index |
+| `data-orientation` | `"horizontal"` \| `"vertical"` |
+| `data-state` | `"idle"` \| `"dragging"` |
+| `data-disabled` | Present when disabled |
+| `data-readonly` | Present when read-only |
+| `data-invalid` | Present when invalid |
+
+| CSS variable | Value |
+| --- | --- |
+| `--leve-slider-thumb-percent` | Thumb position percentage within `[min, max]` |
+
+### HiddenInput
+
+<PropsTable component="slider" part="HiddenInput" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-slider-hidden-input` | Always present |
+| `data-index` | Zero-based thumb index |
+| `data-disabled` | Present when disabled |
+
+## Accessibility
+
+- `Slider.Thumb` renders `role="slider"` with `aria-valuenow`, `aria-valuemin`, `aria-valuemax`, `aria-orientation`, and optional `aria-disabled`, `aria-readonly`, `aria-invalid`, `aria-labelledby`, and `aria-describedby`.
+- In multi-thumb sliders, `aria-valuemin` and `aria-valuemax` dynamically reflect adjacent thumb bounds and `minStepsBetweenThumbs`.
+
+| Key | Action |
+| --- | --- |
+| `ArrowRight` / `ArrowUp` | Increases value by `step` (`ArrowRight` decreases in RTL) |
+| `ArrowLeft` / `ArrowDown` | Decreases value by `step` (`ArrowLeft` increases in RTL) |
+| `PageUp` | Increases value by `largeStep` |
+| `PageDown` | Decreases value by `largeStep` |
+| `Home` | Moves thumb to its minimum allowed value |
+| `End` | Moves thumb to its maximum allowed value |
