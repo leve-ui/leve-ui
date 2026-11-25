@@ -36,6 +36,7 @@
     "@leve-ui/core": "workspace:*",
     "@leve-ui/dialog": "workspace:*",
     "@leve-ui/drawer": "workspace:*",
+    "@leve-ui/editable": "workspace:*",
     "@leve-ui/field": "workspace:*",
     "@leve-ui/fieldset": "workspace:*",
     "@leve-ui/hover-card": "workspace:*",

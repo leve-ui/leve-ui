@@ -1,0 +1,72 @@
+.editable-disabled {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+  max-width: 24rem;
+  font-family: inherit;
+}
+
+.editable-disabled-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: light-dark(#0f172a, #ffffff);
+}
+
+.editable-disabled-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.editable-disabled-area {
+  flex: 1;
+  min-width: 0;
+}
+
+.editable-disabled-preview {
+  display: block;
+  padding: 0.375rem 0.625rem;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: light-dark(#0f172a, #ffffff);
+}
+
+.editable-disabled-preview[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.editable-disabled-control {
+  display: inline-flex;
+  align-items: center;
+}
+
+.editable-disabled-trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  border: 1px solid light-dark(#cbd5e1, #ffffff3d);
+  border-radius: 6px;
+  background: light-dark(#ffffff, #1b2045);
+  color: light-dark(#0f172a, #ffffff);
+  cursor: pointer;
+}
+
+.editable-disabled-trigger[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.editable-disabled-icon {
+  width: 1rem;
+  height: 1rem;
+}
+
+.editable-disabled-input[hidden] {
+  display: none;
+}

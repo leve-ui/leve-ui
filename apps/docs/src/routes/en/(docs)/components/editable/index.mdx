@@ -1,0 +1,211 @@
+---
+title: Editable
+description: An inline editable text field that switches between preview and edit modes.
+---
+
+# Editable
+
+An inline editable text field that switches between a static preview and a native text input or textarea.
+
+Editable uses native `<input>` or `<textarea>` and `<button type="button">` elements so screen readers and keyboard navigation work out of the box.
+
+<Demo id="editable/default" />
+
+## Installation
+
+Install the individual package, or use `@leve-ui/core` to get every component at once:
+
+<Install package="@leve-ui/editable" />
+
+## Anatomy
+
+```tsx
+import { Editable } from '@leve-ui/editable'; // or '@leve-ui/core'
+
+<Editable.Root defaultValue="Hello">
+  <Editable.Label>Title</Editable.Label>
+  <Editable.Area>
+    <Editable.Preview />
+    <Editable.Input />
+  </Editable.Area>
+  <Editable.Control>
+    <Editable.EditTrigger>Edit</Editable.EditTrigger>
+    <Editable.SubmitTrigger>Save</Editable.SubmitTrigger>
+    <Editable.CancelTrigger>Cancel</Editable.CancelTrigger>
+  </Editable.Control>
+</Editable.Root>
+```
+
+| Part | Element | Description |
+| --- | --- | --- |
+| `Editable.Root` | `<div>` | Wraps the parts and manages committed value, draft value, and edit state. |
+| `Editable.Label` | `<label>` | Accessible label associated with `Editable.Input`. |
+| `Editable.Area` | `<div>` | Wraps `Editable.Preview` and `Editable.Input`. |
+| `Editable.Preview` | `<span>` | Displays the committed value or placeholder when not editing. |
+| `Editable.Input` | `<input>` \| `<textarea>` | Edits the draft value. Renders `<textarea>` when `multiline` is `true`. |
+| `Editable.Control` | `<div>` | Wraps the action trigger buttons. |
+| `Editable.EditTrigger` | `<button>` | Enters edit mode and focuses `Editable.Input`. |
+| `Editable.SubmitTrigger` | `<button>` | Commits the draft value, exits edit mode, and restores focus. |
+| `Editable.CancelTrigger` | `<button>` | Reverts the draft value, exits edit mode, and restores focus. |
+
+## Examples
+
+### Controlled
+
+Use `bind:value` and `bind:edit` to control both the committed value and edit mode from parent state.
+
+<Demo id="editable/controlled" collapsed />
+
+### Double Click
+
+Set `activationMode="dblclick"` so edit mode only opens on double-click or via `Editable.EditTrigger`.
+
+<Demo id="editable/double-click" collapsed />
+
+### Multiline
+
+Set `multiline` to render a `<textarea>`. `Enter` inserts a newline, and `Ctrl+Enter` / `Cmd+Enter` commits.
+
+<Demo id="editable/multiline" collapsed />
+
+### Disabled
+
+`disabled` on `Editable.Root` disables editing and all triggers.
+
+<Demo id="editable/disabled" collapsed />
+
+### Read Only
+
+`readOnly` on `Editable.Root` prevents entering edit mode while keeping the preview readable.
+
+<Demo id="editable/read-only" collapsed />
+
+### With Field
+
+Inside a `Field.Root`, use `Field.Label` instead of `Editable.Label`. The Field provides the IDs, description, error message, and `disabled` / `required` / `invalid` states.
+
+<Demo id="editable/with-field" collapsed />
+
+## API Reference
+
+### Root
+
+<PropsTable component="editable" part="Root" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-editable` | Always present |
+| `data-state` | `"preview"` \| `"edit"` |
+| `data-empty` | Present when the committed value is empty |
+| `data-disabled` | Present when disabled |
+| `data-readonly` | Present when read-only |
+| `data-invalid` | Present when invalid |
+
+### Label
+
+<PropsTable component="editable" part="Label" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-editable-label` | Always present |
+| `data-state` | `"preview"` \| `"edit"` |
+| `data-disabled` | Present when disabled |
+| `data-readonly` | Present when read-only |
+| `data-invalid` | Present when invalid |
+
+### Area
+
+<PropsTable component="editable" part="Area" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-editable-area` | Always present |
+| `data-state` | `"preview"` \| `"edit"` |
+| `data-empty` | Present when the committed value is empty |
+| `data-placeholder-shown` | Present when empty and `placeholder` is set |
+| `data-disabled` | Present when disabled |
+| `data-readonly` | Present when read-only |
+| `data-invalid` | Present when invalid |
+
+### Preview
+
+<PropsTable component="editable" part="Preview" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-editable-preview` | Always present |
+| `data-state` | `"preview"` \| `"edit"` |
+| `data-empty` | Present when the committed value is empty |
+| `data-placeholder-shown` | Present when empty and `placeholder` is set |
+| `data-disabled` | Present when disabled |
+| `data-readonly` | Present when read-only |
+| `data-invalid` | Present when invalid |
+
+### Input
+
+<PropsTable component="editable" part="Input" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-editable-input` | Always present |
+| `data-state` | `"preview"` \| `"edit"` |
+| `data-disabled` | Present when disabled |
+| `data-readonly` | Present when read-only |
+| `data-invalid` | Present when invalid |
+
+### Control
+
+<PropsTable component="editable" part="Control" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-editable-control` | Always present |
+| `data-state` | `"preview"` \| `"edit"` |
+| `data-disabled` | Present when disabled |
+| `data-readonly` | Present when read-only |
+
+### EditTrigger
+
+<PropsTable component="editable" part="EditTrigger" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-editable-edit-trigger` | Always present |
+| `data-state` | `"preview"` \| `"edit"` |
+| `data-disabled` | Present when disabled or read-only |
+
+### SubmitTrigger
+
+<PropsTable component="editable" part="SubmitTrigger" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-editable-submit-trigger` | Always present |
+| `data-state` | `"preview"` \| `"edit"` |
+| `data-disabled` | Present when disabled or read-only |
+
+### CancelTrigger
+
+<PropsTable component="editable" part="CancelTrigger" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-editable-cancel-trigger` | Always present |
+| `data-state` | `"preview"` \| `"edit"` |
+| `data-disabled` | Present when disabled or read-only |
+
+## Accessibility
+
+- `Editable.Label` (or `Field.Label`) is linked to `Editable.Input` via `for` / `id`.
+- When `activationMode` is `"focus"`, `Editable.Preview` has `tabIndex={0}` so keyboard users can tab to it and enter edit mode.
+- Pressing `Enter` or `Space` on `Editable.Preview` enters edit mode (unless `activationMode="none"`, `disabled`, or `readOnly`).
+- Exiting edit mode via `Enter`, `Escape`, `SubmitTrigger`, or `CancelTrigger` restores focus to `Editable.EditTrigger` (or `Editable.Preview` without re-triggering focus activation).
+
+### Keyboard Interactions
+
+| Key | Description |
+| --- | --- |
+| `Enter` / `Space` (on `Preview`) | Enters edit mode and focuses `Editable.Input`. |
+| `Enter` (on single-line `Input`) | Commits the draft value and exits edit mode (when `submitMode` is `"enter"` or `"both"`). |
+| `Ctrl+Enter` / `Cmd+Enter` (on `multiline` `Input`) | Commits the draft value and exits edit mode (when `submitMode` is `"enter"` or `"both"`). |
+| `Escape` (on `Input`) | Reverts the draft value and exits edit mode. |
