@@ -55,6 +55,8 @@ export const CheckboxHiddenInput = component$<CheckboxHiddenInputProps>((props) 
       {...props}
       ref={inputRef}
       type="checkbox"
+      name={props.name ?? context.name.value}
+      value={props.value ?? context.value.value}
       checked={context.checked.value === true}
       required={context.required.value}
       disabled={context.disabled.value}
@@ -65,6 +67,8 @@ export const CheckboxHiddenInput = component$<CheckboxHiddenInputProps>((props) 
       data-leve-checkbox-hidden-input=""
       data-state={state}
       data-disabled={dataAttr(context.disabled.value)}
+      data-readonly={dataAttr(context.readOnly.value)}
+      data-invalid={dataAttr(context.invalid.value)}
     />
   );
 });

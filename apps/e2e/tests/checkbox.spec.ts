@@ -139,4 +139,56 @@ test.describe('Checkbox', () => {
     await submit.click();
     await expect(output).toHaveText('{}');
   });
+
+  test.describe('Checkbox.Group', () => {
+    test('初期値が反映され、クリック・Space・Enter で複数選択できる', async ({ page }) => {
+      await gotoStory(page, 'components-checkbox--group');
+      const qwik = page.getByRole('checkbox', { name: 'Qwik' });
+      const react = page.getByRole('checkbox', { name: 'React' });
+      const svelte = page.getByRole('checkbox', { name: 'Svelte' });
+      const status = page.locator('.checkbox-group-status');
+
+      await expect(qwik).toBeChecked();
+      await expect(react).not.toBeChecked();
+      await expect(svelte).not.toBeChecked();
+      await expect(status).toHaveText('Selected: qwik');
+
+      await react.focus();
+      await page.keyboard.press('Space');
+      await expect(react).toBeChecked();
+      await expect(status).toHaveText('Selected: qwik, react');
+
+      await react.focus();
+      await page.keyboard.press('Enter');
+      await expect(react).not.toBeChecked();
+      await expect(status).toHaveText('Selected: qwik');
+    });
+
+    test('maxSelectedValues に達すると未選択の項目が disabled になり、解除すると再び選択できる', async ({
+      page,
+    }) => {
+      await gotoStory(page, 'components-checkbox--group');
+      const qwik = page.getByRole('checkbox', { name: 'Qwik' });
+      const react = page.getByRole('checkbox', { name: 'React' });
+      const svelte = page.getByRole('checkbox', { name: 'Svelte' });
+      const status = page.locator('.checkbox-group-status');
+
+      await react.click();
+      await expect(react).toBeChecked();
+      await expect(svelte).toBeDisabled();
+      await expect(svelte).toHaveAttribute('data-disabled', '');
+
+      await svelte.click({ force: true });
+      await expect(svelte).not.toBeChecked();
+      await expect(status).toHaveText('Selected: qwik, react');
+
+      await qwik.click();
+      await expect(qwik).not.toBeChecked();
+      await expect(svelte).toBeEnabled();
+
+      await svelte.click();
+      await expect(svelte).toBeChecked();
+      await expect(status).toHaveText('Selected: react, svelte');
+    });
+  });
 });

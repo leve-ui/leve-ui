@@ -756,4 +756,388 @@ describe('Checkbox', () => {
       expect(control?.getAttribute('aria-checked')).toBe('false');
     });
   });
+
+  describe('Checkbox.Group', () => {
+    it('role="group" と data-leve-checkbox-group が描画され、独自 props が DOM に漏れない', async () => {
+      const { screen, render } = await createDOM();
+      await render(
+        <Checkbox.Group
+          aria-label="Toppings"
+          class="my-group"
+          defaultValue={['cheese']}
+          name="toppings"
+          disabled={false}
+          readOnly={false}
+          invalid={false}
+          maxSelectedValues={2}
+          onValueChange$={() => {}}
+        >
+          <Checkbox.Root value="cheese">
+            <Checkbox.Control>
+              <Checkbox.Indicator>✓</Checkbox.Indicator>
+            </Checkbox.Control>
+            <Checkbox.Label>Cheese</Checkbox.Label>
+          </Checkbox.Root>
+        </Checkbox.Group>,
+      );
+
+      const group = screen.querySelector('[data-leve-checkbox-group]');
+      expect(group).not.toBeNull();
+      expect(group?.tagName).toBe('DIV');
+      expect(group?.getAttribute('role')).toBe('group');
+      expect(group?.getAttribute('aria-label')).toBe('Toppings');
+      expect(group?.getAttribute('class')).toBe('my-group');
+      expect(group?.hasAttribute('defaultValue')).toBe(false);
+      expect(group?.hasAttribute('name')).toBe(false);
+      expect(group?.hasAttribute('disabled')).toBe(false);
+      expect(group?.hasAttribute('readOnly')).toBe(false);
+      expect(group?.hasAttribute('invalid')).toBe(false);
+      expect(group?.hasAttribute('maxSelectedValues')).toBe(false);
+    });
+
+    it('非制御モード（defaultValue / onValueChange$）で複数選択を管理できる', async () => {
+      const Parent = component$(() => {
+        const log = useSignal<string[]>([]);
+        return (
+          <div>
+            <Checkbox.Group
+              defaultValue={['a']}
+              onValueChange$={(val) => {
+                log.value = val;
+              }}
+            >
+              <Checkbox.Root value="a">
+                <Checkbox.Control data-test="a">
+                  <Checkbox.Indicator>✓</Checkbox.Indicator>
+                </Checkbox.Control>
+                <Checkbox.Label>A</Checkbox.Label>
+              </Checkbox.Root>
+              <Checkbox.Root value="b">
+                <Checkbox.Control data-test="b">
+                  <Checkbox.Indicator>✓</Checkbox.Indicator>
+                </Checkbox.Control>
+                <Checkbox.Label>B</Checkbox.Label>
+              </Checkbox.Root>
+            </Checkbox.Group>
+            <output id="log">{log.value.join(',')}</output>
+          </div>
+        );
+      });
+
+      const { screen, render, userEvent } = await createDOM();
+      await render(<Parent />);
+
+      const controlA = screen.querySelector('[data-test="a"]');
+      const controlB = screen.querySelector('[data-test="b"]');
+
+      expect(controlA?.getAttribute('aria-checked')).toBe('true');
+      expect(controlB?.getAttribute('aria-checked')).toBe('false');
+
+      await userEvent('[data-test="b"]', 'click');
+      expect(controlA?.getAttribute('aria-checked')).toBe('true');
+      expect(controlB?.getAttribute('aria-checked')).toBe('true');
+      expect(screen.querySelector('#log')?.textContent).toBe('a,b');
+
+      await userEvent('[data-test="a"]', 'click');
+      expect(controlA?.getAttribute('aria-checked')).toBe('false');
+      expect(controlB?.getAttribute('aria-checked')).toBe('true');
+      expect(screen.querySelector('#log')?.textContent).toBe('b');
+    });
+
+    it('制御モード（bind:value）で外部 Signal と同期する', async () => {
+      const Parent = component$(() => {
+        const selected = useSignal<string[]>(['b']);
+        return (
+          <div>
+            <Checkbox.Group bind:value={selected}>
+              <Checkbox.Root value="a">
+                <Checkbox.Control data-test="a">
+                  <Checkbox.Indicator>✓</Checkbox.Indicator>
+                </Checkbox.Control>
+              </Checkbox.Root>
+              <Checkbox.Root value="b">
+                <Checkbox.Control data-test="b">
+                  <Checkbox.Indicator>✓</Checkbox.Indicator>
+                </Checkbox.Control>
+              </Checkbox.Root>
+            </Checkbox.Group>
+            <button
+              type="button"
+              id="set-btn"
+              onClick$={() => {
+                selected.value = ['a'];
+              }}
+            >
+              Set A
+            </button>
+            <output id="val">{selected.value.join(',')}</output>
+          </div>
+        );
+      });
+
+      const { screen, render, userEvent } = await createDOM();
+      await render(<Parent />);
+
+      const controlA = screen.querySelector('[data-test="a"]');
+      const controlB = screen.querySelector('[data-test="b"]');
+
+      expect(controlA?.getAttribute('aria-checked')).toBe('false');
+      expect(controlB?.getAttribute('aria-checked')).toBe('true');
+
+      await userEvent('[data-test="a"]', 'click');
+      expect(screen.querySelector('#val')?.textContent).toBe('b,a');
+      expect(controlA?.getAttribute('aria-checked')).toBe('true');
+
+      await userEvent('#set-btn', 'click');
+      expect(controlA?.getAttribute('aria-checked')).toBe('true');
+      expect(controlB?.getAttribute('aria-checked')).toBe('false');
+    });
+
+    it('Group の name と Root の value が HiddenInput に引き継がれる', async () => {
+      const { screen, render } = await createDOM();
+      await render(
+        <Checkbox.Group name="items" defaultValue={['one']}>
+          <Checkbox.Root value="one">
+            <Checkbox.Control>
+              <Checkbox.Indicator>✓</Checkbox.Indicator>
+            </Checkbox.Control>
+            <Checkbox.HiddenInput data-input="one" />
+          </Checkbox.Root>
+          <Checkbox.Root value="two" name="custom-two">
+            <Checkbox.Control>
+              <Checkbox.Indicator>✓</Checkbox.Indicator>
+            </Checkbox.Control>
+            <Checkbox.HiddenInput data-input="two" />
+          </Checkbox.Root>
+        </Checkbox.Group>,
+      );
+
+      const inputOne = screen.querySelector('[data-input="one"]') as HTMLInputElement;
+      const inputTwo = screen.querySelector('[data-input="two"]') as HTMLInputElement;
+
+      expect(inputOne.getAttribute('name')).toBe('items');
+      expect(inputOne.getAttribute('value')).toBe('one');
+      expect(inputOne.checked).toBe(true);
+
+      expect(inputTwo.getAttribute('name')).toBe('custom-two');
+      expect(inputTwo.getAttribute('value')).toBe('two');
+      expect(inputTwo.checked).toBe(false);
+    });
+
+    it('Group の disabled / readOnly / invalid が配下のパーツに伝播し、操作をブロックする', async () => {
+      const { screen, render, userEvent } = await createDOM();
+      await render(
+        <div>
+          <Checkbox.Group disabled defaultValue={['a']} data-group="disabled">
+            <Checkbox.Root value="a">
+              <Checkbox.Control data-test="disabled-a">
+                <Checkbox.Indicator>✓</Checkbox.Indicator>
+              </Checkbox.Control>
+            </Checkbox.Root>
+          </Checkbox.Group>
+
+          <Checkbox.Group readOnly defaultValue={['a']} data-group="readonly">
+            <Checkbox.Root value="a" data-root="readonly-a">
+              <Checkbox.Control data-test="readonly-a">
+                <Checkbox.Indicator>✓</Checkbox.Indicator>
+              </Checkbox.Control>
+              <Checkbox.Label data-label="readonly-a">A</Checkbox.Label>
+            </Checkbox.Root>
+          </Checkbox.Group>
+
+          <Checkbox.Group invalid data-group="invalid">
+            <Checkbox.Root value="a" data-root="invalid-a">
+              <Checkbox.Control data-test="invalid-a">
+                <Checkbox.Indicator>✓</Checkbox.Indicator>
+              </Checkbox.Control>
+              <Checkbox.Label data-label="invalid-a">A</Checkbox.Label>
+            </Checkbox.Root>
+          </Checkbox.Group>
+        </div>,
+      );
+
+      const disabledGroup = screen.querySelector('[data-group="disabled"]');
+      const disabledControl = screen.querySelector('[data-test="disabled-a"]') as HTMLButtonElement;
+      expect(disabledGroup?.getAttribute('aria-disabled')).toBe('true');
+      expect(disabledGroup?.hasAttribute('data-disabled')).toBe(true);
+      expect(disabledControl.disabled).toBe(true);
+
+      const readonlyGroup = screen.querySelector('[data-group="readonly"]');
+      const readonlyRoot = screen.querySelector('[data-root="readonly-a"]');
+      const readonlyControl = screen.querySelector('[data-test="readonly-a"]');
+      const readonlyLabel = screen.querySelector('[data-label="readonly-a"]');
+      expect(readonlyGroup?.getAttribute('aria-readonly')).toBe('true');
+      expect(readonlyGroup?.hasAttribute('data-readonly')).toBe(true);
+      expect(readonlyRoot?.hasAttribute('data-readonly')).toBe(true);
+      expect(readonlyControl?.getAttribute('aria-readonly')).toBe('true');
+      expect(readonlyControl?.hasAttribute('data-readonly')).toBe(true);
+      expect(readonlyLabel?.hasAttribute('data-readonly')).toBe(true);
+
+      await userEvent('[data-test="readonly-a"]', 'click');
+      expect(readonlyControl?.getAttribute('aria-checked')).toBe('true');
+
+      const invalidGroup = screen.querySelector('[data-group="invalid"]');
+      const invalidRoot = screen.querySelector('[data-root="invalid-a"]');
+      const invalidControl = screen.querySelector('[data-test="invalid-a"]');
+      const invalidLabel = screen.querySelector('[data-label="invalid-a"]');
+      expect(invalidGroup?.getAttribute('aria-invalid')).toBe('true');
+      expect(invalidGroup?.hasAttribute('data-invalid')).toBe(true);
+      expect(invalidRoot?.hasAttribute('data-invalid')).toBe(true);
+      expect(invalidControl?.getAttribute('aria-invalid')).toBe('true');
+      expect(invalidControl?.hasAttribute('data-invalid')).toBe(true);
+      expect(invalidLabel?.hasAttribute('data-invalid')).toBe(true);
+    });
+
+    it('maxSelectedValues に達すると未選択項目のみ disabled になり、選択解除で復帰する', async () => {
+      const { screen, render, userEvent } = await createDOM();
+      await render(
+        <Checkbox.Group defaultValue={['a']} maxSelectedValues={2}>
+          <Checkbox.Root value="a">
+            <Checkbox.Control data-test="a">
+              <Checkbox.Indicator>✓</Checkbox.Indicator>
+            </Checkbox.Control>
+          </Checkbox.Root>
+          <Checkbox.Root value="b">
+            <Checkbox.Control data-test="b">
+              <Checkbox.Indicator>✓</Checkbox.Indicator>
+            </Checkbox.Control>
+          </Checkbox.Root>
+          <Checkbox.Root value="c">
+            <Checkbox.Control data-test="c">
+              <Checkbox.Indicator>✓</Checkbox.Indicator>
+            </Checkbox.Control>
+          </Checkbox.Root>
+        </Checkbox.Group>,
+      );
+
+      const controlA = screen.querySelector('[data-test="a"]') as HTMLButtonElement;
+      const controlB = screen.querySelector('[data-test="b"]') as HTMLButtonElement;
+      const controlC = screen.querySelector('[data-test="c"]') as HTMLButtonElement;
+
+      expect(controlB.disabled).toBe(false);
+      expect(controlC.disabled).toBe(false);
+
+      await userEvent('[data-test="b"]', 'click');
+      expect(controlA.getAttribute('aria-checked')).toBe('true');
+      expect(controlB.getAttribute('aria-checked')).toBe('true');
+      expect(controlA.disabled).toBe(false);
+      expect(controlB.disabled).toBe(false);
+      expect(controlC.disabled).toBe(true);
+      expect(controlC.hasAttribute('data-disabled')).toBe(true);
+
+      await userEvent('[data-test="a"]', 'click');
+      expect(controlA.getAttribute('aria-checked')).toBe('false');
+      expect(controlC.disabled).toBe(false);
+    });
+
+    it('Field.Root 内で Group に状態と aria-describedby が伝播し、配下の Control の ID が重複しない', async () => {
+      const { screen, render } = await createDOM();
+      await render(
+        <Field.Root hasDescription invalid readOnly>
+          <Field.Label>Options</Field.Label>
+          <Checkbox.Group>
+            <Checkbox.Root value="a">
+              <Checkbox.Control data-test="a">
+                <Checkbox.Indicator>✓</Checkbox.Indicator>
+              </Checkbox.Control>
+              <Checkbox.Label>A</Checkbox.Label>
+            </Checkbox.Root>
+            <Checkbox.Root value="b">
+              <Checkbox.Control data-test="b">
+                <Checkbox.Indicator>✓</Checkbox.Indicator>
+              </Checkbox.Control>
+              <Checkbox.Label>B</Checkbox.Label>
+            </Checkbox.Root>
+          </Checkbox.Group>
+          <Field.Description>Select at least one.</Field.Description>
+          <Field.ErrorMessage>Required</Field.ErrorMessage>
+        </Field.Root>,
+      );
+
+      const group = screen.querySelector('[data-leve-checkbox-group]');
+      const desc = screen.querySelector('[data-leve-field-description]');
+      const err = screen.querySelector('[data-leve-field-error-message]');
+      const controlA = screen.querySelector('[data-test="a"]');
+      const controlB = screen.querySelector('[data-test="b"]');
+
+      expect(group?.getAttribute('aria-describedby')).toBe(`${desc?.id} ${err?.id}`);
+      expect(group?.getAttribute('aria-invalid')).toBe('true');
+      expect(group?.getAttribute('aria-readonly')).toBe('true');
+
+      expect(controlA?.id).toBeTruthy();
+      expect(controlB?.id).toBeTruthy();
+      expect(controlA?.id).not.toBe(controlB?.id);
+      expect(controlA?.hasAttribute('aria-describedby')).toBe(false);
+      expect(controlB?.hasAttribute('aria-describedby')).toBe(false);
+      expect(controlA?.getAttribute('aria-invalid')).toBe('true');
+      expect(controlA?.getAttribute('aria-readonly')).toBe('true');
+    });
+
+    it('form reset で Group が defaultValue に戻り、全 HiddenInput が同期される', async () => {
+      function dispatchReset(
+        form: HTMLFormElement,
+        screen: HTMLElement,
+        userEvent: Awaited<ReturnType<typeof createDOM>>['userEvent'],
+      ) {
+        const event = form.ownerDocument.createEvent('Event');
+        event.initEvent('reset', true, true);
+        form.dispatchEvent(event);
+        return new Promise<void>((resolve) => setTimeout(resolve, 25)).then(() =>
+          userEvent(screen, 'noop'),
+        );
+      }
+
+      const Parent = component$(() => {
+        const log = useSignal<string[]>([]);
+        return (
+          <div>
+            <form id="group-reset-form">
+              <Checkbox.Group
+                name="choices"
+                defaultValue={['a']}
+                onValueChange$={(val) => {
+                  log.value = val;
+                }}
+              >
+                <Checkbox.Root value="a">
+                  <Checkbox.Control data-test="a">
+                    <Checkbox.Indicator>✓</Checkbox.Indicator>
+                  </Checkbox.Control>
+                  <Checkbox.HiddenInput data-input="a" />
+                </Checkbox.Root>
+                <Checkbox.Root value="b">
+                  <Checkbox.Control data-test="b">
+                    <Checkbox.Indicator>✓</Checkbox.Indicator>
+                  </Checkbox.Control>
+                  <Checkbox.HiddenInput data-input="b" />
+                </Checkbox.Root>
+              </Checkbox.Group>
+            </form>
+            <output id="log">{log.value.join(',')}</output>
+          </div>
+        );
+      });
+
+      const { screen, render, userEvent } = await createDOM();
+      await render(<Parent />);
+
+      const form = screen.querySelector('#group-reset-form') as HTMLFormElement;
+      const controlA = screen.querySelector('[data-test="a"]');
+      const controlB = screen.querySelector('[data-test="b"]');
+      const inputA = screen.querySelector('[data-input="a"]') as HTMLInputElement;
+      const inputB = screen.querySelector('[data-input="b"]') as HTMLInputElement;
+
+      await userEvent('[data-test="b"]', 'click');
+      expect(controlB?.getAttribute('aria-checked')).toBe('true');
+      expect(inputB.checked).toBe(true);
+
+      await dispatchReset(form, screen, userEvent);
+
+      expect(controlA?.getAttribute('aria-checked')).toBe('true');
+      expect(controlB?.getAttribute('aria-checked')).toBe('false');
+      expect(inputA.checked).toBe(true);
+      expect(inputB.checked).toBe(false);
+      expect(screen.querySelector('#log')?.textContent).toBe('a');
+    });
+  });
 });

@@ -22,6 +22,8 @@ export const CheckboxIndicator = component$<CheckboxIndicatorProps>((props) => {
       data-leve-checkbox-indicator=""
       data-state={state}
       data-disabled={dataAttr(context.disabled.value)}
+      data-readonly={dataAttr(context.readOnly.value)}
+      data-invalid={dataAttr(context.invalid.value)}
     >
       <Slot />
     </span>
