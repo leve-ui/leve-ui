@@ -22,6 +22,7 @@ export const FieldLabel = component$<FieldLabelProps>((props) => {
       data-invalid={dataAttr(field?.invalid.value)}
       data-disabled={dataAttr(field?.disabled.value)}
       data-required={dataAttr(field?.required.value)}
+      data-readonly={dataAttr(field?.readOnly.value)}
     >
       <Slot />
     </label>

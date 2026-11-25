@@ -81,4 +81,23 @@ test.describe('Field', () => {
     await page.getByText('Bio', { exact: true }).click();
     await expect(textarea).toBeFocused();
   });
+
+  test('readOnly のときは編集不可だがフォーカスでき、readonly と data-readonly が付く', async ({
+    page,
+  }) => {
+    await gotoStory(page, 'components-field--read-only', { focusGuards: true });
+
+    const input = page.getByRole('textbox', { name: 'Email' });
+    await expect(input).toBeEnabled();
+    await expect(input).toHaveAttribute('readonly', '');
+    await expect(input).toHaveAttribute('data-readonly', '');
+    await expect(input).toHaveValue('hello@leve-ui.dev');
+
+    await page.getByRole('button', { name: 'Before' }).focus();
+    await pressTab(page);
+    await expect(input).toBeFocused();
+
+    await input.pressSequentially('extra');
+    await expect(input).toHaveValue('hello@leve-ui.dev');
+  });
 });

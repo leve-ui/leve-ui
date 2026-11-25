@@ -1,0 +1,36 @@
+.field-read-only {
+  font-family: inherit;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 280px;
+  font-size: 14px;
+}
+
+.field-read-only-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: light-dark(#0f172a, #ffffff);
+}
+
+.field-read-only-input {
+  height: 36px;
+  padding: 0 12px;
+  border: 1px solid light-dark(#cbd5e1, #ffffff3d);
+  border-radius: 6px;
+  background: light-dark(#ffffff, #1b2045);
+  color: light-dark(#0f172a, #ffffff);
+  font: inherit;
+  font-size: 14px;
+}
+
+.field-read-only-input:focus-visible {
+  border-color: #009dfd;
+  outline: 2px solid #009dfd;
+  outline-offset: 2px;
+}
+
+/* Set by the library while the field is read-only */
+.field-read-only-input[data-readonly] {
+  background: light-dark(#f1f5f9, #ffffff14);
+}

@@ -32,7 +32,7 @@ import { Field } from '@leve-ui/field'; // or '@leve-ui/core'
 
 | Part | Element | Description |
 | --- | --- | --- |
-| `Field.Root` | `<div>` | Wraps the parts and holds the IDs and the `invalid` / `disabled` / `required` states. |
+| `Field.Root` | `<div>` | Wraps the parts and holds the IDs and the `invalid` / `disabled` / `required` / `readOnly` states. |
 | `Field.Label` | `<label>` | The label of the control. |
 | `Field.Input` | `<input>` | A single-line control. |
 | `Field.Textarea` | `<textarea>` | A multi-line control. |
@@ -67,6 +67,12 @@ Use `Field.Textarea` for multi-line text.
 
 <Demo id="field/textarea" collapsed />
 
+### Read-only
+
+`readOnly` on the Root makes the input read-only while keeping it focusable and included in form submission.
+
+<Demo id="field/read-only" collapsed />
+
 ## API Reference
 
 ### Root
@@ -79,6 +85,7 @@ Use `Field.Textarea` for multi-line text.
 | `data-invalid` | Present when invalid |
 | `data-disabled` | Present when disabled |
 | `data-required` | Present when required |
+| `data-readonly` | Present when read-only |
 
 IDs of the parts can only be overridden with `ids` on the Root; `id` on the parts is ignored inside a Field. Set `hasDescription` when you render a `Field.Description`, so that the control is described by it ([ADR 0024](https://github.com/leve-ui/leve-ui/blob/main/adr/0024-wire-field-ids-and-descriptions-from-the-field-root.md)).
 
@@ -92,6 +99,7 @@ IDs of the parts can only be overridden with `ids` on the Root; `id` on the part
 | `data-invalid` | Present when the Field is invalid |
 | `data-disabled` | Present when the Field is disabled |
 | `data-required` | Present when the Field is required |
+| `data-readonly` | Present when the Field is read-only |
 
 Inside a Field, `for` points to the control.
 
@@ -105,8 +113,9 @@ Inside a Field, `for` points to the control.
 | `data-invalid` | Present when invalid |
 | `data-disabled` | Present when disabled |
 | `data-required` | Present when required |
+| `data-readonly` | Present when read-only |
 
-The input gets `disabled` and `required` from the Field. It also works outside a Field as a plain `<input>`; pass `invalid` to mark it as invalid there.
+The input gets `disabled`, `required`, and `readOnly` from the Field. It also works outside a Field as a plain `<input>`; pass `invalid` or `readOnly` to configure those states directly.
 
 ### Textarea
 
@@ -118,8 +127,9 @@ The input gets `disabled` and `required` from the Field. It also works outside a
 | `data-invalid` | Present when invalid |
 | `data-disabled` | Present when disabled |
 | `data-required` | Present when required |
+| `data-readonly` | Present when read-only |
 
-The textarea gets `disabled` and `required` from the Field. It also works outside a Field as a plain `<textarea>`; pass `invalid` to mark it as invalid there.
+The textarea gets `disabled`, `required`, and `readOnly` from the Field. It also works outside a Field as a plain `<textarea>`; pass `invalid` or `readOnly` to configure those states directly.
 
 ### Description
 
@@ -131,6 +141,7 @@ The textarea gets `disabled` and `required` from the Field. It also works outsid
 | `data-invalid` | Present when the Field is invalid |
 | `data-disabled` | Present when the Field is disabled |
 | `data-required` | Present when the Field is required |
+| `data-readonly` | Present when the Field is read-only |
 
 ### ErrorMessage
 
@@ -142,6 +153,7 @@ The textarea gets `disabled` and `required` from the Field. It also works outsid
 | `data-invalid` | Present when the Field is invalid |
 | `data-disabled` | Present when the Field is disabled |
 | `data-required` | Present when the Field is required |
+| `data-readonly` | Present when the Field is read-only |
 
 Inside a Field, the error message is not rendered while the Field is not `invalid`.
 
@@ -149,7 +161,7 @@ Inside a Field, the error message is not rendered while the Field is not `invali
 
 - `Field.Label` is a native `<label>` whose `for` points to the control, so it names the control and clicking it focuses the control.
 - The control renders `aria-describedby` pointing to `Field.Description` (when `hasDescription` is set) and to `Field.ErrorMessage` (while invalid), after any `aria-describedby` you pass.
-- The control renders `aria-invalid="true"` while invalid, and the native `disabled` and `required` attributes.
+- The control renders `aria-invalid="true"` while invalid, and the native `disabled`, `required`, and `readonly` attributes.
 - `Field.ErrorMessage` renders `role="alert"`, so screen readers announce the error when it appears. Pass `role="status"` to announce it without interrupting.
-- A disabled control is skipped by Tab.
+- A disabled control is skipped by Tab, while a read-only control remains focusable.
 - Field has no keyboard interaction of its own.

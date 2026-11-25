@@ -16,6 +16,7 @@ interface TestFieldProps {
   invalid?: boolean;
   disabled?: boolean;
   required?: boolean;
+  readOnly?: boolean;
   hasDescription?: boolean;
 }
 
@@ -23,6 +24,7 @@ const TestField = component$<TestFieldProps>((props) => {
   const invalid = useComputed$(() => Boolean(props.invalid));
   const disabled = useComputed$(() => Boolean(props.disabled));
   const required = useComputed$(() => Boolean(props.required));
+  const readOnly = useComputed$(() => Boolean(props.readOnly));
   const hasDescription = useComputed$(() => Boolean(props.hasDescription));
 
   useFieldProvider({
@@ -30,6 +32,7 @@ const TestField = component$<TestFieldProps>((props) => {
     invalid,
     disabled,
     required,
+    readOnly,
     hasDescription,
   });
 
@@ -49,6 +52,7 @@ const TestControl = component$<UseFieldControlOptions>((props) => {
       aria-invalid={state.value.invalid ? 'true' : undefined}
       disabled={state.value.disabled}
       required={state.value.required}
+      readOnly={state.value.readOnly}
       data-label-id={state.value.labelId}
     />
   );
@@ -423,6 +427,97 @@ describe('field', () => {
         el.getAttribute('data-inherited'),
       );
       expect(values).toEqual(['true', 'true', 'false']);
+    });
+  });
+
+  describe('readOnly', () => {
+    it('Field の外で props.readOnly を渡すと readOnly 状態に反映される', async () => {
+      const { screen: screenTrue, render: renderTrue } = await createDOM();
+      await renderTrue(<TestControl readOnly />);
+      expect(getInput(screenTrue)?.readOnly).toBe(true);
+
+      const { screen: screenFalse, render: renderFalse } = await createDOM();
+      await renderFalse(<TestControl />);
+      expect(getInput(screenFalse)?.readOnly).toBe(false);
+    });
+
+    it('Field の readOnly が伝搬し、コントロールの props と OR 結合される', async () => {
+      const { screen: screen1, render: render1 } = await createDOM();
+      await render1(
+        <TestField readOnly>
+          <TestControl />
+        </TestField>,
+      );
+      expect(getInput(screen1)?.readOnly).toBe(true);
+
+      const { screen: screen2, render: render2 } = await createDOM();
+      await render2(
+        <TestField>
+          <TestControl readOnly />
+        </TestField>,
+      );
+      expect(getInput(screen2)?.readOnly).toBe(true);
+
+      const { screen: screen3, render: render3 } = await createDOM();
+      await render3(
+        <TestField>
+          <TestControl />
+        </TestField>,
+      );
+      expect(getInput(screen3)?.readOnly).toBe(false);
+    });
+
+    it('Field の readOnly を束ねた Signal をトグルすると control.readOnly が更新される', async () => {
+      const Wrapper = component$(() => {
+        const readOnly = useSignal(false);
+        return (
+          <div>
+            <button
+              type="button"
+              id="toggle-readonly"
+              onClick$={() => {
+                readOnly.value = !readOnly.value;
+              }}
+            >
+              toggle
+            </button>
+            <TestField readOnly={readOnly.value}>
+              <TestControl />
+            </TestField>
+          </div>
+        );
+      });
+
+      const { screen, render, userEvent } = await createDOM();
+      await render(<Wrapper />);
+
+      const input = getInput(screen);
+      expect(input?.readOnly).toBe(false);
+
+      await userEvent('#toggle-readonly', 'click');
+      expect(input?.readOnly).toBe(true);
+
+      await userEvent('#toggle-readonly', 'click');
+      expect(input?.readOnly).toBe(false);
+    });
+
+    it('useFieldProvider で readOnly を省略した場合は false になる', async () => {
+      const LegacyField = component$(() => {
+        const invalid = useComputed$(() => false);
+        const disabled = useComputed$(() => false);
+        const required = useComputed$(() => false);
+        const hasDescription = useComputed$(() => false);
+        useFieldProvider({ invalid, disabled, required, hasDescription });
+        return <Slot />;
+      });
+
+      const { screen, render } = await createDOM();
+      await render(
+        <LegacyField>
+          <TestControl />
+        </LegacyField>,
+      );
+      expect(getInput(screen)?.readOnly).toBe(false);
     });
   });
 });

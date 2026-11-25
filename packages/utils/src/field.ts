@@ -35,6 +35,8 @@ export interface FieldContext {
   disabled: ReadonlySignal<boolean>;
   /** 必須項目かどうかを示す Signal */
   required: ReadonlySignal<boolean>;
+  /** 読み取り専用（read-only）状態かどうかを示す Signal */
+  readOnly: ReadonlySignal<boolean>;
   /** 説明文要素が存在するかどうかを示す Signal */
   hasDescription: ReadonlySignal<boolean>;
 }
@@ -56,6 +58,8 @@ export interface UseFieldProviderOptions {
   disabled: ReadonlySignal<boolean>;
   /** 必須項目かどうかを示す Signal */
   required: ReadonlySignal<boolean>;
+  /** 読み取り専用（read-only）状態かどうかを示す Signal */
+  readOnly?: ReadonlySignal<boolean>;
   /** 説明文要素が存在するかどうかを示す Signal */
   hasDescription: ReadonlySignal<boolean>;
 }
@@ -80,6 +84,7 @@ export interface UseFieldProviderOptions {
  */
 export const useFieldProvider = (options: UseFieldProviderOptions): FieldContext => {
   const base = useId();
+  const defaultReadOnly = useComputed$(() => false);
   const ids: FieldIds = {
     control: options.ids?.control ?? `${base}-control`,
     label: options.ids?.label ?? `${base}-label`,
@@ -91,6 +96,7 @@ export const useFieldProvider = (options: UseFieldProviderOptions): FieldContext
     invalid: options.invalid,
     disabled: options.disabled,
     required: options.required,
+    readOnly: options.readOnly ?? defaultReadOnly,
     hasDescription: options.hasDescription,
   };
   useContextProvider(fieldContextId, context);
@@ -124,6 +130,8 @@ export interface UseFieldControlOptions {
   disabled?: boolean;
   /** コントロール単体での必須フラグ */
   required?: boolean;
+  /** コントロール単体での読み取り専用フラグ */
+  readOnly?: boolean;
   /** 利用者が直接指定した `aria-describedby` */
   'aria-describedby'?: string;
 }
@@ -144,6 +152,8 @@ export interface FieldControlState {
   disabled: boolean;
   /** 必須状態（`options.required || field.required`） */
   required: boolean;
+  /** 読み取り専用状態（`options.readOnly || field.readOnly`） */
+  readOnly: boolean;
 }
 
 /**
@@ -188,6 +198,7 @@ export const useFieldControl = (
       Boolean(field?.disabled.value) ||
       Boolean(fieldset?.disabled.value);
     const required = Boolean(options.required) || Boolean(field?.required.value);
+    const readOnly = Boolean(options.readOnly) || Boolean(field?.readOnly.value);
 
     const hasDescription = Boolean(field?.hasDescription.value);
     const ids = field?.ids;
@@ -211,6 +222,7 @@ export const useFieldControl = (
       invalid,
       disabled,
       required,
+      readOnly,
     };
   });
 };
