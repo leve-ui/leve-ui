@@ -99,6 +99,7 @@ Style each part however you like, for example with data attributes:
 | [`@leve-ui/number-input`](./packages/components/number-input) | Numeric text field with increment/decrement triggers and locale-aware formatting |
 | [`@leve-ui/rating-group`](./packages/components/rating-group) | A group of star or icon items for selecting a numeric rating |
 | [`@leve-ui/pin-input`](./packages/components/pin-input) | Multi-digit verification code and PIN input group |
+| [`@leve-ui/pagination`](./packages/components/pagination) | Navigation for moving across pages of content, supporting button and link modes. |
 
 ## Inspirations
 

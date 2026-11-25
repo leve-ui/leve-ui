@@ -1,0 +1,151 @@
+---
+title: Pagination
+description: Navigation for moving across pages of content, supporting button and link modes.
+---
+
+# Pagination
+
+Navigation for moving across pages of content, supporting both button-based state updates and link-based navigation.
+
+Pagination uses a `<nav>` landmark, native `<button>` or `<a>` elements, `aria-current="page"` on the active page, and `aria-hidden="true"` on ellipsis indicators.
+
+<Demo id="pagination/default" />
+
+## Installation
+
+Install the individual package, or use `@leve-ui/core` to get every component at once:
+
+<Install package="@leve-ui/pagination" />
+
+## Anatomy
+
+```tsx
+import { Pagination } from '@leve-ui/pagination'; // or '@leve-ui/core'
+
+<Pagination.Root totalPages={10}>
+  <Pagination.List>
+    <li>
+      <Pagination.PrevTrigger />
+    </li>
+    <li>
+      <Pagination.Item value={1}>1</Pagination.Item>
+    </li>
+    <li>
+      <Pagination.Ellipsis />
+    </li>
+    <li>
+      <Pagination.NextTrigger />
+    </li>
+  </Pagination.List>
+</Pagination.Root>
+```
+
+| Part | Element | Description |
+| --- | --- | --- |
+| `Pagination.Root` | `<nav>` | The navigation landmark that manages page state and total pages. |
+| `Pagination.List` | `<ul>` | The unordered list of pagination controls. Wrap items, triggers, and ellipses in `<li>`. |
+| `Pagination.Item` | `<button>` / `<a>` | A control for a specific page number. Renders `<a>` when `href` is provided, or `<button type="button">` otherwise. |
+| `Pagination.PrevTrigger` | `<button>` / `<a>` | Navigates to the previous page. Automatically disabled on the first page. |
+| `Pagination.NextTrigger` | `<button>` / `<a>` | Navigates to the next page. Automatically disabled on the last page. |
+| `Pagination.Ellipsis` | `<span>` | Decorative indicator for omitted pages, hidden from assistive technologies. |
+
+## Examples
+
+### Controlled
+
+Bind a `Signal<number>` with `bind:page` to read and control the current page from outside:
+
+<Demo id="pagination/controlled" collapsed />
+
+### Link Mode
+
+Pass `href` to `Pagination.Item`, `Pagination.PrevTrigger`, and `Pagination.NextTrigger` to render `<a>` elements. You can also pass a router link component such as Qwik City's `<Link>` to `as`:
+
+<Demo id="pagination/link-mode" collapsed />
+
+### Disabled
+
+Pass `disabled` on `Pagination.Root` to disable all interactive controls:
+
+<Demo id="pagination/disabled" collapsed />
+
+## API Reference
+
+### Root
+
+<PropsTable component="pagination" part="Root" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-pagination` | Always present |
+| `data-disabled` | Present when `disabled` is `true` |
+
+### List
+
+<PropsTable component="pagination" part="List" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-pagination-list` | Always present |
+
+### Item
+
+<PropsTable component="pagination" part="Item" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-pagination-item` | Always present |
+| `data-state` | `'selected'` or `'unselected'` |
+| `data-selected` | Present when the item represents the current page |
+| `data-disabled` | Present when the item or Root is disabled |
+
+### PrevTrigger
+
+<PropsTable component="pagination" part="PrevTrigger" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-pagination-prev-trigger` | Always present |
+| `data-disabled` | Present when on the first page, or when `disabled` is `true` |
+
+### NextTrigger
+
+<PropsTable component="pagination" part="NextTrigger" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-pagination-next-trigger` | Always present |
+| `data-disabled` | Present when on the last page, or when `disabled` is `true` |
+
+### Ellipsis
+
+<PropsTable component="pagination" part="Ellipsis" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-pagination-ellipsis` | Always present |
+
+### `getPaginationRange`
+
+Pure helper function that computes the sequence of page numbers and ellipsis items to render:
+
+```ts
+import { getPaginationRange } from '@leve-ui/pagination';
+
+const range = getPaginationRange({
+  page: 5,
+  totalPages: 10,
+  siblingCount: 1,
+  boundaryCount: 1,
+});
+```
+
+Returns `Array<{ type: 'page'; value: number } | { type: 'ellipsis'; key: string }>`.
+
+## Accessibility
+
+- `Pagination.Root` renders a `<nav>` landmark with `aria-label="Pagination"` by default. Pass `aria-label` or `aria-labelledby` to customize it.
+- The active `Pagination.Item` receives `aria-current="page"`.
+- `Pagination.Ellipsis` renders `aria-hidden="true"` so screen readers skip decorative ellipsis indicators.
+- Disabled `<button>` controls use the native `disabled` attribute. Disabled `<a>` controls omit `href`, set `aria-disabled="true"` and `tabIndex={-1}`, and prevent click navigation.
+- Interactive controls are native `<button>` or `<a>` elements and are navigated with `Tab` / `Shift+Tab` and activated with `Enter` (or `Space` for buttons).
