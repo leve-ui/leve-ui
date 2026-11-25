@@ -43,10 +43,10 @@ leve-ui/
 │   ├── CODEOWNERS
 │   └── workflows/
 │       ├── ci.yml                 # PR と main への push で実行する CI
-│       ├── docs-deploy.yml        # docs サイトを静的ビルドして Cloudflare Pages にデプロイ（adr/0034）
+│       ├── docs-deploy.yml        # docs サイトを静的ビルドして Cloudflare Pages にデプロイ（PR プレビュー / リリース時本番更新。adr/0034, adr/0039）
 │       ├── docs-translate.yml     # main の英語の docs を Gemini で翻訳し、i18n/*.json の PR を作る（adr/0033）
-│       ├── release.yml            # リリース PR の作成と npm への公開（Changesets）
-│       └── storybook-preview.yml  # Storybook のプレビューを Cloudflare Pages にデプロイ（adr/0027）
+│       ├── release.yml            # リリース PR の作成・npm への公開・本番 Docs/Storybook デプロイ（Changesets, adr/0019, adr/0039）
+│       └── storybook-preview.yml  # Storybook を Cloudflare Pages にデプロイ（PR プレビュー / リリース時本番更新。adr/0027, adr/0039）
 ├── .agents/
 │   ├── rules/                     # AI 向けの制約（常に読み込まれる）
 │   └── skills/<name>/SKILL.md     # AI 向けの作業手順（必要なときに読み込まれる）

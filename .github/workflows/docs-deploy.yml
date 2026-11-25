@@ -16,24 +16,10 @@ on:
       - ".node-version"
       - ".github/actions/setup/**"
       - ".github/workflows/docs-deploy.yml"
-  push:
-    branches: [main]
-    paths:
-      - "packages/**"
-      - "apps/docs/**"
-      - "apps/storybook/stories/demos/**"
-      - "tooling/**"
-      - "package.json"
-      - "pnpm-lock.yaml"
-      - "pnpm-workspace.yaml"
-      - ".node-version"
-      - ".github/actions/setup/**"
-      - ".github/workflows/docs-deploy.yml"
-
-# Cancel any older in-progress deployment for the same PR or branch.
-concurrency:
-  group: docs-deploy-${{ github.event.pull_request.number || github.ref }}
-  cancel-in-progress: true
+  # Called by release.yml after packages are published to update production docs (adr/0039).
+  workflow_call:
+  # Allows a maintainer to deploy production docs manually (e.g. for docs-only or translation updates).
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -47,7 +33,11 @@ jobs:
     name: Deploy docs
     # Skip pull requests from forks because repository secrets are unavailable
     # to them and pull_request_target must not be used (see adr/0027, adr/0034).
-    if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name == github.repository
+    if: github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository
+    # Cancel any older in-progress preview for the same PR; keep production deploys ordered without canceling.
+    concurrency:
+      group: docs-deploy-${{ github.event.pull_request.number || github.ref }}
+      cancel-in-progress: ${{ github.event_name == 'pull_request' }}
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -126,7 +116,11 @@ jobs:
         run: |
           SHORT_SHA="${COMMIT_SHA:0:7}"
           {
-            echo "### Docs preview"
+            if [ "${{ github.event_name }}" = "pull_request" ]; then
+              echo "### Docs preview"
+            else
+              echo "### Docs deploy"
+            fi
             echo ""
             echo "| | URL |"
             echo "| --- | --- |"
