@@ -1,0 +1,149 @@
+---
+title: Number Input
+description: Numeric text field with increment/decrement triggers and locale-aware formatting.
+---
+
+# Number Input
+
+Numeric text field with increment/decrement triggers and locale-aware formatting.
+
+Number Input implements the [WAI-ARIA APG Spinbutton pattern](https://www.w3.org/WAI/ARIA/apg/patterns/spinbutton/), providing keyboard stepping, `Intl.NumberFormat` formatting and parsing, clamping, and form reset support.
+
+<Demo id="number-input/default" />
+
+## Installation
+
+Install the individual package, or use `@leve-ui/core` to get every component at once:
+
+<Install package="@leve-ui/number-input" />
+
+## Anatomy
+
+```tsx
+import { NumberInput } from '@leve-ui/number-input'; // or '@leve-ui/core'
+
+<NumberInput.Root>
+  <NumberInput.DecrementTrigger>-</NumberInput.DecrementTrigger>
+  <NumberInput.Input />
+  <NumberInput.IncrementTrigger>+</NumberInput.IncrementTrigger>
+</NumberInput.Root>
+```
+
+| Part | Element | Description |
+| --- | --- | --- |
+| `NumberInput.Root` | `<div>` | Wraps the parts, manages the numeric state, and provides context. |
+| `NumberInput.Input` | `<input>` | Spinbutton text input (`role="spinbutton"`, `inputMode="decimal"`). |
+| `NumberInput.IncrementTrigger` | `<button>` | Button (`tabIndex={-1}`) that increments the value by `step`. |
+| `NumberInput.DecrementTrigger` | `<button>` | Button (`tabIndex={-1}`) that decrements the value by `step`. |
+
+## Examples
+
+### Controlled
+
+Control the numeric value with `bind:value`.
+
+<Demo id="number-input/controlled" collapsed />
+
+### Min, Max, and Step
+
+Configure `min`, `max`, `step`, and `largeStep` (for `PageUp` / `PageDown`).
+
+<Demo id="number-input/min-max-step" collapsed />
+
+### Formatted
+
+Pass `locale` and `formatOptions` (such as currency or percentage) to format and parse numbers with `Intl.NumberFormat`.
+
+<Demo id="number-input/formatted" collapsed />
+
+### Disabled
+
+`disabled` on the Root disables both the input and the trigger buttons.
+
+<Demo id="number-input/disabled" collapsed />
+
+### Read Only
+
+`readOnly` prevents editing and stepping while keeping the input focusable.
+
+<Demo id="number-input/read-only" collapsed />
+
+### With Field
+
+Inside a `Field.Root`, `Field.Label`, `Field.Description`, `Field.ErrorMessage`, and the `disabled` / `readOnly` / `required` / `invalid` states are wired automatically.
+
+<Demo id="number-input/with-field" collapsed />
+
+### With Form
+
+Works with native `<form>` submission and resets to `defaultValue` on `<form>` reset.
+
+<Demo id="number-input/with-form" collapsed />
+
+## API Reference
+
+### Root
+
+<PropsTable component="number-input" part="Root" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-number-input` | Always present |
+| `data-state` | `"empty"` \| `"filled"` |
+| `data-disabled` | Present when disabled |
+| `data-readonly` | Present when read-only |
+| `data-invalid` | Present when invalid |
+
+The numeric value is uncontrolled with `defaultValue`, or controlled with `bind:value`. `onValueChange$` is called when the committed value changes.
+
+Inside a Field, the input ID comes from the Field and `ids` is ignored ([ADR 0024](https://github.com/leve-ui/leve-ui/blob/main/adr/0024-wire-field-ids-and-descriptions-from-the-field-root.md)).
+
+### Input
+
+<PropsTable component="number-input" part="Input" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-number-input-input` | Always present |
+| `data-state` | `"empty"` \| `"filled"` |
+| `data-disabled` | Present when disabled |
+| `data-readonly` | Present when read-only |
+| `data-invalid` | Present when invalid |
+
+### IncrementTrigger
+
+<PropsTable component="number-input" part="IncrementTrigger" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-number-input-increment-trigger` | Always present |
+| `data-disabled` | Present when disabled, read-only, or at `max` |
+
+### DecrementTrigger
+
+<PropsTable component="number-input" part="DecrementTrigger" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-number-input-decrement-trigger` | Always present |
+| `data-disabled` | Present when disabled, read-only, or at `min` |
+
+## Accessibility
+
+Follows the [WAI-ARIA APG Spinbutton pattern](https://www.w3.org/WAI/ARIA/apg/patterns/spinbutton/).
+
+- Provide an accessible name for `NumberInput.Input` via `Field.Label`, `aria-label`, or `aria-labelledby`.
+- `NumberInput.Input` sets `role="spinbutton"`, `aria-valuenow`, `aria-valuemin`, `aria-valuemax`, and `aria-valuetext` (when the formatted text differs from the plain number string).
+- `IncrementTrigger` and `DecrementTrigger` are excluded from the tab order (`tabIndex={-1}`) and prevent `mousedown` default so clicking them keeps focus on the input. They default `aria-label` to `"Increment"` and `"Decrement"`.
+
+### Keyboard Interactions
+
+| Key | Description |
+| --- | --- |
+| `ArrowUp` | Increments the value by `step`. |
+| `ArrowDown` | Decrements the value by `step`. |
+| `PageUp` | Increments the value by `largeStep`. |
+| `PageDown` | Decrements the value by `largeStep`. |
+| `Home` | Sets the value to `min` (when `min` is defined). |
+| `End` | Sets the value to `max` (when `max` is defined). |
+| `Enter` | Parses, clamps (if `clampValueOnBlur` is true), commits, and formats the input value. |

@@ -1,0 +1,61 @@
+.number-input-min-max-step {
+  display: inline-flex;
+  align-items: center;
+  font-family: inherit;
+}
+
+.number-input-min-max-step-input {
+  width: 80px;
+  height: 36px;
+  padding: 0 8px;
+  border-top: 1px solid light-dark(#cbd5e1, #ffffff3d);
+  border-bottom: 1px solid light-dark(#cbd5e1, #ffffff3d);
+  border-left: none;
+  border-right: none;
+  background: light-dark(#ffffff, #1b2045);
+  color: light-dark(#0f172a, #ffffff);
+  font-family: inherit;
+  font-size: 14px;
+  text-align: center;
+}
+
+.number-input-min-max-step-input:focus-visible {
+  outline: 2px solid #009dfd;
+  outline-offset: -1px;
+  z-index: 1;
+}
+
+.number-input-min-max-step-trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 1px solid light-dark(#cbd5e1, #ffffff3d);
+  background: light-dark(#ffffff, #1b2045);
+  color: light-dark(#0f172a, #ffffff);
+  cursor: pointer;
+}
+
+.number-input-min-max-step-trigger[data-leve-number-input-decrement-trigger] {
+  border-radius: 6px 0 0 6px;
+}
+
+.number-input-min-max-step-trigger[data-leve-number-input-increment-trigger] {
+  border-radius: 0 6px 6px 0;
+}
+
+.number-input-min-max-step-trigger:hover:not(:disabled) {
+  background: light-dark(#f1f5f9, #ffffff14);
+}
+
+.number-input-min-max-step-trigger[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.number-input-min-max-step-icon {
+  width: 16px;
+  height: 16px;
+}

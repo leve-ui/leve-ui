@@ -1,0 +1,79 @@
+.number-input-controlled-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-family: inherit;
+}
+
+.number-input-controlled {
+  display: inline-flex;
+  align-items: stretch;
+  width: 160px;
+}
+
+.number-input-controlled-input {
+  flex: 1;
+  min-width: 0;
+  height: 36px;
+  padding: 0 10px;
+  border: 1px solid light-dark(#cbd5e1, #ffffff3d);
+  border-right: none;
+  border-radius: 6px 0 0 6px;
+  background: light-dark(#ffffff, #1b2045);
+  color: light-dark(#0f172a, #ffffff);
+  font-family: inherit;
+  font-size: 14px;
+}
+
+.number-input-controlled-input:focus-visible {
+  outline: 2px solid #009dfd;
+  outline-offset: -1px;
+  z-index: 1;
+}
+
+.number-input-controlled-triggers {
+  display: flex;
+  flex-direction: column;
+  width: 28px;
+}
+
+.number-input-controlled-trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  padding: 0;
+  border: 1px solid light-dark(#cbd5e1, #ffffff3d);
+  background: light-dark(#ffffff, #1b2045);
+  color: light-dark(#0f172a, #ffffff);
+  cursor: pointer;
+}
+
+.number-input-controlled-trigger[data-leve-number-input-increment-trigger] {
+  border-bottom: none;
+  border-radius: 0 6px 0 0;
+}
+
+.number-input-controlled-trigger[data-leve-number-input-decrement-trigger] {
+  border-radius: 0 0 6px 0;
+}
+
+.number-input-controlled-trigger:hover:not(:disabled) {
+  background: light-dark(#f1f5f9, #ffffff14);
+}
+
+.number-input-controlled-trigger[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.number-input-controlled-icon {
+  width: 14px;
+  height: 14px;
+}
+
+.number-input-controlled-status {
+  margin: 0;
+  font-size: 13px;
+  color: light-dark(#475569, #c9ddf0);
+}

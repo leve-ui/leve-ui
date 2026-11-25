@@ -18,6 +18,7 @@ export * from '@leve-ui/hover-card';
 export * from '@leve-ui/label';
 export * from '@leve-ui/menu';
 export * from '@leve-ui/meter';
+export * from '@leve-ui/number-input';
 export * from '@leve-ui/password-input';
 export * from '@leve-ui/popover';
 export * from '@leve-ui/progress';
