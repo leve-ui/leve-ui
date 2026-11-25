@@ -1,0 +1,130 @@
+---
+title: Password Input
+description: Password field with a visibility toggle button.
+---
+
+# Password Input
+
+Password field with a visibility toggle button.
+
+Password Input uses a native `<input>` whose `type` switches between `"password"` and `"text"`, paired with a native `<button type="button">` toggle exposing `aria-pressed` and `aria-controls`.
+
+<Demo id="password-input/default" />
+
+## Installation
+
+Install the individual package, or use `@leve-ui/core` to get every component at once:
+
+<Install package="@leve-ui/password-input" />
+
+## Anatomy
+
+```tsx
+import { PasswordInput } from '@leve-ui/password-input'; // or '@leve-ui/core'
+
+<PasswordInput.Root>
+  <PasswordInput.Input />
+  <PasswordInput.VisibilityTrigger>
+    <PasswordInput.Indicator />
+  </PasswordInput.VisibilityTrigger>
+</PasswordInput.Root>
+```
+
+| Part | Element | Description |
+| --- | --- | --- |
+| `PasswordInput.Root` | `<div>` | Wraps the parts and holds the visibility state. Not interactive. |
+| `PasswordInput.Input` | `<input>` | The password input whose `type` toggles between `"password"` and `"text"`. |
+| `PasswordInput.VisibilityTrigger` | `<button>` | Button that toggles password visibility (`aria-pressed`, `aria-controls`). |
+| `PasswordInput.Indicator` | `<span>` | Decorative container for visibility icons (`aria-hidden="true"`). |
+
+## Examples
+
+### Default Visible
+
+`defaultVisible` shows the password initially.
+
+<Demo id="password-input/default-visible" collapsed />
+
+### Controlled
+
+Control the visibility state with `bind:visible`.
+
+<Demo id="password-input/controlled" collapsed />
+
+### Disabled
+
+`disabled` on the Root disables both the input and the visibility trigger.
+
+<Demo id="password-input/disabled" collapsed />
+
+### With Field
+
+Inside a `Field.Root`, `Field.Label`, `Field.Description`, `Field.ErrorMessage`, and the `disabled` / `readOnly` / `required` / `invalid` states are wired automatically.
+
+<Demo id="password-input/with-field" collapsed />
+
+## API Reference
+
+### Root
+
+<PropsTable component="password-input" part="Root" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-password-input` | Always present |
+| `data-state` | `"visible"` \| `"hidden"` |
+| `data-disabled` | Present when disabled |
+| `data-readonly` | Present when read-only |
+| `data-invalid` | Present when invalid |
+
+The visibility state is uncontrolled with `defaultVisible`, or controlled with `bind:visible`. `onVisibleChange$` is called when the visibility changes.
+
+Inside a Field, the input ID comes from the Field and `ids` is ignored ([ADR 0024](https://github.com/leve-ui/leve-ui/blob/main/adr/0024-wire-field-ids-and-descriptions-from-the-field-root.md)).
+
+### Input
+
+<PropsTable component="password-input" part="Input" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-password-input-input` | Always present |
+| `data-state` | `"visible"` \| `"hidden"` |
+| `data-disabled` | Present when disabled |
+| `data-readonly` | Present when read-only |
+| `data-invalid` | Present when invalid |
+
+### VisibilityTrigger
+
+<PropsTable component="password-input" part="VisibilityTrigger" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-password-input-visibility-trigger` | Always present |
+| `data-state` | `"visible"` \| `"hidden"` |
+| `data-disabled` | Present when disabled |
+
+### Indicator
+
+<PropsTable component="password-input" part="Indicator" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-password-input-indicator` | Always present |
+| `data-state` | `"visible"` \| `"hidden"` |
+| `data-disabled` | Present when disabled |
+
+## Accessibility
+
+Uses native HTML `<input>` and `<button type="button">` elements.
+
+- Provide an accessible name for `PasswordInput.Input` via `Field.Label`, `aria-label`, or `aria-labelledby`.
+- Provide an accessible name for `PasswordInput.VisibilityTrigger` via `aria-label` or visible button text.
+- `PasswordInput.VisibilityTrigger` outputs `aria-controls` pointing to `PasswordInput.Input` and `aria-pressed` (`"true"` or `"false"`).
+- `PasswordInput.Indicator` is hidden from assistive technologies with `aria-hidden="true"`.
+
+### Keyboard Interactions
+
+| Key | Description |
+| --- | --- |
+| `Space` | Toggles password visibility when `VisibilityTrigger` is focused. |
+| `Enter` | Toggles password visibility when `VisibilityTrigger` is focused (submits form when `Input` is focused inside a `<form>`). |

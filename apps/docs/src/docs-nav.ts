@@ -54,6 +54,7 @@ export const docsNav: NavSection[] = [
       { title: 'Label', href: '/components/label/' },
       { title: 'Menu', href: '/components/menu/' },
       { title: 'Meter', href: '/components/meter/' },
+      { title: 'Password Input', href: '/components/password-input/' },
       { title: 'Popover', href: '/components/popover/' },
       { title: 'Progress', href: '/components/progress/' },
       { title: 'Radio Group', href: '/components/radio-group/' },

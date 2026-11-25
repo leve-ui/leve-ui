@@ -94,6 +94,7 @@ Style each part however you like, for example with data attributes:
 | [`@leve-ui/menu`](./packages/components/menu) | A list of actions that opens from a button, or at the pointer as a context menu |
 | [`@leve-ui/toast`](./packages/components/toast) | Short messages added from code, stacked and announced |
 | [`@leve-ui/combobox`](./packages/components/combobox) | A text input with a list of suggestions to pick from |
+| [`@leve-ui/password-input`](./packages/components/password-input) | Password field with a visibility toggle button. |
 
 ## Inspirations
 
