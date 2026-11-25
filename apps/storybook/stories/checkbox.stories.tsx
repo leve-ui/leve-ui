@@ -8,6 +8,9 @@ import defaultCss from './demos/checkbox/default.css?raw';
 import DisabledDemo from './demos/checkbox/disabled';
 import disabledSource from './demos/checkbox/disabled?raw';
 import disabledCss from './demos/checkbox/disabled.css?raw';
+import GroupDemo from './demos/checkbox/group';
+import groupSource from './demos/checkbox/group?raw';
+import groupCss from './demos/checkbox/group.css?raw';
 import IndeterminateDemo from './demos/checkbox/indeterminate';
 import indeterminateSource from './demos/checkbox/indeterminate?raw';
 import indeterminateCss from './demos/checkbox/indeterminate.css?raw';
@@ -64,5 +67,12 @@ export const WithField: Story = {
   render: () => <WithFieldDemo />,
   parameters: {
     docs: { source: { code: demoSource(withFieldSource, withFieldCss, 'with-field.css') } },
+  },
+};
+
+export const Group: Story = {
+  render: () => <GroupDemo />,
+  parameters: {
+    docs: { source: { code: demoSource(groupSource, groupCss, 'group.css') } },
   },
 };

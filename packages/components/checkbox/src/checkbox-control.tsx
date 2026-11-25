@@ -1,6 +1,10 @@
 import { component$, type PropsOf, Slot, useContext } from '@builder.io/qwik';
 import { dataAttr, useFieldControl } from '@leve-ui/utils';
-import { checkboxContextId, getCheckboxDataState } from './checkbox-context';
+import {
+  checkboxContextId,
+  checkboxGroupContextId,
+  getCheckboxDataState,
+} from './checkbox-context';
 
 export type CheckboxControlProps = PropsOf<'button'>;
 
@@ -14,12 +18,17 @@ export type CheckboxControlProps = PropsOf<'button'>;
  */
 export const CheckboxControl = component$<CheckboxControlProps>(({ onClick$, ...props }) => {
   const context = useContext(checkboxContextId);
+  const group = useContext(checkboxGroupContextId, null);
   const control = useFieldControl(props);
 
   const state = getCheckboxDataState(context.checked.value);
 
   const ariaChecked =
     context.checked.value === 'indeterminate' ? 'mixed' : context.checked.value ? 'true' : 'false';
+
+  const isInvalid = context.invalid.value || control.value.invalid;
+  // Suppress Field's aria-describedby inside a Group so it isn't duplicated on every item
+  const ariaDescribedBy = group !== null ? props['aria-describedby'] : control.value.describedBy;
 
   return (
     // biome-ignore lint/a11y/useSemanticElements: APG Checkbox パターンに従いカスタムスタイル適用可能な button[role="checkbox"] を使用するため
@@ -29,15 +38,17 @@ export const CheckboxControl = component$<CheckboxControlProps>(({ onClick$, ...
       role="checkbox"
       id={context.ids.control}
       aria-checked={ariaChecked}
-      aria-describedby={control.value.describedBy}
-      aria-invalid={control.value.invalid ? 'true' : undefined}
+      aria-describedby={ariaDescribedBy}
+      aria-invalid={isInvalid ? 'true' : undefined}
+      aria-readonly={context.readOnly.value ? 'true' : undefined}
       aria-required={context.required.value ? 'true' : undefined}
       disabled={context.disabled.value}
       onClick$={[context.toggle$, onClick$]}
       data-leve-checkbox-control=""
       data-state={state}
       data-disabled={dataAttr(context.disabled.value)}
-      data-invalid={dataAttr(control.value.invalid)}
+      data-readonly={dataAttr(context.readOnly.value)}
+      data-invalid={dataAttr(isInvalid)}
     >
       <Slot />
     </button>

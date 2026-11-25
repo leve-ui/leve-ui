@@ -22,17 +22,20 @@ Install the individual package, or use `@leve-ui/core` to get every component at
 ```tsx
 import { Checkbox } from '@leve-ui/checkbox'; // or '@leve-ui/core'
 
-<Checkbox.Root>
-  <Checkbox.Control>
-    <Checkbox.Indicator />
-  </Checkbox.Control>
-  <Checkbox.Label />
-  <Checkbox.HiddenInput />
-</Checkbox.Root>
+<Checkbox.Group>
+  <Checkbox.Root value="item">
+    <Checkbox.Control>
+      <Checkbox.Indicator />
+    </Checkbox.Control>
+    <Checkbox.Label />
+    <Checkbox.HiddenInput />
+  </Checkbox.Root>
+</Checkbox.Group>
 ```
 
 | Part | Element | Description |
 | --- | --- | --- |
+| `Checkbox.Group` | `<div>` | Optional. Manages a list of selected values across multiple checkboxes (`role="group"`). |
 | `Checkbox.Root` | `<div>` | Wraps the parts and holds the checked state. Not interactive. |
 | `Checkbox.Control` | `<button>` | The checkbox itself, with `role="checkbox"`. |
 | `Checkbox.Indicator` | `<span>` | Holds the check mark or other icons. Always rendered. |
@@ -59,6 +62,12 @@ The checked state can be `"indeterminate"`, for example for a "select all" check
 
 <Demo id="checkbox/indeterminate" collapsed />
 
+### Group
+
+`Checkbox.Group` manages an array of selected values across multiple `Checkbox.Root` items. Use `maxSelectedValues` to limit how many items can be selected at once.
+
+<Demo id="checkbox/group" collapsed />
+
 ### With Field
 
 Inside a `Field.Root`, use `Field.Label` instead of `Checkbox.Label`. The Field provides the IDs, the description and the `disabled` / `required` / `invalid` states.
@@ -73,6 +82,19 @@ Add `Checkbox.HiddenInput` with `name` and `value` to submit the state with a na
 
 ## API Reference
 
+### Group
+
+<PropsTable component="checkbox" part="Group" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-checkbox-group` | Always present |
+| `data-disabled` | Present when disabled |
+| `data-readonly` | Present when read-only |
+| `data-invalid` | Present when invalid |
+
+The selected values are uncontrolled with `defaultValue`, or controlled with `bind:value`. `onValueChange$` is called when the user toggles an item. `name`, `disabled`, `readOnly`, `invalid`, and `maxSelectedValues` are shared with descendant `Checkbox.Root` items.
+
 ### Root
 
 <PropsTable component="checkbox" part="Root" />
@@ -82,10 +104,12 @@ Add `Checkbox.HiddenInput` with `name` and `value` to submit the state with a na
 | `data-leve-checkbox` | Always present |
 | `data-state` | `"checked"` \| `"unchecked"` \| `"indeterminate"` |
 | `data-disabled` | Present when disabled |
+| `data-readonly` | Present when read-only |
+| `data-invalid` | Present when invalid |
 
-The checked state is uncontrolled with `defaultChecked`, or controlled with `bind:checked`. `onCheckedChange$` is called when the user changes it. Toggling an `"indeterminate"` checkbox makes it checked.
+The checked state is uncontrolled with `defaultChecked`, or controlled with `bind:checked`. `onCheckedChange$` is called when the user changes it. Toggling an `"indeterminate"` checkbox makes it checked. Inside a `Checkbox.Group`, pass `value` to match against the group's selected values.
 
-Inside a Field, the IDs come from the Field and `ids` is ignored ([ADR 0024](https://github.com/leve-ui/leve-ui/blob/main/adr/0024-wire-field-ids-and-descriptions-from-the-field-root.md)).
+Inside a Field (outside a Group), the IDs come from the Field and `ids` is ignored ([ADR 0024](https://github.com/leve-ui/leve-ui/blob/main/adr/0024-wire-field-ids-and-descriptions-from-the-field-root.md)). Inside a `Checkbox.Group`, each checkbox uses its own generated IDs (or `ids`) so multiple checkboxes do not share duplicate IDs.
 
 ### Control
 
@@ -96,7 +120,8 @@ Inside a Field, the IDs come from the Field and `ids` is ignored ([ADR 0024](htt
 | `data-leve-checkbox-control` | Always present |
 | `data-state` | `"checked"` \| `"unchecked"` \| `"indeterminate"` |
 | `data-disabled` | Present when disabled |
-| `data-invalid` | Present when the Field is invalid |
+| `data-readonly` | Present when read-only |
+| `data-invalid` | Present when invalid |
 
 ### Indicator
 
@@ -107,6 +132,8 @@ Inside a Field, the IDs come from the Field and `ids` is ignored ([ADR 0024](htt
 | `data-leve-checkbox-indicator` | Always present |
 | `data-state` | `"checked"` \| `"unchecked"` \| `"indeterminate"` |
 | `data-disabled` | Present when disabled |
+| `data-readonly` | Present when read-only |
+| `data-invalid` | Present when invalid |
 
 The indicator is always rendered. Show or hide its icons with CSS, for example `[data-leve-checkbox-indicator][data-state="unchecked"]`.
 
@@ -119,6 +146,8 @@ The indicator is always rendered. Show or hide its icons with CSS, for example `
 | `data-leve-checkbox-label` | Always present |
 | `data-state` | `"checked"` \| `"unchecked"` \| `"indeterminate"` |
 | `data-disabled` | Present when disabled |
+| `data-readonly` | Present when read-only |
+| `data-invalid` | Present when invalid |
 
 ### HiddenInput
 
@@ -129,15 +158,18 @@ The indicator is always rendered. Show or hide its icons with CSS, for example `
 | `data-leve-checkbox-hidden-input` | Always present |
 | `data-state` | `"checked"` \| `"unchecked"` \| `"indeterminate"` |
 | `data-disabled` | Present when disabled |
+| `data-readonly` | Present when read-only |
+| `data-invalid` | Present when invalid |
 
-The hidden input follows the checked, `required` and `disabled` states, so native form submission and `required` validation work ([ADR 0026](https://github.com/leve-ui/leve-ui/blob/main/adr/0026-participate-in-native-forms-through-a-hiddeninput-part.md)). It is positioned absolutely with an inline style, so give `Checkbox.Root` `position: relative`.
+The hidden input follows the checked, `required` and `disabled` states, and inherits `name` and `value` from `Checkbox.Root` or `Checkbox.Group`, so native form submission and `required` validation work ([ADR 0026](https://github.com/leve-ui/leve-ui/blob/main/adr/0026-participate-in-native-forms-through-a-hiddeninput-part.md)). It is positioned absolutely with an inline style, so give `Checkbox.Root` `position: relative`.
 
 ## Accessibility
 
 Complies with the [Checkbox WAI-ARIA design pattern](https://www.w3.org/WAI/ARIA/apg/patterns/checkbox/).
 
-- Name the checkbox with `Checkbox.Label`, `Field.Label`, or `aria-label` / `aria-labelledby` on `Checkbox.Control`.
-- `Checkbox.Control` renders `role="checkbox"` and `aria-checked` (`"true"`, `"false"` or `"mixed"`), and `aria-required` when required. Inside a Field it also renders `aria-describedby` and `aria-invalid`.
+- Name the checkbox with `Checkbox.Label`, `Field.Label`, or `aria-label` / `aria-labelledby` on `Checkbox.Control`. Name a `Checkbox.Group` with `aria-label` or `aria-labelledby`.
+- `Checkbox.Group` renders `role="group"`, `aria-describedby` (inside a Field), `aria-invalid`, `aria-disabled`, and `aria-readonly`.
+- `Checkbox.Control` renders `role="checkbox"` and `aria-checked` (`"true"`, `"false"` or `"mixed"`), `aria-required` when required, `aria-readonly` when read-only, and `aria-invalid` when invalid. Outside a `Checkbox.Group`, inside a Field it also renders `aria-describedby`.
 - Do not change the label text with the state. The state is conveyed by `aria-checked`.
 - `Checkbox.Indicator` and `Checkbox.HiddenInput` are hidden from assistive technologies with `aria-hidden="true"`.
 

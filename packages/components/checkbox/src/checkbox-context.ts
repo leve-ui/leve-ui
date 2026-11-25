@@ -7,12 +7,30 @@ export interface CheckboxIds {
   label: string;
 }
 
+export interface CheckboxGroupContext {
+  value: ReadonlySignal<string[]>;
+  name: ReadonlySignal<string | undefined>;
+  disabled: ReadonlySignal<boolean>;
+  readOnly: ReadonlySignal<boolean>;
+  invalid: ReadonlySignal<boolean>;
+  maxSelectedValues: ReadonlySignal<number | undefined>;
+  toggleValue$: QRL<(itemValue: string) => void>;
+  reset$: QRL<() => Promise<void>>;
+}
+
+export const checkboxGroupContextId =
+  createContextId<CheckboxGroupContext>('leve-ui.checkbox-group');
+
 export interface CheckboxContext {
   ids: CheckboxIds;
   checked: ReadonlySignal<CheckboxCheckedState>;
-  disabled: ReadonlySignal<boolean>; // Root disabled || Field disabled
+  disabled: ReadonlySignal<boolean>; // Root disabled || Group disabled || Field disabled || maxReached
   required: ReadonlySignal<boolean>; // Root required || Field required
-  toggle$: QRL<() => void>; // no-op when disabled
+  readOnly: ReadonlySignal<boolean>; // Root readOnly || Group readOnly || Field readOnly
+  invalid: ReadonlySignal<boolean>; // Root invalid || Group invalid || Field invalid
+  name: ReadonlySignal<string | undefined>;
+  value: ReadonlySignal<string | undefined>;
+  toggle$: QRL<() => void>; // no-op when disabled or readOnly
   reset$: QRL<() => Promise<void>>;
 }
 

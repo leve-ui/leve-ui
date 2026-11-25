@@ -1,0 +1,81 @@
+.checkbox-group-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  font-family: inherit;
+}
+
+.checkbox-group-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.checkbox-group-item {
+  /* HiddenInput is absolutely positioned inside Root */
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.checkbox-group-control {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  padding: 0;
+  border: 1px solid light-dark(#cbd5e1, #ffffff3d);
+  border-radius: 4px;
+  background: light-dark(#ffffff, #1b2045);
+  cursor: pointer;
+}
+
+.checkbox-group-control[data-state="checked"] {
+  background: #009dfd;
+  border-color: #009dfd;
+}
+
+.checkbox-group-control:focus-visible {
+  outline: 2px solid #009dfd;
+  outline-offset: 2px;
+}
+
+.checkbox-group-control:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* The indicator is always rendered; show it only when checked */
+.checkbox-group-indicator {
+  display: none;
+  color: #ffffff;
+}
+
+.checkbox-group-indicator[data-state="checked"] {
+  display: inline-flex;
+}
+
+.checkbox-group-icon {
+  width: 12px;
+  height: 12px;
+}
+
+.checkbox-group-label {
+  font-size: 14px;
+  color: light-dark(#0f172a, #ffffff);
+  cursor: pointer;
+}
+
+.checkbox-group-label[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.checkbox-group-status {
+  margin: 0;
+  font-size: 13px;
+  color: light-dark(#475569, #c9ddf0);
+}

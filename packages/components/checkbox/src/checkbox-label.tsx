@@ -25,6 +25,8 @@ export const CheckboxLabel = component$<CheckboxLabelProps>((props) => {
       data-leve-checkbox-label=""
       data-state={state}
       data-disabled={dataAttr(context.disabled.value)}
+      data-readonly={dataAttr(context.readOnly.value)}
+      data-invalid={dataAttr(context.invalid.value)}
     >
       <Slot />
     </label>
