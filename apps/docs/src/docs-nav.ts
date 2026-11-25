@@ -43,6 +43,7 @@ export const docsNav: NavSection[] = [
       { title: 'Avatar', href: '/components/avatar/' },
       { title: 'Breadcrumb', href: '/components/breadcrumb/' },
       { title: 'Checkbox', href: '/components/checkbox/' },
+      { title: 'Clipboard', href: '/components/clipboard/' },
       { title: 'Collapsible', href: '/components/collapsible/' },
       { title: 'Combobox', href: '/components/combobox/' },
       { title: 'Context Menu', href: '/components/context-menu/' },

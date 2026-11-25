@@ -74,6 +74,9 @@ importers:
       '@leve-ui/checkbox':
         specifier: workspace:*
         version: link:../../packages/components/checkbox
+      '@leve-ui/clipboard':
+        specifier: workspace:*
+        version: link:../../packages/components/clipboard
       '@leve-ui/collapsible':
         specifier: workspace:*
         version: link:../../packages/components/collapsible
@@ -242,6 +245,9 @@ importers:
       '@leve-ui/checkbox':
         specifier: workspace:*
         version: link:../../packages/components/checkbox
+      '@leve-ui/clipboard':
+        specifier: workspace:*
+        version: link:../../packages/components/clipboard
       '@leve-ui/collapsible':
         specifier: workspace:*
         version: link:../../packages/components/collapsible
@@ -451,6 +457,31 @@ importers:
       '@leve-ui/field':
         specifier: workspace:*
         version: link:../field
+      '@leve-ui/tsconfig':
+        specifier: workspace:*
+        version: link:../../../tooling/tsconfig
+      '@leve-ui/vite-config':
+        specifier: workspace:*
+        version: link:../../../tooling/vite-config
+      typescript:
+        specifier: ~5.9.3
+        version: 5.9.3
+      vite:
+        specifier: ^7.3.8
+        version: 7.3.8(@types/node@24.19.2)(jiti@2.7.0)(yaml@2.9.1)
+      vitest:
+        specifier: ^5.1.0
+        version: 5.1.0(@types/node@24.19.2)(vite@7.3.8(@types/node@24.19.2)(jiti@2.7.0)(yaml@2.9.1))
+
+  packages/components/clipboard:
+    dependencies:
+      '@leve-ui/utils':
+        specifier: workspace:*
+        version: link:../../utils
+    devDependencies:
+      '@builder.io/qwik':
+        specifier: 1.20.4
+        version: 1.20.4(vite@7.3.8(@types/node@24.19.2)(jiti@2.7.0)(yaml@2.9.1))
       '@leve-ui/tsconfig':
         specifier: workspace:*
         version: link:../../../tooling/tsconfig
@@ -1067,6 +1098,9 @@ importers:
       '@leve-ui/checkbox':
         specifier: workspace:*
         version: link:../components/checkbox
+      '@leve-ui/clipboard':
+        specifier: workspace:*
+        version: link:../components/clipboard
       '@leve-ui/collapsible':
         specifier: workspace:*
         version: link:../components/collapsible

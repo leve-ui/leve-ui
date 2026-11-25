@@ -1,0 +1,101 @@
+---
+title: Clipboard
+description: Copy-to-clipboard button with live region announcement and optional read-only input.
+---
+
+# Clipboard
+
+Copy-to-clipboard button with live region announcement and optional read-only input.
+
+There is no WAI-ARIA APG pattern for clipboard controls. Clipboard uses a native `<button type="button">` for the trigger and announces copy confirmation through a polite live region.
+
+<Demo id="clipboard/default" />
+
+## Installation
+
+Install the individual package, or use `@leve-ui/core` to get every component at once:
+
+<Install package="@leve-ui/clipboard" />
+
+## Anatomy
+
+```tsx
+import { Clipboard } from '@leve-ui/clipboard'; // or '@leve-ui/core'
+
+<Clipboard.Root value="https://leve-ui.dev">
+  <Clipboard.Input />
+  <Clipboard.Trigger>
+    <Clipboard.Indicator />
+  </Clipboard.Trigger>
+</Clipboard.Root>
+```
+
+| Part | Element | Description |
+| --- | --- | --- |
+| `Clipboard.Root` | `<div>` | Holds the value to copy, manages the timed `copied` state, and announces copy confirmation. |
+| `Clipboard.Trigger` | `<button>` | Button that copies the value to the clipboard when activated. |
+| `Clipboard.Indicator` | `<span>` | Visual indicator (`aria-hidden="true"`) reflecting the current `idle` or `copied` state. |
+| `Clipboard.Input` | `<input>` | Optional read-only input displaying the value to copy. |
+
+## Examples
+
+### Button only
+
+Omit `Clipboard.Input` when only a copy button is needed.
+
+<Demo id="clipboard/button-only" collapsed />
+
+### Custom timeout
+
+Pass `timeout` (in milliseconds) to control how long `data-state="copied"` remains active.
+
+<Demo id="clipboard/custom-timeout" collapsed />
+
+## API Reference
+
+### Root
+
+<PropsTable component="clipboard" part="Root" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-clipboard` | Always present |
+| `data-state` | `"idle"` \| `"copied"` |
+| `data-copied` | Present when copied |
+
+### Trigger
+
+<PropsTable component="clipboard" part="Trigger" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-clipboard-trigger` | Always present |
+| `data-state` | `"idle"` \| `"copied"` |
+| `data-copied` | Present when copied |
+
+### Indicator
+
+<PropsTable component="clipboard" part="Indicator" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-clipboard-indicator` | Always present |
+| `data-state` | `"idle"` \| `"copied"` |
+| `data-copied` | Present when copied |
+
+### Input
+
+<PropsTable component="clipboard" part="Input" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-clipboard-input` | Always present |
+| `data-state` | `"idle"` \| `"copied"` |
+| `data-copied` | Present when copied |
+
+## Accessibility
+
+- `Clipboard.Trigger` renders a native `<button type="button">`, supporting activation with `Enter` and `Space`. Provide an accessible name via visible text or `aria-label`.
+- `Clipboard.Indicator` sets `aria-hidden="true"` so decorative icons are not read by screen readers.
+- When copying succeeds, `Clipboard.Root` announces `copiedAnnouncement` (default `"Copied to clipboard"`) via a polite live region (`announce()` from `@leve-ui/utils`).
+- `Clipboard.Input` sets `readOnly` so users can inspect or manually select the text without modifying it; give it an `aria-label` or associate a `<label>` when used.
