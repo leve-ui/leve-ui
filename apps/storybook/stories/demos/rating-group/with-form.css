@@ -1,0 +1,93 @@
+.rating-group-with-form-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  font-family: inherit;
+}
+
+.rating-group-with-form-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+/* position: relative contains the visually hidden input */
+.rating-group-with-form {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.rating-group-with-form-item {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.25rem;
+  border-radius: 4px;
+  cursor: pointer;
+  color: light-dark(#cbd5e1, #ffffff3d);
+}
+
+.rating-group-with-form-item[data-state="checked"] {
+  color: #009dfd;
+}
+
+.rating-group-with-form-item[data-state="checked"] .rating-group-with-form-icon {
+  fill: #009dfd;
+}
+
+.rating-group-with-form-item:focus-visible {
+  outline: 2px solid #009dfd;
+  outline-offset: 2px;
+}
+
+.rating-group-with-form-icon {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.rating-group-with-form-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.rating-group-with-form-button,
+.rating-group-with-form-reset {
+  padding: 0.375rem 0.75rem;
+  border-radius: 6px;
+  font-family: inherit;
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+
+.rating-group-with-form-button {
+  border: none;
+  background: #009dfd;
+  color: #ffffff;
+}
+
+.rating-group-with-form-button:hover {
+  background: #006ce9;
+}
+
+.rating-group-with-form-reset {
+  border: 1px solid light-dark(#cbd5e1, #ffffff3d);
+  background: light-dark(#ffffff, #1b2045);
+  color: light-dark(#0f172a, #ffffff);
+}
+
+.rating-group-with-form-reset:hover {
+  background: light-dark(#f1f5f9, #ffffff14);
+}
+
+.rating-group-with-form-button:focus-visible,
+.rating-group-with-form-reset:focus-visible {
+  outline: 2px solid #009dfd;
+  outline-offset: 2px;
+}
+
+.rating-group-with-form-output {
+  font-size: 0.875rem;
+  color: light-dark(#475569, #c9ddf0);
+}

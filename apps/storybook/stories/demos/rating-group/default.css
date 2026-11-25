@@ -1,0 +1,40 @@
+.rating-group-default {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.rating-group-default-item {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.25rem;
+  border-radius: 4px;
+  cursor: pointer;
+  color: light-dark(#cbd5e1, #ffffff3d);
+  transition:
+    color 0.15s ease,
+    transform 0.15s ease;
+}
+
+.rating-group-default-item[data-state="checked"] {
+  color: #009dfd;
+}
+
+.rating-group-default-item[data-state="checked"] .rating-group-default-icon {
+  fill: #009dfd;
+}
+
+.rating-group-default-item:hover {
+  transform: scale(1.1);
+}
+
+.rating-group-default-item:focus-visible {
+  outline: 2px solid #009dfd;
+  outline-offset: 2px;
+}
+
+.rating-group-default-icon {
+  width: 1.5rem;
+  height: 1.5rem;
+}

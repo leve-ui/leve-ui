@@ -30,6 +30,7 @@
     "@leve-ui/popover": "workspace:*",
     "@leve-ui/progress": "workspace:*",
     "@leve-ui/radio-group": "workspace:*",
+    "@leve-ui/rating-group": "workspace:*",
     "@leve-ui/separator": "workspace:*",
     "@leve-ui/switch": "workspace:*",
     "@leve-ui/tabs": "workspace:*",

@@ -60,6 +60,7 @@ export const docsNav: NavSection[] = [
       { title: 'Popover', href: '/components/popover/' },
       { title: 'Progress', href: '/components/progress/' },
       { title: 'Radio Group', href: '/components/radio-group/' },
+      { title: 'Rating Group', href: '/components/rating-group/' },
       { title: 'Separator', href: '/components/separator/' },
       { title: 'Switch', href: '/components/switch/' },
       { title: 'Tabs', href: '/components/tabs/' },

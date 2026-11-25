@@ -1,0 +1,29 @@
+.rating-group-disabled {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.rating-group-disabled-item {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.25rem;
+  border-radius: 4px;
+  color: light-dark(#cbd5e1, #ffffff3d);
+}
+
+.rating-group-disabled-item[data-state="checked"] {
+  color: #009dfd;
+}
+
+.rating-group-disabled-item[data-state="checked"] .rating-group-disabled-icon {
+  fill: #009dfd;
+}
+
+.rating-group-disabled-icon {
+  width: 1.5rem;
+  height: 1.5rem;
+}
