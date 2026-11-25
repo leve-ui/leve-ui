@@ -23,6 +23,7 @@ export * from '@leve-ui/password-input';
 export * from '@leve-ui/popover';
 export * from '@leve-ui/progress';
 export * from '@leve-ui/radio-group';
+export * from '@leve-ui/rating-group';
 export * from '@leve-ui/separator';
 export * from '@leve-ui/switch';
 export * from '@leve-ui/tabs';

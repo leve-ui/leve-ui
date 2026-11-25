@@ -1,0 +1,131 @@
+---
+title: Rating Group
+description: A group of star or icon items for selecting a numeric rating.
+---
+
+# Rating Group
+
+A group of star or icon items for selecting a numeric rating.
+
+Rating Group follows the [Rating Radio Group WAI-ARIA design pattern](https://www.w3.org/WAI/ARIA/apg/patterns/radio/examples/radio-rating/).
+
+<Demo id="rating-group/default" />
+
+## Installation
+
+Install the individual package, or use `@leve-ui/core` to get every component at once:
+
+<Install package="@leve-ui/rating-group" />
+
+## Anatomy
+
+```tsx
+import { RatingGroup } from '@leve-ui/rating-group'; // or '@leve-ui/core'
+
+<RatingGroup.Root>
+  <RatingGroup.Item index={1} />
+  <RatingGroup.HiddenInput />
+</RatingGroup.Root>
+```
+
+| Part | Element | Description |
+| --- | --- | --- |
+| `RatingGroup.Root` | `<div>` | The group, with `role="radiogroup"`. Holds the committed and hovered rating values. |
+| `RatingGroup.Item` | `<span>` | One rating unit (such as a star), with `role="radio"`. |
+| `RatingGroup.HiddenInput` | `<input type="text">` | Optional. Sends the committed value with a native `<form>`. |
+
+## Examples
+
+### Controlled
+
+`bind:value` controls the rating with a signal, and `allowClear` lets the user click the active value again to clear it back to `0`.
+
+<Demo id="rating-group/controlled" collapsed />
+
+### Half Ratings
+
+`allowHalf` enables `0.5` increments via pointer position and arrow keys.
+
+<Demo id="rating-group/half-ratings" collapsed />
+
+### Read Only
+
+`readOnly` keeps items focusable for assistive technology while preventing changes.
+
+<Demo id="rating-group/read-only" collapsed />
+
+### Disabled
+
+`disabled` prevents focus and interaction on all items.
+
+<Demo id="rating-group/disabled" collapsed />
+
+### With Field
+
+Inside a `Field`, the group receives `aria-labelledby`, `aria-describedby`, `aria-invalid`, `aria-required`, `aria-disabled`, and `aria-readonly`.
+
+<Demo id="rating-group/with-field" collapsed />
+
+### With Form
+
+Add `RatingGroup.HiddenInput` with `name` to participate in native `<form>` submission, `required` validation, and reset.
+
+<Demo id="rating-group/with-form" collapsed />
+
+## API Reference
+
+### Root
+
+<PropsTable component="rating-group" part="Root" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-rating-group` | Always present |
+| `data-disabled` | Present when disabled |
+| `data-readonly` | Present when read-only |
+| `data-invalid` | Present when invalid |
+
+### Item
+
+<PropsTable component="rating-group" part="Item" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-rating-group-item` | Always present |
+| `data-state` | `"checked"` \| `"half"` \| `"unchecked"` (reflects hover preview or committed value) |
+| `data-checked` | Present when this item is the committed radio selection |
+| `data-highlighted` | Present when the item is filled or half-filled by the display value |
+| `data-disabled` | Present when disabled |
+| `data-readonly` | Present when read-only |
+
+### HiddenInput
+
+<PropsTable component="rating-group" part="HiddenInput" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-rating-group-hidden-input` | Always present |
+| `data-state` | `"checked"` when `value > 0`, otherwise `"unchecked"` |
+| `data-disabled` | Present when disabled |
+
+The hidden input is positioned absolutely with an inline style (`adr/0026`), so give `RatingGroup.Root` `position: relative` when using it.
+
+## Accessibility
+
+Complies with the [Rating Radio Group WAI-ARIA design pattern](https://www.w3.org/WAI/ARIA/apg/patterns/radio/examples/radio-rating/).
+
+- Name the group with `aria-label` or `aria-labelledby` on `RatingGroup.Root`, or place it inside a `Field`.
+- `RatingGroup.Root` renders `role="radiogroup"` along with `aria-required`, `aria-disabled`, `aria-readonly`, `aria-invalid`, and `aria-describedby` when applicable.
+- Each `RatingGroup.Item` renders `role="radio"`, `aria-checked` (reflecting only the committed value, never hover preview), and a default `aria-label` (`1 star`, `2 stars`, `2.5 stars`, etc.) that can be overridden.
+- Only one item is in the tab sequence (`Math.ceil(value)` when `value > 0`, or item `1` when `value === 0`), or none when `disabled`. `readOnly` keeps items focusable.
+
+### Keyboard Interactions
+
+| Key | Description |
+| --- | --- |
+| `Tab` | Moves focus into or out of the rating group. |
+| `ArrowRight` / `ArrowUp` | Increases the rating by `1` (or `0.5` when `allowHalf` is `true`). In RTL, `ArrowRight` decreases. |
+| `ArrowLeft` / `ArrowDown` | Decreases the rating by `1` (or `0.5` when `allowHalf` is `true`). In RTL, `ArrowLeft` increases. |
+| `Home` | Sets the rating to the lowest value (`0.5` when `allowHalf` is `true`, otherwise `1`). |
+| `End` | Sets the rating to `count`. |
+| `Space` | Selects the focused item's value. |
