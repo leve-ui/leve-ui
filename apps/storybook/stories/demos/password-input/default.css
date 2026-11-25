@@ -1,0 +1,70 @@
+.password-input-default {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  width: 280px;
+  font-family: inherit;
+}
+
+.password-input-default-input {
+  width: 100%;
+  height: 36px;
+  padding: 0 38px 0 12px;
+  border: 1px solid light-dark(#cbd5e1, #ffffff3d);
+  border-radius: 6px;
+  background: light-dark(#ffffff, #1b2045);
+  color: light-dark(#0f172a, #ffffff);
+  font-family: inherit;
+  font-size: 14px;
+}
+
+.password-input-default-input:focus-visible {
+  outline: 2px solid #009dfd;
+  outline-offset: 2px;
+}
+
+.password-input-default-trigger {
+  position: absolute;
+  right: 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: none;
+  border-radius: 6px;
+  background: transparent;
+  color: light-dark(#475569, #c9ddf0);
+  cursor: pointer;
+}
+
+.password-input-default-trigger:hover {
+  background: light-dark(#f1f5f9, #ffffff14);
+}
+
+.password-input-default-trigger:focus-visible {
+  outline: 2px solid #009dfd;
+  outline-offset: 2px;
+}
+
+.password-input-default-indicator {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.password-input-default-icon-show,
+.password-input-default-icon-hide {
+  width: 16px;
+  height: 16px;
+}
+
+/* Show the eye icon when hidden, and eye-off when visible */
+.password-input-default-indicator[data-state="hidden"] .password-input-default-icon-hide {
+  display: none;
+}
+
+.password-input-default-indicator[data-state="visible"] .password-input-default-icon-show {
+  display: none;
+}
