@@ -1,4 +1,7 @@
 import type { Meta, StoryObj } from 'storybook-framework-qwik';
+import AutoresizeDemo from './demos/field/autoresize';
+import autoresizeSource from './demos/field/autoresize?raw';
+import autoresizeCss from './demos/field/autoresize.css?raw';
 import DefaultDemo from './demos/field/default';
 import defaultSource from './demos/field/default?raw';
 import defaultCss from './demos/field/default.css?raw';
@@ -14,6 +17,9 @@ import readOnlyCss from './demos/field/read-only.css?raw';
 import RequiredDemo from './demos/field/required';
 import requiredSource from './demos/field/required?raw';
 import requiredCss from './demos/field/required.css?raw';
+import SelectDemo from './demos/field/select';
+import selectSource from './demos/field/select?raw';
+import selectCss from './demos/field/select.css?raw';
 import TextareaDemo from './demos/field/textarea';
 import textareaSource from './demos/field/textarea?raw';
 import textareaCss from './demos/field/textarea.css?raw';
@@ -62,5 +68,19 @@ export const ReadOnly: Story = {
   render: () => <ReadOnlyDemo />,
   parameters: {
     docs: { source: { code: demoSource(readOnlySource, readOnlyCss, 'read-only.css') } },
+  },
+};
+
+export const Select: Story = {
+  render: () => <SelectDemo />,
+  parameters: {
+    docs: { source: { code: demoSource(selectSource, selectCss, 'select.css') } },
+  },
+};
+
+export const Autoresize: Story = {
+  render: () => <AutoresizeDemo />,
+  parameters: {
+    docs: { source: { code: demoSource(autoresizeSource, autoresizeCss, 'autoresize.css') } },
   },
 };

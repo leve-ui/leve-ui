@@ -7,7 +7,7 @@ description: Connects a label, description and error message to a form control.
 
 Connects a label, description and error message to a form control.
 
-There is no WAI-ARIA APG pattern for form fields. Field uses the native `<label>`, `<input>` and `<textarea>` elements, and connects them with `for`, `aria-describedby` and `aria-invalid`.
+There is no WAI-ARIA APG pattern for form fields. Field uses the native `<label>`, `<input>`, `<textarea>`, and `<select>` elements, and connects them with `for`, `aria-describedby` and `aria-invalid`.
 
 <Demo id="field/default" />
 
@@ -23,8 +23,10 @@ Install the individual package, or use `@leve-ui/core` to get every component at
 import { Field } from '@leve-ui/field'; // or '@leve-ui/core'
 
 <Field.Root>
-  <Field.Label />
-  <Field.Input /> {/* or <Field.Textarea /> */}
+  <Field.Label>
+    <Field.RequiredIndicator />
+  </Field.Label>
+  <Field.Input /> {/* or <Field.Textarea /> or <Field.Select /> */}
   <Field.Description />
   <Field.ErrorMessage />
 </Field.Root>
@@ -34,8 +36,10 @@ import { Field } from '@leve-ui/field'; // or '@leve-ui/core'
 | --- | --- | --- |
 | `Field.Root` | `<div>` | Wraps the parts and holds the IDs and the `invalid` / `disabled` / `required` / `readOnly` states. |
 | `Field.Label` | `<label>` | The label of the control. |
+| `Field.RequiredIndicator` | `<span>` | A decorative required marker (`aria-hidden="true"`). Rendered only while the Root is `required`. |
 | `Field.Input` | `<input>` | A single-line control. |
 | `Field.Textarea` | `<textarea>` | A multi-line control. |
+| `Field.Select` | `<select>` | A native select control. |
 | `Field.Description` | `<div>` | A hint for the control. |
 | `Field.ErrorMessage` | `<div>` | The error message. Rendered only while the Root is `invalid`. |
 
@@ -66,6 +70,18 @@ Other leve-ui form controls, such as [Checkbox](/components/checkbox/), also rea
 Use `Field.Textarea` for multi-line text.
 
 <Demo id="field/textarea" collapsed />
+
+### Autoresize
+
+Pass `autoresize` to `Field.Textarea` so its height grows automatically to fit its content.
+
+<Demo id="field/autoresize" collapsed />
+
+### Select
+
+Use `Field.Select` for a native `<select>` control.
+
+<Demo id="field/select" collapsed />
 
 ### Read-only
 
@@ -103,6 +119,20 @@ IDs of the parts can only be overridden with `ids` on the Root; `id` on the part
 
 Inside a Field, `for` points to the control.
 
+### RequiredIndicator
+
+<PropsTable component="field" part="RequiredIndicator" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-field-required-indicator` | Always present |
+| `data-invalid` | Present when the Field is invalid |
+| `data-disabled` | Present when the Field is disabled |
+| `data-required` | Present when the Field is required |
+| `data-readonly` | Present when the Field is read-only |
+
+Inside a Field, the indicator is rendered only while the Field is `required`.
+
 ### Input
 
 <PropsTable component="field" part="Input" />
@@ -129,7 +159,21 @@ The input gets `disabled`, `required`, and `readOnly` from the Field. It also wo
 | `data-required` | Present when required |
 | `data-readonly` | Present when read-only |
 
-The textarea gets `disabled`, `required`, and `readOnly` from the Field. It also works outside a Field as a plain `<textarea>`; pass `invalid` or `readOnly` to configure those states directly.
+The textarea gets `disabled`, `required`, and `readOnly` from the Field. It also works outside a Field as a plain `<textarea>`; pass `invalid` or `readOnly` to configure those states directly. Pass `autoresize` to automatically adjust its height to fit the content.
+
+### Select
+
+<PropsTable component="field" part="Select" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-field-select` | Always present |
+| `data-invalid` | Present when invalid |
+| `data-disabled` | Present when disabled |
+| `data-required` | Present when required |
+| `data-readonly` | Present when read-only |
+
+The select gets `disabled` and `required` from the Field. It also works outside a Field as a plain `<select>`; pass `invalid` to configure that state directly.
 
 ### Description
 
@@ -160,6 +204,7 @@ Inside a Field, the error message is not rendered while the Field is not `invali
 ## Accessibility
 
 - `Field.Label` is a native `<label>` whose `for` points to the control, so it names the control and clicking it focuses the control.
+- `Field.RequiredIndicator` renders `aria-hidden="true"`, so the indicator is visible without polluting the control's accessible name.
 - The control renders `aria-describedby` pointing to `Field.Description` (when `hasDescription` is set) and to `Field.ErrorMessage` (while invalid), after any `aria-describedby` you pass.
 - The control renders `aria-invalid="true"` while invalid, and the native `disabled`, `required`, and `readonly` attributes.
 - `Field.ErrorMessage` renders `role="alert"`, so screen readers announce the error when it appears. Pass `role="status"` to announce it without interrupting.

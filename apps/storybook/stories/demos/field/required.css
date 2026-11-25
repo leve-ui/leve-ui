@@ -35,8 +35,7 @@
   outline-offset: 2px;
 }
 
-/* Mark the label of a required field with an asterisk */
-.field-required-label[data-required]::after {
-  content: " *";
+/* Mark the required indicator with the error color */
+.field-required-indicator {
   color: light-dark(#dc2626, #f87171);
 }
