@@ -1,0 +1,12 @@
+export * as TagsInput from './tags-input';
+export type { TagsInputClearTriggerProps } from './tags-input-clear-trigger';
+export type { TagsInputControlProps } from './tags-input-control';
+export type { TagsInputHiddenInputProps } from './tags-input-hidden-input';
+export type { TagsInputInputProps } from './tags-input-input';
+export type { TagsInputItemProps } from './tags-input-item';
+export type { TagsInputItemDeleteTriggerProps } from './tags-input-item-delete-trigger';
+export type { TagsInputItemInputProps } from './tags-input-item-input';
+export type { TagsInputItemPreviewProps } from './tags-input-item-preview';
+export type { TagsInputItemTextProps } from './tags-input-item-text';
+export type { TagsInputLabelProps } from './tags-input-label';
+export type { TagsInputRootProps } from './tags-input-root';

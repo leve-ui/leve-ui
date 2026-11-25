@@ -1,0 +1,177 @@
+---
+title: Tags Input
+description: Input for entering, editing, and managing a list of tags.
+---
+
+# Tags Input
+
+Input for entering, editing, and managing a list of tags.
+
+Tags Input renders a `role="group"` container with a native text `<input>`, keyboard-navigable tag items, inline editing, paste splitting, screen reader announcements, and a `HiddenInput` for form submission.
+
+<Demo id="tags-input/default" />
+
+## Installation
+
+Install the individual package, or use `@leve-ui/core` to get every component at once:
+
+<Install package="@leve-ui/tags-input" />
+
+## Anatomy
+
+```tsx
+import { TagsInput } from '@leve-ui/tags-input'; // or '@leve-ui/core'
+
+<TagsInput.Root>
+  <TagsInput.Label>Tags</TagsInput.Label>
+  <TagsInput.Control>
+    <TagsInput.Item index={0} value="qwik">
+      <TagsInput.ItemPreview>
+        <TagsInput.ItemText>qwik</TagsInput.ItemText>
+        <TagsInput.ItemDeleteTrigger />
+      </TagsInput.ItemPreview>
+      <TagsInput.ItemInput />
+    </TagsInput.Item>
+    <TagsInput.Input />
+    <TagsInput.ClearTrigger />
+  </TagsInput.Control>
+  <TagsInput.HiddenInput name="tags" />
+</TagsInput.Root>
+```
+
+| Part | Element | Description |
+| --- | --- | --- |
+| `TagsInput.Root` | `<div>` | Group container (`role="group"`) managing tag state, keyboard navigation, and Field wiring. |
+| `TagsInput.Label` | `<label>` | Accessible label associated with `TagsInput.Input`. |
+| `TagsInput.Control` | `<div>` | Interactive wrapper that focuses `TagsInput.Input` when clicking empty space. |
+| `TagsInput.Item` | `<div>` | Container for a single tag item. Double-clicking enters inline edit mode. |
+| `TagsInput.ItemPreview` | `<div>` | Displays the tag text and delete trigger when not editing. |
+| `TagsInput.ItemText` | `<span>` | Displays the tag text content. |
+| `TagsInput.ItemDeleteTrigger` | `<button>` | Removes the tag and returns focus to `TagsInput.Input`. |
+| `TagsInput.ItemInput` | `<input>` | Inline text input shown while editing an existing tag. |
+| `TagsInput.Input` | `<input>` | Primary text input for adding new tags and navigating existing tags. |
+| `TagsInput.ClearTrigger` | `<button>` | Clears all tags and returns focus to `TagsInput.Input`. |
+| `TagsInput.HiddenInput` | `<input>` | Visually hidden input that submits comma-joined tags in a `<form>` and resets on form reset. |
+
+## Examples
+
+### Controlled
+
+Control the tags array with `bind:value` and update it externally.
+
+<Demo id="tags-input/controlled" collapsed />
+
+### Editable
+
+Double-click a tag or press `Enter` / `F2` while a tag is highlighted to edit it inline.
+
+<Demo id="tags-input/editable" collapsed />
+
+### Validation
+
+Limit the number of tags with `max`, disallow duplicates with `allowDuplicates={false}`, and split pasted text with `addOnPaste`.
+
+<Demo id="tags-input/validation" collapsed />
+
+### Disabled
+
+`disabled` on the Root disables adding, editing, and removing tags.
+
+<Demo id="tags-input/disabled" collapsed />
+
+### Read Only
+
+`readOnly` prevents modifying tags while keeping the input focusable.
+
+<Demo id="tags-input/read-only" collapsed />
+
+### With Field
+
+Inside a `Field.Root`, `Field.Label` points to the input, and `Field.Description`, `Field.ErrorMessage`, and inherited states are wired automatically.
+
+<Demo id="tags-input/with-field" collapsed />
+
+### With Form
+
+Use `TagsInput.HiddenInput` to submit comma-joined tags in a `<form>` and reset on form reset.
+
+<Demo id="tags-input/with-form" collapsed />
+
+## API Reference
+
+### Root
+
+<PropsTable component="tags-input" part="Root" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-tags-input` | Always present |
+| `data-state` | `"has-tags"` \| `"empty"` |
+| `data-disabled` | Present when disabled |
+| `data-readonly` | Present when read-only |
+| `data-invalid` | Present when invalid |
+
+### Label
+
+<PropsTable component="tags-input" part="Label" />
+
+### Control
+
+<PropsTable component="tags-input" part="Control" />
+
+### Item
+
+<PropsTable component="tags-input" part="Item" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-tags-input-item` | Always present |
+| `data-index` | Zero-based item index |
+| `data-state` | `"editing"` \| `"active"` \| `"idle"` |
+| `data-highlighted` | Present when highlighted |
+| `data-disabled` | Present when disabled |
+
+### ItemPreview
+
+<PropsTable component="tags-input" part="ItemPreview" />
+
+### ItemText
+
+<PropsTable component="tags-input" part="ItemText" />
+
+### ItemDeleteTrigger
+
+<PropsTable component="tags-input" part="ItemDeleteTrigger" />
+
+### ItemInput
+
+<PropsTable component="tags-input" part="ItemInput" />
+
+### Input
+
+<PropsTable component="tags-input" part="Input" />
+
+### ClearTrigger
+
+<PropsTable component="tags-input" part="ClearTrigger" />
+
+### HiddenInput
+
+<PropsTable component="tags-input" part="HiddenInput" />
+
+## Accessibility
+
+Tags Input uses native `<label>` and `<input>` elements inside a `role="group"` container with `aria-labelledby`, `aria-describedby`, `aria-invalid`, and `aria-disabled`, plus live-region announcements when tags are added, updated, removed, or cleared.
+
+### Keyboard Interactions
+
+| Key | Description |
+| --- | --- |
+| `Enter` | Adds the trimmed input text as a tag, or starts editing the highlighted tag. In `ItemInput`, commits the edit. |
+| `Backspace` | Highlights the last tag when the input is empty, or removes the highlighted tag. |
+| `Delete` | Removes the highlighted tag. |
+| `ArrowLeft` | Moves highlight to the previous tag. |
+| `ArrowRight` | Moves highlight to the next tag, or returns to the text input. |
+| `Home` / `End` | Highlights the first or last tag when a tag is highlighted or the input is empty. |
+| `F2` | Enters inline edit mode on the highlighted tag when `editable` is enabled. |
+| `Escape` | Cancels inline editing or clears tag highlight and returns focus to `TagsInput.Input`. |

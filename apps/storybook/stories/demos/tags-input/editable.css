@@ -1,0 +1,99 @@
+.tags-input-editable {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+  max-width: 26rem;
+  font-family: inherit;
+}
+
+.tags-input-editable-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: light-dark(#0f172a, #ffffff);
+}
+
+.tags-input-editable-control {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.375rem;
+  min-height: 2.5rem;
+  padding: 0.375rem 0.5rem;
+  border: 1px solid light-dark(#cbd5e1, #ffffff3d);
+  border-radius: 6px;
+  background: light-dark(#ffffff, #1b2045);
+}
+
+.tags-input-editable-control:focus-within {
+  outline: 2px solid #009dfd;
+  outline-offset: 2px;
+}
+
+.tags-input-editable-item {
+  display: inline-flex;
+  align-items: center;
+}
+
+.tags-input-editable-item-preview {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.125rem 0.375rem;
+  border-radius: 4px;
+  background: light-dark(#f1f5f9, #ffffff14);
+  color: light-dark(#0f172a, #ffffff);
+  font-size: 0.8125rem;
+  cursor: text;
+}
+
+.tags-input-editable-item-preview[hidden] {
+  display: none;
+}
+
+.tags-input-editable-item[data-state="active"] .tags-input-editable-item-preview {
+  background: #009dfd;
+  color: #ffffff;
+}
+
+.tags-input-editable-item-delete {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.125rem;
+  border: none;
+  border-radius: 4px;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+}
+
+.tags-input-editable-item-delete svg {
+  width: 0.75rem;
+  height: 0.75rem;
+}
+
+.tags-input-editable-item-input {
+  width: 6rem;
+  padding: 0.125rem 0.25rem;
+  border: 1px solid #009dfd;
+  border-radius: 4px;
+  background: light-dark(#ffffff, #1b2045);
+  color: light-dark(#0f172a, #ffffff);
+  font-family: inherit;
+  font-size: 0.8125rem;
+}
+
+.tags-input-editable-item-input[hidden] {
+  display: none;
+}
+
+.tags-input-editable-input {
+  flex: 1;
+  min-width: 6rem;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: light-dark(#0f172a, #ffffff);
+  font-family: inherit;
+  font-size: 0.875rem;
+}

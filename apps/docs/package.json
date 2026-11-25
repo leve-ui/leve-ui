@@ -54,6 +54,7 @@
     "@leve-ui/slider": "workspace:*",
     "@leve-ui/switch": "workspace:*",
     "@leve-ui/tabs": "workspace:*",
+    "@leve-ui/tags-input": "workspace:*",
     "@leve-ui/toggle": "workspace:*",
     "@leve-ui/toggle-group": "workspace:*",
     "@leve-ui/toolbar": "workspace:*",

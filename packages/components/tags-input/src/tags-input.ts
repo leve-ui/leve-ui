@@ -1,0 +1,11 @@
+export { TagsInputClearTrigger as ClearTrigger } from './tags-input-clear-trigger';
+export { TagsInputControl as Control } from './tags-input-control';
+export { TagsInputHiddenInput as HiddenInput } from './tags-input-hidden-input';
+export { TagsInputInput as Input } from './tags-input-input';
+export { TagsInputItem as Item } from './tags-input-item';
+export { TagsInputItemDeleteTrigger as ItemDeleteTrigger } from './tags-input-item-delete-trigger';
+export { TagsInputItemInput as ItemInput } from './tags-input-item-input';
+export { TagsInputItemPreview as ItemPreview } from './tags-input-item-preview';
+export { TagsInputItemText as ItemText } from './tags-input-item-text';
+export { TagsInputLabel as Label } from './tags-input-label';
+export { TagsInputRoot as Root } from './tags-input-root';

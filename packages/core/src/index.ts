@@ -30,6 +30,7 @@ export * from '@leve-ui/separator';
 export * from '@leve-ui/slider';
 export * from '@leve-ui/switch';
 export * from '@leve-ui/tabs';
+export * from '@leve-ui/tags-input';
 export * from '@leve-ui/toast';
 export * from '@leve-ui/toggle';
 export * from '@leve-ui/toggle-group';
