@@ -100,4 +100,42 @@ test.describe('Field', () => {
     await input.pressSequentially('extra');
     await expect(input).toHaveValue('hello@leve-ui.dev');
   });
+
+  test('Select にも Label と Description が関連付き、選択を変更できる', async ({ page }) => {
+    await gotoStory(page, 'components-field--select');
+
+    const select = page.getByRole('combobox', { name: 'Country' });
+    await expect(select).toBeVisible();
+    await expect(select).toHaveAccessibleDescription('Used for shipping and tax calculation.');
+
+    await select.selectOption('jp');
+    await expect(select).toHaveValue('jp');
+  });
+
+  test('RequiredIndicator は視覚的に表示されるが aria-hidden="true" でアクセシブルネームに含まれない', async ({
+    page,
+  }) => {
+    await gotoStory(page, 'components-field--required');
+
+    const indicator = page.locator('[data-leve-field-required-indicator]');
+    await expect(indicator).toBeVisible();
+    await expect(indicator).toHaveText('*');
+    await expect(indicator).toHaveAttribute('aria-hidden', 'true');
+
+    const input = page.getByRole('textbox', { name: 'Full name', exact: true });
+    await expect(input).toBeVisible();
+    await expect(input).toHaveAttribute('required', '');
+  });
+
+  test('autoresize が有効な Textarea は複数行入力で高さが自動的に増える', async ({ page }) => {
+    await gotoStory(page, 'components-field--autoresize');
+
+    const textarea = page.getByRole('textbox', { name: 'Notes' });
+    const initialHeight = await textarea.evaluate((el) => el.getBoundingClientRect().height);
+
+    await textarea.fill('Line 1\nLine 2\nLine 3\nLine 4\nLine 5');
+    await expect
+      .poll(() => textarea.evaluate((el) => el.getBoundingClientRect().height))
+      .toBeGreaterThan(initialHeight);
+  });
 });

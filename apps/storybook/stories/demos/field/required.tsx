@@ -7,7 +7,10 @@ export default component$(() => {
 
   return (
     <Field.Root required class="field-required">
-      <Field.Label class="field-required-label">Full name</Field.Label>
+      <Field.Label class="field-required-label">
+        Full name{' '}
+        <Field.RequiredIndicator class="field-required-indicator">*</Field.RequiredIndicator>
+      </Field.Label>
       <Field.Input class="field-required-input" />
     </Field.Root>
   );
