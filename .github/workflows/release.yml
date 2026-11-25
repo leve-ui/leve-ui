@@ -18,6 +18,8 @@ jobs:
   release:
     name: Release
     runs-on: ubuntu-latest
+    outputs:
+      published: ${{ steps.changesets.outputs.published }}
     permissions:
       contents: write # push the release branch, tags, and GitHub releases
       pull-requests: write # open the release PR
@@ -51,3 +53,26 @@ jobs:
         run: gh workflow run ci.yml --repo "$GITHUB_REPOSITORY" --ref changeset-release/main
         env:
           GH_TOKEN: ${{ github.token }}
+
+  # Update production docs and Storybook only when packages are actually published (adr/0039).
+  deploy-docs:
+    name: Deploy docs
+    needs: release
+    if: needs.release.outputs.published == 'true'
+    permissions:
+      contents: read
+      pull-requests: write
+      deployments: write
+    uses: ./.github/workflows/docs-deploy.yml
+    secrets: inherit
+
+  deploy-storybook:
+    name: Deploy Storybook
+    needs: release
+    if: needs.release.outputs.published == 'true'
+    permissions:
+      contents: read
+      pull-requests: write
+      deployments: write
+    uses: ./.github/workflows/storybook-preview.yml
+    secrets: inherit
