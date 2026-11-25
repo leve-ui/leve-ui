@@ -1,0 +1,140 @@
+---
+title: Pin Input
+description: Multi-digit verification code and PIN input group.
+---
+
+# Pin Input
+
+Multi-digit verification code and PIN input group.
+
+Pin Input renders a `role="group"` of native `<input>` elements with automatic focus advance, Backspace navigation, paste distribution, and an optional `HiddenInput` for form submission.
+
+<Demo id="pin-input/default" />
+
+## Installation
+
+Install the individual package, or use `@leve-ui/core` to get every component at once:
+
+<Install package="@leve-ui/pin-input" />
+
+## Anatomy
+
+```tsx
+import { PinInput } from '@leve-ui/pin-input'; // or '@leve-ui/core'
+
+<PinInput.Root length={4}>
+  <PinInput.Input index={0} />
+  <PinInput.Input index={1} />
+  <PinInput.Input index={2} />
+  <PinInput.Input index={3} />
+  <PinInput.HiddenInput name="code" />
+</PinInput.Root>
+```
+
+| Part | Element | Description |
+| --- | --- | --- |
+| `PinInput.Root` | `<div>` | Group container (`role="group"`) that manages the value array, completion state, and Field wiring. |
+| `PinInput.Input` | `<input>` | Individual character input at a zero-based `index`. |
+| `PinInput.HiddenInput` | `<input>` | Visually hidden input that submits the joined value in a `<form>` and resets on form reset. |
+
+## Examples
+
+### Controlled
+
+Control the value array with `bind:value` and handle completion with `onComplete$`.
+
+<Demo id="pin-input/controlled" collapsed />
+
+### Alphanumeric
+
+Set `type="alphanumeric"` to accept letters as well as digits.
+
+<Demo id="pin-input/alphanumeric" collapsed />
+
+### Mask
+
+Set `mask` to render `type="password"` on each input.
+
+<Demo id="pin-input/mask" collapsed />
+
+### Disabled
+
+`disabled` on the Root disables every input in the group.
+
+<Demo id="pin-input/disabled" collapsed />
+
+### Read Only
+
+`readOnly` prevents editing while keeping the inputs focusable.
+
+<Demo id="pin-input/read-only" collapsed />
+
+### With Field
+
+Inside a `Field.Root`, `Field.Label` points to the first input, and `Field.Description`, `Field.ErrorMessage`, and inherited states are wired automatically.
+
+<Demo id="pin-input/with-field" collapsed />
+
+### With Form
+
+Use `PinInput.HiddenInput` to submit the joined PIN in a `<form>` and reset all inputs on form reset.
+
+<Demo id="pin-input/with-form" collapsed />
+
+## API Reference
+
+### Root
+
+<PropsTable component="pin-input" part="Root" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-pin-input` | Always present |
+| `data-state` | `"complete"` \| `"incomplete"` |
+| `data-disabled` | Present when disabled |
+| `data-readonly` | Present when read-only |
+| `data-invalid` | Present when invalid |
+
+### Input
+
+<PropsTable component="pin-input" part="Input" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-pin-input-input` | Always present |
+| `data-state` | `"filled"` \| `"empty"` |
+| `data-disabled` | Present when disabled |
+| `data-readonly` | Present when read-only |
+| `data-invalid` | Present when invalid |
+
+### HiddenInput
+
+<PropsTable component="pin-input" part="HiddenInput" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-pin-input-hidden-input` | Always present |
+| `data-state` | `"complete"` \| `"incomplete"` |
+| `data-disabled` | Present when disabled |
+| `data-readonly` | Present when read-only |
+| `data-invalid` | Present when invalid |
+
+## Accessibility
+
+Uses a `role="group"` container of native `<input>` elements.
+
+- Provide an accessible name for `PinInput.Root` via `Field.Label`, `aria-label`, or `aria-labelledby`.
+- Each `PinInput.Input` outputs a default `aria-label` such as `"Digit 1 of 4"` (when `length` is set) or `"Digit 1"`.
+- Inside `Field.Root`, `Field.Label`'s `for` attribute is wired to the first `PinInput.Input` (`index={0}`).
+- `PinInput.HiddenInput` is hidden from assistive technology and tab order with `aria-hidden="true"` and `tabIndex={-1}`.
+
+### Keyboard Interactions
+
+| Key | Description |
+| --- | --- |
+| Character | Fills the current slot with a valid character and moves focus to the next input. |
+| `Backspace` | Clears the current slot if filled; otherwise moves focus to the previous input and clears it. |
+| `Delete` | Clears the current slot. |
+| `ArrowLeft` / `ArrowRight` | Moves focus to the previous or next input (respecting RTL direction). |
+| `Home` / `End` | Moves focus to the first or last enabled input. |
+| Paste | Filters pasted text to valid characters and fills slots starting from index `0` (if full length) or the current index. |

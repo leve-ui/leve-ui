@@ -1,0 +1,23 @@
+.pin-input-alphanumeric {
+  display: inline-flex;
+  gap: 8px;
+  font-family: inherit;
+}
+
+.pin-input-alphanumeric-input {
+  width: 44px;
+  height: 48px;
+  border: 1px solid light-dark(#cbd5e1, #ffffff3d);
+  border-radius: 6px;
+  background: light-dark(#ffffff, #1b2045);
+  color: light-dark(#0f172a, #ffffff);
+  font-family: inherit;
+  font-size: 18px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.pin-input-alphanumeric-input:focus-visible {
+  outline: 2px solid #009dfd;
+  outline-offset: 2px;
+}

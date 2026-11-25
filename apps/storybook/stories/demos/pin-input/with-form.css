@@ -1,0 +1,82 @@
+.pin-input-with-form-wrapper {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 12px;
+  font-family: inherit;
+}
+
+.pin-input-with-form-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.pin-input-with-form {
+  position: relative;
+  display: inline-flex;
+  gap: 8px;
+}
+
+.pin-input-with-form-input {
+  width: 44px;
+  height: 48px;
+  border: 1px solid light-dark(#cbd5e1, #ffffff3d);
+  border-radius: 6px;
+  background: light-dark(#ffffff, #1b2045);
+  color: light-dark(#0f172a, #ffffff);
+  font-family: inherit;
+  font-size: 18px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.pin-input-with-form-input:focus-visible {
+  outline: 2px solid #009dfd;
+  outline-offset: 2px;
+}
+
+.pin-input-with-form-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.pin-input-with-form-submit {
+  padding: 6px 14px;
+  border: none;
+  border-radius: 6px;
+  background: #009dfd;
+  color: #ffffff;
+  font-family: inherit;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.pin-input-with-form-submit:hover {
+  background: #006ce9;
+}
+
+.pin-input-with-form-reset {
+  padding: 6px 14px;
+  border: 1px solid light-dark(#cbd5e1, #ffffff3d);
+  border-radius: 6px;
+  background: light-dark(#ffffff, #1b2045);
+  color: light-dark(#0f172a, #ffffff);
+  font-family: inherit;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.pin-input-with-form-reset:hover {
+  background: light-dark(#f1f5f9, #ffffff14);
+}
+
+.pin-input-with-form-submit:focus-visible,
+.pin-input-with-form-reset:focus-visible {
+  outline: 2px solid #009dfd;
+  outline-offset: 2px;
+}
+
+.pin-input-with-form-output {
+  color: light-dark(#475569, #c9ddf0);
+  font-size: 13px;
+}

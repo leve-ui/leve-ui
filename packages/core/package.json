@@ -65,6 +65,7 @@
     "@leve-ui/meter": "workspace:*",
     "@leve-ui/number-input": "workspace:*",
     "@leve-ui/password-input": "workspace:*",
+    "@leve-ui/pin-input": "workspace:*",
     "@leve-ui/popover": "workspace:*",
     "@leve-ui/progress": "workspace:*",
     "@leve-ui/radio-group": "workspace:*",
