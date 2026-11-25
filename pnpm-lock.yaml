@@ -113,6 +113,9 @@ importers:
       '@leve-ui/password-input':
         specifier: workspace:*
         version: link:../../packages/components/password-input
+      '@leve-ui/pin-input':
+        specifier: workspace:*
+        version: link:../../packages/components/pin-input
       '@leve-ui/popover':
         specifier: workspace:*
         version: link:../../packages/components/popover
@@ -290,6 +293,9 @@ importers:
       '@leve-ui/password-input':
         specifier: workspace:*
         version: link:../../packages/components/password-input
+      '@leve-ui/pin-input':
+        specifier: workspace:*
+        version: link:../../packages/components/pin-input
       '@leve-ui/popover':
         specifier: workspace:*
         version: link:../../packages/components/popover
@@ -837,6 +843,34 @@ importers:
         specifier: ^5.1.0
         version: 5.1.0(@types/node@24.19.2)(vite@7.3.8(@types/node@24.19.2)(jiti@2.7.0)(yaml@2.9.1))
 
+  packages/components/pin-input:
+    dependencies:
+      '@leve-ui/utils':
+        specifier: workspace:*
+        version: link:../../utils
+    devDependencies:
+      '@builder.io/qwik':
+        specifier: 1.20.4
+        version: 1.20.4(vite@7.3.8(@types/node@24.19.2)(jiti@2.7.0)(yaml@2.9.1))
+      '@leve-ui/field':
+        specifier: workspace:*
+        version: link:../field
+      '@leve-ui/tsconfig':
+        specifier: workspace:*
+        version: link:../../../tooling/tsconfig
+      '@leve-ui/vite-config':
+        specifier: workspace:*
+        version: link:../../../tooling/vite-config
+      typescript:
+        specifier: ~5.9.3
+        version: 5.9.3
+      vite:
+        specifier: ^7.3.8
+        version: 7.3.8(@types/node@24.19.2)(jiti@2.7.0)(yaml@2.9.1)
+      vitest:
+        specifier: ^5.1.0
+        version: 5.1.0(@types/node@24.19.2)(vite@7.3.8(@types/node@24.19.2)(jiti@2.7.0)(yaml@2.9.1))
+
   packages/components/popover:
     dependencies:
       '@leve-ui/utils':
@@ -1208,6 +1242,9 @@ importers:
       '@leve-ui/password-input':
         specifier: workspace:*
         version: link:../components/password-input
+      '@leve-ui/pin-input':
+        specifier: workspace:*
+        version: link:../components/pin-input
       '@leve-ui/popover':
         specifier: workspace:*
         version: link:../components/popover
