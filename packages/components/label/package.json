@@ -2,7 +2,7 @@
   "name": "@leve-ui/label",
   "version": "0.1.1",
   "description": "Headless, WAI-ARIA compliant Label component for Qwik. Bring your own styles.",
-  "homepage": "https://github.com/leve-ui/leve-ui#readme",
+  "homepage": "https://leve-ui.dev/components/label/",
   "bugs": {
     "url": "https://github.com/leve-ui/leve-ui/issues"
   },

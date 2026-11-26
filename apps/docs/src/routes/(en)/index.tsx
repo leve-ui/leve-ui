@@ -16,7 +16,7 @@ import {
   LuZap,
 } from '../../components/icons';
 import { docsNav } from '../../docs-nav';
-import { localizeHref } from '../../i18n/locales';
+import { getLocale, localizeHref } from '../../i18n/locales';
 import { msg, t } from '../../i18n/translate';
 import { useLocale } from '../../i18n/use-locale';
 
@@ -149,7 +149,7 @@ export default component$(() => {
               aria-hidden="true"
             />
             <span class={css({ fontSize: '13px', fontWeight: '500', color: 'fg-muted' })}>
-              {t(locale, 'v{version} — {count} components, pre-1.0')
+              {t(locale, 'leve-ui v{version} — {count} components, pre-1.0')
                 .replace('{version}', CORE_VERSION)
                 .replace('{count}', String(COMPONENT_COUNT))}
             </span>
@@ -179,7 +179,7 @@ export default component$(() => {
           >
             {t(
               locale,
-              'Accessible, unstyled components that follow the WAI-ARIA Authoring Practices. Bring your own CSS — every part is yours to style.',
+              'leve-ui provides accessible, unstyled UI components for Qwik that follow the WAI-ARIA Authoring Practices. Bring your own CSS — every part is yours to style.',
             )}
           </p>
 
@@ -765,13 +765,18 @@ export default component$(() => {
   );
 });
 
-export const head: DocumentHead = {
-  title: 'leve-ui — Headless UI for Qwik',
-  meta: [
-    {
-      name: 'description',
-      content:
-        'Accessible, unstyled UI components for Qwik that follow the WAI-ARIA Authoring Practices. Bring your own styles.',
-    },
-  ],
+export const head: DocumentHead = ({ url }) => {
+  const locale = getLocale(url.pathname);
+  return {
+    title: t(locale, 'leve-ui — Headless UI for Qwik'),
+    meta: [
+      {
+        name: 'description',
+        content: t(
+          locale,
+          'leve-ui is a library of accessible, unstyled UI components for Qwik that follow the WAI-ARIA Authoring Practices. Bring your own styles.',
+        ),
+      },
+    ],
+  };
 };

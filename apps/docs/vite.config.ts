@@ -37,7 +37,9 @@ export default defineConfig(() =>
           ],
         },
       }),
-      qwikVite(),
+      // @fontsource/noto-sans-jp splits into 100+ unicode-range subsets; Qwik's automatic
+      // font preloading injects ~585 <link rel="preload"> tags into every HTML page.
+      qwikVite({ disableFontPreload: true }),
       partytownVite({ dest: r('dist/~partytown') }),
       tsconfigPaths({ root: '.' }),
     ],

@@ -64,7 +64,7 @@ writeJson(join(pkgDir, 'package.json'), {
   name: pkgName,
   version: '0.0.0',
   description: `Headless, WAI-ARIA compliant ${Name} component for Qwik. Bring your own styles.`,
-  homepage: 'https://github.com/leve-ui/leve-ui#readme',
+  homepage: `https://leve-ui.dev/components/${name}/`,
   bugs: { url: 'https://github.com/leve-ui/leve-ui/issues' },
   repository: {
     type: 'git',

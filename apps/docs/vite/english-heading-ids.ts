@@ -2,7 +2,9 @@ import { existsSync, readFileSync } from 'node:fs';
 import { dirname, join, normalize } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { extractHeadingIds } from '../scripts/slug';
-import { SOURCE_LOCALE } from '../src/i18n/locales';
+import { localeRouteDir, SOURCE_LOCALE } from '../src/i18n/locales';
+
+const SOURCE_ROUTE_DIR = localeRouteDir(SOURCE_LOCALE);
 
 type HastNode = {
   type: string;
@@ -39,9 +41,9 @@ export function rehypeEnglishHeadingIds() {
 
     const rel = filePath.slice(ROUTES_DIR.length).replaceAll('\\', '/');
     const match = rel.match(/^\/([^/]+)(\/.*)$/);
-    if (!match || match[1] === SOURCE_LOCALE) return;
+    if (!match || match[1] === SOURCE_ROUTE_DIR) return;
 
-    const englishPath = join(ROUTES_DIR, SOURCE_LOCALE, match[2]);
+    const englishPath = join(ROUTES_DIR, SOURCE_ROUTE_DIR, match[2]);
     if (!existsSync(englishPath)) return;
 
     const englishIds = extractHeadingIds(readFileSync(englishPath, 'utf8'));

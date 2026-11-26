@@ -2,7 +2,7 @@
   "name": "@leve-ui/dialog",
   "version": "0.1.0",
   "description": "Headless, WAI-ARIA compliant Dialog component for Qwik. Bring your own styles.",
-  "homepage": "https://github.com/leve-ui/leve-ui#readme",
+  "homepage": "https://leve-ui.dev/components/dialog/",
   "bugs": {
     "url": "https://github.com/leve-ui/leve-ui/issues"
   },
