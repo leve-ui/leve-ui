@@ -1,6 +1,6 @@
 # 0039. Deploy production docs and Storybook on package release
 
-- Status: Proposed
+- Status: Accepted
 - Date: 2026-11-25
 - Related: [0019](0019-release-with-changesets-and-npm-trusted-publishing.md), [0027](0027-deploy-storybook-previews-to-cloudflare-pages.md), [0034](0034-deploy-the-docs-site-to-cloudflare-pages-as-a-static-site.md)
 
