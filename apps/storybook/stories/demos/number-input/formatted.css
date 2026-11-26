@@ -5,6 +5,7 @@
 }
 
 .number-input-formatted-input {
+  box-sizing: border-box;
   width: 120px;
   height: 36px;
   padding: 0 10px;
@@ -26,6 +27,7 @@
 }
 
 .number-input-formatted-trigger {
+  box-sizing: border-box;
   display: inline-flex;
   align-items: center;
   justify-content: center;
