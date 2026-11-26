@@ -49,6 +49,7 @@ export const docsNav: NavSection[] = [
       { title: 'Context Menu', href: '/components/context-menu/' },
       { title: 'Dialog', href: '/components/dialog/' },
       { title: 'Drawer', href: '/components/drawer/' },
+      { title: 'Editable', href: '/components/editable/' },
       { title: 'Field', href: '/components/field/' },
       { title: 'Fieldset', href: '/components/fieldset/' },
       { title: 'Hover Card', href: '/components/hover-card/' },

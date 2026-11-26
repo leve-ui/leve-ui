@@ -1,0 +1,117 @@
+.editable-default {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+  max-width: 24rem;
+  font-family: inherit;
+}
+
+.editable-default-label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: light-dark(#0f172a, #ffffff);
+}
+
+.editable-default-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.editable-default-area {
+  flex: 1;
+  min-width: 0;
+}
+
+.editable-default-preview {
+  display: block;
+  padding: 0.375rem 0.625rem;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: light-dark(#0f172a, #ffffff);
+  cursor: text;
+}
+
+.editable-default-preview:hover {
+  background: light-dark(#f1f5f9, #ffffff14);
+}
+
+.editable-default-preview:focus-visible {
+  outline: 2px solid #009dfd;
+  outline-offset: 2px;
+}
+
+.editable-default-preview[data-placeholder-shown] {
+  color: light-dark(#475569, #c9ddf0);
+}
+
+.editable-default-input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.375rem 0.625rem;
+  border: 1px solid light-dark(#cbd5e1, #ffffff3d);
+  border-radius: 6px;
+  background: light-dark(#ffffff, #1b2045);
+  color: light-dark(#0f172a, #ffffff);
+  font-family: inherit;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.editable-default-input:focus-visible {
+  outline: 2px solid #009dfd;
+  outline-offset: 2px;
+}
+
+.editable-default-control {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.editable-default-trigger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  border: 1px solid light-dark(#cbd5e1, #ffffff3d);
+  border-radius: 6px;
+  background: light-dark(#ffffff, #1b2045);
+  color: light-dark(#0f172a, #ffffff);
+  cursor: pointer;
+}
+
+.editable-default-trigger:hover {
+  background: light-dark(#f1f5f9, #ffffff14);
+}
+
+.editable-default-trigger:focus-visible {
+  outline: 2px solid #009dfd;
+  outline-offset: 2px;
+}
+
+.editable-default-submit {
+  border-color: #009dfd;
+  background: #009dfd;
+  color: #ffffff;
+}
+
+.editable-default-submit:hover {
+  background: #006ce9;
+  border-color: #006ce9;
+}
+
+.editable-default-icon {
+  width: 1rem;
+  height: 1rem;
+}
+
+.editable-default-preview[hidden],
+.editable-default-input[hidden],
+.editable-default-trigger[hidden] {
+  display: none;
+}
