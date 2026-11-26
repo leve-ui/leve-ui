@@ -2,6 +2,9 @@ import type { Meta, StoryObj } from 'storybook-framework-qwik';
 import ControlledDemo from './demos/pagination/controlled';
 import controlledSource from './demos/pagination/controlled?raw';
 import controlledCss from './demos/pagination/controlled.css?raw';
+import CustomLinkDemo from './demos/pagination/custom-link';
+import customLinkSource from './demos/pagination/custom-link?raw';
+import customLinkCss from './demos/pagination/custom-link.css?raw';
 import DefaultDemo from './demos/pagination/default';
 import defaultSource from './demos/pagination/default?raw';
 import defaultCss from './demos/pagination/default.css?raw';
@@ -37,6 +40,13 @@ export const LinkMode: Story = {
   render: () => <LinkModeDemo />,
   parameters: {
     docs: { source: { code: demoSource(linkModeSource, linkModeCss, 'link-mode.css') } },
+  },
+};
+
+export const CustomLink: Story = {
+  render: () => <CustomLinkDemo />,
+  parameters: {
+    docs: { source: { code: demoSource(customLinkSource, customLinkCss, 'custom-link.css') } },
   },
 };
 

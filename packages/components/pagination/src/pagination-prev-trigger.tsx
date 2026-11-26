@@ -41,9 +41,9 @@ export const PaginationPrevTrigger = component$<PaginationPrevTriggerProps>((all
   const { as, href, disabled = false, onClick$, ...restProps } = allProps;
   const ctx = useContext(paginationContextId);
   const isNativeButton = as === 'button' || (as === undefined && href === undefined);
-  const Element = (as ?? (href !== undefined ? 'a' : 'button')) as Component<
-    Record<string, unknown>
-  >;
+  const resolvedElement = as ?? (href !== undefined ? 'a' : 'button');
+  const isHostElement = typeof resolvedElement === 'string';
+  const Element = resolvedElement as Component<Record<string, unknown>>;
 
   const isDisabled = useComputed$(
     () => ctx.page.value <= 1 || ctx.disabled.value || Boolean(disabled),
@@ -73,7 +73,7 @@ export const PaginationPrevTrigger = component$<PaginationPrevTriggerProps>((all
       tabIndex={tabIndexAttr.value}
       data-leve-pagination-prev-trigger=""
       data-disabled={disabledAttr.value}
-      onClick$={[preventDisabledClick$, handleClick$, onClick$]}
+      onClick$={[isHostElement ? preventDisabledClick$ : undefined, handleClick$, onClick$]}
     >
       <Slot />
     </Element>

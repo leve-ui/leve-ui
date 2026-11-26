@@ -43,9 +43,9 @@ export const PaginationItem = component$<PaginationItemProps>((allProps) => {
   const { as, value, href, disabled = false, onClick$, ...restProps } = allProps;
   const ctx = useContext(paginationContextId);
   const isNativeButton = as === 'button' || (as === undefined && href === undefined);
-  const Element = (as ?? (href !== undefined ? 'a' : 'button')) as Component<
-    Record<string, unknown>
-  >;
+  const resolvedElement = as ?? (href !== undefined ? 'a' : 'button');
+  const isHostElement = typeof resolvedElement === 'string';
+  const Element = resolvedElement as Component<Record<string, unknown>>;
 
   const isCurrent = useComputed$(() => ctx.page.value === value);
   const isDisabled = useComputed$(() => ctx.disabled.value || Boolean(disabled));
@@ -80,7 +80,7 @@ export const PaginationItem = component$<PaginationItemProps>((allProps) => {
       data-state={dataStateAttr.value}
       data-selected={dataSelectedAttr.value}
       data-disabled={disabledAttr.value}
-      onClick$={[preventDisabledClick$, handleClick$, onClick$]}
+      onClick$={[isHostElement ? preventDisabledClick$ : undefined, handleClick$, onClick$]}
     >
       <Slot />
     </Element>

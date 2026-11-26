@@ -63,6 +63,39 @@ Pass `href` to `Pagination.Item`, `Pagination.PrevTrigger`, and `Pagination.Next
 
 <Demo id="pagination/link-mode" collapsed />
 
+### Custom Link Component
+
+Pass a router link component such as Qwik City's `<Link>` to `as` on `Pagination.Item`, `Pagination.PrevTrigger`, and `Pagination.NextTrigger` for client-side navigation and prefetching while keeping Pagination's attributes:
+
+```tsx
+import { Link } from '@builder.io/qwik-city';
+import { Pagination } from '@leve-ui/pagination';
+
+<Pagination.Root totalPages={8}>
+  <Pagination.List>
+    <li>
+      <Pagination.PrevTrigger as={Link} href="/items?page=1">
+        Previous
+      </Pagination.PrevTrigger>
+    </li>
+    <li>
+      <Pagination.Item as={Link} value={2} href="/items?page=2">
+        2
+      </Pagination.Item>
+    </li>
+    <li>
+      <Pagination.NextTrigger as={Link} href="/items?page=3">
+        Next
+      </Pagination.NextTrigger>
+    </li>
+  </Pagination.List>
+</Pagination.Root>
+```
+
+A component passed to `as` must spread the props it receives onto a single element, including `id`, `aria-*`, `data-*`, and `on*$` event handlers.
+
+<Demo id="pagination/custom-link" collapsed />
+
 ### Disabled
 
 Pass `disabled` on `Pagination.Root` to disable all interactive controls:
