@@ -52,6 +52,7 @@ export const docsNav: NavSection[] = [
       { title: 'Editable', href: '/components/editable/' },
       { title: 'Field', href: '/components/field/' },
       { title: 'Fieldset', href: '/components/fieldset/' },
+      { title: 'File Upload', href: '/components/file-upload/' },
       { title: 'Hover Card', href: '/components/hover-card/' },
       { title: 'Label', href: '/components/label/' },
       { title: 'Menu', href: '/components/menu/' },

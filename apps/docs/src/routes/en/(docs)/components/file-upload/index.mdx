@@ -1,0 +1,201 @@
+---
+title: File Upload
+description: A control for selecting and dropping files with validation and form support.
+---
+
+# File Upload
+
+A control for selecting and dropping files with validation and form support.
+
+File Upload uses native `<input type="file">`, `<label>`, and `<button type="button">` semantics for accessible file picking, drag-and-drop, and form submission.
+
+<Demo id="file-upload/default" />
+
+## Installation
+
+Install the individual package, or use `@leve-ui/core` to get every component at once:
+
+<Install package="@leve-ui/file-upload" />
+
+## Anatomy
+
+```tsx
+import { FileUpload } from '@leve-ui/file-upload'; // or '@leve-ui/core'
+
+<FileUpload.Root>
+  <FileUpload.Label />
+  <FileUpload.Dropzone>
+    <FileUpload.Trigger />
+  </FileUpload.Dropzone>
+  <FileUpload.HiddenInput />
+  <FileUpload.ItemGroup>
+    <FileUpload.Item file={file}>
+      <FileUpload.ItemName />
+      <FileUpload.ItemSize />
+      <FileUpload.ItemDeleteTrigger />
+    </FileUpload.Item>
+  </FileUpload.ItemGroup>
+</FileUpload.Root>
+```
+
+| Part | Element | Description |
+| --- | --- | --- |
+| `FileUpload.Root` | `<div>` | Wraps the parts, manages accepted files, and validates selections. |
+| `FileUpload.Label` | `<label>` | Labels the hidden file input via `for`. |
+| `FileUpload.Dropzone` | `<div>` | Drag-and-drop area that also opens the file picker on click. |
+| `FileUpload.Trigger` | `<button>` | Opens the native file picker when clicked or activated via keyboard. |
+| `FileUpload.HiddenInput` | `<input type="file">` | Visually hidden native file input synchronized with accepted files. |
+| `FileUpload.ItemGroup` | `<ul>` | List container for accepted files. |
+| `FileUpload.Item` | `<li>` | Represents a single accepted file entry. |
+| `FileUpload.ItemName` | `<span>` | Displays the file name (renders `{file.name}` automatically). |
+| `FileUpload.ItemSize` | `<span>` | Displays the formatted file size using `formatFileSize`. |
+| `FileUpload.ItemDeleteTrigger` | `<button>` | Removes the enclosing item from the file list. |
+
+## Examples
+
+### Multiple
+
+Pass `multiple` on `FileUpload.Root` to allow selecting and appending multiple files.
+
+<Demo id="file-upload/multiple" collapsed />
+
+### Validation
+
+Use `accept`, `maxFiles`, `maxFileSize`, and `minFileSize` to validate files and handle rejected items with `onFileReject$`.
+
+<Demo id="file-upload/validation" collapsed />
+
+### Disabled
+
+`disabled` on `FileUpload.Root` disables the dropzone, trigger, hidden input, and delete buttons.
+
+<Demo id="file-upload/disabled" collapsed />
+
+### With Field
+
+Inside a `Field.Root`, use `Field.Label` and `Field.Description`. The Field provides the IDs, description, and `disabled` / `required` / `invalid` states.
+
+<Demo id="file-upload/with-field" collapsed />
+
+### With Form
+
+`FileUpload.HiddenInput` keeps the native `<input type="file">.files` synchronized via `DataTransfer` so `new FormData(form)` receives accepted files and `<button type="reset">` clears them.
+
+<Demo id="file-upload/with-form" collapsed />
+
+## API Reference
+
+### Root
+
+<PropsTable component="file-upload" part="Root" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-file-upload` | Always present |
+| `data-disabled` | Present when disabled |
+| `data-readonly` | Present when read-only |
+| `data-invalid` | Present when invalid |
+
+### Label
+
+<PropsTable component="file-upload" part="Label" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-file-upload-label` | Always present |
+| `data-disabled` | Present when disabled |
+| `data-readonly` | Present when read-only |
+| `data-invalid` | Present when invalid |
+
+### Dropzone
+
+<PropsTable component="file-upload" part="Dropzone" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-file-upload-dropzone` | Always present |
+| `data-state` | `"idle"` \| `"dragging"` |
+| `data-dragging` | Present while dragging files over the dropzone |
+| `data-disabled` | Present when disabled |
+| `data-readonly` | Present when read-only |
+| `data-invalid` | Present when invalid |
+
+### Trigger
+
+<PropsTable component="file-upload" part="Trigger" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-file-upload-trigger` | Always present |
+| `data-disabled` | Present when disabled or read-only |
+| `data-readonly` | Present when read-only |
+| `data-invalid` | Present when invalid |
+
+### HiddenInput
+
+<PropsTable component="file-upload" part="HiddenInput" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-file-upload-hidden-input` | Always present |
+| `data-disabled` | Present when disabled |
+| `data-readonly` | Present when read-only |
+| `data-invalid` | Present when invalid |
+
+### ItemGroup
+
+<PropsTable component="file-upload" part="ItemGroup" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-file-upload-item-group` | Always present |
+| `data-disabled` | Present when disabled |
+| `data-readonly` | Present when read-only |
+| `data-invalid` | Present when invalid |
+
+### Item
+
+<PropsTable component="file-upload" part="Item" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-file-upload-item` | Always present |
+| `data-disabled` | Present when disabled |
+| `data-readonly` | Present when read-only |
+| `data-invalid` | Present when invalid |
+
+### ItemName
+
+<PropsTable component="file-upload" part="ItemName" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-file-upload-item-name` | Always present |
+
+### ItemSize
+
+<PropsTable component="file-upload" part="ItemSize" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-file-upload-item-size` | Always present |
+
+### ItemDeleteTrigger
+
+<PropsTable component="file-upload" part="ItemDeleteTrigger" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-file-upload-item-delete-trigger` | Always present |
+| `data-disabled` | Present when disabled or read-only |
+
+## Accessibility
+
+- **Native elements**: Uses `<label for>`, `<button type="button">` for triggers and delete buttons, and a visually hidden `<input type="file">` (`tabIndex={-1}`, `aria-hidden="true"`).
+- **Screen reader announcements**: Announces file additions, removals, and rejections via a polite live region.
+- **Accessible labels**: `FileUpload.ItemDeleteTrigger` defaults `aria-label` to `"Remove <filename>"` when no `aria-label` is provided.
+
+| Key | Element | Action |
+| --- | --- | --- |
+| `Enter` / `Space` | `FileUpload.Trigger` | Opens the native file picker. |
+| `Enter` / `Space` | `FileUpload.ItemDeleteTrigger` | Removes the corresponding file item. |

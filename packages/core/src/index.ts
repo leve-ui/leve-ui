@@ -15,6 +15,7 @@ export * from '@leve-ui/drawer';
 export * from '@leve-ui/editable';
 export * from '@leve-ui/field';
 export * from '@leve-ui/fieldset';
+export * from '@leve-ui/file-upload';
 export * from '@leve-ui/hover-card';
 export * from '@leve-ui/label';
 export * from '@leve-ui/menu';
