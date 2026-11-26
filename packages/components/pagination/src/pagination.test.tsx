@@ -440,4 +440,56 @@ describe('Pagination', () => {
     expect(changes).toEqual([]);
     expect(items[1]?.getAttribute('aria-current')).toBe('page');
   });
+
+  it('renders custom Qwik components via as on PrevTrigger, Item, and NextTrigger', async () => {
+    const { render, screen, userEvent } = await createDOM();
+
+    await render(
+      <Pagination.Root totalPages={3} defaultPage={1}>
+        <Pagination.List>
+          <li>
+            <Pagination.PrevTrigger as={CustomLink} href="/items?page=1">
+              Prev
+            </Pagination.PrevTrigger>
+          </li>
+          <li>
+            <Pagination.Item as={CustomLink} value={1} href="/items?page=1">
+              1
+            </Pagination.Item>
+          </li>
+          <li>
+            <Pagination.Item as={CustomLink} value={2} href="/items?page=2">
+              2
+            </Pagination.Item>
+          </li>
+          <li>
+            <Pagination.NextTrigger as={CustomLink} href="/items?page=2">
+              Next
+            </Pagination.NextTrigger>
+          </li>
+        </Pagination.List>
+      </Pagination.Root>,
+    );
+
+    const prev = screen.querySelector('[data-leve-pagination-prev-trigger]');
+    const next = screen.querySelector('[data-leve-pagination-next-trigger]');
+    const items = Array.from(screen.querySelectorAll('[data-leve-pagination-item]'));
+
+    expect(prev?.tagName).toBe('A');
+    expect(prev?.hasAttribute('data-custom-link')).toBe(true);
+    expect(prev?.getAttribute('aria-disabled')).toBe('true');
+    expect(prev?.hasAttribute('href')).toBe(false);
+
+    expect(items[0]?.hasAttribute('data-custom-link')).toBe(true);
+    expect(items[0]?.getAttribute('href')).toBe('/items?page=1');
+    expect(items[1]?.getAttribute('href')).toBe('/items?page=2');
+
+    expect(next?.hasAttribute('data-custom-link')).toBe(true);
+    expect(next?.getAttribute('href')).toBe('/items?page=2');
+
+    await userEvent(next as Element, 'click');
+    expect(items[1]?.getAttribute('aria-current')).toBe('page');
+    expect(prev?.getAttribute('aria-disabled')).toBeNull();
+    expect(prev?.getAttribute('href')).toBe('/items?page=1');
+  });
 });

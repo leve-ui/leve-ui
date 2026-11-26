@@ -85,6 +85,45 @@ test.describe('Pagination', () => {
     await expect(prev).not.toHaveAttribute('href', /.+/);
   });
 
+  test('supports polymorphic as custom link component without page reload', async ({ page }) => {
+    await gotoStory(page, 'components-pagination--custom-link');
+
+    const nav = page.getByRole('navigation', { name: 'Pagination' });
+    const page1 = nav.locator('[data-leve-pagination-item]', { hasText: '1' });
+    const page2 = nav.locator('[data-leve-pagination-item]', { hasText: '2' });
+    const page3 = nav.locator('[data-leve-pagination-item]', { hasText: '3' });
+    const prev = nav.locator('[data-leve-pagination-prev-trigger]');
+    const next = nav.locator('[data-leve-pagination-next-trigger]');
+
+    await expect(page2).toHaveAttribute('aria-current', 'page');
+    await expect(prev).toHaveAttribute('href', '/items?page=1');
+    await expect(next).toHaveAttribute('href', '/items?page=3');
+
+    await page.evaluate(() => {
+      (window as unknown as { __noReload?: boolean }).__noReload = true;
+    });
+
+    await page3.click();
+    await expect(page3).toHaveAttribute('aria-current', 'page');
+    await expect(page.getByText('Navigated to: /items?page=3')).toBeVisible();
+    await expect(prev).toHaveAttribute('href', '/items?page=2');
+
+    // Navigate back from page 3 -> 2 -> 1 using PrevTrigger
+    await prev.click();
+    await expect(page2).toHaveAttribute('aria-current', 'page');
+    await expect(page.getByText('Navigated to: /items?page=2')).toBeVisible();
+
+    await prev.click();
+    await expect(page1).toHaveAttribute('aria-current', 'page');
+    await expect(page.getByText('Navigated to: /items?page=1')).toBeVisible();
+    await expect(prev).toHaveAttribute('aria-disabled', 'true');
+    await expect(prev).not.toHaveAttribute('href', /.+/);
+
+    expect(
+      await page.evaluate(() => (window as unknown as { __noReload?: boolean }).__noReload),
+    ).toBe(true);
+  });
+
   test('disables all controls when Root is disabled', async ({ page }) => {
     await gotoStory(page, 'components-pagination--disabled');
 
