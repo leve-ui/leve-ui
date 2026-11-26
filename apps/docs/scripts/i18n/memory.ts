@@ -12,7 +12,7 @@ import { execFileSync } from 'node:child_process';
 import { existsSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join, relative, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { SOURCE_LOCALE } from '../../src/i18n/locales.ts';
+import { localeRouteDir, SOURCE_LOCALE } from '../../src/i18n/locales.ts';
 import { extractSegments, segmentHash } from './segments.ts';
 import { propDescriptions, textSegment, uiStrings } from './ui.ts';
 
@@ -23,7 +23,7 @@ const docsRoot = resolve(dirname(fileURLToPath(import.meta.url)), '../..');
 const repoRoot = resolve(docsRoot, '../..');
 export const SRC_DIR = join(docsRoot, 'src');
 export const ROUTES_DIR = join(SRC_DIR, 'routes');
-export const SOURCE_DIR = join(ROUTES_DIR, SOURCE_LOCALE);
+export const SOURCE_DIR = join(ROUTES_DIR, localeRouteDir(SOURCE_LOCALE));
 const MEMORY_DIR = join(docsRoot, 'i18n');
 
 export function memoryPath(locale: string) {

@@ -2,7 +2,7 @@
   "name": "@leve-ui/pin-input",
   "version": "0.0.0",
   "description": "Headless, WAI-ARIA compliant PinInput component for Qwik. Bring your own styles.",
-  "homepage": "https://github.com/leve-ui/leve-ui#readme",
+  "homepage": "https://leve-ui.dev/components/pin-input/",
   "bugs": {
     "url": "https://github.com/leve-ui/leve-ui/issues"
   },

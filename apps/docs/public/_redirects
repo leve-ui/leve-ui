@@ -1,3 +1,3 @@
-# Every page has a locale prefix (adr/0033). Old URLs without one go to English.
-/overview/* /en/overview/:splat 301
-/components/* /en/components/:splat 301
+# English is served at the root without a locale prefix. Redirect legacy /en/ URLs to the root.
+/en / 301
+/en/* /:splat 301

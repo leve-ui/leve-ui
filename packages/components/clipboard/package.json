@@ -2,7 +2,7 @@
   "name": "@leve-ui/clipboard",
   "version": "0.0.0",
   "description": "Headless, WAI-ARIA compliant Clipboard component for Qwik. Bring your own styles.",
-  "homepage": "https://github.com/leve-ui/leve-ui#readme",
+  "homepage": "https://leve-ui.dev/components/clipboard/",
   "bugs": {
     "url": "https://github.com/leve-ui/leve-ui/issues"
   },

@@ -7,7 +7,7 @@
 import { mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { dirname, join, relative, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { LOCALES, SOURCE_LOCALE } from '../src/i18n/locales.ts';
+import { LOCALES, type Locale, localeRouteDir, SOURCE_LOCALE } from '../src/i18n/locales.ts';
 import { slugify, stripMarkdown } from './slug.ts';
 
 export type SearchSection = {
@@ -126,10 +126,10 @@ function extractSections(
 }
 
 function buildIndexForLocale(
-  locale: string,
+  locale: Locale,
   englishIdsByHref?: Map<string, string[]>,
 ): SearchPage[] {
-  const docsDir = join(ROUTES_DIR, locale, '(docs)');
+  const docsDir = join(ROUTES_DIR, localeRouteDir(locale), '(docs)');
   const files = walkMdx(docsDir).sort();
   const pages: SearchPage[] = [];
 

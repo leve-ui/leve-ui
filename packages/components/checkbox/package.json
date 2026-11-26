@@ -2,7 +2,7 @@
   "name": "@leve-ui/checkbox",
   "version": "0.2.0",
   "description": "Headless, WAI-ARIA compliant Checkbox component for Qwik. Bring your own styles.",
-  "homepage": "https://github.com/leve-ui/leve-ui#readme",
+  "homepage": "https://leve-ui.dev/components/checkbox/",
   "bugs": {
     "url": "https://github.com/leve-ui/leve-ui/issues"
   },
