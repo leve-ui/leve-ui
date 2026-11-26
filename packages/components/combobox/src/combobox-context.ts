@@ -1,4 +1,5 @@
 import { createContextId, type QRL, type ReadonlySignal, type Signal } from '@builder.io/qwik';
+import { getElementByIdInContainer } from '@leve-ui/utils';
 
 export interface ComboboxIds {
   label: string;
@@ -17,6 +18,14 @@ export interface ComboboxIds {
  */
 export type ComboboxInputValueChangeReason = 'input' | 'select' | 'clear' | 'blur';
 
+/**
+ * How the input behaves after selecting an option.
+ * - `'replace'` (default): puts the selected option's text in the input and reverts to it on blur.
+ * - `'clear'`: clears the input text on selection so multiple picks (e.g. inside TagsInput) can follow.
+ * - `'preserve'`: keeps the current input text as-is after selection and on blur.
+ */
+export type ComboboxSelectionBehavior = 'replace' | 'clear' | 'preserve';
+
 /** Which item to highlight when the listbox opens */
 export type ComboboxHighlight = 'first' | 'last' | 'selected' | null;
 
@@ -29,6 +38,7 @@ export interface ComboboxContext {
   highlighted: Signal<string | null>;
   /** The text of the selected item, put back in the input when it loses focus */
   selectedText: Signal<string>;
+  selectionBehavior: ReadonlySignal<ComboboxSelectionBehavior>;
   disabled: ReadonlySignal<boolean>;
   required: ReadonlySignal<boolean>;
   loop: ReadonlySignal<boolean>;
@@ -75,4 +85,16 @@ export const ITEM_SELECTOR = '[data-leve-combobox-item]';
 export function getItemText(item: Element): string {
   const text = item.querySelector('[data-leve-combobox-item-text]')?.textContent?.trim();
   return text || item.getAttribute('data-text-value') || item.textContent?.trim() || '';
+}
+
+/** Finds the Combobox input element by id first, falling back to `[data-leve-combobox-input]` inside Root (for composed inputs with custom ids). */
+export function getComboboxInput(
+  anchor: HTMLElement | null | undefined,
+  inputId: string,
+): HTMLInputElement | null {
+  if (!anchor) return null;
+  const byId = getElementByIdInContainer<HTMLInputElement>(anchor, inputId);
+  if (byId) return byId;
+  const root = anchor.closest<HTMLElement>('[data-leve-combobox]');
+  return root?.querySelector<HTMLInputElement>('[data-leve-combobox-input]') ?? null;
 }

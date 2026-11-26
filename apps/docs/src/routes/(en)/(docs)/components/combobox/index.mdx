@@ -90,6 +90,12 @@ When you set `defaultValue` (or `bind:value`), also set the text of that item wi
 
 Typing does not select. When the input loses focus, its text goes back to the selected item, or the value is cleared when the input is empty.
 
+You can customize this with `selectionBehavior` on `Combobox.Root`:
+
+- `'replace'` (default): puts the selected option's text in the input and reverts to it on blur.
+- `'clear'`: clears the input when an option is selected and leaves typed text untouched on blur (useful when composing with tag inputs).
+- `'preserve'`: keeps the current input text as-is after selection and on blur.
+
 ## Opening
 
 The listbox opens when the user types, presses ArrowDown or ArrowUp, or presses the Trigger. With `openOnClick`, clicking the input opens it too; the demo above uses it.

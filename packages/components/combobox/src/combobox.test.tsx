@@ -1,4 +1,4 @@
-import { component$, useSignal } from '@builder.io/qwik';
+import { $, component$, useSignal } from '@builder.io/qwik';
 import { createDOM } from '@builder.io/qwik/testing';
 import { describe, expect, it } from 'vitest';
 import { Combobox } from './index';
@@ -286,5 +286,99 @@ describe('Combobox', () => {
     expect(screen.querySelector('.default')?.getAttribute('data-state')).toBe('closed');
     await userEvent('.on-click [data-leve-combobox-input]', 'click');
     expect(screen.querySelector('.on-click')?.getAttribute('data-state')).toBe('open');
+  });
+
+  it('selectionBehavior="clear" で選択ごとに入力をクリアして同じ候補も繰り返し選べ、blur で文字を消さない', async () => {
+    const picked: (string | null)[] = [];
+    const ClearOnSelect = component$(() => {
+      return (
+        <Combobox.Root
+          selectionBehavior="clear"
+          onValueChange$={$((value: string | null) => {
+            picked.push(value);
+          })}
+        >
+          <Combobox.Label>Tags</Combobox.Label>
+          <Combobox.Control>
+            <Combobox.Input />
+            <Combobox.Trigger>▼</Combobox.Trigger>
+          </Combobox.Control>
+          <Combobox.Content>
+            <Combobox.List>
+              <Combobox.Item value="qwik">Qwik</Combobox.Item>
+              <Combobox.Item value="vite">Vite</Combobox.Item>
+            </Combobox.List>
+          </Combobox.Content>
+        </Combobox.Root>
+      );
+    });
+    const { screen, render, userEvent } = await createDOM();
+    await render(<ClearOnSelect />);
+
+    const input = query(screen, 'input') as HTMLInputElement;
+    await userEvent('[data-leve-combobox-trigger]', 'click');
+    await userEvent('[data-value="qwik"]', 'click');
+    expect(picked).toEqual(['qwik']);
+    expect(input.value).toBe('');
+    expect(query(screen, '')?.getAttribute('data-state')).toBe('closed');
+
+    // Re-selecting the same item still fires onValueChange$
+    await userEvent('[data-leve-combobox-trigger]', 'click');
+    await userEvent('[data-value="qwik"]', 'click');
+    expect(picked).toEqual(['qwik', 'qwik']);
+    expect(input.value).toBe('');
+
+    // Blur does not wipe typed text in clear mode
+    input.value = 'custom';
+    await userEvent('[data-leve-combobox-input]', 'input');
+    await userEvent('[data-leve-combobox-input]', 'focusout');
+    expect(input.value).toBe('custom');
+  });
+
+  it('selectionBehavior="preserve" で選択後も入力文字を保持し、blur でも戻さない', async () => {
+    const { screen, render, userEvent } = await createDOM();
+    await render(
+      <Combobox.Root selectionBehavior="preserve">
+        <Combobox.Label>Filter</Combobox.Label>
+        <Combobox.Input />
+        <Combobox.Trigger>▼</Combobox.Trigger>
+        <Combobox.Content>
+          <Combobox.List>
+            <Combobox.Item value="apple">Apple</Combobox.Item>
+          </Combobox.List>
+        </Combobox.Content>
+      </Combobox.Root>,
+    );
+
+    const input = query(screen, 'input') as HTMLInputElement;
+    input.value = 'ap';
+    await userEvent('[data-leve-combobox-input]', 'input');
+    await userEvent('[data-value="apple"]', 'click');
+    expect(input.value).toBe('ap');
+
+    await userEvent('[data-leve-combobox-input]', 'focusout');
+    expect(input.value).toBe('ap');
+  });
+
+  it('Input にカスタム id を渡しても Trigger と ClearTrigger が Input を見つけて動作する', async () => {
+    const { screen, render, userEvent } = await createDOM();
+    await render(
+      <Combobox.Root defaultValue="apple" defaultInputValue="Apple">
+        <Combobox.Input id="custom-combo-input" />
+        <Combobox.Trigger>▼</Combobox.Trigger>
+        <Combobox.ClearTrigger>×</Combobox.ClearTrigger>
+        <Combobox.Content>
+          <Combobox.List>
+            <Combobox.Item value="apple">Apple</Combobox.Item>
+          </Combobox.List>
+        </Combobox.Content>
+      </Combobox.Root>,
+    );
+
+    expect(query(screen, 'input')?.id).toBe('custom-combo-input');
+    await userEvent('[data-leve-combobox-trigger]', 'click');
+    expect(query(screen, '')?.getAttribute('data-state')).toBe('open');
+    await userEvent('[data-leve-combobox-clear-trigger]', 'click');
+    expect((query(screen, 'input') as HTMLInputElement).value).toBe('');
   });
 });

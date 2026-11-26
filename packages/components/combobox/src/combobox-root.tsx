@@ -23,7 +23,9 @@ import {
   type ComboboxHighlight,
   type ComboboxIds,
   type ComboboxInputValueChangeReason,
+  type ComboboxSelectionBehavior,
   comboboxContextId,
+  getComboboxInput,
   ITEM_SELECTOR,
 } from './combobox-context';
 
@@ -81,6 +83,11 @@ export type ComboboxRootProps = PropsOf<'div'> & {
    */
   autoHighlight?: boolean;
   /**
+   * How the input text behaves when an option is selected or blurred.
+   * @default 'replace'
+   */
+  selectionBehavior?: ComboboxSelectionBehavior;
+  /**
    * Whether clicking the input opens the listbox.
    * @default false
    */
@@ -111,6 +118,7 @@ export const ComboboxRoot = component$<ComboboxRootProps>(
     required: _required,
     loop: _loop,
     autoHighlight: _autoHighlight,
+    selectionBehavior: _selectionBehavior,
     openOnClick: _openOnClick,
     ...props
   }) => {
@@ -142,6 +150,9 @@ export const ComboboxRoot = component$<ComboboxRootProps>(
     const required = useComputed$(() => Boolean(_required) || Boolean(field?.required.value));
     const loop = useComputed$(() => Boolean(_loop));
     const autoHighlight = useComputed$(() => Boolean(_autoHighlight));
+    const selectionBehavior = useComputed$<ComboboxSelectionBehavior>(
+      () => _selectionBehavior ?? 'replace',
+    );
     const openOnClick = useComputed$(() => Boolean(_openOnClick));
 
     const base = useId();
@@ -172,16 +183,37 @@ export const ComboboxRoot = component$<ComboboxRootProps>(
     const setInputValue$ = $(async (text: string, reason: ComboboxInputValueChangeReason) => {
       // The calls from typing may finish out of order while their code loads: read the element, so
       // the last one to finish never sets an older text
-      const input = root.value
-        ? getElementByIdInContainer<HTMLInputElement>(root.value, ids.input)
-        : null;
+      const input = getComboboxInput(root.value, ids.input);
       const typed = reason === 'input';
       const next = typed && input ? input.value : text;
-      if (!typed) writtenText.value = { text: next };
+      if (!typed) {
+        writtenText.value = { text: next };
+        if (input && input.value !== next) {
+          input.value = next;
+        }
+      }
       inputValueReason.value = reason;
       if (inputValue.value !== next) await setInputValueState$(next);
     });
     const select$ = $(async (next: string, text: string) => {
+      const behavior = selectionBehavior.value;
+      if (behavior === 'clear') {
+        selectedText.value = '';
+        if (bindValue) {
+          await setValue$(next);
+        } else {
+          await onValueChange$?.(next);
+        }
+        await setInputValue$('', 'select');
+        await setOpen$(false);
+        return;
+      }
+      if (behavior === 'preserve') {
+        selectedText.value = text;
+        if (value.value !== next) await setValue$(next);
+        await setOpen$(false);
+        return;
+      }
       selectedText.value = text;
       if (value.value !== next) await setValue$(next);
       await setInputValue$(text, 'select');
@@ -200,6 +232,7 @@ export const ComboboxRoot = component$<ComboboxRootProps>(
       inputValue,
       highlighted,
       selectedText,
+      selectionBehavior,
       disabled,
       required,
       loop,
