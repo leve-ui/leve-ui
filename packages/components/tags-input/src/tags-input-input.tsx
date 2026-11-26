@@ -1,8 +1,15 @@
-import { $, component$, type PropsOf, sync$, useContext } from '@builder.io/qwik';
+import { $, type Component, component$, type PropsOf, sync$, useContext } from '@builder.io/qwik';
 import { dataAttr } from '@leve-ui/utils';
 import { getEnabledTagIndices, tagsInputContextId } from './tags-input-context';
 
-export type TagsInputInputProps = PropsOf<'input'>;
+export type TagsInputInputProps = PropsOf<'input'> & {
+  /**
+   * The element or component to render instead of `<input>`. A component must spread the props it receives onto one element.
+   */
+  // biome-ignore lint/suspicious/noExplicitAny: Component props are contravariant, so only any accepts every component (adr/0038)
+  as?: keyof HTMLElementTagNameMap | Component<any>;
+  [key: string]: unknown;
+};
 
 function escapeRegExp(str: string): string {
   return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -20,6 +27,8 @@ const syncKeyDown$ = sync$((event: KeyboardEvent, target: HTMLElement) => {
 
   const root = el.closest('[data-leve-tags-input]');
   const hasHighlight = root?.hasAttribute('data-highlighted-index') ?? false;
+  const isComboboxOpen =
+    el.getAttribute('role') === 'combobox' && el.getAttribute('aria-expanded') === 'true';
 
   if (hasHighlight) {
     if (
@@ -38,7 +47,11 @@ const syncKeyDown$ = sync$((event: KeyboardEvent, target: HTMLElement) => {
   }
 
   if (el.value === '') {
-    if (key === 'Backspace' || key === 'ArrowLeft' || key === 'Home' || key === 'End') {
+    if (
+      key === 'Backspace' ||
+      key === 'ArrowLeft' ||
+      ((key === 'Home' || key === 'End') && !isComboboxOpen)
+    ) {
       event.preventDefault();
     }
   }
@@ -48,6 +61,10 @@ const syncPaste$ = sync$((event: ClipboardEvent, target: HTMLElement) => {
   const el = target as HTMLInputElement;
   if (!el.disabled && !el.readOnly && el.hasAttribute('data-add-on-paste')) {
     event.preventDefault();
+    const pasted = event.clipboardData?.getData('text');
+    if (pasted) {
+      (event as ClipboardEvent & { __levePastedText?: string }).__levePastedText = pasted;
+    }
   }
 });
 
@@ -55,6 +72,11 @@ const syncPaste$ = sync$((event: ClipboardEvent, target: HTMLElement) => {
  * Primary text `<input>` for entering new tags and navigating existing tags.
  */
 export const TagsInputInput = component$<TagsInputInputProps>((props) => {
+  const { as, onInput$, onKeyDown$, onPaste$, onFocus$, ...restProps } = props;
+  const resolvedElement = as ?? 'input';
+  const isHostElement = typeof resolvedElement === 'string';
+  const Element = resolvedElement as Component<Record<string, unknown>>;
+
   const context = useContext(tagsInputContextId);
   const isDisabled = context.disabled.value || Boolean(props.disabled);
   const isReadOnly = context.readOnly.value || Boolean(props.readOnly);
@@ -62,7 +84,6 @@ export const TagsInputInput = component$<TagsInputInputProps>((props) => {
   const state = context.tags.value.length > 0 ? 'has-tags' : 'empty';
 
   const handleInput$ = $(async (_event: InputEvent, target: HTMLInputElement) => {
-    context.inputRef.value = target;
     if (isDisabled || isReadOnly) {
       target.value = context.inputValue.value;
       return;
@@ -70,30 +91,35 @@ export const TagsInputInput = component$<TagsInputInputProps>((props) => {
 
     const raw = target.value;
     const delim = context.delimiter.value;
-    if (delim && raw.includes(delim)) {
+    if (context.allowCustomValue.value && delim && raw.includes(delim)) {
       const parts = raw.split(delim);
       for (let i = 0; i < parts.length - 1; i++) {
         await context.addTag$(parts[i]);
       }
       const remainder = parts[parts.length - 1];
       target.value = remainder;
-      context.inputValue.value = remainder;
+      await context.setInputValue$(remainder);
       return;
     }
 
-    context.inputValue.value = raw;
+    await context.setInputValue$(raw);
     if (context.highlightedIndex.value !== null) {
       context.highlightedIndex.value = null;
     }
   });
 
   const handleKeyDown$ = $(async (event: KeyboardEvent, target: HTMLInputElement) => {
-    context.inputRef.value = target;
     if (isDisabled) return;
 
     const key = event.key;
     const highlighted = context.highlightedIndex.value;
     const root = context.rootRef.value ?? target.closest<HTMLElement>('[data-leve-tags-input]');
+    const isCombobox = target.getAttribute('role') === 'combobox';
+    const isComboboxOpen = isCombobox && target.getAttribute('aria-expanded') === 'true';
+    const comboboxHandled = Boolean(
+      (event as KeyboardEvent & { __leveComboboxHandled?: boolean }).__leveComboboxHandled,
+    );
+    const hasActiveOption = isComboboxOpen && Boolean(target.getAttribute('aria-activedescendant'));
 
     if (key === 'Enter') {
       if (highlighted !== null) {
@@ -108,11 +134,15 @@ export const TagsInputInput = component$<TagsInputInputProps>((props) => {
         return;
       }
 
-      if (!isReadOnly && target.value.trim().length > 0) {
+      if (comboboxHandled || hasActiveOption) {
+        return;
+      }
+
+      if (context.allowCustomValue.value && !isReadOnly && target.value.trim().length > 0) {
         const added = await context.addTag$(target.value);
         if (added) {
           target.value = '';
-          context.inputValue.value = '';
+          await context.setInputValue$('');
         }
       }
       return;
@@ -131,9 +161,13 @@ export const TagsInputInput = component$<TagsInputInputProps>((props) => {
     }
 
     if (key === 'Escape') {
+      if (comboboxHandled) return;
       if (highlighted !== null) {
         context.highlightedIndex.value = null;
         target.focus();
+      }
+      if (isComboboxOpen) {
+        return;
       }
       return;
     }
@@ -215,6 +249,7 @@ export const TagsInputInput = component$<TagsInputInputProps>((props) => {
     }
 
     if (key === 'Home') {
+      if (highlighted === null && isComboboxOpen) return;
       if (highlighted !== null || target.value === '') {
         const enabled = getEnabledTagIndices(root);
         if (enabled.length > 0) {
@@ -225,6 +260,7 @@ export const TagsInputInput = component$<TagsInputInputProps>((props) => {
     }
 
     if (key === 'End') {
+      if (highlighted === null && isComboboxOpen) return;
       if (highlighted !== null || target.value === '') {
         const enabled = getEnabledTagIndices(root);
         if (enabled.length > 0) {
@@ -245,11 +281,13 @@ export const TagsInputInput = component$<TagsInputInputProps>((props) => {
     }
   });
 
-  const handlePaste$ = $(async (event: ClipboardEvent, target: HTMLInputElement) => {
-    context.inputRef.value = target;
-    if (!context.addOnPaste.value || isDisabled || isReadOnly) return;
+  const handlePaste$ = $(async (event: ClipboardEvent) => {
+    if (!context.addOnPaste.value || !context.allowCustomValue.value || isDisabled || isReadOnly) {
+      return;
+    }
 
-    const pasted = event.clipboardData?.getData('text') ?? '';
+    const syncedText = (event as ClipboardEvent & { __levePastedText?: string }).__levePastedText;
+    const pasted = syncedText ?? event.clipboardData?.getData('text') ?? '';
     if (!pasted) return;
 
     const delim = context.delimiter.value;
@@ -258,32 +296,27 @@ export const TagsInputInput = component$<TagsInputInputProps>((props) => {
     await context.addTags$(parts);
   });
 
-  const handleFocus$ = $((_event: FocusEvent, target: HTMLInputElement) => {
-    context.inputRef.value = target;
-  });
-
   return (
-    <input
-      {...props}
-      ref={context.inputRef}
+    <Element
+      {...restProps}
       id={props.id ?? context.ids.input}
-      type="text"
-      value={context.inputValue.value}
+      type={isHostElement ? 'text' : undefined}
+      value={isHostElement ? context.inputValue.value : undefined}
       disabled={isDisabled}
       readOnly={isReadOnly}
       aria-describedby={props['aria-describedby'] ?? context.describedBy.value}
       aria-invalid={props['aria-invalid'] ?? (isInvalid ? 'true' : undefined)}
       aria-required={props['aria-required'] ?? (context.required.value ? 'true' : undefined)}
-      onInput$={[handleInput$, props.onInput$]}
-      onKeyDown$={[syncKeyDown$, handleKeyDown$, props.onKeyDown$]}
-      onPaste$={[syncPaste$, handlePaste$, props.onPaste$]}
-      onFocus$={[handleFocus$, props.onFocus$]}
+      onInput$={[handleInput$, onInput$]}
+      onKeyDown$={[isHostElement ? syncKeyDown$ : undefined, handleKeyDown$, onKeyDown$]}
+      onPaste$={[isHostElement ? syncPaste$ : undefined, handlePaste$, onPaste$]}
+      onFocus$={onFocus$}
       data-leve-tags-input-input=""
       data-state={state}
       data-disabled={dataAttr(isDisabled)}
       data-readonly={dataAttr(isReadOnly)}
       data-invalid={dataAttr(isInvalid)}
-      data-add-on-paste={dataAttr(context.addOnPaste.value)}
+      data-add-on-paste={dataAttr(context.addOnPaste.value && context.allowCustomValue.value)}
     />
   );
 });

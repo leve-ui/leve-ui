@@ -14,9 +14,15 @@ import editableCss from './demos/tags-input/editable.css?raw';
 import ReadOnlyDemo from './demos/tags-input/read-only';
 import readOnlySource from './demos/tags-input/read-only?raw';
 import readOnlyCss from './demos/tags-input/read-only.css?raw';
+import SuggestionsOnlyDemo from './demos/tags-input/suggestions-only';
+import suggestionsOnlySource from './demos/tags-input/suggestions-only?raw';
+import suggestionsOnlyCss from './demos/tags-input/suggestions-only.css?raw';
 import ValidationDemo from './demos/tags-input/validation';
 import validationSource from './demos/tags-input/validation?raw';
 import validationCss from './demos/tags-input/validation.css?raw';
+import WithComboboxDemo from './demos/tags-input/with-combobox';
+import withComboboxSource from './demos/tags-input/with-combobox?raw';
+import withComboboxCss from './demos/tags-input/with-combobox.css?raw';
 import WithFieldDemo from './demos/tags-input/with-field';
 import withFieldSource from './demos/tags-input/with-field?raw';
 import withFieldCss from './demos/tags-input/with-field.css?raw';
@@ -86,5 +92,25 @@ export const WithForm: Story = {
   render: () => <WithFormDemo />,
   parameters: {
     docs: { source: { code: demoSource(withFormSource, withFormCss, 'with-form.css') } },
+  },
+};
+
+export const WithCombobox: Story = {
+  render: () => <WithComboboxDemo />,
+  parameters: {
+    docs: {
+      source: { code: demoSource(withComboboxSource, withComboboxCss, 'with-combobox.css') },
+    },
+  },
+};
+
+export const SuggestionsOnly: Story = {
+  render: () => <SuggestionsOnlyDemo />,
+  parameters: {
+    docs: {
+      source: {
+        code: demoSource(suggestionsOnlySource, suggestionsOnlyCss, 'suggestions-only.css'),
+      },
+    },
   },
 };

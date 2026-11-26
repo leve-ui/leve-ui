@@ -20,15 +20,16 @@ export interface TagsInputIds {
 export interface TagsInputContext {
   ids: TagsInputIds;
   rootRef: Signal<HTMLElement | undefined>;
-  inputRef: Signal<HTMLInputElement | undefined>;
   tags: ReadonlySignal<string[]>;
   highlightedIndex: Signal<number | null>;
   editingIndex: Signal<number | null>;
   editText: Signal<string>;
-  inputValue: Signal<string>;
+  inputValue: ReadonlySignal<string>;
+  setInputValue$: QRL<(value: string) => Promise<void>>;
   delimiter: ReadonlySignal<string>;
   max: ReadonlySignal<number | undefined>;
   allowDuplicates: ReadonlySignal<boolean>;
+  allowCustomValue: ReadonlySignal<boolean>;
   editable: ReadonlySignal<boolean>;
   addOnPaste: ReadonlySignal<boolean>;
   disabled: ReadonlySignal<boolean>;
@@ -87,4 +88,12 @@ export function getEnabledTagIndices(root: HTMLElement | null | undefined): numb
     }
   }
   return indices;
+}
+
+/**
+ * Finds the text input element scoped to a `TagsInput.Root` container.
+ */
+export function getTagsInputElement(root: HTMLElement | null | undefined): HTMLInputElement | null {
+  if (!root) return null;
+  return root.querySelector<HTMLInputElement>('[data-leve-tags-input-input]');
 }

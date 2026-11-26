@@ -5,6 +5,7 @@ import {
   type QRL,
   type Signal,
   Slot,
+  sync$,
   useComputed$,
   useContextProvider,
   useId,
@@ -17,7 +18,64 @@ import {
   useFieldContext,
   useFieldControl,
 } from '@leve-ui/utils';
-import { type TagsInputIds, tagsInputContextId } from './tags-input-context';
+import { getTagsInputElement, type TagsInputIds, tagsInputContextId } from './tags-input-context';
+
+const syncRootKeyDown$ = sync$((event: KeyboardEvent) => {
+  const target = event.target as HTMLElement | null;
+  const el = target?.closest?.('[data-leve-tags-input-input]') as HTMLInputElement | null;
+  if (!el || el.disabled) return;
+  const key = event.key;
+
+  if (key === 'Enter') {
+    event.preventDefault();
+    return;
+  }
+
+  const root = el.closest('[data-leve-tags-input]');
+  const hasHighlight = root?.hasAttribute('data-highlighted-index') ?? false;
+  const isComboboxOpen =
+    el.getAttribute('role') === 'combobox' && el.getAttribute('aria-expanded') === 'true';
+
+  if (hasHighlight) {
+    if (
+      key === 'ArrowLeft' ||
+      key === 'ArrowRight' ||
+      key === 'Home' ||
+      key === 'End' ||
+      key === 'Backspace' ||
+      key === 'Delete' ||
+      key === 'F2' ||
+      key === 'Escape'
+    ) {
+      event.preventDefault();
+    }
+    return;
+  }
+
+  if (el.value === '') {
+    if (
+      key === 'Backspace' ||
+      key === 'ArrowLeft' ||
+      ((key === 'Home' || key === 'End') && !isComboboxOpen)
+    ) {
+      event.preventDefault();
+    }
+  }
+});
+
+const syncRootPaste$ = sync$((event: ClipboardEvent) => {
+  const target = event.target as HTMLElement | null;
+  const el = target?.closest?.('[data-leve-tags-input-input]') as HTMLInputElement | null;
+  if (!el || el.disabled || el.readOnly || !el.hasAttribute('data-add-on-paste')) {
+    return;
+  }
+  event.preventDefault();
+  const pasted = event.clipboardData?.getData('text');
+  const pasteEvent = event as ClipboardEvent & { __levePastedText?: string };
+  if (pasted && !pasteEvent.__levePastedText) {
+    pasteEvent.__levePastedText = pasted;
+  }
+});
 
 export type TagsInputRootProps = PropsOf<'div'> & {
   /** Overrides the element IDs of the parts. Inside a Field, the input ID comes from the Field. */
@@ -31,6 +89,15 @@ export type TagsInputRootProps = PropsOf<'div'> & {
   'bind:value'?: Signal<string[]>;
   /** Called when the tags array changes. */
   onValueChange$?: QRL<(value: string[]) => void>;
+  /**
+   * The initial text value of the input (uncontrolled).
+   * @default ''
+   */
+  defaultInputValue?: string;
+  /** A signal with the input text value (controlled). */
+  'bind:inputValue'?: Signal<string>;
+  /** Called when the input text value changes. */
+  onInputValueChange$?: QRL<(value: string) => void>;
   /**
    * The delimiter character that splits and commits tags while typing or pasting.
    * @default ','
@@ -53,6 +120,12 @@ export type TagsInputRootProps = PropsOf<'div'> & {
    * @default false
    */
   addOnPaste?: boolean;
+  /**
+   * Whether free-text values typed or pasted into the input can be added as tags.
+   * Set to `false` to only allow tags added programmatically (for example from a composed `Combobox`).
+   * @default true
+   */
+  allowCustomValue?: boolean;
   /**
    * Disables the tags input. Inside a Field or Fieldset, the inherited `disabled` also applies.
    * @default false
@@ -88,21 +161,26 @@ export const TagsInputRoot = component$<TagsInputRootProps>((props) => {
     defaultValue = [],
     'bind:value': bindValue,
     onValueChange$,
+    defaultInputValue = '',
+    'bind:inputValue': bindInputValue,
+    onInputValueChange$,
     delimiter: _delimiter,
     max: _max,
     allowDuplicates: _allowDuplicates,
+    allowCustomValue: _allowCustomValue,
     editable: _editable,
     addOnPaste: _addOnPaste,
     disabled: _disabled,
     readOnly: _readOnly,
     required: _required,
     invalid: _invalid,
+    onKeyDown$,
+    onPaste$,
     ...restProps
   } = props;
 
   const internalRootRef = useSignal<HTMLElement>();
   const rootRef = (props.ref as Signal<HTMLElement | undefined> | undefined) ?? internalRootRef;
-  const inputRef = useSignal<HTMLInputElement>();
 
   const [tags, setTags$, resetControllable$] = useControllableState<string[]>({
     value: bindValue,
@@ -110,10 +188,15 @@ export const TagsInputRoot = component$<TagsInputRootProps>((props) => {
     onChange$: onValueChange$,
   });
 
+  const [inputValue, setInputValue$] = useControllableState<string>({
+    value: bindInputValue,
+    defaultValue: defaultInputValue ?? '',
+    onChange$: onInputValueChange$,
+  });
+
   const highlightedIndex = useSignal<number | null>(null);
   const editingIndex = useSignal<number | null>(null);
   const editText = useSignal('');
-  const inputValue = useSignal('');
 
   const field = useFieldContext();
   const control = useFieldControl(props);
@@ -128,6 +211,7 @@ export const TagsInputRoot = component$<TagsInputRootProps>((props) => {
   const delimiterSignal = useComputed$(() => props.delimiter ?? ',');
   const maxSignal = useComputed$(() => props.max);
   const allowDuplicatesSignal = useComputed$(() => Boolean(props.allowDuplicates));
+  const allowCustomValueSignal = useComputed$(() => props.allowCustomValue ?? true);
   const editableSignal = useComputed$(() => props.editable ?? true);
   const addOnPasteSignal = useComputed$(() => Boolean(props.addOnPaste));
 
@@ -203,7 +287,7 @@ export const TagsInputRoot = component$<TagsInputRootProps>((props) => {
     editingIndex.value = null;
     await setTags$([]);
     announce('Cleared all tags');
-    inputRef.value?.focus();
+    getTagsInputElement(rootRef.value)?.focus();
   });
 
   const startEdit$ = $((index: number): void => {
@@ -251,15 +335,16 @@ export const TagsInputRoot = component$<TagsInputRootProps>((props) => {
 
   const focusInput$ = $((): void => {
     if (disabledSignal.value) return;
-    inputRef.value?.focus();
+    getTagsInputElement(rootRef.value)?.focus();
   });
 
   const reset$ = $(async (): Promise<void> => {
     highlightedIndex.value = null;
     editingIndex.value = null;
-    inputValue.value = '';
-    if (inputRef.value) {
-      inputRef.value.value = '';
+    await setInputValue$('');
+    const input = getTagsInputElement(rootRef.value);
+    if (input) {
+      input.value = '';
     }
     await resetControllable$();
   });
@@ -267,15 +352,16 @@ export const TagsInputRoot = component$<TagsInputRootProps>((props) => {
   useContextProvider(tagsInputContextId, {
     ids,
     rootRef,
-    inputRef,
     tags,
     highlightedIndex,
     editingIndex,
     editText,
     inputValue,
+    setInputValue$,
     delimiter: delimiterSignal,
     max: maxSignal,
     allowDuplicates: allowDuplicatesSignal,
+    allowCustomValue: allowCustomValueSignal,
     editable: editableSignal,
     addOnPaste: addOnPasteSignal,
     disabled: disabledSignal,
@@ -309,6 +395,8 @@ export const TagsInputRoot = component$<TagsInputRootProps>((props) => {
       aria-describedby={describedBySignal.value}
       aria-invalid={invalidSignal.value ? 'true' : undefined}
       aria-disabled={disabledSignal.value ? 'true' : undefined}
+      onKeyDown$={[syncRootKeyDown$, onKeyDown$]}
+      onPaste$={[syncRootPaste$, onPaste$]}
       data-leve-tags-input=""
       data-state={state}
       data-disabled={dataAttr(disabledSignal.value)}

@@ -182,4 +182,110 @@ test.describe('TagsInput', () => {
     await expect(items.nth(0)).toContainText('qwik');
     await expect(items.nth(1)).toContainText('ui');
   });
+
+  test('fills tags on the very first paste even if clipboardData clears synchronously after dispatch', async ({
+    page,
+  }) => {
+    await gotoStory(page, 'components-tagsinput--validation');
+
+    const input = page.getByRole('textbox', {
+      name: 'Keywords (max 4, no duplicates, paste supported)',
+    });
+    const items = page.locator('[data-leve-tags-input-item]');
+    await expect(items).toHaveCount(2);
+
+    await input.focus();
+    await input.evaluate((el) => {
+      const event = new Event('paste', { bubbles: true, cancelable: true });
+      let readCount = 0;
+      Object.defineProperty(event, 'clipboardData', {
+        value: {
+          getData: (type: string) => {
+            if (type !== 'text' && type !== 'text/plain') return '';
+            readCount += 1;
+            return readCount === 1 ? 'three, four' : '';
+          },
+        },
+      });
+      el.dispatchEvent(event);
+    });
+
+    await expect(items).toHaveCount(4);
+    await expect(items.nth(2)).toContainText('three');
+    await expect(items.nth(3)).toContainText('four');
+  });
+
+  test('composes with Combobox to select suggestions and add custom tags', async ({ page }) => {
+    await gotoStory(page, 'components-tagsinput--with-combobox');
+
+    const combobox = page.getByRole('combobox', { name: 'Frameworks' });
+    const items = page.locator('[data-leve-tags-input-item]');
+    await expect(items).toHaveCount(1);
+    await expect(items.nth(0)).toContainText('Qwik');
+
+    // Type filter, highlight Vitest with ArrowDown, and pick with Enter without adding "vi"
+    await combobox.fill('vi');
+    const listbox = page.getByRole('listbox', { name: 'Framework suggestions' });
+    await expect(listbox).toBeVisible();
+    await combobox.press('ArrowDown');
+    await expect(listbox.getByRole('option', { name: 'Vitest', exact: true })).toHaveAttribute(
+      'data-highlighted',
+      '',
+    );
+    await combobox.press('Enter');
+
+    await expect(items).toHaveCount(2);
+    await expect(items.nth(1)).toContainText('Vitest');
+    await expect(combobox).toHaveValue('');
+    await expect(listbox).toBeHidden();
+
+    // Open suggestions with click and click Vite option; focus stays on input
+    await combobox.click();
+    await expect(listbox).toBeVisible();
+    await listbox.getByRole('option', { name: 'Vite', exact: true }).click();
+
+    await expect(items).toHaveCount(3);
+    await expect(items.nth(2)).toContainText('Vite');
+    await expect(combobox).toBeFocused();
+
+    // Enter adds custom non-matching tag
+    await combobox.fill('Astro');
+    await combobox.press('Enter');
+    await expect(items).toHaveCount(4);
+    await expect(items.nth(3)).toContainText('Astro');
+    await expect(combobox).toHaveValue('');
+
+    // Escape closes empty popup if still open, then Backspace highlights & removes last tag
+    if (await listbox.isVisible()) {
+      await combobox.press('Escape');
+      await expect(listbox).toBeHidden();
+    }
+    await combobox.press('Backspace');
+    await expect(items.nth(3)).toHaveAttribute('data-highlighted', '');
+    await combobox.press('Backspace');
+    await expect(items).toHaveCount(3);
+  });
+
+  test('restricts tags to suggestions when allowCustomValue is false', async ({ page }) => {
+    await gotoStory(page, 'components-tagsinput--suggestions-only');
+
+    const combobox = page.getByRole('combobox', { name: 'Frameworks' });
+    const items = page.locator('[data-leve-tags-input-item]');
+    await expect(items).toHaveCount(1);
+
+    // Custom text + Enter does not create a tag
+    await combobox.fill('UnknownFramework');
+    await combobox.press('Enter');
+    await expect(items).toHaveCount(1);
+
+    // Selecting an auto-highlighted matching suggestion adds the tag
+    await combobox.fill('ty');
+    const listbox = page.getByRole('listbox', { name: 'Framework suggestions' });
+    await expect(listbox).toBeVisible();
+    await combobox.press('Enter');
+
+    await expect(items).toHaveCount(2);
+    await expect(items.nth(1)).toContainText('TypeScript');
+    await expect(combobox).toHaveValue('');
+  });
 });
