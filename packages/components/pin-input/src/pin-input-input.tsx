@@ -57,6 +57,10 @@ const syncPaste$ = sync$((event: ClipboardEvent, target: HTMLElement) => {
   const el = target as HTMLInputElement;
   if (!el.disabled && !el.readOnly) {
     event.preventDefault();
+    const pasted = event.clipboardData?.getData('text');
+    if (pasted) {
+      (event as ClipboardEvent & { __levePastedText?: string }).__levePastedText = pasted;
+    }
   }
 });
 
@@ -223,7 +227,8 @@ export const PinInputInput = component$<PinInputInputProps>((props) => {
     const el = target || (event.target as HTMLInputElement);
     if (isDisabled || isReadOnly) return;
 
-    const pasted = event.clipboardData?.getData('text') ?? '';
+    const syncedText = (event as ClipboardEvent & { __levePastedText?: string }).__levePastedText;
+    const pasted = syncedText ?? event.clipboardData?.getData('text') ?? '';
     const filtered = filterPinChars(pasted, context.type.value);
     if (!filtered) return;
 

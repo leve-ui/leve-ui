@@ -261,4 +261,30 @@ describe('PinInput', () => {
     const hidden = screen.querySelector<HTMLInputElement>('[data-leve-pin-input-hidden-input]');
     expect(hidden?.value).toBe('123');
   });
+
+  it('reads synchronously captured __levePastedText when clipboardData returns empty asynchronously', async () => {
+    const { screen, render, userEvent } = await createDOM();
+    await render(
+      <PinInput.Root length={4}>
+        <PinInput.Input index={0} />
+        <PinInput.Input index={1} />
+        <PinInput.Input index={2} />
+        <PinInput.Input index={3} />
+        <PinInput.HiddenInput name="code" />
+      </PinInput.Root>,
+    );
+
+    const inputs = getInputs(screen);
+    await userEvent(inputs[0], 'paste', {
+      __levePastedText: '5678',
+      clipboardData: {
+        getData: () => '',
+      },
+    });
+
+    const updated = getInputs(screen);
+    expect(updated.map((el) => el.value)).toEqual(['5', '6', '7', '8']);
+    const hidden = screen.querySelector<HTMLInputElement>('[data-leve-pin-input-hidden-input]');
+    expect(hidden?.value).toBe('5678');
+  });
 });
