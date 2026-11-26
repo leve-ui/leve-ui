@@ -15,7 +15,7 @@ import {
   getElementByIdInContainer,
   openPopoverElement,
 } from '@leve-ui/utils';
-import { comboboxContextId, ITEM_SELECTOR } from './combobox-context';
+import { comboboxContextId, getComboboxInput, ITEM_SELECTOR } from './combobox-context';
 
 export type ComboboxContentProps = PropsOf<'div'> & {
   /**
@@ -87,7 +87,7 @@ export const ComboboxContent = component$<ComboboxContentProps>(
             open: context.open,
             setOpen$: context.setOpen$,
             // Pressing the Control (the input or the Trigger) is not outside
-            trigger: control ?? getElementByIdInContainer(element, context.ids.input),
+            trigger: control ?? getComboboxInput(element, context.ids.input),
             floating: { ...options, cssVarPrefix: '--leve-combobox' },
             moveFocus: false,
             // The input handles Escape: it closes, or clears when closed

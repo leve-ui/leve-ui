@@ -37,9 +37,9 @@ export const ComboboxInput = component$<ComboboxInputProps>(
   ({ invalid, onInput$, onKeyDown$, onFocusOut$, onClick$, ...props }) => {
     const context = useContext(comboboxContextId);
     const control = useFieldControl({
-      invalid,
-      disabled: context.disabled.value,
-      required: context.required.value,
+      invalid: Boolean(invalid) || props['aria-invalid'] === 'true',
+      disabled: context.disabled.value || Boolean(props.disabled),
+      required: context.required.value || Boolean(props.required),
       'aria-describedby': props['aria-describedby'],
     });
 
@@ -121,6 +121,7 @@ export const ComboboxInput = component$<ComboboxInputProps>(
       const content = getElementByIdInContainer(element, context.ids.list)?.closest('[popover]');
       if (related && content?.contains(related)) return;
       await context.setOpen$(false);
+      if (context.selectionBehavior.value !== 'replace') return;
       // Typing does not select: the input goes back to the selected item, or clears the value
       if (context.inputValue.value === '') return context.clear$();
       await context.setInputValue$(context.selectedText.value, 'blur');
@@ -133,7 +134,7 @@ export const ComboboxInput = component$<ComboboxInputProps>(
         {...props}
         ref={ref}
         type="text"
-        id={context.ids.input}
+        id={props.id ?? context.ids.input}
         role="combobox"
         autoComplete="off"
         disabled={control.value.disabled}
@@ -149,7 +150,7 @@ export const ComboboxInput = component$<ComboboxInputProps>(
         aria-describedby={control.value.describedBy}
         aria-invalid={control.value.invalid ? 'true' : undefined}
         onInput$={[input$, onInput$]}
-        onKeyDown$={[preventDefault$, keyDown$, onKeyDown$]}
+        onKeyDown$={[preventDefault$, onKeyDown$, keyDown$]}
         onFocusOut$={[focusOut$, onFocusOut$]}
         onClick$={[click$, onClick$]}
         data-leve-combobox-input=""

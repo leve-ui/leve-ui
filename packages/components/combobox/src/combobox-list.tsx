@@ -14,7 +14,9 @@ export const ComboboxList = component$<ComboboxListProps>((props) => {
       {...props}
       id={context.ids.list}
       role="listbox"
-      aria-labelledby={props['aria-label'] ? undefined : context.ids.label}
+      aria-labelledby={
+        props['aria-labelledby'] ?? (props['aria-label'] ? undefined : context.ids.label)
+      }
       data-leve-combobox-list=""
     >
       <Slot />
