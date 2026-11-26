@@ -5,6 +5,7 @@
 }
 
 .number-input-read-only-input {
+  box-sizing: border-box;
   width: 72px;
   height: 36px;
   padding: 0 8px;
@@ -26,6 +27,7 @@
 }
 
 .number-input-read-only-trigger {
+  box-sizing: border-box;
   display: inline-flex;
   align-items: center;
   justify-content: center;

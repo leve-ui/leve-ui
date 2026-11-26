@@ -12,6 +12,7 @@
 }
 
 .number-input-controlled-input {
+  box-sizing: border-box;
   flex: 1;
   min-width: 0;
   height: 36px;
@@ -32,12 +33,15 @@
 }
 
 .number-input-controlled-triggers {
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
   width: 28px;
+  height: 36px;
 }
 
 .number-input-controlled-trigger {
+  box-sizing: border-box;
   display: inline-flex;
   align-items: center;
   justify-content: center;
