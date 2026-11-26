@@ -1,6 +1,6 @@
 {
   "name": "@leve-ui/separator",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Headless, WAI-ARIA compliant Separator component for Qwik. Bring your own styles.",
   "homepage": "https://leve-ui.dev/components/separator/",
   "bugs": {

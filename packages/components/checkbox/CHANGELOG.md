@@ -1,5 +1,19 @@
 # @leve-ui/checkbox
 
+## 0.3.0
+
+### Minor Changes
+
+- [#230](https://github.com/leve-ui/leve-ui/pull/230) [`eb6677a`](https://github.com/leve-ui/leve-ui/commit/eb6677ab3df312ea6e5e917a1baf9578eb4663db) Thanks [@itkyk0926](https://github.com/itkyk0926)! - Add `Checkbox.Group` for managing a list of selected values across multiple checkboxes, with support for `bind:value`, `defaultValue`, `onValueChange$`, `name`, `disabled`, `readOnly`, `invalid`, `maxSelectedValues`, and `Field`/`Fieldset` integration.
+
+- [#229](https://github.com/leve-ui/leve-ui/pull/229) [`c73ac1c`](https://github.com/leve-ui/leve-ui/commit/c73ac1c163db3448c5ea2e862a640d44a2f5673b) Thanks [@itkyk0926](https://github.com/itkyk0926)! - Add `useFormReset` and a `reset$` helper from `useControllableState` in `@leve-ui/utils`, and reset uncontrolled `Switch`, `Checkbox`, and `RadioGroup` controls when their owning `<form>` resets.
+
+### Patch Changes
+
+- [#244](https://github.com/leve-ui/leve-ui/pull/244) [`5968301`](https://github.com/leve-ui/leve-ui/commit/596830120bf561c66273d07567ffbfa3ff087085) Thanks [@itkyk0926](https://github.com/itkyk0926)! - Point package `homepage` to the leve-ui documentation site.
+- Updated dependencies [[`6cf65fb`](https://github.com/leve-ui/leve-ui/commit/6cf65fb984cd20265913153b0de385ec33564ada), [`c73ac1c`](https://github.com/leve-ui/leve-ui/commit/c73ac1c163db3448c5ea2e862a640d44a2f5673b), [`5968301`](https://github.com/leve-ui/leve-ui/commit/596830120bf561c66273d07567ffbfa3ff087085)]:
+  - @leve-ui/utils@0.3.0
+
 ## 0.2.0
 
 ### Minor Changes

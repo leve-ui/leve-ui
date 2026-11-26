@@ -1,6 +1,6 @@
 {
   "name": "@leve-ui/radio-group",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Headless, WAI-ARIA compliant RadioGroup component for Qwik. Bring your own styles.",
   "homepage": "https://leve-ui.dev/components/radio-group/",
   "bugs": {
