@@ -97,6 +97,18 @@ Use `TagsInput.HiddenInput` to submit comma-joined tags in a `<form>` and reset 
 
 <Demo id="tags-input/with-form" collapsed />
 
+### With Combobox
+
+Compose `TagsInput.Control` and `TagsInput.Input` with `Combobox.Control` and `Combobox.Input` using the `as` prop, share `bind:inputValue`, and set `selectionBehavior="clear"` on `Combobox.Root` so choosing a suggestion adds a tag and clears the filter text while still allowing custom tags.
+
+<Demo id="tags-input/with-combobox" />
+
+### Suggestions Only
+
+Set `allowCustomValue={false}` on `TagsInput.Root` with `autoHighlight` on `Combobox.Root` to restrict tags to items selected from the suggestion list.
+
+<Demo id="tags-input/suggestions-only" collapsed />
+
 ## API Reference
 
 ### Root

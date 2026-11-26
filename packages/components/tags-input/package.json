@@ -52,6 +52,7 @@
   },
   "devDependencies": {
     "@builder.io/qwik": "1.20.4",
+    "@leve-ui/combobox": "workspace:*",
     "@leve-ui/field": "workspace:*",
     "@leve-ui/tsconfig": "workspace:*",
     "@leve-ui/vite-config": "workspace:*",

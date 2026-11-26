@@ -102,11 +102,17 @@ export const ComboboxInput = component$<ComboboxInputProps>(
           );
         case 'Enter':
           if (open && current) {
+            (event as KeyboardEvent & { __leveComboboxHandled?: boolean }).__leveComboboxHandled =
+              true;
             return context.select$(current.getAttribute('data-value') ?? '', getItemText(current));
           }
           return;
         case 'Escape':
-          if (open) return context.setOpen$(false);
+          if (open) {
+            (event as KeyboardEvent & { __leveComboboxHandled?: boolean }).__leveComboboxHandled =
+              true;
+            return context.setOpen$(false);
+          }
           return context.clear$();
       }
     });
@@ -150,7 +156,7 @@ export const ComboboxInput = component$<ComboboxInputProps>(
         aria-describedby={control.value.describedBy}
         aria-invalid={control.value.invalid ? 'true' : undefined}
         onInput$={[input$, onInput$]}
-        onKeyDown$={[preventDefault$, onKeyDown$, keyDown$]}
+        onKeyDown$={[preventDefault$, keyDown$, onKeyDown$]}
         onFocusOut$={[focusOut$, onFocusOut$]}
         onClick$={[click$, onClick$]}
         data-leve-combobox-input=""

@@ -1,5 +1,6 @@
 import { $, component$, useSignal } from '@builder.io/qwik';
 import { createDOM } from '@builder.io/qwik/testing';
+import { Combobox } from '@leve-ui/combobox';
 import { Field } from '@leve-ui/field';
 import { describe, expect, it } from 'vitest';
 import { TagsInput } from './index';
@@ -275,5 +276,178 @@ describe('TagsInput', () => {
     expect(root?.getAttribute('aria-labelledby')).toBeNull();
     expect(control?.className).toContain('custom-control');
     expect(input?.className).toContain('custom-input');
+  });
+
+  it('supports controlled bind:inputValue and onInputValueChange$', async () => {
+    const { screen, render, userEvent } = await createDOM();
+
+    const ControlledInputExample = component$(() => {
+      const inputValue = useSignal('qwik');
+      const observed = useSignal<string[]>([]);
+
+      return (
+        <div>
+          <TagsInput.Root
+            bind:inputValue={inputValue}
+            onInputValueChange$={$((val: string) => {
+              observed.value = [...observed.value, val];
+            })}
+          >
+            <TagsInput.Control>
+              <TagsInput.Input />
+            </TagsInput.Control>
+          </TagsInput.Root>
+          <span data-testid="input-val">{inputValue.value}</span>
+          <span data-testid="observed">{observed.value.join('|')}</span>
+        </div>
+      );
+    });
+
+    await render(<ControlledInputExample />);
+
+    const input = screen.querySelector('[data-leve-tags-input-input]') as HTMLInputElement;
+    expect(input.value).toBe('qwik');
+    expect(screen.querySelector('[data-testid="input-val"]')?.textContent).toBe('qwik');
+
+    input.value = 'solid';
+    await userEvent(input, 'input');
+
+    expect(screen.querySelector('[data-testid="input-val"]')?.textContent).toBe('solid');
+    expect(screen.querySelector('[data-testid="observed"]')?.textContent).toBe('solid');
+  });
+
+  it('blocks Enter, delimiter, and paste tag creation when allowCustomValue is false', async () => {
+    const { screen, render, userEvent } = await createDOM();
+
+    await render(
+      <TagsInput.Root defaultValue={['Qwik']} allowCustomValue={false} addOnPaste>
+        <TagsInput.Control>
+          <TagsInput.Item index={0} value="Qwik">
+            <TagsInput.ItemPreview>
+              <TagsInput.ItemText>Qwik</TagsInput.ItemText>
+            </TagsInput.ItemPreview>
+          </TagsInput.Item>
+          <TagsInput.Input />
+        </TagsInput.Control>
+      </TagsInput.Root>,
+    );
+
+    const input = screen.querySelector('[data-leve-tags-input-input]') as HTMLInputElement;
+    expect(input.hasAttribute('data-add-on-paste')).toBe(false);
+
+    input.value = 'Custom,Tag';
+    await userEvent(input, 'input');
+    expect(input.value).toBe('Custom,Tag');
+    expect(screen.querySelectorAll('[data-leve-tags-input-item]').length).toBe(1);
+
+    await userEvent(input, 'keydown', { key: 'Enter' });
+    expect(screen.querySelectorAll('[data-leve-tags-input-item]').length).toBe(1);
+
+    await userEvent(input, 'paste', {
+      __levePastedText: 'Alpha,Beta',
+      clipboardData: { getData: () => 'Alpha,Beta' },
+    });
+    expect(screen.querySelectorAll('[data-leve-tags-input-item]').length).toBe(1);
+  });
+
+  it('reads synchronously captured __levePastedText when clipboardData returns empty asynchronously', async () => {
+    const { screen, render, userEvent } = await createDOM();
+
+    const PasteDemo = component$(() => {
+      const tags = useSignal<string[]>([]);
+      return (
+        <TagsInput.Root bind:value={tags} addOnPaste>
+          <TagsInput.Control>
+            {tags.value.map((tag, index) => (
+              <TagsInput.Item key={`${tag}-${index}`} index={index} value={tag}>
+                <TagsInput.ItemPreview>
+                  <TagsInput.ItemText>{tag}</TagsInput.ItemText>
+                </TagsInput.ItemPreview>
+              </TagsInput.Item>
+            ))}
+            <TagsInput.Input />
+          </TagsInput.Control>
+        </TagsInput.Root>
+      );
+    });
+
+    await render(<PasteDemo />);
+
+    const input = screen.querySelector('[data-leve-tags-input-input]') as HTMLInputElement;
+    await userEvent(input, 'paste', {
+      __levePastedText: 'Qwik, Solid',
+      clipboardData: { getData: () => '' },
+    });
+
+    const texts = Array.from(screen.querySelectorAll('[data-leve-tags-input-item-text]'));
+    expect(texts).toHaveLength(2);
+    expect(texts[0]?.textContent).toBe('Qwik');
+    expect(texts[1]?.textContent).toBe('Solid');
+  });
+
+  it('composes TagsInput.Control and TagsInput.Input with Combobox via as', async () => {
+    const { screen, render } = await createDOM();
+
+    await render(
+      <TagsInput.Root defaultValue={['Qwik']}>
+        <Combobox.Root>
+          <TagsInput.Label>Frameworks</TagsInput.Label>
+          <TagsInput.Control as={Combobox.Control}>
+            <TagsInput.Item index={0} value="Qwik">
+              <TagsInput.ItemPreview>
+                <TagsInput.ItemText>Qwik</TagsInput.ItemText>
+              </TagsInput.ItemPreview>
+            </TagsInput.Item>
+            <TagsInput.Input as={Combobox.Input} />
+          </TagsInput.Control>
+          <Combobox.Content>
+            <Combobox.List aria-label="Suggestions">
+              <Combobox.Item value="Vitest">
+                <Combobox.ItemText>Vitest</Combobox.ItemText>
+              </Combobox.Item>
+            </Combobox.List>
+          </Combobox.Content>
+        </Combobox.Root>
+      </TagsInput.Root>,
+    );
+
+    const label = screen.querySelector('[data-leve-tags-input-label]');
+    const control = screen.querySelector('[data-leve-tags-input-control]');
+    const input = screen.querySelector('[data-leve-tags-input-input]');
+
+    expect(control?.hasAttribute('data-leve-combobox-control')).toBe(true);
+    expect(input?.hasAttribute('data-leve-combobox-input')).toBe(true);
+    expect(input?.getAttribute('role')).toBe('combobox');
+    expect(input?.id).toBe(label?.getAttribute('for'));
+  });
+
+  it('skips Enter custom tag creation when __leveComboboxHandled is true', async () => {
+    const { screen, render, userEvent } = await createDOM();
+
+    const Demo = component$(() => {
+      const tags = useSignal<string[]>([]);
+      return (
+        <TagsInput.Root bind:value={tags}>
+          <TagsInput.Control>
+            {tags.value.map((tag, index) => (
+              <TagsInput.Item key={`${tag}-${index}`} index={index} value={tag}>
+                <TagsInput.ItemPreview>
+                  <TagsInput.ItemText>{tag}</TagsInput.ItemText>
+                </TagsInput.ItemPreview>
+              </TagsInput.Item>
+            ))}
+            <TagsInput.Input />
+          </TagsInput.Control>
+        </TagsInput.Root>
+      );
+    });
+
+    await render(<Demo />);
+
+    const input = screen.querySelector('[data-leve-tags-input-input]') as HTMLInputElement;
+    input.value = 'vi';
+    await userEvent(input, 'keydown', { key: 'Enter', __leveComboboxHandled: true });
+
+    expect(screen.querySelectorAll('[data-leve-tags-input-item]').length).toBe(0);
   });
 });
