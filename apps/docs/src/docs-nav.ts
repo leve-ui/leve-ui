@@ -67,6 +67,7 @@ export const docsNav: NavSection[] = [
       { title: 'Slider', href: '/components/slider/' },
       { title: 'Switch', href: '/components/switch/' },
       { title: 'Tabs', href: '/components/tabs/' },
+      { title: 'Tags Input', href: '/components/tags-input/' },
       { title: 'Toast', href: '/components/toast/' },
       { title: 'Toggle', href: '/components/toggle/' },
       { title: 'Toggle Group', href: '/components/toggle-group/' },
