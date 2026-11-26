@@ -115,6 +115,38 @@ test.describe('PinInput', () => {
     await expect(digit1).toBeFocused();
   });
 
+  test('fills slots on the very first paste even if clipboardData clears synchronously after dispatch', async ({
+    page,
+  }) => {
+    await gotoStory(page, 'components-pininput--default');
+
+    const digit1 = page.getByRole('textbox', { name: 'Digit 1 of 4' });
+    const digit2 = page.getByRole('textbox', { name: 'Digit 2 of 4' });
+    const digit3 = page.getByRole('textbox', { name: 'Digit 3 of 4' });
+    const digit4 = page.getByRole('textbox', { name: 'Digit 4 of 4' });
+
+    await digit1.focus();
+    await digit1.evaluate((el) => {
+      let active = true;
+      const realData = new DataTransfer();
+      realData.setData('text/plain', '4321');
+      const emptyData = new DataTransfer();
+      const event = new ClipboardEvent('paste', { bubbles: true, cancelable: true });
+      Object.defineProperty(event, 'clipboardData', {
+        get: () => (active ? realData : emptyData),
+      });
+      el.dispatchEvent(event);
+      active = false;
+    });
+
+    await expect(digit1).toHaveValue('4');
+    await expect(digit2).toHaveValue('3');
+    await expect(digit3).toHaveValue('2');
+    await expect(digit4).toHaveValue('1');
+    await expect(digit4).toBeFocused();
+    await expect(page.getByRole('group')).toHaveAttribute('data-state', 'complete');
+  });
+
   test('paste filters invalid characters and fills slots', async ({ page }) => {
     await gotoStory(page, 'components-pininput--default');
 
