@@ -1,0 +1,75 @@
+name: Gemini PR Review
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize]
+  issue_comment:
+    types: [created]
+
+concurrency:
+  group: gemini-review-${{ github.event.pull_request.number || github.event.issue.number }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+
+jobs:
+  review:
+    name: Review PR
+    if: |
+      (
+        github.event_name == 'pull_request' &&
+        github.event.pull_request.head.repo.full_name == github.repository &&
+        !github.event.pull_request.draft &&
+        !startsWith(github.event.pull_request.title, 'chore(release)') &&
+        github.event.pull_request.title != 'chore(docs): update translations'
+      ) || (
+        github.event_name == 'issue_comment' &&
+        github.event.issue.pull_request != null &&
+        contains(github.event.comment.body, '/review') &&
+        contains(fromJSON('["OWNER","MEMBER","COLLABORATOR"]'), github.event.comment.author_association)
+      )
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+
+      - name: Check GEMINI_API_KEY
+        id: check_key
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: |
+          if [ -n "$GEMINI_API_KEY" ]; then
+            echo "has_key=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "has_key=false" >> "$GITHUB_OUTPUT"
+            echo "Skipping review: secrets.GEMINI_API_KEY is not configured."
+          fi
+
+      - name: Run Gemini PR Review
+        if: steps.check_key.outputs.has_key == 'true'
+        uses: google-github-actions/run-gemini-cli@v0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ github.event.pull_request.number || github.event.issue.number }}
+        with:
+          gemini_api_key: ${{ secrets.GEMINI_API_KEY }}
+          prompt: |
+            You are an assertive, thorough code reviewer for the `leve-ui` repository (a Headless UI library for Qwik).
+            Review Pull Request #$PR_NUMBER in English.
+
+            1. Run `gh pr view "$PR_NUMBER" --json title,body,files` and `gh pr diff "$PR_NUMBER"` using your shell tool to inspect the changes. Ignore generated files such as `pnpm-lock.yaml`, `apps/docs/i18n/*.json`, and build outputs (`dist/`, `storybook-static/`).
+            2. Read `AGENTS.md` and the relevant rule files in `.agents/rules/` for the modified paths (for example: `accessibility.md`, `component-architecture.md`, `testing.md` for `packages/components/**`; `storybook.md` for `apps/storybook/**`; `docs-site.md` for `apps/docs/**`; `git-commit.md` for changesets/commits).
+            3. Perform a strict review focusing on:
+               - Bugs, edge cases, and Qwik SSR/hydration pitfalls (`useId()`, avoiding `Math.random()`, `useVisibleTask$` justification, parent/child state ordering)
+               - WAI-ARIA / APG compliance (native elements, required `role`/`aria-*` after `{...props}`, keyboard navigation, focus management)
+               - Headless architecture (1 DOM element = 1 part, `data-leve-*` / `data-state`, no bundled CSS/styles, `useControllableState`, `useFieldControl`)
+               - Missing unit tests, Storybook demos, E2E tests, or English changesets (note: never use `major` before 1.0)
+               - PR title format (English Conventional Commits)
+            4. Write a concise, structured markdown review in `/tmp/gemini-review.md` (include file paths, line references, severity, and concrete suggestions; if everything looks good, clearly state that no actionable issues were found).
+            5. Post the review as a comment on PR #$PR_NUMBER by running:
+               `gh pr comment "$PR_NUMBER" --body-file /tmp/gemini-review.md`
