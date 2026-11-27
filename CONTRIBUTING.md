@@ -54,6 +54,7 @@ pnpm component:new <name> <part,...>   # scaffold a new component package
 5. **Add a changeset** if you changed a published package (`packages/**`): run `pnpm changeset`, choose the packages and bump types, and write the summary in English. It goes into the changelog. **Until 1.0, never choose `major`** — see [Choosing a Bump Type](#choosing-a-bump-type).
 6. **Commit** with an English [Conventional Commits](https://www.conventionalcommits.org/) message (see below).
 7. **Open a pull request** against `main`. Fill in the template.
+8. **Address Gemini PR Review** (same-repository, non-draft PRs): automated reviews run on non-release, non-translation PRs from this repository. Wait for the review comment and address valid findings (or explain intentional choices aligned with ADRs or specs). Collaborators (`OWNER`, `MEMBER`, `COLLABORATOR`) can trigger a manual review on eligible PRs by commenting `/review`; fork PRs and excluded PRs do not receive automated reviews, so you do not need to wait on those.
 
 CI runs on every pull request: commit messages and PR title, lint, type checks, unit tests, build, and E2E (one job per browser engine, in parallel: E2E (Chromium), E2E (WebKit) and E2E (Firefox)). For first-time contributors, a maintainer has to approve the workflow run first. Pull requests are merged with **squash merge** once CI passes and a maintainer has reviewed them.
 
