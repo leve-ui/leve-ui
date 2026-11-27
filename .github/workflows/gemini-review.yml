@@ -78,7 +78,7 @@ jobs:
           GEMINI_CLI_TRUST_WORKSPACE: "true"
         with:
           gemini_api_key: ${{ secrets.GEMINI_API_KEY }}
-          gemini_model: gemini-2.5-flash
+          gemini_model: gemini-3.8-flash
           prompt: |
             You are an assertive, thorough code reviewer for the `leve-ui` repository (a Headless UI library for Qwik).
             Review Pull Request #${{ github.event.pull_request.number || github.event.issue.number }} in English.
