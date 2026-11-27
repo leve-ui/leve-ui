@@ -66,6 +66,7 @@ docs(adr): add 0018 and accept 0011
 
 - 作業は `main` から切ったブランチで行う。ブランチ名は `<type>/<short-description>`（例: `feat/dialog`、`fix/avatar-ssr-state`）。
 - PR を作り、CI（Commit messages / Lint / Typecheck / Unit test / Build / E2E (Chromium) / E2E (WebKit) / E2E (Firefox) / Publish readiness）がすべて通ってからマージする。PR の本文は `.github/pull_request_template.md` に沿って書く。
+- PR を作成したら **CodeRabbit のレビューを待ち、指摘内容を確認して対応する**（妥当な指摘は修正し、ADR や仕様に沿った意図的な実装であればその旨をユーザーに報告する）。
 - マージは squash merge のみ。**PR のタイトルがそのまま `main` のコミットメッセージになる**ため、PR タイトルも commitlint の形式（英語）で書く。CI で検証される。
 - PR の説明文は日本語でもよい。
 
