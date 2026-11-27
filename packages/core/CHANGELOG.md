@@ -1,5 +1,70 @@
 # @leve-ui/core
 
+## 0.3.0
+
+### Minor Changes
+
+- [#232](https://github.com/leve-ui/leve-ui/pull/232) [`9485658`](https://github.com/leve-ui/leve-ui/commit/94856588c6ff491de7a616edc3059fea47f97807) Thanks [@itkyk0926](https://github.com/itkyk0926)! - Add the `Clipboard` component (`Root`, `Trigger`, `Indicator`, `Input`) with live region copy announcements, timed `copied` state reset, and a `document.execCommand('copy')` fallback.
+
+- [#241](https://github.com/leve-ui/leve-ui/pull/241) [`2dcfcb7`](https://github.com/leve-ui/leve-ui/commit/2dcfcb76d0693abb6440a96ac92997fcbab930c9) Thanks [@itkyk0926](https://github.com/itkyk0926)! - Add the `Editable` component (`@leve-ui/editable`) with preview/edit modes, keyboard shortcuts, multiline support, form reset integration, and Field integration.
+
+- [#242](https://github.com/leve-ui/leve-ui/pull/242) [`baca58f`](https://github.com/leve-ui/leve-ui/commit/baca58fb4f749bc63c27f1db59afeff5781a426e) Thanks [@itkyk0926](https://github.com/itkyk0926)! - Add the File Upload component (`@leve-ui/file-upload`) with drag-and-drop, file validation, screen reader announcements, and native form submission support.
+
+- [#235](https://github.com/leve-ui/leve-ui/pull/235) [`7b9b7c9`](https://github.com/leve-ui/leve-ui/commit/7b9b7c9e0e76dffbb15abb597fc3fb0671ed75bc) Thanks [@itkyk0926](https://github.com/itkyk0926)! - Add `NumberInput` component (`@leve-ui/number-input`) with WAI-ARIA spinbutton support, keyboard stepping, locale-aware `Intl.NumberFormat` formatting and parsing, Field/Fieldset integration, and form reset support.
+
+- [#238](https://github.com/leve-ui/leve-ui/pull/238) [`247a63d`](https://github.com/leve-ui/leve-ui/commit/247a63df0497a2eaeb338382f89448ef236c41de) Thanks [@itkyk0926](https://github.com/itkyk0926)! - Add the `Pagination` component (`Root`, `List`, `Item`, `PrevTrigger`, `NextTrigger`, `Ellipsis`) and `getPaginationRange` helper.
+
+- [#231](https://github.com/leve-ui/leve-ui/pull/231) [`d3097bc`](https://github.com/leve-ui/leve-ui/commit/d3097bc0968c992b67d62b923c2e536e80bf7a76) Thanks [@itkyk0926](https://github.com/itkyk0926)! - Add Password Input component
+
+- [#237](https://github.com/leve-ui/leve-ui/pull/237) [`df86269`](https://github.com/leve-ui/leve-ui/commit/df86269d2d16e0d0578f7c7fd22459f826b631db) Thanks [@itkyk0926](https://github.com/itkyk0926)! - Add the `PinInput` component (`@leve-ui/pin-input` and re-export from `@leve-ui/core`).
+
+- [#236](https://github.com/leve-ui/leve-ui/pull/236) [`d471e1a`](https://github.com/leve-ui/leve-ui/commit/d471e1a5e5a995d6c4259c852e93adac40ca7af4) Thanks [@itkyk0926](https://github.com/itkyk0926)! - Add the `RatingGroup` component (`@leve-ui/rating-group`) and re-export it from `@leve-ui/core`.
+
+- [#240](https://github.com/leve-ui/leve-ui/pull/240) [`dde7dbd`](https://github.com/leve-ui/leve-ui/commit/dde7dbd44e82ff42c3fc08eb9fbb1c5730f95217) Thanks [@itkyk0926](https://github.com/itkyk0926)! - Add Slider component (`@leve-ui/slider`) with single-thumb and multi-thumb support, keyboard navigation, pointer dragging, Field integration, and native form submission.
+
+- [#239](https://github.com/leve-ui/leve-ui/pull/239) [`cd52a23`](https://github.com/leve-ui/leve-ui/commit/cd52a23b610f9d7b2e3ffee4f916839a606fb333) Thanks [@itkyk0926](https://github.com/itkyk0926)! - Add the `TagsInput` component (`@leve-ui/tags-input`) for entering, editing, and managing lists of tags with keyboard navigation, inline editing, paste splitting, and form/field integration.
+
+### Patch Changes
+
+- [#244](https://github.com/leve-ui/leve-ui/pull/244) [`5968301`](https://github.com/leve-ui/leve-ui/commit/596830120bf561c66273d07567ffbfa3ff087085) Thanks [@itkyk0926](https://github.com/itkyk0926)! - Point package `homepage` to the leve-ui documentation site.
+- Updated dependencies [[`eb6677a`](https://github.com/leve-ui/leve-ui/commit/eb6677ab3df312ea6e5e917a1baf9578eb4663db), [`9485658`](https://github.com/leve-ui/leve-ui/commit/94856588c6ff491de7a616edc3059fea47f97807), [`afc3c22`](https://github.com/leve-ui/leve-ui/commit/afc3c226aa44c9a42b1aa78051ede227635411d1), [`2dcfcb7`](https://github.com/leve-ui/leve-ui/commit/2dcfcb76d0693abb6440a96ac92997fcbab930c9), [`50c9a38`](https://github.com/leve-ui/leve-ui/commit/50c9a38ac69d3e3efdd87aecea9f9ce816d00fc4), [`6cf65fb`](https://github.com/leve-ui/leve-ui/commit/6cf65fb984cd20265913153b0de385ec33564ada), [`baca58f`](https://github.com/leve-ui/leve-ui/commit/baca58fb4f749bc63c27f1db59afeff5781a426e), [`c73ac1c`](https://github.com/leve-ui/leve-ui/commit/c73ac1c163db3448c5ea2e862a640d44a2f5673b), [`7b9b7c9`](https://github.com/leve-ui/leve-ui/commit/7b9b7c9e0e76dffbb15abb597fc3fb0671ed75bc), [`1ab9b32`](https://github.com/leve-ui/leve-ui/commit/1ab9b3295c1988b25d3b9a05263434c05250af0f), [`247a63d`](https://github.com/leve-ui/leve-ui/commit/247a63df0497a2eaeb338382f89448ef236c41de), [`d3097bc`](https://github.com/leve-ui/leve-ui/commit/d3097bc0968c992b67d62b923c2e536e80bf7a76), [`3437aa1`](https://github.com/leve-ui/leve-ui/commit/3437aa10bc5a146851ae8efdf1485d9b81c187a3), [`df86269`](https://github.com/leve-ui/leve-ui/commit/df86269d2d16e0d0578f7c7fd22459f826b631db), [`d471e1a`](https://github.com/leve-ui/leve-ui/commit/d471e1a5e5a995d6c4259c852e93adac40ca7af4), [`dde7dbd`](https://github.com/leve-ui/leve-ui/commit/dde7dbd44e82ff42c3fc08eb9fbb1c5730f95217), [`cb304ac`](https://github.com/leve-ui/leve-ui/commit/cb304ac34e8690db8a80cd219f31665cb925b411), [`cd52a23`](https://github.com/leve-ui/leve-ui/commit/cd52a23b610f9d7b2e3ffee4f916839a606fb333), [`5968301`](https://github.com/leve-ui/leve-ui/commit/596830120bf561c66273d07567ffbfa3ff087085)]:
+  - @leve-ui/checkbox@0.3.0
+  - @leve-ui/clipboard@0.1.0
+  - @leve-ui/combobox@0.2.0
+  - @leve-ui/editable@0.1.0
+  - @leve-ui/field@0.3.0
+  - @leve-ui/file-upload@0.1.0
+  - @leve-ui/switch@0.3.0
+  - @leve-ui/radio-group@0.3.0
+  - @leve-ui/number-input@0.1.0
+  - @leve-ui/pagination@0.1.0
+  - @leve-ui/password-input@0.1.0
+  - @leve-ui/pin-input@0.1.0
+  - @leve-ui/rating-group@0.1.0
+  - @leve-ui/slider@0.1.0
+  - @leve-ui/tags-input@0.1.0
+  - @leve-ui/accordion@0.1.2
+  - @leve-ui/alert@0.2.1
+  - @leve-ui/avatar@0.1.2
+  - @leve-ui/breadcrumb@0.2.1
+  - @leve-ui/collapsible@0.1.2
+  - @leve-ui/dialog@0.1.1
+  - @leve-ui/drawer@0.1.1
+  - @leve-ui/fieldset@0.2.1
+  - @leve-ui/hover-card@0.1.1
+  - @leve-ui/label@0.1.2
+  - @leve-ui/menu@0.1.1
+  - @leve-ui/meter@0.1.2
+  - @leve-ui/popover@0.1.1
+  - @leve-ui/progress@0.1.2
+  - @leve-ui/separator@0.1.2
+  - @leve-ui/tabs@0.2.1
+  - @leve-ui/toast@0.1.1
+  - @leve-ui/toggle@0.2.1
+  - @leve-ui/toggle-group@0.2.1
+  - @leve-ui/toolbar@0.1.1
+  - @leve-ui/tooltip@0.1.1
+
 ## 0.2.0
 
 ### Minor Changes

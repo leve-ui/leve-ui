@@ -1,5 +1,19 @@
 # @leve-ui/field
 
+## 0.3.0
+
+### Minor Changes
+
+- [#233](https://github.com/leve-ui/leve-ui/pull/233) [`50c9a38`](https://github.com/leve-ui/leve-ui/commit/50c9a38ac69d3e3efdd87aecea9f9ce816d00fc4) Thanks [@itkyk0926](https://github.com/itkyk0926)! - Add `Field.Select`, `Field.RequiredIndicator`, and `autoresize` prop to `Field.Textarea`
+
+- [#227](https://github.com/leve-ui/leve-ui/pull/227) [`6cf65fb`](https://github.com/leve-ui/leve-ui/commit/6cf65fb984cd20265913153b0de385ec33564ada) Thanks [@itkyk0926](https://github.com/itkyk0926)! - Propagate `readOnly` through `Field.Root`, `FieldContext`, and `useFieldControl`, outputting native `readOnly` and `data-readonly` on Field parts.
+
+### Patch Changes
+
+- [#244](https://github.com/leve-ui/leve-ui/pull/244) [`5968301`](https://github.com/leve-ui/leve-ui/commit/596830120bf561c66273d07567ffbfa3ff087085) Thanks [@itkyk0926](https://github.com/itkyk0926)! - Point package `homepage` to the leve-ui documentation site.
+- Updated dependencies [[`6cf65fb`](https://github.com/leve-ui/leve-ui/commit/6cf65fb984cd20265913153b0de385ec33564ada), [`c73ac1c`](https://github.com/leve-ui/leve-ui/commit/c73ac1c163db3448c5ea2e862a640d44a2f5673b), [`5968301`](https://github.com/leve-ui/leve-ui/commit/596830120bf561c66273d07567ffbfa3ff087085)]:
+  - @leve-ui/utils@0.3.0
+
 ## 0.2.0
 
 ### Minor Changes

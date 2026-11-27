@@ -1,6 +1,6 @@
 {
   "name": "@leve-ui/password-input",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Headless, WAI-ARIA compliant PasswordInput component for Qwik. Bring your own styles.",
   "homepage": "https://leve-ui.dev/components/password-input/",
   "bugs": {

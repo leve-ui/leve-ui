@@ -1,6 +1,6 @@
 {
   "name": "@leve-ui/toggle-group",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Headless, WAI-ARIA compliant ToggleGroup component for Qwik. Bring your own styles.",
   "homepage": "https://leve-ui.dev/components/toggle-group/",
   "bugs": {
