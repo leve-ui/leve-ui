@@ -66,7 +66,7 @@ docs(adr): add 0018 and accept 0011
 
 - 作業は `main` から切ったブランチで行う。ブランチ名は `<type>/<short-description>`（例: `feat/dialog`、`fix/avatar-ssr-state`）。
 - PR を作り、CI（Commit messages / Lint / Typecheck / Unit test / Build / E2E (Chromium) / E2E (WebKit) / E2E (Firefox) / Publish readiness）がすべて通ってからマージする。PR の本文は `.github/pull_request_template.md` に沿って書く。
-- PR を作成したら **Gemini PR Review の結果を待ち、指摘内容を確認して対応する**（妥当な指摘は修正し、ADR や仕様に沿った意図的な実装であればその旨をユーザーに報告する）。
+- PR を作成したら **Gemini PR Review の結果を待ち、指摘内容を確認して対応する**（妥当な指摘は修正し、ADR や仕様に沿った意図的な実装であればその旨をユーザーに報告する）。ただし、フォーク PR、ドラフト PR、リリース PR（`chore(release)` で始まるタイトル）、翻訳 PR（`chore(docs): update translations`）では自動レビューは走らない。同じリポジトリ内の PR であればコラボレーター（`OWNER` / `MEMBER` / `COLLABORATOR`）が `/review` とコメントして手動実行できるが、自動レビュー対象外の PR やレビュー結果が届かない場合は待たずに進める。
 - マージは squash merge のみ。**PR のタイトルがそのまま `main` のコミットメッセージになる**ため、PR タイトルも commitlint の形式（英語）で書く。CI で検証される。
 - PR の説明文は日本語でもよい。
 

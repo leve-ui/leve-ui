@@ -2,12 +2,12 @@ name: Gemini PR Review
 
 on:
   pull_request:
-    types: [opened, reopened, synchronize]
+    types: [opened, reopened, synchronize, ready_for_review]
   issue_comment:
     types: [created]
 
 concurrency:
-  group: gemini-review-${{ github.event.pull_request.number || github.event.issue.number }}
+  group: ${{ (github.event_name == 'issue_comment' && !(github.event.issue.pull_request != null && contains(github.event.comment.body, '/review') && contains(fromJSON('["OWNER","MEMBER","COLLABORATOR"]'), github.event.comment.author_association))) && format('skip-{0}', github.run_id) || format('gemini-review-{0}', github.event.pull_request.number || github.event.issue.number) }}
   cancel-in-progress: true
 
 permissions:
@@ -38,20 +38,33 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Check GEMINI_API_KEY
-        id: check_key
+      - name: Check review eligibility and GEMINI_API_KEY
+        id: guard
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          EVENT_NAME: ${{ github.event_name }}
+          PR_NUMBER: ${{ github.event.pull_request.number || github.event.issue.number }}
         run: |
-          if [ -n "$GEMINI_API_KEY" ]; then
-            echo "has_key=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "has_key=false" >> "$GITHUB_OUTPUT"
+          if [ -z "$GEMINI_API_KEY" ]; then
+            echo "run_review=false" >> "$GITHUB_OUTPUT"
             echo "Skipping review: secrets.GEMINI_API_KEY is not configured."
+            exit 0
           fi
 
+          if [ "$EVENT_NAME" = "issue_comment" ]; then
+            is_cross_repo=$(gh pr view "$PR_NUMBER" --repo "${{ github.repository }}" --json isCrossRepository --jq .isCrossRepository)
+            if [ "$is_cross_repo" = "true" ]; then
+              echo "run_review=false" >> "$GITHUB_OUTPUT"
+              echo "Skipping review: fork PRs are excluded from credentialed review for security."
+              exit 0
+            fi
+          fi
+
+          echo "run_review=true" >> "$GITHUB_OUTPUT"
+
       - name: Run Gemini PR Review
-        if: steps.check_key.outputs.has_key == 'true'
+        if: steps.guard.outputs.run_review == 'true'
         uses: google-github-actions/run-gemini-cli@v0
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
