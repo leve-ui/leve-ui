@@ -66,9 +66,30 @@ jobs:
           ref: ${{ github.event_name == 'issue_comment' && format('refs/pull/{0}/head', github.event.issue.number) || '' }}
           persist-credentials: false
 
-      - name: Authenticate GitHub CLI
+      - name: Prepare PR context
         if: steps.guard.outputs.run_review == 'true'
-        run: echo "${{ secrets.GITHUB_TOKEN }}" | gh auth login --with-token
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ github.event.pull_request.number || github.event.issue.number }}
+        run: |
+          {
+            echo "# Pull Request #$PR_NUMBER"
+            echo ""
+            gh pr view "$PR_NUMBER" --repo "${{ github.repository }}" --json title,body,files --template '## Title
+          {{.title}}
+
+          ## Body
+          {{.body}}
+
+          ## Changed Files
+          {{range .files}}- {{.path}} (+{{.additions}}/-{{.deletions}})
+          {{end}}'
+            echo ""
+            echo "## Diff"
+            echo '```diff'
+            gh pr diff "$PR_NUMBER" --repo "${{ github.repository }}"
+            echo '```'
+          } > .gemini-review-context.md
 
       - name: Run Gemini PR Review
         id: review
@@ -80,18 +101,20 @@ jobs:
           gemini_api_key: ${{ secrets.GEMINI_API_KEY }}
           gemini_model: gemini-3.8-flash
           prompt: |
-            You are an assertive, thorough code reviewer for the `leve-ui` repository (a Headless UI library for Qwik).
+            You are an assertive, thorough code reviewer for `leve-ui` (a Headless UI library for Qwik).
             Review Pull Request #${{ github.event.pull_request.number || github.event.issue.number }} in English.
 
-            1. Run `gh pr view "${{ github.event.pull_request.number || github.event.issue.number }}" --json title,body,files` and `gh pr diff "${{ github.event.pull_request.number || github.event.issue.number }}"` using your shell tool to inspect the changes. Ignore generated files such as `pnpm-lock.yaml`, `apps/docs/i18n/*.json`, and build outputs (`dist/`, `storybook-static/`).
-            2. Read `AGENTS.md` and the relevant rule files in `.agents/rules/` for the modified paths (for example: `accessibility.md`, `component-architecture.md`, `testing.md` for `packages/components/**`; `storybook.md` for `apps/storybook/**`; `docs-site.md` for `apps/docs/**`; `git-commit.md` for changesets/commits).
-            3. Perform a strict review focusing on:
+            To keep the review fast and focused:
+            1. Read `.gemini-review-context.md` and `AGENTS.md` first.
+            2. Only read the relevant files in `.agents/rules/` for the modified paths (e.g., `accessibility.md`, `component-architecture.md`, `testing.md` for `packages/components/**`; `storybook.md` for `apps/storybook/**`; `docs-site.md` for `apps/docs/**`; `git-commit.md` for changesets/commits).
+            3. Inspect surrounding workspace files only when needed to verify types, utilities (`@leve-ui/utils`), or ADRs (`adr/`). Ignore generated files (`pnpm-lock.yaml`, `apps/docs/i18n/*.json`, `dist/`, `storybook-static/`).
+            4. Focus on:
                - Bugs, edge cases, and Qwik SSR/hydration pitfalls (`useId()`, avoiding `Math.random()`, `useVisibleTask$` justification, parent/child state ordering)
                - WAI-ARIA / APG compliance (native elements, required `role`/`aria-*` after `{...props}`, keyboard navigation, focus management)
                - Headless architecture (1 DOM element = 1 part, `data-leve-*` / `data-state`, no bundled CSS/styles, `useControllableState`, `useFieldControl`)
                - Missing unit tests, Storybook demos, E2E tests, or English changesets (note: never use `major` before 1.0)
                - PR title format (English Conventional Commits)
-            4. Output your complete, structured markdown review directly in your final response (include file paths, line references, severity, and concrete suggestions; if everything looks good, clearly state that no actionable issues were found). Do not post comments or write files yourself.
+            5. Output your complete, structured markdown review directly in your final response (include file paths, line references, severity, and concrete suggestions; if everything looks good, clearly state that no actionable issues were found). Do not run `gh` commands or write files.
 
       - name: Post Review Comment
         if: steps.guard.outputs.run_review == 'true' && steps.review.outputs.summary != ''
