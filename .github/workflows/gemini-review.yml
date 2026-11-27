@@ -114,7 +114,25 @@ jobs:
                - Headless architecture (1 DOM element = 1 part, `data-leve-*` / `data-state`, no bundled CSS/styles, `useControllableState`, `useFieldControl`)
                - Missing unit tests, Storybook demos, E2E tests, or English changesets (note: never use `major` before 1.0)
                - PR title format (English Conventional Commits)
-            5. Output your complete, structured markdown review directly in your final response (include file paths, line references, severity, and concrete suggestions; if everything looks good, clearly state that no actionable issues were found). Do not run `gh` commands or write files.
+            5. Keep the output very concise to minimize length. Use ONLY this exact Markdown structure (omit long explanations and walkthroughs; include a short code block of a few lines only when strictly necessary to show a concrete fix):
+
+               # Gemini PR Review
+
+               ## <Short Title>(🔴High)
+               - `path/to/file:line` — Concise issue and fix in 1-2 sentences.
+
+               ## <Short Title>(🟠Middle)
+               - `path/to/file:line` — Concise issue and fix in 1-2 sentences.
+
+               ## <Short Title>(🟢Low)
+               - `path/to/file:line` — Concise issue and fix in 1-2 sentences.
+
+               Priority badges must be strictly one of `(🔴High)`, `(🟠Middle)`, or `(🟢Low)`. Omit unused priority sections. If there are no actionable issues, output only:
+               # Gemini PR Review
+
+               No issues found.
+
+               Do not run `gh` commands or write files.
 
       - name: Post Review Comment
         if: steps.guard.outputs.run_review == 'true' && steps.review.outputs.summary != ''
