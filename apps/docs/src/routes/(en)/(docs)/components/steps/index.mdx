@@ -1,0 +1,174 @@
+---
+title: Steps
+description: Guides users through a multi-step workflow with linear and non-linear navigation.
+---
+
+# Steps
+
+Guides users through a multi-step workflow with linear and non-linear navigation.
+
+There is no dedicated WAI-ARIA APG pattern for Steps. Steps uses a semantic ordered list (`<ol>` in `Steps.List` and `<li>` in `Steps.Item`), sets `aria-current="step"` on the active step item, and hides decorative indicators and separators with `aria-hidden="true"`.
+
+<Demo id="steps/default" />
+
+## Installation
+
+Install the individual package, or use `@leve-ui/core` to get every component at once:
+
+<Install package="@leve-ui/steps" />
+
+## Anatomy
+
+```tsx
+import { Steps } from '@leve-ui/steps'; // or '@leve-ui/core'
+
+<Steps.Root count={3}>
+  <Steps.List>
+    <Steps.Item index={0}>
+      <Steps.Trigger>
+        <Steps.Indicator>1</Steps.Indicator>
+        <span>Account</span>
+      </Steps.Trigger>
+      <Steps.Separator />
+    </Steps.Item>
+  </Steps.List>
+
+  <Steps.Content index={0}>Step content</Steps.Content>
+
+  <Steps.PrevTrigger>Previous</Steps.PrevTrigger>
+  <Steps.NextTrigger>Next</Steps.NextTrigger>
+</Steps.Root>
+```
+
+| Part | Element | Description |
+| --- | --- | --- |
+| `Steps.Root` | `<div>` | Wraps the parts and manages the active step, total count, linear mode, and orientation. |
+| `Steps.List` | `<ol>` | Ordered list container for step items. |
+| `Steps.Item` | `<li>` | Represents a single step at `index` and sets `aria-current="step"` when active. |
+| `Steps.Trigger` | `<button>` | Activates its parent step when clicked. Automatically disabled when blocked by `linear` mode or item `disabled`. |
+| `Steps.Indicator` | `<span>` | Decorative visual badge (such as a step number or icon), hidden from assistive technologies. |
+| `Steps.Separator` | `<div>` | Decorative connector line inside a step item, hidden from assistive technologies. |
+| `Steps.Content` | `<div>` | Content panel for a given `index`. Always rendered, with `hidden` applied when inactive. |
+| `Steps.PrevTrigger` | `<button>` | Navigates to the previous step. Automatically disabled on the first step. |
+| `Steps.NextTrigger` | `<button>` | Navigates to the next step. Automatically disabled on the last step. |
+
+## Examples
+
+### Linear
+
+Pass `linear` on `Steps.Root` to prevent jumping ahead to upcoming steps via `Steps.Trigger`, while still allowing navigation back to completed steps.
+
+<Demo id="steps/linear" collapsed />
+
+### Vertical
+
+Pass `orientation="vertical"` on `Steps.Root` to lay out the steps vertically and propagate `data-orientation="vertical"` to list, item, and separator parts.
+
+<Demo id="steps/vertical" collapsed />
+
+### Controlled
+
+Bind a `Signal<number>` with `bind:step` to read and update the active 0-based step index from outside.
+
+<Demo id="steps/controlled" collapsed />
+
+## API Reference
+
+### Root
+
+<PropsTable component="steps" part="Root" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-steps` | Always present |
+| `data-orientation` | `"horizontal"` \| `"vertical"` |
+
+### List
+
+<PropsTable component="steps" part="List" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-steps-list` | Always present |
+| `data-orientation` | `"horizontal"` \| `"vertical"` |
+
+### Item
+
+<PropsTable component="steps" part="Item" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-steps-item` | Always present |
+| `data-state` | `"complete"` \| `"current"` \| `"upcoming"` |
+| `data-disabled` | Present when `disabled` is `true` |
+| `data-orientation` | `"horizontal"` \| `"vertical"` |
+
+### Trigger
+
+<PropsTable component="steps" part="Trigger" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-steps-trigger` | Always present |
+| `data-state` | `"complete"` \| `"current"` \| `"upcoming"` |
+| `data-disabled` | Present when the item is disabled, the trigger is disabled, or `linear` blocks an upcoming step |
+
+### Indicator
+
+<PropsTable component="steps" part="Indicator" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-steps-indicator` | Always present |
+| `data-state` | `"complete"` \| `"current"` \| `"upcoming"` |
+
+### Separator
+
+<PropsTable component="steps" part="Separator" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-steps-separator` | Always present |
+| `data-state` | `"complete"` \| `"current"` \| `"upcoming"` |
+| `data-orientation` | `"horizontal"` \| `"vertical"` |
+
+### Content
+
+<PropsTable component="steps" part="Content" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-steps-content` | Always present |
+| `data-state` | `"open"` \| `"closed"` |
+
+### PrevTrigger
+
+<PropsTable component="steps" part="PrevTrigger" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-steps-prev-trigger` | Always present |
+| `data-disabled` | Present on the first step or when `disabled` is `true` |
+
+### NextTrigger
+
+<PropsTable component="steps" part="NextTrigger" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-steps-next-trigger` | Always present |
+| `data-disabled` | Present on the last step or when `disabled` is `true` |
+
+## Accessibility
+
+- `Steps.List` renders a semantic `<ol>` and each `Steps.Item` renders an `<li>`.
+- The active `Steps.Item` receives `aria-current="step"`.
+- `Steps.Indicator` and `Steps.Separator` render `aria-hidden="true"` so screen readers skip decorative numbers, icons, and connector lines.
+- `Steps.Trigger`, `Steps.PrevTrigger`, and `Steps.NextTrigger` are native `<button type="button">` elements using the native `disabled` attribute when inactive or blocked by `linear` mode.
+
+### Keyboard Interactions
+
+| Key | Description |
+| --- | --- |
+| `Tab` / `Shift+Tab` | Moves focus between enabled step triggers and navigation buttons. |
+| `Enter` / `Space` | Activates the focused trigger or navigation button. |

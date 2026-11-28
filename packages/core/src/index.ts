@@ -30,6 +30,7 @@ export * from '@leve-ui/radio-group';
 export * from '@leve-ui/rating-group';
 export * from '@leve-ui/separator';
 export * from '@leve-ui/slider';
+export * from '@leve-ui/steps';
 export * from '@leve-ui/switch';
 export * from '@leve-ui/tabs';
 export * from '@leve-ui/tags-input';

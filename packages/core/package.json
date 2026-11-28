@@ -75,6 +75,7 @@
     "@leve-ui/rating-group": "workspace:*",
     "@leve-ui/separator": "workspace:*",
     "@leve-ui/slider": "workspace:*",
+    "@leve-ui/steps": "workspace:*",
     "@leve-ui/switch": "workspace:*",
     "@leve-ui/tabs": "workspace:*",
     "@leve-ui/tags-input": "workspace:*",
