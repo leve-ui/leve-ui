@@ -1,7 +1,6 @@
 import {
   $,
   component$,
-  getPlatform,
   type PropsOf,
   type Signal,
   Slot,
@@ -11,6 +10,7 @@ import {
   useSignal,
   useTask$,
 } from '@builder.io/qwik';
+import { isServer } from '@builder.io/qwik/build';
 import { dataAttr } from '@leve-ui/utils';
 import {
   isTreeItemAvailable,
@@ -104,14 +104,14 @@ export const TreeViewItem = component$<TreeViewItemProps>((props) => {
 
     if (element) {
       sortTreeViewItems(element, rootContext.items);
-    } else if (!getPlatform().isServer) {
+    } else if (!isServer) {
       queueMicrotask(() => {
         sortTreeViewItems(itemRef.value, rootContext.items);
       });
     }
 
     // Keep SSR-rendered item registrations intact until client unmount (same pattern as Tabs/Toolbar)
-    if (!getPlatform().isServer) {
+    if (!isServer) {
       cleanup(() => {
         const index = rootContext.items.findIndex((item) => item.value === val);
         if (index !== -1) {
