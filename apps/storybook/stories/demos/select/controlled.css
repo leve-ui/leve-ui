@@ -1,0 +1,128 @@
+.select-controlled {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  font-family: inherit;
+}
+
+.select-controlled-root {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 240px;
+}
+
+.select-controlled-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: light-dark(#0f172a, #ffffff);
+}
+
+.select-controlled-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid light-dark(#cbd5e1, #ffffff3d);
+  border-radius: 6px;
+  background: light-dark(#ffffff, #1b2045);
+  color: light-dark(#0f172a, #ffffff);
+  font: inherit;
+  font-size: 14px;
+  cursor: pointer;
+  text-align: left;
+}
+
+.select-controlled-trigger:hover {
+  background: light-dark(#f1f5f9, #ffffff14);
+}
+
+.select-controlled-trigger:focus-visible {
+  outline: 2px solid #009dfd;
+  outline-offset: 2px;
+}
+
+.select-controlled-value[data-placeholder] {
+  color: light-dark(#475569, #c9ddf0);
+}
+
+.select-controlled-icon {
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+}
+
+/* The Content is a popover in the top layer; the library sets its position */
+.select-controlled-content {
+  box-sizing: border-box;
+  width: var(--leve-select-anchor-width);
+  max-height: min(240px, var(--leve-select-available-height));
+  overflow-y: auto;
+  padding: 4px;
+  border: 1px solid light-dark(#cbd5e1, #ffffff3d);
+  border-radius: 6px;
+  background: light-dark(#ffffff, #1b2045);
+  color: light-dark(#0f172a, #ffffff);
+  font-family: inherit;
+  box-shadow: 0 8px 24px rgb(15 23 42 / 0.18);
+}
+
+.select-controlled-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 8px;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: default;
+}
+
+.select-controlled-item[data-highlighted] {
+  background: #009dfd;
+  color: #ffffff;
+}
+
+.select-controlled-indicator {
+  display: inline-flex;
+}
+
+.select-controlled-indicator[hidden] {
+  display: none;
+}
+
+.select-controlled-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.select-controlled-button {
+  height: 32px;
+  padding: 0 12px;
+  border: 1px solid light-dark(#cbd5e1, #ffffff3d);
+  border-radius: 6px;
+  background: light-dark(#ffffff, #1b2045);
+  color: light-dark(#0f172a, #ffffff);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.select-controlled-button:hover {
+  background: light-dark(#f1f5f9, #ffffff14);
+}
+
+.select-controlled-button:focus-visible {
+  outline: 2px solid #009dfd;
+  outline-offset: 2px;
+}
+
+.select-controlled-status {
+  margin: 0;
+  font-size: 13px;
+  color: light-dark(#475569, #c9ddf0);
+}
