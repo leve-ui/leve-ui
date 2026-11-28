@@ -1,0 +1,9 @@
+export { StepsContent as Content } from './steps-content';
+export { StepsIndicator as Indicator } from './steps-indicator';
+export { StepsItem as Item } from './steps-item';
+export { StepsList as List } from './steps-list';
+export { StepsNextTrigger as NextTrigger } from './steps-next-trigger';
+export { StepsPrevTrigger as PrevTrigger } from './steps-prev-trigger';
+export { StepsRoot as Root } from './steps-root';
+export { StepsSeparator as Separator } from './steps-separator';
+export { StepsTrigger as Trigger } from './steps-trigger';

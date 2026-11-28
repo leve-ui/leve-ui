@@ -67,6 +67,7 @@ export const docsNav: NavSection[] = [
       { title: 'Rating Group', href: '/components/rating-group/' },
       { title: 'Separator', href: '/components/separator/' },
       { title: 'Slider', href: '/components/slider/' },
+      { title: 'Steps', href: '/components/steps/' },
       { title: 'Switch', href: '/components/switch/' },
       { title: 'Tabs', href: '/components/tabs/' },
       { title: 'Tags Input', href: '/components/tags-input/' },
