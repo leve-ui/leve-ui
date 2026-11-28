@@ -1,0 +1,160 @@
+---
+title: Listbox
+description: A list of options supporting single and multiple selection with keyboard navigation and typeahead.
+---
+
+# Listbox
+
+A list of options supporting single and multiple selection with keyboard navigation and typeahead.
+
+Listbox follows the [Listbox WAI-ARIA design pattern](https://www.w3.org/WAI/ARIA/apg/patterns/listbox/) using `aria-activedescendant` to manage focus on the root container.
+
+<Demo id="listbox/default" />
+
+## Installation
+
+Install the individual package, or use `@leve-ui/core` to get every component at once:
+
+<Install package="@leve-ui/listbox" />
+
+## Anatomy
+
+```tsx
+import { Listbox } from '@leve-ui/listbox'; // or '@leve-ui/core'
+
+<Listbox.Root aria-label="Options">
+  <Listbox.Item value="one">
+    <Listbox.ItemText>Option 1</Listbox.ItemText>
+    <Listbox.ItemIndicator />
+  </Listbox.Item>
+  <Listbox.Group>
+    <Listbox.GroupLabel>Group</Listbox.GroupLabel>
+    <Listbox.Item value="two">
+      <Listbox.ItemText>Option 2</Listbox.ItemText>
+      <Listbox.ItemIndicator />
+    </Listbox.Item>
+  </Listbox.Group>
+</Listbox.Root>
+```
+
+| Part | Element | Description |
+| --- | --- | --- |
+| `Listbox.Root` | `<div>` | The listbox (`role="listbox"`). Holds the selected values and active descendant highlight. |
+| `Listbox.Item` | `<div>` | An option (`role="option"`). |
+| `Listbox.ItemText` | `<span>` | The text label of the option, used for typeahead when `textValue` is not set. |
+| `Listbox.ItemIndicator` | `<span>` | Visual check mark shown when the option is selected, hidden otherwise. |
+| `Listbox.Group` | `<div>` | A group of options (`role="group"`), named by its GroupLabel. |
+| `Listbox.GroupLabel` | `<div>` | The heading of a group. Skipped by keyboard navigation. |
+
+## Selection
+
+The value is always an array of the selected options' values, also in single-select mode (empty or one value). Use `defaultValue` for uncontrolled usage or `bind:value` for controlled usage, and listen to changes with `onValueChange$`.
+
+Set `multiple` on `Listbox.Root` to allow selecting multiple options, toggling with `Space` / `Enter` or clicks, extending ranges with `Shift` + arrows / `Home` / `End` or `Shift` + click, and selecting all enabled options with `Ctrl+A` / `Cmd+A`.
+
+## Examples
+
+### Multiple Selection
+
+Set `multiple` to enable multi-selection with `aria-multiselectable="true"`, range selection, and `Ctrl+A` / `Cmd+A`.
+
+<Demo id="listbox/multiple" collapsed />
+
+### Groups and Loop
+
+`Listbox.Group` and `Listbox.GroupLabel` organize options into labeled groups. With `loop`, arrow keys wrap between the first and last enabled options.
+
+<Demo id="listbox/grouped" collapsed />
+
+### Disabled
+
+`disabled` on `Listbox.Root` removes it from the tab order (`tabIndex={-1}`) and disables every option. `disabled` on an individual `Listbox.Item` prevents selection and skips it during keyboard navigation and typeahead.
+
+<Demo id="listbox/disabled" collapsed />
+
+## API Reference
+
+### Root
+
+<PropsTable component="listbox" part="Root" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-listbox` | Always present |
+| `data-orientation` | `"vertical"` \| `"horizontal"` |
+| `data-disabled` | Present when disabled |
+
+### Item
+
+<PropsTable component="listbox" part="Item" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-listbox-item` | Always present |
+| `data-value` | The `value` |
+| `data-state` | `"checked"` \| `"unchecked"` |
+| `data-highlighted` | Present on the highlighted option |
+| `data-disabled` | Present when the item or the listbox is disabled |
+| `data-orientation` | `"vertical"` \| `"horizontal"` |
+| `data-text-value` | The `textValue`, when set |
+
+Focus stays on `Listbox.Root`, so style the highlighted option with `[data-highlighted]`, not `:focus`.
+
+### ItemText
+
+<PropsTable component="listbox" part="ItemText" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-listbox-item-text` | Always present |
+
+### ItemIndicator
+
+<PropsTable component="listbox" part="ItemIndicator" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-listbox-item-indicator` | Always present |
+| `data-state` | `"checked"` \| `"unchecked"` |
+
+It has the `hidden` attribute while the option is unselected. If you set `display` on it, hide it again with `[hidden] { display: none; }`.
+
+### Group
+
+<PropsTable component="listbox" part="Group" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-listbox-group` | Always present |
+
+### GroupLabel
+
+<PropsTable component="listbox" part="GroupLabel" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-listbox-group-label` | Always present |
+
+## Accessibility
+
+Complies with the [Listbox WAI-ARIA design pattern](https://www.w3.org/WAI/ARIA/apg/patterns/listbox/).
+
+- `Listbox.Root` renders `role="listbox"` with `tabIndex={0}` (or `-1` when disabled), `aria-orientation`, and `aria-multiselectable="true"` when `multiple` is enabled. Focus stays on the root element and `aria-activedescendant` points to the highlighted option.
+- Name the listbox with `aria-label` or `aria-labelledby` on `Listbox.Root`.
+- Each `Listbox.Item` renders `role="option"` and `aria-selected`. Disabled options render `aria-disabled="true"` and are skipped by arrow keys, `Home`/`End`, and typeahead.
+- `Listbox.Group` renders `role="group"`, named by its `Listbox.GroupLabel`. `Listbox.ItemIndicator` is hidden from assistive technologies with `aria-hidden="true"`, since `aria-selected` conveys the selection state.
+
+### Keyboard Interactions
+
+| Key | Description |
+| --- | --- |
+| `Tab` | Moves focus into or out of the listbox. When focused, highlights the first selected enabled option or the first enabled option. |
+| `ArrowDown` / `ArrowUp` | Vertical only. Moves highlight to the next / previous enabled option. Wraps when `loop` is `true`. |
+| `ArrowRight` / `ArrowLeft` | Horizontal only. Moves highlight to the next / previous enabled option (reversed in RTL). Wraps when `loop` is `true`. |
+| `Home` / `End` | Moves highlight to the first / last enabled option. |
+| `Space` / `Enter` | Selects the highlighted option (or toggles its selection when `multiple` is `true`). |
+| `Shift + ArrowDown` / `Shift + ArrowUp` | Multiple only. Moves highlight and extends range selection to the next / previous enabled option. |
+| `Shift + ArrowRight` / `Shift + ArrowLeft` | Multiple + horizontal only. Moves highlight and extends range selection. |
+| `Shift + Home` / `Shift + End` | Multiple only. Moves highlight and extends range selection to the first / last enabled option. |
+| `Ctrl+A` / `Cmd+A` | Multiple only. Selects all enabled options. |
+| Printable characters | Typeahead. Moves highlight to the matching enabled option starting with the typed characters. |

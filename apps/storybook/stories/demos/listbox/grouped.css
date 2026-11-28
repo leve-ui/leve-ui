@@ -1,0 +1,83 @@
+.listbox-grouped {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 240px;
+  font-family: inherit;
+}
+
+.listbox-grouped-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: light-dark(#0f172a, #ffffff);
+}
+
+.listbox-grouped-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-height: 220px;
+  overflow-y: auto;
+  padding: 4px;
+  border: 1px solid light-dark(#cbd5e1, #ffffff3d);
+  border-radius: 6px;
+  background: light-dark(#ffffff, #1b2045);
+  color: light-dark(#0f172a, #ffffff);
+}
+
+.listbox-grouped-list:focus-visible {
+  outline: 2px solid #009dfd;
+  outline-offset: 2px;
+}
+
+.listbox-grouped-group {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.listbox-grouped-group-label {
+  padding: 6px 8px 2px;
+  font-size: 12px;
+  font-weight: 600;
+  color: light-dark(#475569, #c9ddf0);
+}
+
+.listbox-grouped-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 8px;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: default;
+}
+
+.listbox-grouped-item:hover {
+  background: light-dark(#f1f5f9, #ffffff14);
+}
+
+.listbox-grouped-item[data-highlighted] {
+  background: #009dfd;
+  color: #ffffff;
+}
+
+.listbox-grouped-indicator {
+  display: inline-flex;
+  align-items: center;
+}
+
+.listbox-grouped-indicator[hidden] {
+  display: none;
+}
+
+.listbox-grouped-icon {
+  width: 16px;
+  height: 16px;
+}
+
+.listbox-grouped-status {
+  margin: 0;
+  font-size: 14px;
+  color: light-dark(#475569, #c9ddf0);
+}

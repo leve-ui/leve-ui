@@ -1,0 +1,80 @@
+.listbox-default {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 240px;
+  font-family: inherit;
+}
+
+.listbox-default-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: light-dark(#0f172a, #ffffff);
+}
+
+.listbox-default-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  max-height: 200px;
+  overflow-y: auto;
+  padding: 4px;
+  border: 1px solid light-dark(#cbd5e1, #ffffff3d);
+  border-radius: 6px;
+  background: light-dark(#ffffff, #1b2045);
+  color: light-dark(#0f172a, #ffffff);
+}
+
+.listbox-default-list:focus-visible {
+  outline: 2px solid #009dfd;
+  outline-offset: 2px;
+}
+
+.listbox-default-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 8px;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: default;
+}
+
+.listbox-default-item:hover:not([data-disabled]) {
+  background: light-dark(#f1f5f9, #ffffff14);
+}
+
+/* Active descendant highlight while the listbox is focused */
+.listbox-default-item[data-highlighted] {
+  background: #009dfd;
+  color: #ffffff;
+}
+
+.listbox-default-item[data-state="checked"]:not([data-highlighted]) {
+  font-weight: 500;
+}
+
+.listbox-default-item[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.listbox-default-indicator {
+  display: inline-flex;
+  align-items: center;
+}
+
+.listbox-default-indicator[hidden] {
+  display: none;
+}
+
+.listbox-default-icon {
+  width: 16px;
+  height: 16px;
+}
+
+.listbox-default-status {
+  margin: 0;
+  font-size: 14px;
+  color: light-dark(#475569, #c9ddf0);
+}

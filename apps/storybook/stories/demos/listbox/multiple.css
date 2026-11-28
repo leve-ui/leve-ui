@@ -1,0 +1,79 @@
+.listbox-multiple {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 240px;
+  font-family: inherit;
+}
+
+.listbox-multiple-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: light-dark(#0f172a, #ffffff);
+}
+
+.listbox-multiple-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 4px;
+  border: 1px solid light-dark(#cbd5e1, #ffffff3d);
+  border-radius: 6px;
+  background: light-dark(#ffffff, #1b2045);
+  color: light-dark(#0f172a, #ffffff);
+}
+
+.listbox-multiple-list:focus-visible {
+  outline: 2px solid #009dfd;
+  outline-offset: 2px;
+}
+
+.listbox-multiple-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 8px;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: default;
+}
+
+.listbox-multiple-item:hover:not([data-disabled]) {
+  background: light-dark(#f1f5f9, #ffffff14);
+}
+
+.listbox-multiple-item[data-state="checked"] {
+  background: light-dark(#f1f5f9, #ffffff14);
+  font-weight: 500;
+}
+
+/* Active descendant highlight takes precedence over selected background */
+.listbox-multiple-item[data-highlighted] {
+  background: #009dfd;
+  color: #ffffff;
+}
+
+.listbox-multiple-item[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.listbox-multiple-indicator {
+  display: inline-flex;
+  align-items: center;
+}
+
+.listbox-multiple-indicator[hidden] {
+  display: none;
+}
+
+.listbox-multiple-icon {
+  width: 16px;
+  height: 16px;
+}
+
+.listbox-multiple-status {
+  margin: 0;
+  font-size: 14px;
+  color: light-dark(#475569, #c9ddf0);
+}
