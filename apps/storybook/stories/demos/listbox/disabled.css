@@ -1,0 +1,53 @@
+.listbox-disabled {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 240px;
+  font-family: inherit;
+}
+
+.listbox-disabled-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: light-dark(#0f172a, #ffffff);
+  opacity: 0.5;
+}
+
+.listbox-disabled-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 4px;
+  border: 1px solid light-dark(#cbd5e1, #ffffff3d);
+  border-radius: 6px;
+  background: light-dark(#ffffff, #1b2045);
+  color: light-dark(#0f172a, #ffffff);
+}
+
+.listbox-disabled-list[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.listbox-disabled-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 8px;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.listbox-disabled-indicator {
+  display: inline-flex;
+  align-items: center;
+}
+
+.listbox-disabled-indicator[hidden] {
+  display: none;
+}
+
+.listbox-disabled-icon {
+  width: 16px;
+  height: 16px;
+}

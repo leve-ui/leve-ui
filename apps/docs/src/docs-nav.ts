@@ -55,6 +55,7 @@ export const docsNav: NavSection[] = [
       { title: 'File Upload', href: '/components/file-upload/' },
       { title: 'Hover Card', href: '/components/hover-card/' },
       { title: 'Label', href: '/components/label/' },
+      { title: 'Listbox', href: '/components/listbox/' },
       { title: 'Menu', href: '/components/menu/' },
       { title: 'Meter', href: '/components/meter/' },
       { title: 'Number Input', href: '/components/number-input/' },

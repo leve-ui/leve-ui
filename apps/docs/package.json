@@ -42,6 +42,7 @@
     "@leve-ui/file-upload": "workspace:*",
     "@leve-ui/hover-card": "workspace:*",
     "@leve-ui/label": "workspace:*",
+    "@leve-ui/listbox": "workspace:*",
     "@leve-ui/menu": "workspace:*",
     "@leve-ui/meter": "workspace:*",
     "@leve-ui/number-input": "workspace:*",
