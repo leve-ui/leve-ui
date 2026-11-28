@@ -61,6 +61,7 @@
     "@leve-ui/toggle-group": "workspace:*",
     "@leve-ui/toolbar": "workspace:*",
     "@leve-ui/tooltip": "workspace:*",
+    "@leve-ui/tree-view": "workspace:*",
     "@leve-ui/tsconfig": "workspace:*",
     "@leve-ui/vite-config": "workspace:*",
     "@pandacss/dev": "^2.5.0",

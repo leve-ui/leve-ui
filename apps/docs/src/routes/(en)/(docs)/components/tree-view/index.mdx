@@ -1,0 +1,155 @@
+---
+title: Tree View
+description: A hierarchical list with expandable branches, selection, and keyboard navigation.
+---
+
+# Tree View
+
+A hierarchical list with expandable branches, selection, and keyboard navigation.
+
+Tree View follows the [Tree View WAI-ARIA design pattern](https://www.w3.org/WAI/ARIA/apg/patterns/treeview/).
+
+<Demo id="tree-view/default" />
+
+## Installation
+
+Install the individual package, or use `@leve-ui/core` to get every component at once:
+
+<Install package="@leve-ui/tree-view" />
+
+## Anatomy
+
+```tsx
+import { TreeView } from '@leve-ui/tree-view'; // or '@leve-ui/core'
+
+<TreeView.Root aria-label="Files">
+  <TreeView.Item value="src" branch>
+    <TreeView.ItemTrigger>
+      <TreeView.ItemIndicator />
+      src
+    </TreeView.ItemTrigger>
+    <TreeView.Group>
+      <TreeView.Item value="src/index.ts">
+        <TreeView.ItemTrigger>index.ts</TreeView.ItemTrigger>
+      </TreeView.Item>
+    </TreeView.Group>
+  </TreeView.Item>
+</TreeView.Root>
+```
+
+| Part | Element | Description |
+| --- | --- | --- |
+| `TreeView.Root` | `<ul>` | The tree container (`role="tree"`). Holds selection, expansion, and focus state. |
+| `TreeView.Item` | `<li>` | A tree node (`role="treeitem"`). Set `branch` when it contains a nested group. |
+| `TreeView.ItemTrigger` | `<div>` | Clickable row that focuses the item, selects it, and toggles branch expansion. |
+| `TreeView.ItemIndicator` | `<span>` | Decorative indicator (`aria-hidden="true"`) such as an expand chevron or checkmark. |
+| `TreeView.Group` | `<ul>` | Nested group of child items (`role="group"`). Hidden while its parent branch is collapsed. |
+
+Set `branch` on any `TreeView.Item` that has a child `TreeView.Group`, so `aria-expanded` is emitted accurately during SSR and omitted on leaf items.
+
+## Examples
+
+### Multiple
+
+Pass `multiple` on `TreeView.Root` to allow selecting multiple items at once and set `aria-multiselectable="true"`.
+
+<Demo id="tree-view/multiple" collapsed />
+
+### Controlled
+
+Use `bind:value` and `bind:expandedValue` to read and update selection and branch expansion from outside.
+
+<Demo id="tree-view/controlled" collapsed />
+
+### Disabled
+
+`disabled` on `TreeView.Item` disables that item (and any items nested inside it), and `disabled` on `TreeView.Root` disables the whole tree. Arrow keys and typeahead skip disabled items.
+
+<Demo id="tree-view/disabled" collapsed />
+
+## API Reference
+
+### Root
+
+<PropsTable component="tree-view" part="Root" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-tree-view` | Always present |
+| `data-disabled` | Present when disabled |
+
+### Item
+
+<PropsTable component="tree-view" part="Item" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-tree-view-item` | Always present |
+| `data-value` | The item's `value` |
+| `data-state` | `"open"` \| `"closed"` on branches, `"checked"` \| `"unchecked"` on leaves |
+| `data-selected` | Present when selected |
+| `data-branch` | Present when `branch` is `true` |
+| `data-disabled` | Present when the item, an ancestor item, or the Root is disabled |
+| `data-depth` | 0-based nesting depth (`0` at the root level) |
+| `data-text-value` | The `textValue`, when set |
+
+### ItemTrigger
+
+<PropsTable component="tree-view" part="ItemTrigger" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-tree-view-item-trigger` | Always present |
+| `data-state` | `"open"` \| `"closed"` on branches, `"checked"` \| `"unchecked"` on leaves |
+| `data-selected` | Present when the enclosing item is selected |
+| `data-branch` | Present when the enclosing item is a branch |
+| `data-disabled` | Present when disabled |
+| `data-depth` | 0-based nesting depth of the enclosing item |
+
+### ItemIndicator
+
+<PropsTable component="tree-view" part="ItemIndicator" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-tree-view-item-indicator` | Always present |
+| `data-state` | `"open"` \| `"closed"` on branches, `"checked"` \| `"unchecked"` on leaves |
+| `data-selected` | Present when the enclosing item is selected |
+| `data-branch` | Present when the enclosing item is a branch |
+| `data-disabled` | Present when disabled |
+
+### Group
+
+<PropsTable component="tree-view" part="Group" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-tree-view-group` | Always present |
+| `data-state` | `"open"` \| `"closed"` |
+| `data-disabled` | Present when its parent item or the Root is disabled |
+| `data-depth` | Nesting depth of the items inside the group (`1` for the first nested group) |
+
+The group has the `hidden` attribute while its parent branch is collapsed.
+
+## Accessibility
+
+Complies with the [Tree View WAI-ARIA design pattern](https://www.w3.org/WAI/ARIA/apg/patterns/treeview/).
+
+- Name the tree with `aria-label` or `aria-labelledby` on `TreeView.Root` (`role="tree"`). When `multiple` is `true`, `aria-multiselectable="true"` is added.
+- Each `TreeView.Item` renders `role="treeitem"` with `aria-selected`, `aria-level` (computed from nesting depth or `level`), and roving `tabIndex` (`0` on the active tab stop, `-1` on all other items).
+- Branch items (`branch={true}`) output `aria-expanded` (`"true"` or `"false"`). Leaf items omit `aria-expanded`.
+- `TreeView.ItemIndicator` has `aria-hidden="true"` so decorative chevrons and checkmarks do not clutter screen reader output or typeahead matching.
+- Disabled items set `aria-disabled="true"` and `tabIndex={-1}`, and are skipped by navigation and typeahead.
+
+### Keyboard Interactions
+
+| Key | Description |
+| --- | --- |
+| `Tab` / `Shift+Tab` | Moves focus into the tree (to the active tab stop) or out of the tree. |
+| `ArrowDown` / `ArrowUp` | Moves focus to the next or previous visible enabled item without wrapping. |
+| `ArrowRight` | On a closed branch, expands it. On an open branch, moves focus to its first enabled child item. |
+| `ArrowLeft` | On an open branch, collapses it. On a closed branch or leaf, moves focus to its parent item. |
+| `Home` / `End` | Moves focus to the first or last visible enabled item. |
+| `Enter` / `Space` | Selects the focused item (or toggles selection when `multiple` is `true`). |
+| `*` | Expands all closed enabled sibling branches at the same level without moving focus. |
+| Printable characters | Moves focus to the next visible enabled item whose label starts with the typed characters. |

@@ -1,0 +1,107 @@
+.tree-view-multiple-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 280px;
+  max-width: 100%;
+  font-family: inherit;
+}
+
+.tree-view-multiple {
+  margin: 0;
+  padding: 6px;
+  list-style: none;
+  border: 1px solid light-dark(#cbd5e1, #ffffff3d);
+  border-radius: 6px;
+  background: light-dark(#ffffff, #1b2045);
+  color: light-dark(#0f172a, #ffffff);
+}
+
+.tree-view-multiple-group {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tree-view-multiple-item {
+  outline: none;
+}
+
+.tree-view-multiple-trigger {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 8px;
+  border-radius: 4px;
+  font-size: 14px;
+  line-height: 1.4;
+  cursor: pointer;
+  user-select: none;
+}
+
+.tree-view-multiple-item:focus-visible > .tree-view-multiple-trigger {
+  outline: 2px solid #009dfd;
+  outline-offset: -2px;
+}
+
+.tree-view-multiple-trigger[data-depth="0"] {
+  padding-left: 8px;
+}
+
+.tree-view-multiple-trigger[data-depth="1"] {
+  padding-left: 28px;
+}
+
+.tree-view-multiple-trigger:hover:not([data-selected]) {
+  background: light-dark(#f1f5f9, #ffffff14);
+}
+
+.tree-view-multiple-trigger[data-selected] {
+  background: #009dfd;
+  color: #ffffff;
+}
+
+.tree-view-multiple-label {
+  flex: 1;
+}
+
+.tree-view-multiple-indicator {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: light-dark(#475569, #c9ddf0);
+  transition: transform 150ms ease;
+}
+
+.tree-view-multiple-indicator[data-state="open"] {
+  transform: rotate(90deg);
+}
+
+.tree-view-multiple-trigger[data-selected] .tree-view-multiple-indicator {
+  color: #ffffff;
+}
+
+/* Hide the checkmark until the leaf item is selected */
+.tree-view-multiple-check {
+  display: inline-flex;
+  align-items: center;
+  opacity: 0;
+}
+
+.tree-view-multiple-check[data-state="checked"] {
+  opacity: 1;
+}
+
+.tree-view-multiple-chevron,
+.tree-view-multiple-icon {
+  flex-shrink: 0;
+  width: 14px;
+  height: 14px;
+}
+
+.tree-view-multiple-status {
+  margin: 0;
+  font-size: 13px;
+  color: light-dark(#475569, #c9ddf0);
+}
