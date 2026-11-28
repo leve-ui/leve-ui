@@ -1,0 +1,105 @@
+.select-default {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  font-family: inherit;
+}
+
+.select-default-root {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 240px;
+}
+
+.select-default-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: light-dark(#0f172a, #ffffff);
+}
+
+.select-default-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid light-dark(#cbd5e1, #ffffff3d);
+  border-radius: 6px;
+  background: light-dark(#ffffff, #1b2045);
+  color: light-dark(#0f172a, #ffffff);
+  font: inherit;
+  font-size: 14px;
+  cursor: pointer;
+  text-align: left;
+}
+
+.select-default-trigger:hover {
+  background: light-dark(#f1f5f9, #ffffff14);
+}
+
+.select-default-trigger:focus-visible {
+  outline: 2px solid #009dfd;
+  outline-offset: 2px;
+}
+
+.select-default-value[data-placeholder] {
+  color: light-dark(#475569, #c9ddf0);
+}
+
+.select-default-icon {
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
+}
+
+/* The Content is a popover in the top layer; the library sets its position */
+.select-default-content {
+  box-sizing: border-box;
+  width: var(--leve-select-anchor-width);
+  max-height: min(240px, var(--leve-select-available-height));
+  overflow-y: auto;
+  padding: 4px;
+  border: 1px solid light-dark(#cbd5e1, #ffffff3d);
+  border-radius: 6px;
+  background: light-dark(#ffffff, #1b2045);
+  color: light-dark(#0f172a, #ffffff);
+  font-family: inherit;
+  box-shadow: 0 8px 24px rgb(15 23 42 / 0.18);
+}
+
+.select-default-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 8px;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: default;
+}
+
+/* Arrow keys, typeahead, and pointer hover move the highlight while focus stays on Trigger */
+.select-default-item[data-highlighted] {
+  background: #009dfd;
+  color: #ffffff;
+}
+
+.select-default-item[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.select-default-indicator {
+  display: inline-flex;
+}
+
+.select-default-indicator[hidden] {
+  display: none;
+}
+
+.select-default-status {
+  margin: 0;
+  font-size: 14px;
+  color: light-dark(#475569, #c9ddf0);
+}

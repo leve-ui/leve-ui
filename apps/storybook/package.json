@@ -35,6 +35,7 @@
     "@leve-ui/progress": "workspace:*",
     "@leve-ui/radio-group": "workspace:*",
     "@leve-ui/rating-group": "workspace:*",
+    "@leve-ui/select": "workspace:*",
     "@leve-ui/separator": "workspace:*",
     "@leve-ui/slider": "workspace:*",
     "@leve-ui/switch": "workspace:*",

@@ -1,0 +1,233 @@
+---
+title: Select
+description: Displays a list of options for the user to pick from—triggered by a button.
+---
+
+# Select
+
+Displays a list of options for the user to pick from—triggered by a button.
+
+Select follows the [Select-Only Combobox WAI-ARIA design pattern](https://www.w3.org/WAI/ARIA/apg/patterns/combobox/examples/combobox-select-only/).
+
+<Demo id="select/default" />
+
+## Installation
+
+Install the individual package, or use `@leve-ui/core` to get every component at once:
+
+<Install package="@leve-ui/select" />
+
+## Anatomy
+
+```tsx
+import { Select } from '@leve-ui/select'; // or '@leve-ui/core'
+
+<Select.Root>
+  <Select.Label />
+  <Select.Trigger>
+    <Select.Value />
+  </Select.Trigger>
+  <Select.HiddenInput />
+  <Select.Content>
+    <Select.List>
+      <Select.Item>
+        <Select.ItemText />
+        <Select.ItemIndicator />
+      </Select.Item>
+      <Select.Group>
+        <Select.GroupLabel />
+        <Select.Item />
+      </Select.Group>
+    </Select.List>
+  </Select.Content>
+</Select.Root>
+```
+
+| Part | Element | Description |
+| --- | --- | --- |
+| `Select.Root` | `<div>` | Wraps the parts and holds the selected value and open state. |
+| `Select.Label` | `<label>` | The label for the trigger and the accessible name of the listbox. |
+| `Select.Trigger` | `<button>` | Button with `role="combobox"` that toggles the listbox. Focus stays here. |
+| `Select.Value` | `<span>` | Displays the selected option's text or a placeholder. |
+| `Select.HiddenInput` | `<input>` | Optional. Submits the selected value with a native `<form>`. |
+| `Select.Content` | `<div>` | The popup, a `popover="manual"` element in the top layer. |
+| `Select.List` | `<div>` | The listbox (`role="listbox"`). |
+| `Select.Item` | `<div>` | An option (`role="option"`). |
+| `Select.ItemText` | `<span>` | The text displayed in `Select.Value` when the option is selected. |
+| `Select.ItemIndicator` | `<span>` | The check mark of the selected option, hidden otherwise. |
+| `Select.Group` | `<div>` | A group of options, named by its GroupLabel. |
+| `Select.GroupLabel` | `<div>` | The name of a group. Not selectable. |
+
+## Examples
+
+### Groups and Looping
+
+`Select.Group` and `Select.GroupLabel` organize options into labeled groups. With `loop`, arrow keys wrap between the first and last options.
+
+<Demo id="select/grouped" collapsed />
+
+### Disabled
+
+`disabled` on `Select.Root` prevents opening and disables `Select.Trigger` and `Select.HiddenInput`.
+
+<Demo id="select/disabled" collapsed />
+
+### Field and Form
+
+Inside a [Field](/components/field/), `Select.Trigger` receives the Field's id, label, description, error message, `invalid`, `disabled`, and `required` states. Add `Select.HiddenInput` to participate in native `<form>` submission and reset.
+
+<Demo id="select/field" collapsed />
+
+### Controlled
+
+Use `bind:value` to read and update the selected value with a signal. Setting it to `null` restores the placeholder.
+
+<Demo id="select/controlled" collapsed />
+
+## API Reference
+
+### Root
+
+<PropsTable component="select" part="Root" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-select` | Always present |
+| `data-state` | `"open"` \| `"closed"` |
+| `data-disabled` | Present when disabled |
+
+### Label
+
+<PropsTable component="select" part="Label" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-select-label` | Always present |
+| `data-disabled` | Present when disabled |
+
+### Trigger
+
+<PropsTable component="select" part="Trigger" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-select-trigger` | Always present |
+| `data-state` | `"open"` \| `"closed"` |
+| `data-placeholder` | Present when no option is selected |
+| `data-disabled` | Present when disabled |
+| `data-invalid` | Present when invalid |
+
+### Value
+
+<PropsTable component="select" part="Value" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-select-value` | Always present |
+| `data-placeholder` | Present when no option is selected |
+
+### HiddenInput
+
+<PropsTable component="select" part="HiddenInput" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-select-hidden-input` | Always present |
+
+It is positioned absolutely, so give `Select.Root` `position: relative`.
+
+### Content
+
+<PropsTable component="select" part="Content" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-select-content` | Always present |
+| `data-state` | `"open"` \| `"closed"` |
+| `data-side` | The final side after flipping |
+| `data-align` | `"start"` \| `"center"` \| `"end"` |
+
+| CSS variable | Value |
+| --- | --- |
+| `--leve-select-anchor-width` | The width of the Trigger, for example to match the listbox width |
+| `--leve-select-anchor-height` | The height of the Trigger |
+| `--leve-select-available-width` | The width available in the viewport |
+| `--leve-select-available-height` | The height available in the viewport, for example for `max-height` |
+
+### List
+
+<PropsTable component="select" part="List" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-select-list` | Always present |
+
+### Item
+
+<PropsTable component="select" part="Item" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-select-item` | Always present |
+| `data-value` | The `value` |
+| `data-state` | `"checked"` \| `"unchecked"` |
+| `data-highlighted` | Present on the highlighted option |
+| `data-disabled` | Present when disabled |
+| `data-text-value` | The `textValue`, when set |
+
+Focus stays on the trigger, so style the highlighted option with `[data-highlighted]`, not `:focus`.
+
+### ItemText
+
+<PropsTable component="select" part="ItemText" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-select-item-text` | Always present |
+
+### ItemIndicator
+
+<PropsTable component="select" part="ItemIndicator" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-select-item-indicator` | Always present |
+| `data-state` | `"checked"` \| `"unchecked"` |
+
+### Group
+
+<PropsTable component="select" part="Group" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-select-group` | Always present |
+
+### GroupLabel
+
+<PropsTable component="select" part="GroupLabel" />
+
+| Data attribute | Value |
+| --- | --- |
+| `data-leve-select-group-label` | Always present |
+
+## Accessibility
+
+Complies with the [Select-Only Combobox WAI-ARIA design pattern](https://www.w3.org/WAI/ARIA/apg/patterns/combobox/examples/combobox-select-only/).
+
+- `Select.Trigger` renders `<button type="button" role="combobox">` with `aria-haspopup="listbox"`, `aria-expanded`, `aria-controls`, and `aria-labelledby`. Focus stays on the trigger, and `aria-activedescendant` points to the highlighted option while open.
+- `Select.List` renders `role="listbox"`, named by the label. Options render `role="option"` with `aria-selected`; disabled options render `aria-disabled="true"` and are skipped by arrow keys and typeahead.
+- `Select.Group` renders `role="group"`, named by its `Select.GroupLabel`. `Select.ItemIndicator` is hidden from assistive technologies with `aria-hidden="true"`, since `aria-selected` conveys the state.
+- Inside a [Field](/components/field/), the trigger receives the Field's id, label, description, error message, `invalid`, `disabled`, and `required` states.
+
+### Keyboard Interactions
+
+| Key | Description |
+| --- | --- |
+| `Enter` / `Space` | When closed, opens the listbox and highlights the selected option (or the first enabled option). When open, selects the highlighted option and closes. |
+| `ArrowDown` | When closed, opens the listbox and highlights the selected option (or the first enabled option). When open, highlights the next enabled option. |
+| `ArrowUp` | When closed, opens the listbox and highlights the selected option (or the last enabled option). When open, highlights the previous enabled option (or closes with `Alt + ArrowUp`). |
+| `Home` | Opens the listbox if closed and highlights the first enabled option. |
+| `End` | Opens the listbox if closed and highlights the last enabled option. |
+| `Escape` | Closes the listbox without changing the value and keeps focus on the trigger. |
+| `Tab` | Closes the listbox and moves focus to the next focusable element. |
+| Characters | Typeahead: jumps to the matching enabled option (and opens the listbox if closed). |

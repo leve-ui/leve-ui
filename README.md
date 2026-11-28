@@ -104,6 +104,7 @@ Style each part however you like, for example with data attributes:
 | [`@leve-ui/tags-input`](./packages/components/tags-input) | Input for entering, editing, and managing a list of tags |
 | [`@leve-ui/editable`](./packages/components/editable) | Inline editable text field that switches between preview and edit modes. |
 | [`@leve-ui/file-upload`](./packages/components/file-upload) | Drag-and-drop and click file upload with validation and form support |
+| [`@leve-ui/select`](./packages/components/select) | A dropdown list for picking an option from a set of choices |
 
 ## Inspirations
 
