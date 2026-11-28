@@ -1,0 +1,98 @@
+.tree-view-default {
+  width: 280px;
+  max-width: 100%;
+  margin: 0;
+  padding: 6px;
+  list-style: none;
+  border: 1px solid light-dark(#cbd5e1, #ffffff3d);
+  border-radius: 6px;
+  background: light-dark(#ffffff, #1b2045);
+  color: light-dark(#0f172a, #ffffff);
+  font-family: inherit;
+}
+
+.tree-view-default-group {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tree-view-default-item {
+  outline: none;
+}
+
+.tree-view-default-trigger {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 8px;
+  border-radius: 4px;
+  font-size: 14px;
+  line-height: 1.4;
+  cursor: pointer;
+  user-select: none;
+}
+
+/* Focus ring sits on the trigger row so expanding a group does not wrap child rows */
+.tree-view-default-item:focus-visible > .tree-view-default-trigger {
+  outline: 2px solid #009dfd;
+  outline-offset: -2px;
+}
+
+/* Indent rows by nesting depth, adding room on leaf rows for alignment with branch chevrons */
+.tree-view-default-trigger[data-depth="0"] {
+  padding-left: 8px;
+}
+
+.tree-view-default-trigger[data-depth="0"]:not([data-branch]) {
+  padding-left: 28px;
+}
+
+.tree-view-default-trigger[data-depth="1"] {
+  padding-left: 24px;
+}
+
+.tree-view-default-trigger[data-depth="1"]:not([data-branch]) {
+  padding-left: 44px;
+}
+
+.tree-view-default-trigger[data-depth="2"] {
+  padding-left: 40px;
+}
+
+.tree-view-default-trigger[data-depth="2"]:not([data-branch]) {
+  padding-left: 60px;
+}
+
+.tree-view-default-trigger:hover:not([data-selected]) {
+  background: light-dark(#f1f5f9, #ffffff14);
+}
+
+.tree-view-default-trigger[data-selected] {
+  background: #009dfd;
+  color: #ffffff;
+}
+
+.tree-view-default-indicator {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: light-dark(#475569, #c9ddf0);
+  transition: transform 150ms ease;
+}
+
+.tree-view-default-trigger[data-selected] .tree-view-default-indicator {
+  color: #ffffff;
+}
+
+.tree-view-default-indicator[data-state="open"] {
+  transform: rotate(90deg);
+}
+
+.tree-view-default-chevron,
+.tree-view-default-icon {
+  flex-shrink: 0;
+  width: 14px;
+  height: 14px;
+}

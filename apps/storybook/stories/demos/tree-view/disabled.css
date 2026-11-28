@@ -1,0 +1,96 @@
+.tree-view-disabled-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 280px;
+  max-width: 100%;
+  font-family: inherit;
+}
+
+.tree-view-disabled {
+  margin: 0;
+  padding: 6px;
+  list-style: none;
+  border: 1px solid light-dark(#cbd5e1, #ffffff3d);
+  border-radius: 6px;
+  background: light-dark(#ffffff, #1b2045);
+  color: light-dark(#0f172a, #ffffff);
+}
+
+.tree-view-disabled[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.tree-view-disabled-group {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tree-view-disabled-item {
+  outline: none;
+}
+
+.tree-view-disabled-trigger {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 8px;
+  border-radius: 4px;
+  font-size: 14px;
+  line-height: 1.4;
+  cursor: pointer;
+  user-select: none;
+}
+
+.tree-view-disabled-item:focus-visible > .tree-view-disabled-trigger {
+  outline: 2px solid #009dfd;
+  outline-offset: -2px;
+}
+
+.tree-view-disabled-trigger[data-depth="0"] {
+  padding-left: 8px;
+}
+
+.tree-view-disabled-trigger[data-depth="0"]:not([data-branch]) {
+  padding-left: 28px;
+}
+
+.tree-view-disabled-trigger[data-depth="1"] {
+  padding-left: 28px;
+}
+
+.tree-view-disabled-trigger:hover:not([data-selected]):not([data-disabled]) {
+  background: light-dark(#f1f5f9, #ffffff14);
+}
+
+.tree-view-disabled-trigger[data-selected] {
+  background: #009dfd;
+  color: #ffffff;
+}
+
+.tree-view-disabled-trigger[data-disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.tree-view-disabled-indicator {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: light-dark(#475569, #c9ddf0);
+  transition: transform 150ms ease;
+}
+
+.tree-view-disabled-indicator[data-state="open"] {
+  transform: rotate(90deg);
+}
+
+.tree-view-disabled-chevron,
+.tree-view-disabled-icon {
+  flex-shrink: 0;
+  width: 14px;
+  height: 14px;
+}

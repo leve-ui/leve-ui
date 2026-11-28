@@ -1,0 +1,125 @@
+.tree-view-controlled-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 280px;
+  max-width: 100%;
+  font-family: inherit;
+}
+
+.tree-view-controlled-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.tree-view-controlled-button {
+  padding: 4px 10px;
+  border: 1px solid light-dark(#cbd5e1, #ffffff3d);
+  border-radius: 6px;
+  background: light-dark(#ffffff, #1b2045);
+  color: light-dark(#0f172a, #ffffff);
+  font: inherit;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.tree-view-controlled-button:hover {
+  background: light-dark(#f1f5f9, #ffffff14);
+}
+
+.tree-view-controlled-button:focus-visible {
+  outline: 2px solid #009dfd;
+  outline-offset: 2px;
+}
+
+.tree-view-controlled {
+  margin: 0;
+  padding: 6px;
+  list-style: none;
+  border: 1px solid light-dark(#cbd5e1, #ffffff3d);
+  border-radius: 6px;
+  background: light-dark(#ffffff, #1b2045);
+  color: light-dark(#0f172a, #ffffff);
+}
+
+.tree-view-controlled-group {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.tree-view-controlled-item {
+  outline: none;
+}
+
+.tree-view-controlled-trigger {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 8px;
+  border-radius: 4px;
+  font-size: 14px;
+  line-height: 1.4;
+  cursor: pointer;
+  user-select: none;
+}
+
+.tree-view-controlled-item:focus-visible > .tree-view-controlled-trigger {
+  outline: 2px solid #009dfd;
+  outline-offset: -2px;
+}
+
+.tree-view-controlled-trigger[data-depth="0"] {
+  padding-left: 8px;
+}
+
+.tree-view-controlled-trigger[data-depth="1"] {
+  padding-left: 28px;
+}
+
+.tree-view-controlled-trigger:hover:not([data-selected]) {
+  background: light-dark(#f1f5f9, #ffffff14);
+}
+
+.tree-view-controlled-trigger[data-selected] {
+  background: #009dfd;
+  color: #ffffff;
+}
+
+.tree-view-controlled-indicator {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: light-dark(#475569, #c9ddf0);
+  transition: transform 150ms ease;
+}
+
+.tree-view-controlled-indicator[data-state="open"] {
+  transform: rotate(90deg);
+}
+
+.tree-view-controlled-trigger[data-selected] .tree-view-controlled-indicator {
+  color: #ffffff;
+}
+
+.tree-view-controlled-chevron,
+.tree-view-controlled-icon {
+  flex-shrink: 0;
+  width: 14px;
+  height: 14px;
+}
+
+.tree-view-controlled-status {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.tree-view-controlled-status-line {
+  margin: 0;
+  font-size: 13px;
+  color: light-dark(#475569, #c9ddf0);
+}
